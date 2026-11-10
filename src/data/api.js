@@ -3,34 +3,63 @@ import {normalizeStatus} from '../lib/status.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
 const current=()=>Date.now();
-const sleep=ms=>new Promise(r=>setTimeout(r,ms));
+const sleep=(ms,signal)=>new Promise((resolve,reject)=>{
+ if(signal?.aborted){reject(new SourceError('Consulta cancelada'));return}
+ const timer=setTimeout(()=>{signal?.removeEventListener('abort',onAbort);resolve()},ms);
+ const onAbort=()=>{clearTimeout(timer);reject(new SourceError('Consulta cancelada'))};
+ signal?.addEventListener('abort',onAbort,{once:true});
+});
 export class SourceError extends Error {constructor(message){super(message);this.name='SourceError'}}
+
+/**
+ * Coalescência segura: requisições simultâneas compartilham transporte,
+ * mas o cancelamento de uma navegação NÃO cancela as demais.
+ * Respostas 4xx (exceto 429) não são repetidas.
+ */
 async function request(path,{signal,attempts=2}={}){
- const url=new URL(String(path).replace(/^\/+/,''),API+'/').href,entry=cache.get(url);
+ if(signal?.aborted)throw new SourceError('Consulta cancelada');
+ const url=new URL(String(path).replace(/^\\/+/,''),API+'/').href;
+ const entry=cache.get(url);
  if(entry&&entry.until>current())return entry.value;
- if(pending.has(url))return pending.get(url);
- const task=(async()=>{
-  for(let i=0;i<attempts;i++){
-   const controller=new AbortController();
-   const timeout=setTimeout(()=>controller.abort(),14500);
-   const aborted=()=>controller.abort();
-   if(signal){if(signal.aborted)controller.abort();else signal.addEventListener('abort',aborted,{once:true})}
-   try{
-    const response=await fetch(url,{headers:{Accept:'application/json'},signal:controller.signal});
-    if(!response.ok){if((response.status===429||response.status>=500)&&i<attempts-1){await sleep(400*(i+1));continue}throw new SourceError('Câmara: resposta HTTP '+response.status)}
-    const json=await response.json();
-    if(json==null||!('dados' in json))throw new SourceError('Formato de resposta inesperado da Câmara');
-    const value={data:json.dados,links:json.links||[]};
-    cache.set(url,{value,until:current()+TTL});return value;
-   }catch(err){
-    if(signal?.aborted)throw new SourceError('Consulta cancelada');
-    if(i===attempts-1)throw new SourceError('Não foi possível consultar a Câmara agora. '+(err?.message||''));
-    await sleep(350*(i+1));
-   }finally{clearTimeout(timeout);signal?.removeEventListener('abort',aborted)}
-  }
- })();
- pending.set(url,task);
- try{return await task}finally{pending.delete(url)}
+ let task=pending.get(url);
+ if(!task){
+  task=(async()=>{
+   for(let i=0;i<attempts;i++){
+    const controller=new AbortController();
+    const timeout=setTimeout(()=>controller.abort(),12000);
+    try{
+     const response=await fetch(url,{headers:{Accept:'application/json'},signal:controller.signal});
+     if(!response.ok){
+      if(response.status===429||response.status>=500){
+       if(i<attempts-1){await sleep(500*(i+1));continue}
+      }
+      throw new SourceError('Câmara: resposta HTTP '+response.status);
+     }
+     const json=await response.json();
+     if(json==null||!('dados' in json))throw new SourceError('Formato de resposta inesperado da Câmara');
+     const value={data:json.dados,links:json.links||[]};
+     cache.set(url,{value,until:current()+TTL});
+     return value;
+    }catch(err){
+     if(err instanceof SourceError && /HTTP 4\\d\\d/.test(err.message) && !/HTTP 429/.test(err.message))throw err;
+     if(i===attempts-1)throw new SourceError('Não foi possível consultar a Câmara agora. '+(err?.message||''));
+     await sleep(400*(i+1));
+    }finally{clearTimeout(timeout)}
+   }
+  })();
+  pending.set(url,task);
+  // Cleanup independently of consumer aborts, without an unhandled rejection.
+  task.then(()=>{if(pending.get(url)===task)pending.delete(url)},
+    ()=>{if(pending.get(url)===task)pending.delete(url)});
+ }
+ if(!signal)return task;
+ return new Promise((resolve,reject)=>{
+  const onAbort=()=>{signal.removeEventListener('abort',onAbort);reject(new SourceError('Consulta cancelada'))};
+  signal.addEventListener('abort',onAbort,{once:true});
+  task.then(value=>{signal.removeEventListener('abort',onAbort);if(signal.aborted)reject(new SourceError('Consulta cancelada'));else resolve(value)},
+   error=>{signal.removeEventListener('abort',onAbort);reject(signal.aborted?new SourceError('Consulta cancelada'):error)});
+  if(signal.aborted)onAbort();
+ });
 }
 export function normalizeProposal(raw,editorial={}) {
  return {id:Number(raw.id),numero:Number(raw.numero),ano:Number(raw.ano),siglaTipo:raw.siglaTipo||'PL',
