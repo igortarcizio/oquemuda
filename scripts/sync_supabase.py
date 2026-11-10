@@ -21,8 +21,10 @@ def upsert(rows):
     payload=json.dumps(rows,ensure_ascii=False).encode()
     req=urllib.request.Request(DB+'/rest/v1/proposicoes?on_conflict=id',data=payload,method='POST',headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'})
     with urllib.request.urlopen(req,timeout=40) as response:response.read()
-def update_status(id,stage,stamp):
-    payload=json.dumps({'situacao_codigo':stage.get('codSituacao'),'situacao_descricao':stage.get('descricaoSituacao'),'situacao_atualizada_em':stamp,'atualizado_em':stamp}).encode()
+def update_status(id,detail,authors,stamp):
+    stage=detail.get('statusProposicao') or {}
+    saved={'statusProposicao':stage,'urlInteiroTeor':detail.get('urlInteiroTeor'),'autores':authors,'autoresConsultados':authors is not None}
+    payload=json.dumps({'situacao_codigo':stage.get('codSituacao'),'situacao_descricao':stage.get('descricaoSituacao'),'situacao_atualizada_em':stamp,'atualizado_em':stamp,'dados_oficiais':saved},ensure_ascii=False).encode()
     req=urllib.request.Request(DB+'/rest/v1/proposicoes?id=eq.'+str(id),data=payload,method='PATCH',headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'})
     with urllib.request.urlopen(req,timeout=30) as response:response.read()
 
@@ -43,15 +45,20 @@ def main():
             time.sleep(0.4)
     # Atualizar situações de uma amostra rotativa de registros já existentes.
     for offset in [0]:
-        url=DB+'/rest/v1/proposicoes?select=id&order=atualizado_em.asc&limit=100&offset='+str(offset)
+        url=DB+'/rest/v1/proposicoes?select=id&order=situacao_atualizada_em.asc.nullsfirst&limit=20&offset='+str(offset)
         try:ids=read(url,{'apikey':KEY,'Authorization':'Bearer '+KEY,'Accept':'application/json'})
         except Exception as exc:print('Falha ao ler IDs',exc);break
         for p in ids:
             try:
                 detail=official(BASE+'/proposicoes/'+str(p['id']))['dados']
                 stage=detail.get('statusProposicao') or {}
-                if stage.get('codSituacao') is None:continue
-                update_status(p['id'],stage,stamp)
+                authors=None
+                try:
+                    rows=official(BASE+'/proposicoes/'+str(p['id'])+'/autores')['dados']
+                    authors=[{'nome':a.get('nome') or a.get('tipo') or 'Autoria institucional','partido':a.get('siglaPartido')} for a in rows[:10]]
+                except RuntimeError:raise
+                except Exception as exc:print('Autoria pendente',p['id'],str(exc)[:100],flush=True)
+                update_status(p['id'],detail,authors,stamp)
                 checked+=1
             except RuntimeError as exc:
                 print(exc,flush=True)
