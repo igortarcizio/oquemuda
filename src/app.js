@@ -152,11 +152,24 @@ async function showList(){
  }
  syncForm();loader();
  const keywords=state.query||TOPIC_API[state.topic]||'';
+ // Stale-while-revalidate: mostra uma reserva claramente identificada se a API demorar.
+ // O sinal aria-live anuncia a origem parcial; o retorno oficial substitui a página.
+ const interim=setTimeout(()=>{
+  if(id!==sequence)return;
+  const cached=fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'});
+  if(cached&&cached.items.length){
+   present(cached);
+   $('listSubtitle').textContent='Exibindo cópia parcial enquanto a Câmara é consultada…';
+   announce('Exibindo registros de reserva. Ainda estamos consultando a Câmara.');
+  }
+ },1600);
  try{
   const result=await getProposals({page:state.page,year:state.year,type:state.type,party:state.party,keywords,signal:activeRequest.signal});
+  clearTimeout(interim);
   if(id!==sequence)return;
   present(result);$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL');
  }catch(error){
+  clearTimeout(interim);
   if(id!==sequence)return;
   const cached=fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'});
   if(cached&&cached.items.length){present(cached);return}
