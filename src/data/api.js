@@ -41,11 +41,12 @@ export function normalizeProposal(raw,editorial={}) {
 const getEditorial=id=>window.OBM_EDITORIAL?.[String(id)]||{};
 const parsePage=(link)=>{try{const u=new URL(link.href);const n=Number(u.searchParams.get('pagina'));return Number.isInteger(n)&&n>0?n:null}catch{return null}};
 /** Câmara /proposicoes responde 'links' com rel=next/last; sem último informado, não simulamos total. */
-export async function getProposals({page=1,year='2026',type='PL',party='Todos',keywords='',signal}={}) {
+export async function getProposals({page=1,year='2026',type='PL',party='Todos',keywords='',situationCodes='',signal}={}) {
  const qs=new URLSearchParams({pagina:String(page),itens:'30',ordenarPor:'id',ordem:'DESC'});
  if(year!=='Todos')qs.set('ano',String(year));
  if(type!=='Todos')qs.set('siglaTipo',String(type));
  if(party!=='Todos')qs.set('siglaPartidoAutor',String(party));
+ if(situationCodes)qs.set('codSituacao',String(situationCodes));
  if(keywords.trim())qs.set('keywords',keywords.trim());
  const payload=await request('/proposicoes?'+qs.toString(),{signal,attempts:2});
  if(!Array.isArray(payload.data))throw new SourceError('Resposta sem lista de proposições');
