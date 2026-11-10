@@ -2,7 +2,7 @@
 """Sincronização incremental segura da Câmara para o Supabase.
 Configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY nos secrets do GitHub.
 """
-import json, os, time, urllib.parse, urllib.request, urllib.error, datetime
+import json, os, sys, time, urllib.parse, urllib.request, urllib.error, datetime
 BASE='https://dadosabertos.camara.leg.br/api/v2'
 DB=os.environ['SUPABASE_URL'].rstrip('/')
 KEY=os.environ['SUPABASE_SERVICE_ROLE_KEY']
@@ -33,7 +33,7 @@ def main():
             # Janela recente por tipo/ano; execução periódica, sem alegar cobertura integral.
             qs=urllib.parse.urlencode({'ano':year,'siglaTipo':kind,'itens':100,'pagina':1,'ordenarPor':'id','ordem':'DESC'})
             try:items=official(BASE+'/proposicoes?'+qs)['dados']
-            except RuntimeError as exc:print(exc,flush=True);return
+            except RuntimeError as exc:print(exc,flush=True);sys.exit(2)
             except Exception as exc:print('Falha na lista',kind,year,exc,flush=True);continue
             rows=[]
             for p in items:
@@ -55,7 +55,7 @@ def main():
                 checked+=1
             except RuntimeError as exc:
                 print(exc,flush=True)
-                return
+                sys.exit(2)
             except Exception as exc:print('Falha no detalhe',p['id'],str(exc)[:100])
             time.sleep(0.3)
     print('Listagens processadas:',count,'situações atualizadas:',checked,flush=True)
