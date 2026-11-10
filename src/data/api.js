@@ -178,3 +178,25 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  }catch(e){throw e instanceof SourceError?e:new SourceError('Banco indisponível: '+(e?.message||'erro de conexão'))}
  finally{clearTimeout(timeout);signal?.removeEventListener('abort',onAbort)}
 }
+
+/** Ficha persistida: nunca depende de a Câmara responder no momento da leitura. */
+export async function getDatabaseDetail(id,{signal}={}){
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em',id:'eq.'+String(Number(id)),limit:'1'});
+ const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
+ const abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});
+ try{
+  const res=await fetch(DB_URL+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json'},signal:controller.signal});
+  if(!res.ok)throw new SourceError('Consulta ao banco: HTTP '+res.status);
+  const rows=await res.json();const d=rows?.[0];
+  if(!d)throw new SourceError('Proposição não encontrada no banco');
+  const raw=d.dados_oficiais||{};
+  const stage=raw.statusProposicao||{};
+  const officialStatus=d.situacao_codigo==null?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
+  return {proposal:normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao},getEditorial(d.id)),
+   status:officialStatus||{label:'Situação não verificada',tone:'neutral'},stage,
+   authors:Array.isArray(raw.autores)?raw.autores:[],
+   authorsChecked:raw.autoresConsultados===true,
+   fullTextURL:raw.urlInteiroTeor||null,source:'banco de dados',
+   lastChecked:d.situacao_atualizada_em||null,loaded:true};
+ }finally{clearTimeout(timer);signal?.removeEventListener('abort',abort)}
+}
