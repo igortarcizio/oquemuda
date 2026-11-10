@@ -1,7 +1,8 @@
 import {getProposals,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
+import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
@@ -36,12 +37,12 @@ function workStatus(){
 function observeStatuses(){
  observer?.disconnect();
  if(!('IntersectionObserver' in window)){
-  state.items.slice(0,8).forEach(p=>queueStatus(p.id));return;
+  document.querySelectorAll('#cards [data-status-id],#editorialSection [data-status-id]').forEach(el=>queueStatus(Number(el.dataset.statusId)));return;
  }
  observer=new IntersectionObserver(entries=>{
   for(const entry of entries){if(entry.isIntersecting){const id=Number(entry.target.dataset.statusId);observer.unobserve(entry.target);queueStatus(id)}}
  },{rootMargin:'240px 0px'});
- document.querySelectorAll('#cards [data-status-id]').forEach(el=>{
+ document.querySelectorAll('#cards [data-status-id],#editorialSection [data-status-id]').forEach(el=>{
   const c=cachedStatus(Number(el.dataset.statusId));
   if(c)el.innerHTML=badge(c);else observer.observe(el);
  });
@@ -103,6 +104,7 @@ function setNav(){
 function setViews(){
  const isFeed=state.view==='explorar'||state.view==='salvos';
  $('hero').hidden=!isFeed;$('feed').hidden=!isFeed;
+ $('editorialSection').hidden=true;
  $('detailView').hidden=state.view!=='detalhe';$('infoView').hidden=state.view!=='como-funciona';
  if(isFeed){
   $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'Explorar';
@@ -116,10 +118,24 @@ function setViews(){
 }
 function setFooter(text){$('sourceNote').textContent=text}
 function loader(){
+ $('editorialSection').hidden=true;
  $('cards').innerHTML=skeleton(6);$('cards').setAttribute('aria-busy','true');
  $('pagination').innerHTML='';$('listSubtitle').textContent='Buscando até 30 propostas nesta página…';
  announce('Carregando seis cartões de preparação. Aguarde a busca oficial.');
 }
+function renderEditorial(){
+ const section=$('editorialSection');
+ section.hidden=true;
+ $('editorialFeature').innerHTML='';
+ $('editorialSupporting').innerHTML='';
+ if(!editorialAllowed(state))return;
+ const selected=selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:state.year});
+ if(selected.length!==3)return; // Nunca publicar um destaque sem conteúdo revisado suficiente.
+ $('editorialFeature').innerHTML=editorialFeature(selected[0],cachedStatus(selected[0].id),isSaved(selected[0].id));
+ $('editorialSupporting').innerHTML=selected.slice(1).map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join('');
+ section.hidden=false;
+}
+
 function present(result){
  state.items=result.items.slice(0,pageSize);state.hasNext=!!result.hasNext;state.totalPages=result.totalPages;
  state.source=result.source;
@@ -127,6 +143,7 @@ function present(result){
  $('cards').innerHTML=state.items.length?state.items.map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join(''):
   '<div class="empty-state"><h3>Nenhuma proposta encontrada neste recorte.</h3><p>Experimente outro ano, assunto ou partido. A Câmara continua sendo a fonte para pesquisas completas.</p></div>';
  $('pagination').innerHTML=pagination({page:state.page,totalPages:state.totalPages,hasNext:state.hasNext});
+ renderEditorial();
  const msg=state.items.length+' '+(state.items.length===1?'proposta exibida':'propostas exibidas')+' na página '+state.page+
    (state.totalPages?' de '+state.totalPages:'')+(state.source==='cópia parcial'?' · reserva parcial':'');
  $('listSubtitle').textContent=msg;announce(msg);
@@ -141,6 +158,7 @@ function errorState(message){
  '<p>'+safeText(message)+' Não interpretamos uma falha de conexão como ausência de propostas.</p>'+
  '<div style="margin-top:18px"><button type="button" class="outline-btn" id="retryBtn">Tentar novamente</button> '+
  '<a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>';
+ $('editorialSection').hidden=true;
  $('pagination').innerHTML='';$('listSubtitle').textContent='Consulta indisponível';
  announce('Falha na consulta. Tente novamente.');setFooter('Fonte: Câmara dos Deputados. A API não respondeu. Nenhuma conclusão sobre quantidade de propostas foi feita.');
 }
@@ -237,6 +255,7 @@ function onChange(e){
 }
 async function start(){
  $('cards').addEventListener('click',onClick);
+ $('editorialSection').addEventListener('click',onClick);
  $('pagination').addEventListener('click',onClick);
  $('chips').addEventListener('click',onClick);
  $('sideindex').addEventListener('click',onClick);
