@@ -1,0 +1,33 @@
+name: Sincronizar propostas no Supabase
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '40 11 * * *'
+    - cron: '40 20 * * *'
+permissions:
+  contents: read
+concurrency:
+  group: oqm-supabase-sync
+  cancel-in-progress: false
+jobs:
+  sincronizar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validar sintaxe
+        run: python -m py_compile scripts/sincronizar_supabase.py
+      - name: Conferir configuração
+        run: |
+          if [ -z "$SUPABASE_URL" ] || [ -z "$SUPABASE_SERVICE_ROLE_KEY" ]; then
+            echo "::error::Configure SUPABASE_URL e SUPABASE_SERVICE_ROLE_KEY nos Secrets do repositório."
+            exit 1
+          fi
+      - name: Sincronizar dados oficiais parciais
+        run: python scripts/sincronizar_supabase.py
