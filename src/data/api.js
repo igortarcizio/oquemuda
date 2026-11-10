@@ -172,8 +172,11 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   const range=response.headers.get('content-range')||'';
   const total=Number(range.split('/')[1]);
   const totalPages=Number.isFinite(total)?Math.max(1,Math.ceil(total/30)):null;
-  const items=data.map(d=>normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||''},getEditorial(d.id)))
-    .filter(p=>p.id&&p.numero&&p.ementa);
+  const items=data.map(d=>{
+    const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||''},getEditorial(d.id));
+    p.statusVerificado=d.situacao_codigo!=null?normalizeStatus({codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao}):{label:'Consulta pendente',tone:'neutral',detail:'A situação ainda não foi obtida na última sincronização.'};
+    return p;
+  }).filter(p=>p.id&&p.numero&&p.ementa);
   return {items,page,totalPages,hasNext:totalPages?page<totalPages:items.length===30,source:'banco de dados'};
  }catch(e){throw e instanceof SourceError?e:new SourceError('Banco indisponível: '+(e?.message||'erro de conexão'))}
  finally{clearTimeout(timeout);signal?.removeEventListener('abort',onAbort)}
