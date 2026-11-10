@@ -1,0 +1,72 @@
+
+/* O que muda? — camada modular de UI, aplicada após base.css */
+:root{--focus:#185ca5}
+html{scroll-padding-top:24px}
+button,select,input,.primary-btn,.outline-btn,.quiet-btn,.chip,.savebtn,.page-number{min-height:44px}
+button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+[hidden]{display:none!important}
+.search-form{max-width:100%;margin-top:25px}
+.explore-hero{padding-top:48px;padding-bottom:28px}
+.hero-copy h1{font-size:clamp(38px,4vw,49px)}
+.filter-row{display:flex;flex-wrap:wrap;gap:12px;margin:17px 0 8px}
+.filter-label{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
+.filter-label select{background:#fff;border:1px solid var(--line-strong);border-radius:9px;min-width:140px;padding:8px 11px;color:var(--ink);max-width:240px}
+.chip-row{gap:8px;margin-top:12px}
+.chip{min-height:44px}
+.results-live{font-size:13px;color:var(--text);margin-top:6px}
+.grid{gap:18px;align-items:stretch;margin-top:22px}
+.civic-card{box-shadow:0 1px 0 rgba(25,42,55,.02)}
+.civic-card .card-body{padding:21px;gap:0}
+.civic-card h3{font-size:clamp(21px,1.86vw,25px);line-height:1.12;overflow-wrap:break-word;margin:2px 0 17px;letter-spacing:-.015em}
+.civic-card h3 a{text-decoration:none}
+.civic-card .docref{margin-bottom:10px}
+.civic-card .card-banner{gap:6px;padding:10px 17px}
+.civic-card .topic-label{font-size:11px;letter-spacing:.055em}
+.status-badge{font:600 11px/1.25 'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;min-height:28px;max-width:170px;padding:5px 8px;border-radius:99px;text-align:center;white-space:normal}
+.status-badge.discussion{background:#d8f3e6;color:#12643f}
+.status-badge.voting{background:#dceafb;color:#174f8e}
+.status-badge.approved{background:#ebe0fa;color:#69359b}
+.status-badge.closed{background:#fce1de;color:#a2302c}
+.status-badge.neutral{background:#eef0f2;color:#5c6571}
+.comparison{display:grid;grid-template-columns:1fr;gap:10px;margin-top:1px;flex:1}
+.comparison-part{background:#f7f5f1;border:1px solid #eee9df;padding:13px 14px;border-radius:10px;min-width:0}
+.comparison-part.after{background:#fff9ed;border-color:#f1e2ca}
+.comparison-part h4{font:700 12px/1.35 'DM Sans',sans-serif;color:var(--ink);margin:0 0 6px}
+.comparison-part h4 small{font-weight:500;color:var(--text)}
+.comparison-part p{font-size:13px;line-height:1.48;color:var(--text);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;overflow:hidden;overflow-wrap:anywhere}
+.civic-card .affected{margin-top:14px}
+.civic-card .card-bottom{padding-top:16px}
+.savebtn{min-width:76px;min-height:44px}
+.savebtn[aria-pressed=true]{background:#fff1e9}
+.pagination{display:flex;align-items:center;justify-content:center;flex-wrap:wrap;gap:6px;margin:28px 0 46px}
+.page-number{border-radius:9px;min-width:44px;padding:8px 11px;background:#fff;border:1px solid var(--line-strong);color:var(--ink);font-size:14px;font-weight:600}
+.page-number.active,.page-number[aria-current=page]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.page-number:hover:not(:disabled){border-color:var(--ink)}
+.page-number:disabled{opacity:.4;cursor:not-allowed}
+.page-number.edge{min-width:76px}
+.pagination-dots{display:inline-flex;min-width:28px;align-items:center;justify-content:center;color:var(--text)}
+.source-footer{font-size:12px;line-height:1.55;border-top:1px solid var(--line);color:var(--text);padding-top:18px;padding-bottom:22px}
+.source-footer a{color:var(--ink);text-decoration-color:var(--signal)}
+.footer-inner--source{max-width:1160px;margin:0 auto;padding:0 20px}
+.empty-state{grid-column:1/-1;width:100%}
+.detail-section .small-note,.small-note{margin-top:12px;color:var(--text);font-size:13px;line-height:1.6}
+.detail-section h2{margin-bottom:14px}
+.detail-section .status-badge{font-size:12px}
+.detail-aside dd{line-height:1.55}
+.detail-header .outline-btn{margin-top:21px}
+.detail-summary{margin-bottom:4px}
+.author-separator{display:inline}
+.muted{color:var(--text);font-size:12px}
+.skeleton{pointer-events:none}
+.skeleton .card-body{gap:14px}
+.shimmer{background:linear-gradient(100deg,#eeeae2 15%,#faf8f4 34%,#eeeae2 58%);background-size:200% 100%;animation:shine 1.3s linear infinite;border-radius:7px}
+.skeleton-bar{height:44px;border-radius:0}
+.skeleton-ref{height:14px;width:40%}
+.skeleton-heading{height:28px;width:94%}
+.skeleton-heading.narrow{width:68%}
+.skeleton-block{height:88px;width:100%;margin-top:14px}
+.skeleton-block.small{height:76px}
+@keyframes shine{to{background-position:-200% 0}}
+@media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.explore-hero{grid-template-columns:1fr}.sideindex{display:none}}
+@media(max-width:650px){.grid{grid-template-columns:1fr}.explore-hero{padding-top:30px}.filter-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.filter-label{display:block}.filter-label select{display:block;margin-top:5px;width:100%;min-width:0}.civic-card h3{font-size:24px}.source-footer{padding:16px 18px}.page-number.edge{min-width:68px}.pagination{gap:5px}}
+@media(prefers-reduced-motion:reduce){.shimmer{animation:none;background:#eeeae2}.civic-card{transition:none}}
