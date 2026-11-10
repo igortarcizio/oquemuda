@@ -6,18 +6,20 @@ on:
     paths:
       - '.github/workflows/sync-supabase.yml'
   schedule:
-    - cron: '17 */6 * * *'
+    - cron: '7,37 * * * *'
 permissions:
   contents: read
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 9
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+      - name: Verificar sintaxe do sincronizador
+        run: python -m py_compile scripts/sync_supabase.py
       - name: Sincronizar base
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
