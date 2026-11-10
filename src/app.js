@@ -20,8 +20,14 @@ function cachedStatus(id){
  return null;
 }
 function renderStatus(id,status){
- statusCache.set(id,status);
- try{sessionStorage.setItem(cacheKey(id),JSON.stringify({status,until:Date.now()+10*60_000}))}catch{}
+ const reliable=!!status && status.label!=='Situação a confirmar';
+ if(reliable){
+  statusCache.set(id,status);
+  try{sessionStorage.setItem(cacheKey(id),JSON.stringify({status,until:Date.now()+10*60_000}))}catch{}
+ }else{
+  statusCache.delete(id);
+  try{sessionStorage.removeItem(cacheKey(id))}catch{}
+ }
  for(const el of document.querySelectorAll('[data-status-id="'+id+'"]'))el.innerHTML=badge(status);
 }
 function queueStatus(id){
@@ -152,7 +158,7 @@ function present(result){
  setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(result.source==='situação verificada'?
   'A situação foi conferida no registro individual de '+Number(result.inspectedCount||0)+' propostas desta página; o recorte não é exaustivo.':
   result.source==='ao vivo'?'Resultados carregados por página diretamente da API, com até 30 registros por página.':
-  'Cópia parcial de reserva utilizada porque a API não respondeu. A ausência de resultados não comprova inexistência.')+
+  'Cópia parcial de reserva utilizada porque a API não respondeu. Última coleta: '+(window.OBM_DATA?.generatedAt?new Date(window.OBM_DATA.generatedAt).toLocaleString('pt-BR'):'não informada')+'. A ausência de resultados não comprova inexistência.')+
   ' Propostas não são leis em vigor. Pronta para pauta não confirma votação agendada.');
  observeStatuses();setNav();
 }
