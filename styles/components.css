@@ -73,3 +73,13 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 
 /* Acessibilidade tátil: links importantes, além dos botões, têm alvo mínimo de 44px. */
 .brand,.civic-card .textlink,.detail .back,.foot-inner nav a{display:inline-flex;align-items:center;min-height:44px;min-width:44px}
+
+/* Ajustes editoriais: bloco único de mudança e destaque da frase original. */
+.hero-copy .hero-emphasis{ text-decoration:underline; text-decoration-color:var(--signal); text-underline-offset:4px; text-decoration-thickness:.08em; }
+.civic-card .change-summary{margin-top:1px;flex:1;min-width:0}
+.civic-card .change-summary h4{font:700 12px/1.35 'DM Sans',sans-serif;color:var(--ink);margin:0 0 8px}
+.civic-card .change-summary p{font-size:14px;line-height:1.5;color:var(--text);display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:4;line-clamp:4;overflow:hidden;overflow-wrap:anywhere;max-height:6em}
+.chip .topic-dot,.indexlist .topic-dot{width:10px;height:10px;border-radius:3px;background:var(--area,var(--outros));flex:none}
+.indexlist button{gap:11px}
+.indexlist button[aria-pressed="true"] .indexname{font-weight:700}
+.civic-card .card-bottom{padding-top:19px}
