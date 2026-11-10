@@ -82,8 +82,14 @@ export function questionTitle(p,editorial={}) {
   if(p.siglaTipo==='REQ')return /urg[eê]ncia/i.test(e)?'Qual projeto pode tramitar com urgência?':'Qual pedido foi apresentado à Câmara?';
   if(p.siglaTipo==='MSC')return 'O que o Congresso precisa analisar nesta mensagem?';
   const subject=compactSubject(e,39);
-  if(subject.length>=9 && !/^(?:Lei|Decreto|Artigo)\s+n[º°.]?/i.test(subject)) {
-    const title='O que pode mudar em '+subject.charAt(0).toLowerCase()+subject.slice(1)+'?';
+  if(subject.length>=9 && !/^(?:Lei|Decreto|Artigo)\s+n[º°.]?/i.test(subject)
+     && !/^(?:instituir|criar|reconhece|exigir|assegurar|alterar|vedar)\b/i.test(subject)) {
+    const phrase=/^a\s+/i.test(subject)?'na '+subject.slice(2):
+      /^o\s+/i.test(subject)?'no '+subject.slice(2):
+      /^as\s+/i.test(subject)?'nas '+subject.slice(3):
+      /^os\s+/i.test(subject)?'nos '+subject.slice(3):
+      'em '+subject.charAt(0).toLowerCase()+subject.slice(1);
+    const title='O que pode mudar '+phrase+'?';
     if(title.length<=81)return preserveSiglas(title);
   }
   const topic=editorial.area||p.area;
