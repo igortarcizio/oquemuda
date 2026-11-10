@@ -32,6 +32,24 @@ export function card(p,status, saved){
    '<div class="card-bottom"><a class="textlink" href="#/tema/'+Number(p.id)+'" aria-label="Entender '+safeText(ref(p))+'">Entender →</a>'+
    '<button class="savebtn '+(saved?'saved':'')+'" type="button" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':'+ Salvar')+'</button></div></div></article>';
 }
+/**
+ * A seleção editorial é independente do recorte de 30 registros da API.
+ * A ficha destacada exige título, síntese, público e fonte oficial identificável.
+ */
+export function editorialFeature(p,status,saved){
+ const e=editorial(p),title=questionTitle(p,e);
+ const summary=conciseImpact(cardSummary(p,e),175);
+ const audience=(Array.isArray(e.publicos)?e.publicos:p.publicos||[]).slice(0,3);
+ return '<article class="card civic-card editorial-feature" data-area="'+safeText(p.area||e.area||'Outros')+'">'+
+   '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||e.area||'Outros')+'</span><span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
+   '<div class="editorial-feature-body"><div class="editorial-feature-copy"><p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
+   '<h3><a href="#/tema/'+Number(p.id)+'">'+safeText(title)+'</a></h3><p class="editorial-feature-lead">'+safeText(summary)+'</p></div>'+
+   '<div class="editorial-feature-side">'+
+   (audience.length?'<div><p class="subheading">Quem pode se interessar</p><div class="affected" aria-label="Públicos relacionados">'+audience.map(a=>'<span class="microtag">'+safeText(a)+'</span>').join('')+'</div></div>':'<div></div>')+
+   '<div class="card-bottom"><a class="textlink" href="#/tema/'+Number(p.id)+'" aria-label="Entender '+safeText(ref(p))+'">Entender →</a>'+
+   '<button type="button" class="savebtn '+(saved?'saved':'')+'" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':'+ Salvar')+'</button></div></div></div></article>';
+}
+
 /** Paginação numérica baseada no total fornecido pelos links da API; sem inventar última página. */
 export function pagination({page,totalPages,hasNext}){
  if(!totalPages&& !hasNext && page<=1)return '';
