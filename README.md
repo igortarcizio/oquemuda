@@ -8,13 +8,13 @@ Plataforma Civic Tech em **HTML, CSS e JavaScript ES Modules**, publicada no Git
 | --- | --- |
 | `index.html` | HTML sem CSS/JS embutidos; layout e regiões acessíveis |
 | `styles/base.css` | Base de identidade visual preservada |
-| `styles/components.css` | Cards, skeleton, comparação, status, paginação e responsividade |
+| `styles/components.css` | Cards, skeleton, bloco O que muda, status, paginação e responsividade |
 | `src/app.js` | Controlador de rotas, filtros, eventos, acessibilidade e paginação |
 | `src/data/api.js` | Cliente da API da Câmara, normalização de registros, autoria e cache |
 | `src/lib/text.js` | Sanitização, perguntas editoriais e classificação auxiliar |
 | `src/lib/status.js` | Normalização conservadora da situação legislativa |
 | `src/lib/storage.js` | Salvos no LocalStorage com migração dos registros antigos |
-| `src/ui/components.js` | Templates HTML escapados, skeletons, fichas e paginação |
+| `src/ui/components.js` | Cards de resumo sem bloco Como é hoje, skeletons, fichas e paginação |
 | `dados/editorial.js` | Banco de títulos/impactos revisados vinculado ao ID oficial |
 | `dados/catalogo.js` | Cópia de reserva **parcial**, atualizada por GitHub Actions |
 | `dados/deputados-partidos.js` | Cache auxiliar de filiação recente para fichas |
@@ -40,7 +40,7 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 
 - A função `questionTitle` procura usar uma pergunta curta e inteligível, com regras determinísticas. Ela não é um sistema de inteligência artificial capaz de compreender perfeitamente todas as ementas. Casos complexos exigem revisão em `dados/editorial.js`.
 - Os quatro status solicitados são exibidos **somente quando sustentados pela fase oficial**. `Apresentada` é uma situação adicional neutra, pois apresentar uma proposta não equivale a tê-la em discussão.
-- **Como é hoje**: sem uma apuração de normas vigentes, o sistema informa a falta da verificação em vez de criar um contexto jurídico fictício. É possível preencher `comoHoje` por proposta após revisão editorial.
+- **O que muda** aparece sozinho no card, com síntese de até quatro linhas, sem emoji. Não presumimos que a regra vigente já tenha sido modificada.
 - **O que muda**: descreve o que a proposição *pretende* alterar, não uma mudança em vigor. O status e o andamento podem mudar a qualquer momento.
 - A sigla e o número permanecem como referência documental; os títulos são perguntas para as pessoas.
 - HTML de dados externos sempre passa por escape textual antes de entrar no DOM.
