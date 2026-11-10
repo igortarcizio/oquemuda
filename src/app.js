@@ -185,27 +185,31 @@ async function showList(){
  syncForm();loader();
  const keywords=state.query||TOPIC_API[state.topic]||'';
  const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
- // Stale-while-revalidate: mostra uma reserva claramente identificada se a API demorar.
- // O sinal aria-live anuncia a origem parcial; o retorno oficial substitui a página.
- const interim=setTimeout(()=>{
-  if(id!==sequence)return;
-  const cached=!situationCodes?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
-  if(cached&&cached.items.length){
-   present(cached);
-   $('listSubtitle').textContent='Exibindo cópia parcial enquanto a Câmara é consultada…';
-   announce('Exibindo registros de reserva. Ainda estamos consultando a Câmara.');
-  }
- },1600);
+ // A cópia local é exibida imediatamente; a API oficial atualiza quando responder.
+ // Não deixar o visitante preso nos skeletons durante instabilidade externa.
+ const snapshot=!situationCodes?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
+ const hasSnapshot=!!snapshot?.items?.length;
+ if(hasSnapshot){
+  present(snapshot);
+  $('listSubtitle').textContent='Exibindo cópia parcial. Verificando atualização na Câmara…';
+  announce('Propostas da cópia parcial exibidas. Consultando atualização oficial.');
+ }
  try{
   const result=await getProposals({page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,signal:activeRequest.signal});
-  clearTimeout(interim);
   if(id!==sequence)return;
-  present(result);$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL');
+  if(result.items.length||!hasSnapshot){
+   present(result);
+  }else{
+   $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
+   setFooter('Fonte: cópia parcial da Câmara. A consulta oficial não retornou registros; a cobertura da reserva não é completa.');
+  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL');
  }catch(error){
-  clearTimeout(interim);
   if(id!==sequence)return;
-  const cached=!situationCodes?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
-  if(cached&&cached.items.length){present(cached);return}
+  if(hasSnapshot){
+   $('listSubtitle').textContent='Cópia parcial disponível. Não foi possível atualizar pela Câmara agora.';
+   setFooter('Fonte: cópia parcial de reserva. Atualização oficial indisponível; os registros podem estar desatualizados.');
+   return;
+  }
   errorState(error.message||'API indisponível');
  }
 }
