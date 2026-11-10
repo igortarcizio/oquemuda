@@ -89,3 +89,9 @@ select count(*) from public.proposicoes;
 select sigla_tipo, ano, count(*) from public.proposicoes group by 1,2 order by 2 desc,1;
 select id, sigla_tipo, numero, ano, ementa from public.proposicoes where ano=2026 and sigla_tipo='PL' order by id desc limit 30;
 ```
+
+### Consulta ao índice em desenvolvimento
+
+O módulo `src/data/indice.js` permite leitura **somente pública** de propostas no Supabase via chave publicável, com filtros de ano, tipo e texto aplicados pelo PostgreSQL antes da paginação. Testes isolados: `tests/indice.test.mjs`.
+
+O módulo **ainda não é importado pelo controlador da aplicação**. Os resultados do índice são rotulados `índice parcial`; a situação permanece `Situação a confirmar` porque o acervo inicial não contém o andamento verificado. Não ativar a troca de fonte até importar autores, situação e tramitação, ampliar a cobertura e executar testes de integração no navegador.
