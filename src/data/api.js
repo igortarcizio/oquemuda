@@ -18,7 +18,7 @@ export class SourceError extends Error {constructor(message){super(message);this
  */
 async function request(path,{signal,attempts=2}={}){
  if(signal?.aborted)throw new SourceError('Consulta cancelada');
- const url=new URL(String(path).replace(/^[/]+/,''),API+'/').href;
+ const url=new URL(String(path).replace(new RegExp('^/+'),''),API+'/').href;
  const entry=cache.get(url);
  if(entry&&entry.until>current())return entry.value;
  let task=pending.get(url);
