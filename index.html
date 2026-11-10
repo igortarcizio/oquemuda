@@ -99,7 +99,7 @@ return `<article class="card ${featured?'featured':''}" data-area="${escapeHtml(
 function renderFeed(){const all=visibleItems();const subset=all.slice(0,state.visible);const unfiltered=state.area==='Todos'&&!state.query&&state.view!=='salvos';const total=all.length;const title=state.view==='salvos'?'Assuntos salvos':(state.query||state.area!=='Todos')?(total===1?'1 assunto encontrado':`${total} assuntos encontrados`):(state.view==='inicio'?'Assuntos para começar':'Todos os assuntos');$('listTitle').textContent=title;
 $('listSubtitle').textContent=state.view==='salvos'?'As propostas que você guardou neste navegador.':liveReady?`${total.toLocaleString('pt-BR')} ${total===1?'proposta exibida':'propostas disponíveis'} até aqui${liveLast?' · fim desta pesquisa':' · continue rolando para ver mais'}.`:`${items.length.toLocaleString('pt-BR')} registros de reserva · ${total.toLocaleString('pt-BR')} ${total===1?'resultado':'resultados'}.`;
 $('clearFilters').hidden=!(state.query||state.area!=='Todos'||state.party!=='Todos');$('cards').innerHTML=subset.map((p,i)=>card(p,i,unfiltered&&i===0&&p.siglaTipo==='PL'&&Boolean(p.titulo)&&Boolean(p.impacto)&&Array.isArray(p.publicos)&&p.publicos.length>0)).join('');
-if(!all.length && !(liveReady&&!liveLast)){$('cards').innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>${state.view==='salvos'?'Você ainda não salvou nenhuma proposta.':(liveError?'A consulta oficial está temporariamente indisponível.':'Nenhuma proposta encontrada nesta seleção.')}</h3><p>${state.view==='salvos'?'Ao abrir uma ficha, use “Salvar”. Ela ficará disponível aqui, mesmo depois de fechar a página.':'Tente uma palavra diferente, escolha outro tema ou consulte a busca oficial da Câmara. A ausência aqui não significa que não existam propostas sobre o assunto.'}</p><div style="margin-top:17px"><a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>`}
+if(!all.length && !(liveReady&&!liveLast)){$('cards').innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>${state.view==='salvos'?'Você ainda não salvou nenhuma proposta.':(liveLoading?'Consultando a Câmara…':liveError?'A consulta oficial está temporariamente indisponível.':'Nenhuma proposta encontrada nesta seleção.')}</h3><p>${state.view==='salvos'?'Ao abrir uma ficha, use “Salvar”. Ela ficará disponível aqui, mesmo depois de fechar a página.':'Tente uma palavra diferente, escolha outro tema ou consulte a busca oficial da Câmara. A ausência aqui não significa que não existam propostas sobre o assunto.'}</p><div style="margin-top:17px"><a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>`}
 $('moreBtn').hidden=liveReady?(liveLast&&total<=state.visible):(total<=state.visible);$('moreRow').hidden=$('moreBtn').hidden;$('moreBtn').textContent=liveLoading?'Consultando Câmara…':total>state.visible?'Mostrar mais propostas':'Buscar mais na Câmara';$('moreBtn').disabled=liveLoading;
 observeCardStatus();observeAutoMore();
 }
@@ -127,7 +127,7 @@ function shortSituation(desc){
  if(/aprovad/.test(x))return 'Aprovada';
  if(/aguardand|parecer|relator|analis|apreciac|tramitac|distribui/.test(x))return 'Em análise';
  if(/apresentac|apresentad|protocol/.test(x))return 'Apresentada';
- return 'Consultar Câmara';
+ return 'Situação indefinida';
 }
 const statusCache=new Map();
 const statusInFlight=new Set();
@@ -224,8 +224,8 @@ function classifyLive(e){const s=normalize(e);if(/educacao|escolar|estudant|univ
 async function loadOfficial(reset){
   if(!reset&&liveLoading)return;
   const token=reset?++liveToken:liveToken;
-  if(reset){livePage=0;liveLast=false;liveReady=false;liveError='';autoFetchedPages=0;items=state.party==='Todos'?DATA.items.slice():[];updateChips();renderFeed();}
   liveLoading=true;
+  if(reset){livePage=0;liveLast=false;liveReady=false;liveError='';autoFetchedPages=0;items=state.party==='Todos'?DATA.items.slice():[];updateChips();renderFeed();}
   const p=new URLSearchParams({itens:'100',pagina:String(livePage+1),ordem:'DESC',ordenarPor:'id'});
   if(state.year!=='Todos')p.set('ano',state.year);
   if(state.type!=='Todos')p.set('siglaTipo',state.type);
