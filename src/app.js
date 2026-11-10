@@ -246,14 +246,19 @@ async function showDetail(id){
  ]);
  if(task!==detailSequence||state.view!=='detalhe')return;
  const detail=detailResult.status==='fulfilled'?detailResult.value:null;
- const authors=authorsResult.status==='fulfilled'?authorsResult.value:(stored?.authors||[]);
+ const authors=authorsResult.status==='fulfilled'&&authorsResult.value.length?authorsResult.value:(stored?.authors||[]);
  const proposal=detail?.proposal||stored?.proposal||candidate;
  if(!proposal){
   $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';return;
  }
+ const verifiedLive=detail?.status?.label&&detail.status.label!=='Situação a confirmar';
+ const liveStage=detail?.stage||{};
+ const preferredStage=liveStage.descricaoTramitacao||liveStage.descricaoSituacao||liveStage.codSituacao!=null?liveStage:(stored?.stage||{});
  $('detailView').innerHTML=detailPage(proposal,{
-  ...(stored||{}),...(detail||{}),authors,authorsChecked:authorsResult.status==='fulfilled'||stored?.authorsChecked,
-  loaded:true,status:detail?.status||stored?.status||neutral
+  ...(stored||{}),...(detail||{}),stage:preferredStage,
+  authors,authorsChecked:authorsResult.status==='fulfilled'||stored?.authorsChecked,
+  loaded:true,status:verifiedLive?detail.status:(stored?.status||neutral),
+  fullTextURL:detail?.fullTextURL||stored?.fullTextURL||null
  },isSaved(id));
  document.title=ref(proposal)+' — O que muda?';
 }
