@@ -81,7 +81,7 @@ export function pagination({page,totalPages,hasNext}){
  '</nav>';
 }
 const initials=authors=>authors.length?authors.map(a=>safeText(a.nome)+(a.partido?' <strong>('+safeText(a.partido)+')</strong>':' <span class="muted">(partido não informado)</span>')).join('<span class="author-separator">, </span>'):'Autoria não informada pela API';
-export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false}={},saved=false){
+export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null}={},saved=false){
  const e=editorial(p),title=questionTitle(p,e);
  const after=cardSummary(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
@@ -100,7 +100,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<section class="detail-section"><h2>O que ainda precisa ser confirmado?</h2><p>Antes de afirmar que direitos, prazos ou obrigações mudaram, é necessário conferir a redação integral, as decisões seguintes e, se houver aprovação definitiva, a publicação da norma.</p></section>'+
  '</div><aside class="detail-aside"><h2>Ficha da proposta</h2><dl>'+
  '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+'</dd></div>'+
- '<div><dt>Autoria e partido atual</dt><dd>'+(loaded?initials(authors):'Consultando autores…')+'</dd></div>'+
+ '<div><dt>Autoria e partido atual</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Autoria não informada na consulta':'Autoria ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
  '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
  '<div><dt>Órgão</dt><dd>'+safeText(stage.siglaOrgao||'Não informado')+'</dd></div>'+
