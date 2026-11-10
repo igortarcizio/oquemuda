@@ -138,19 +138,22 @@ function renderEditorial(){
 
 function present(result){
  state.items=result.items.slice(0,pageSize);state.hasNext=!!result.hasNext;state.totalPages=result.totalPages;
+ for(const p of state.items)if(p.statusVerificado)statusCache.set(p.id,p.statusVerificado);
  state.source=result.source;
  $('cards').setAttribute('aria-busy','false');
  $('cards').innerHTML=state.items.length?state.items.map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join(''):
-  '<div class="empty-state"><h3>Nenhuma proposta encontrada neste recorte.</h3><p>Experimente outro ano, assunto ou partido. A Câmara continua sendo a fonte para pesquisas completas.</p></div>';
+  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':'<div class="empty-state"><h3>Nenhuma proposta encontrada neste recorte.</h3><p>Experimente outro ano, assunto ou partido. A Câmara continua sendo a fonte para pesquisas completas.</p></div>');
  $('pagination').innerHTML=pagination({page:state.page,totalPages:state.totalPages,hasNext:state.hasNext});
  renderEditorial();
  const msg=state.items.length+' '+(state.items.length===1?'proposta exibida':'propostas exibidas')+' na página '+state.page+
    (state.totalPages?' de '+state.totalPages:'')+(state.source==='cópia parcial'?' · reserva parcial':'');
- $('listSubtitle').textContent=state.mode?msg+' · '+WATCH_MODES[state.mode].hint:msg;announce(msg);
- setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(state.source==='ao vivo'?
-  'Resultados carregados por página diretamente da API; 30 registros por página.':
-  'Cópia parcial de reserva utilizada porque a API oficial não respondeu. A ausência de resultados aqui não comprova inexistência.')+
-  ' Propostas não são leis em vigor. Os atalhos de andamento usam códigos oficiais de situação, sem garantir data de votação; classificações e resumos exigem conferência na fonte.');
+ const statusLine=state.mode&&result.source==='situação verificada'?state.items.length+' confirmada(s) entre '+Number(result.inspectedCount||0)+' registros verificados nesta página · '+WATCH_MODES[state.mode].hint:msg;
+ $('listSubtitle').textContent=statusLine;announce(statusLine);
+ setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(result.source==='situação verificada'?
+  'A situação foi conferida no registro individual de '+Number(result.inspectedCount||0)+' propostas desta página; o recorte não é exaustivo.':
+  result.source==='ao vivo'?'Resultados carregados por página diretamente da API, com até 30 registros por página.':
+  'Cópia parcial de reserva utilizada porque a API não respondeu. A ausência de resultados não comprova inexistência.')+
+  ' Propostas não são leis em vigor. Pronta para pauta não confirma votação agendada.');
  observeStatuses();setNav();
 }
 function errorState(message){
@@ -251,7 +254,7 @@ function onClick(e){
 }
 function onChange(e){
  if(['yearSelect','typeSelect','partySelect'].includes(e.target.id)){
-  filterFromUI();state.mode='';state.page=1;syncURL();showList();
+  filterFromUI();state.page=1;syncURL();showList();
  }
 }
 async function start(){
