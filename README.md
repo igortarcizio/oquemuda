@@ -60,3 +60,13 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 
 - [Plataforma pública](https://igortarcizio.github.io/oquemuda/#/explorar)
 - [API oficial](https://dadosabertos.camara.leg.br/api/v2/)
+
+## Resiliência e limites atuais
+
+- Requisições simultâneas idênticas compartilham uma única chamada HTTP; abandonar uma tela não cancela a consulta que outra tela ainda utiliza.
+- Erros HTTP definitivos (como 400) não são repetidos. Erros transitórios são tentados no máximo duas vezes.
+- A situação legislativa desconhecida ou indisponível não fica armazenada como se fosse confirmada. Situações confirmadas têm cache temporário.
+- A reserva automática percorre a página recente e uma página histórica rotativa para cada combinação de tipo/ano; acumula até **3.000 registros** e preserva o catálogo anterior quando a API falha.
+- **Importante:** a reserva é parcial. Não representa todas as proposições e não deve ser usada para contagens totais, filtros de situação ou inferência de inexistência de propostas.
+- A consulta ao vivo continua sujeita à disponibilidade da API da Câmara. A filtragem de situações ainda é feita em lotes de até 30 registros, com confirmação individual, e **não** substitui uma busca indexada no universo completo.
+- Próxima etapa estrutural: base persistente e sincronização completa por lotes, com API própria de leitura e classificação legislativa auditável.
