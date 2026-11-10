@@ -35,6 +35,7 @@ footer{border-top:1px solid var(--line);margin-top:85px}.foot-inner{display:grid
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{scroll-behavior:auto!important;transition:none!important}}
 
 .card h3{font-size:clamp(21px,1.9vw,25px);line-height:1.12}.card h3 a{display:block;overflow-wrap:break-word}.card.featured h3{font-size:29px}.detail-update{margin-top:15px;padding:15px;border:1px solid var(--line);border-radius:10px;background:white;color:var(--text);font-size:14px}
+.footer-source-note{display:block;box-sizing:border-box;max-width:1160px;margin:12px auto 0;padding:15px 20px 25px;border-top:1px solid var(--line);font-size:12px;line-height:1.65;color:var(--text)}.footer-source-note:before{display:none}.footer-source-note strong{color:var(--ink)}
 </style></head>
 <body><div class="area-stripe" aria-hidden="true"></div><header><div class="page header-inner"><a class="brand" href="#/" aria-label="O que muda? — início">o que muda<span>?</span></a><nav aria-label="Principal"><ul><li><a href="#/explorar" id="nav-explorar">Explorar</a></li><li><a href="#/salvos" id="nav-salvos">Salvos <span id="savedCounter" class="savecount" hidden></span></a></li><li><a href="#/como-funciona" id="nav-como-funciona">Como funciona</a></li></ul></nav></div></header>
 <main id="conteudo" class="app" tabindex="-1"><div class="page"><section class="explore-hero" id="hero"><div class="hero-copy"><div class="eyebrow" id="heroEyebrow">Explorar</div><h1 id="heroTitle">Encontre o que importa para você.</h1><p class="sub" id="heroSubtitle">Busque com suas palavras ou escolha um tema.</p><form class="search-form" id="searchForm" role="search"><label for="searchField">O que você quer entender?</label><div class="search-control"><input type="search" id="searchField" placeholder="Ex.: trabalho, faculdade, compras pela internet…" autocomplete="off"><button type="submit" class="primary-btn">Buscar</button></div></form><div class="chip-row" id="chips" role="group" aria-label="Filtrar por tema"></div><p class="source-line" id="sourceNote" role="status">Carregando a seleção de proposições oficiais…</p></div><aside class="sideindex" id="sideindex"><div class="area-stripe"></div><div class="sideindex-body"><h2>Seis temas do dia a dia</h2><p>Toque para ver só os assuntos de um tema.</p><ul class="indexlist" id="indexlist"></ul></div></aside></section><section id="feed"><div class="section-head"><div><h2 id="listTitle">Todos os assuntos</h2><p id="listSubtitle">Consulta a proposições da Câmara dos Deputados.</p></div><div class="section-actions"><button class="quiet-btn" id="clearFilters" type="button" hidden>Limpar busca</button></div></div><div class="grid" id="cards" aria-live="polite"></div><div class="more-row" id="moreRow"><button type="button" class="outline-btn" id="moreBtn" hidden>Mostrar mais propostas</button></div></section></div><section id="detailView" hidden></section><section id="infoView" hidden></section></main>
@@ -49,7 +50,7 @@ const ALL=['Todos','Trabalho','Consumo','Saúde','Educação','Tecnologia','Mobi
 const DATA=(window.OBM_DATA&&Array.isArray(window.OBM_DATA.items))?window.OBM_DATA:{items:[],generatedAt:null,source:'',total:0,coverage:'Seleção de projetos de lei da Câmara dos Deputados'};
 for(const p of DATA.items){const editorial=window.OBM_EDITORIAL?.[String(p.id)];if(editorial){for(const k of ['titulo','impacto','publicos','area'])if(editorial[k]!==undefined)p[k]=editorial[k]}}
 let items=DATA.items;
-let liveReady=false,liveLoading=false,liveLast=false,livePage=0,liveToken=0;const legacy=new Map(DATA.items.map(x=>[String(x.id),x]));
+let liveReady=false,liveLoading=false,liveLast=false,livePage=0,liveToken=0,liveError='';let autoFetchedPages=0;const legacy=new Map(DATA.items.map(x=>[String(x.id),x]));
 const $=id=>document.getElementById(id);
 const normalize=s=>String(s??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().replace(/\s+/g,' ').trim();
 const escapeHtml=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
@@ -82,25 +83,25 @@ const localImpact=p=>editorialImpact(p);
 const truncate=(s,n)=>{s=String(s||'');if(s.length<=n)return s;const cut=s.slice(0,n-1);return cut.slice(0,cut.lastIndexOf(' ')>n*.5?cut.lastIndexOf(' '):n-2)+'…'};
 const readtime=p=>{const words=normalize(p.ementa).split(/\s+/).filter(Boolean).length;return Math.max(1,Math.ceil((words+160)/180));};
 const pageSize=11;
-const state={view:'explorar',area:'Todos',year:String(new Date().getFullYear()),type:'PL',query:'',visible:pageSize,selected:null,saved:new Set(),returnView:'explorar'};
+const state={view:'explorar',area:'Todos',year:String(new Date().getFullYear()),type:'PL',party:'Todos',query:'',visible:pageSize,selected:null,saved:new Set(),returnView:'explorar'};
 try{const v=JSON.parse(localStorage.getItem('oquemuda:salvos-reais')||'[]');state.saved=new Set(Array.isArray(v)?v.map(String):[])}catch(e){}
 function saveStore(){try{localStorage.setItem('oquemuda:salvos-reais',JSON.stringify([...state.saved]))}catch(e){}}
 function areaKey(p){return ALL.includes(p.area)?p.area:'Outros'}
 function areaCounts(){const subset=items.filter(p=>(state.year==='Todos'||String(p.ano)===state.year)&&(state.type==='Todos'||p.siglaTipo===state.type));return Object.fromEntries(ALL.map(a=>[a,a==='Todos'?subset.length:subset.filter(x=>areaKey(x)===a).length]))}
 function match(p,q){if(!q)return true;const text=normalize([p.siglaTipo,p.numero,p.ano,ref(p),p.ementa,p.titulo,p.impacto,p.area,...(p.publicos||[]),...(p.palavrasChave||[])].join(' '));const exact=normalize(q).match(/^(pl|pec|plp|mpv)\s*(\d+)\s*\/\s*(\d{4})$/);if(exact)return normalize(p.siglaTipo)===exact[1]&&Number(p.numero)===Number(exact[2])&&Number(p.ano)===Number(exact[3]);const stop=['o','a','as','os','de','da','do','que','na','no','pra','para','em','se','com'];return normalize(q).split(/[\s,;]+/).filter(v=>v.length>1&&!stop.includes(v)).every(v=>text.includes(v))}
 function visibleItems(){const base=state.view==='salvos'?items.filter(p=>state.saved.has(String(p.id))):items;return base.filter(p=>(liveReady||state.year==='Todos'||String(p.ano)===state.year)&&(liveReady||state.type==='Todos'||p.siglaTipo===state.type)&&(state.area==='Todos'||areaKey(p)===state.area)&&(liveReady||match(p,state.query)));}
-function notice(){if(liveReady)return `<strong>Fonte: API da Câmara dos Deputados.</strong> Consulta ao vivo. ${items.length.toLocaleString('pt-BR')} registros carregados nesta pesquisa. É possível carregar mais páginas da API; as categorias são atribuídas somente aos registros já carregados. Propostas não são leis em vigor.`;return `<strong>Fonte: Câmara dos Deputados.</strong> Base de reserva com ${items.length.toLocaleString('pt-BR')} registros. A consulta ao vivo está em andamento ou indisponível.`}
+function notice(){if(liveReady)return `<strong>Fonte: Dados Abertos da Câmara.</strong> ${items.length.toLocaleString('pt-BR')} registros consultados neste recorte. ${liveLast?'Fim dos resultados desta pesquisa.':'Outras páginas disponíveis por rolagem ou pelo botão de carregar mais.'} Os assuntos são classificados automaticamente e podem exigir revisão. A sigla partidária filtra a autoria conforme a API. Propostas não são leis em vigor.`;return `<strong>Fonte: Dados Abertos da Câmara.</strong> ${liveError||'Consultando a base oficial. Se houver indisponibilidade, somente a cópia parcial de reserva será exibida.'}`}
 function updateNav(){['explorar','salvos','como-funciona'].forEach(k=>{const link=$('nav-'+k);if(link){const active=(state.view===k)||(state.view==='inicio'&&k==='explorar');link.classList.toggle('active',active);active?link.setAttribute('aria-current','page'):link.removeAttribute('aria-current')}});const savedCount=state.saved.size;$('savedCounter').hidden=!savedCount;$('savedCounter').textContent=String(savedCount)}
 function updateChips(){const counts=areaCounts();$('chips').innerHTML=ALL.map(a=>`<button class="chip ${state.area===a?'active':''}" aria-pressed="${state.area===a}" data-filter="${escapeHtml(a)}" type="button" ${a!=='Todos'?`data-area="${escapeHtml(a)}"`:''}>${a!=='Todos'?'<span class="topic-dot" aria-hidden="true"></span>':''}${escapeHtml(a)}</button>`).join('');$('indexlist').innerHTML=ALL.slice(1,7).map(a=>`<li data-area="${escapeHtml(a)}"><button type="button" class="${state.area===a?'selected':''}" data-filter="${escapeHtml(a)}"><span class="indexbar" aria-hidden="true"></span><span class="indexname">${escapeHtml(a)}</span><span class="indexcount">${counts[a]} ${counts[a]===1?'assunto':'assuntos'}</span></button></li>`).join('')}
 function card(p,index,featured){const pTags=(p.publicos||[]).slice(0,3);const desc=escapeHtml(localImpact(p));const reference=escapeHtml(ref(p));const title=escapeHtml(localTitle(p));const date=escapeHtml(dte(p.dataApresentacao));const isSaved=state.saved.has(String(p.id));const area=areaKey(p);const status=escapeHtml(p.statusCurtoReal||statusCache.get(Number(p.id))||'Carregando…');const bottom=`<div class="card-bottom"><div class="readgroup"><span class="readtime">Leitura de ${readtime(p)} min</span><a class="textlink" href="#/tema/${p.id}">Entender <span aria-hidden="true">→</span></a></div><button type="button" data-save="${p.id}" class="savebtn ${isSaved?'saved':''}" aria-pressed="${isSaved}" aria-label="${isSaved?'Remover dos salvos':'Salvar para depois'}: ${title}">${isSaved?'Salvo':'＋ Salvar'}</button></div>`;
 const audience=pTags.length?`<div class="affected" aria-label="Públicos mencionados ou associados ao tema">${pTags.map(t=>`<span class="microtag">${escapeHtml(t)}</span>`).join('')}</div>`:'';
 return `<article class="card ${featured?'featured':''}" data-area="${escapeHtml(area)}"><div class="card-banner"><span class="topic-label"><span class="topic-dot"></span>${escapeHtml(area)}</span><span class="status" data-status-id="${Number(p.id)}">${status}</span></div>${featured?`<div class="card-body"><div class="card-content"><p class="docref">${reference} · apresentado em ${date}</p><h3><a href="#/tema/${p.id}">${title}</a></h3><p class="impact">${desc}</p></div><div class="sidebits"><div>${pTags.length?'<div class="subheading">Quem pode se interessar</div>':''}${audience}</div>${bottom}</div></div>`:`<div class="card-body"><p class="docref">${reference} · ${date}</p><h3><a href="#/tema/${p.id}">${title}</a></h3><p class="impact">${desc}</p>${audience}${bottom}</div>`}</article>`}
 function renderFeed(){const all=visibleItems();const subset=all.slice(0,state.visible);const unfiltered=state.area==='Todos'&&!state.query&&state.view!=='salvos';const total=all.length;const title=state.view==='salvos'?'Assuntos salvos':(state.query||state.area!=='Todos')?(total===1?'1 assunto encontrado':`${total} assuntos encontrados`):(state.view==='inicio'?'Assuntos para começar':'Todos os assuntos');$('listTitle').textContent=title;
-$('listSubtitle').textContent=state.view==='salvos'?'As propostas que você guardou neste navegador.':liveReady?`${items.length.toLocaleString('pt-BR')} registros carregados · ${total.toLocaleString('pt-BR')} ${total===1?'resultado':'resultados'} na parte carregada.`:`${items.length.toLocaleString('pt-BR')} registros de reserva · ${total.toLocaleString('pt-BR')} ${total===1?'resultado':'resultados'}.`;
-$('clearFilters').hidden=!(state.query||state.area!=='Todos');$('cards').innerHTML=subset.map((p,i)=>card(p,i,unfiltered&&i===0&&p.siglaTipo==='PL'&&Boolean(p.titulo)&&Boolean(p.impacto)&&Array.isArray(p.publicos)&&p.publicos.length>0)).join('');
-if(!all.length && !(liveReady&&!liveLast)){$('cards').innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>${state.view==='salvos'?'Você ainda não salvou nenhuma proposta.':'Nenhuma proposta encontrada nesta seleção.'}</h3><p>${state.view==='salvos'?'Ao abrir uma ficha, use “Salvar”. Ela ficará disponível aqui, mesmo depois de fechar a página.':'Tente uma palavra diferente, escolha outro tema ou consulte a busca oficial da Câmara. A ausência aqui não significa que não existam propostas sobre o assunto.'}</p><div style="margin-top:17px"><a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>`}
+$('listSubtitle').textContent=state.view==='salvos'?'As propostas que você guardou neste navegador.':liveReady?`${total.toLocaleString('pt-BR')} ${total===1?'proposta exibida':'propostas disponíveis'} até aqui${liveLast?' · fim desta pesquisa':' · continue rolando para ver mais'}.`:`${items.length.toLocaleString('pt-BR')} registros de reserva · ${total.toLocaleString('pt-BR')} ${total===1?'resultado':'resultados'}.`;
+$('clearFilters').hidden=!(state.query||state.area!=='Todos'||state.party!=='Todos');$('cards').innerHTML=subset.map((p,i)=>card(p,i,unfiltered&&i===0&&p.siglaTipo==='PL'&&Boolean(p.titulo)&&Boolean(p.impacto)&&Array.isArray(p.publicos)&&p.publicos.length>0)).join('');
+if(!all.length && !(liveReady&&!liveLast)){$('cards').innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>${state.view==='salvos'?'Você ainda não salvou nenhuma proposta.':(liveError?'A consulta oficial está temporariamente indisponível.':'Nenhuma proposta encontrada nesta seleção.')}</h3><p>${state.view==='salvos'?'Ao abrir uma ficha, use “Salvar”. Ela ficará disponível aqui, mesmo depois de fechar a página.':'Tente uma palavra diferente, escolha outro tema ou consulte a busca oficial da Câmara. A ausência aqui não significa que não existam propostas sobre o assunto.'}</p><div style="margin-top:17px"><a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>`}
 $('moreBtn').hidden=liveReady?(liveLast&&total<=state.visible):(total<=state.visible);$('moreRow').hidden=$('moreBtn').hidden;$('moreBtn').textContent=liveLoading?'Consultando Câmara…':total>state.visible?'Mostrar mais propostas':'Buscar mais na Câmara';$('moreBtn').disabled=liveLoading;
-observeCardStatus();
+observeCardStatus();observeAutoMore();
 }
 function hero(){const h=$('heroTitle'),s=$('heroSubtitle'),ey=$('heroEyebrow');if(state.view==='inicio'){ey.textContent='Política pública sem complicação';h.innerHTML='O que está sendo decidido pode mudar <span style="text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:4px;text-decoration-thickness:.08em">sua rotina</span>.';s.textContent='Busque um assunto e conheça propostas reais que podem interessar a você.'}else if(state.view==='salvos'){ey.textContent='Salvos';h.textContent='Para ler com calma.';s.textContent='Suas propostas salvas ficam somente neste navegador.'}else{ey.textContent='Explorar';h.textContent='Encontre o que importa para você.';s.textContent='Busque com suas palavras ou escolha um tema.'}}
 function showFeed(view){state.view=view;updateNav();$('detailView').hidden=true;$('infoView').hidden=true;$('feed').hidden=false;$('hero').hidden=false;hero();$('sourceNote').innerHTML=notice();updateChips();renderFeed();$('searchField').value=state.query;window.scrollTo({top:0,behavior:'instant'})}
@@ -189,19 +190,44 @@ function toggleSaved(id){const key=String(id);state.saved.has(key)?state.saved.d
 document.addEventListener('click',e=>{const save=e.target.closest('[data-save]');if(save){e.preventDefault();e.stopPropagation();toggleSaved(save.dataset.save);return}const filter=e.target.closest('[data-filter]');if(filter){const a=filter.dataset.filter;state.area=a;state.visible=pageSize;if(state.view==='salvos'){location.hash='#/explorar';setTimeout(()=>{state.area=a;updateChips();renderFeed();},0)}else{updateChips();renderFeed()}return}const back=e.target.closest('[data-back]');if(back){location.hash=state.returnView==='salvos'?'#/salvos':'#/explorar';return}});
 $('searchForm').addEventListener('submit',e=>{e.preventDefault();state.query=$('searchField').value.trim();state.visible=pageSize;state.view='explorar';state.area='Todos';if(location.hash!=='#/explorar')location.hash='#/explorar';else{updateChips();renderFeed()}loadOfficial(true);setTimeout(()=>$('feed').scrollIntoView({behavior:'smooth',block:'start'}),0)});
 let timer=null;$('searchField').addEventListener('input',e=>{clearTimeout(timer);timer=setTimeout(()=>{state.query=e.target.value.trim();state.visible=pageSize;if(state.view==='inicio'||state.view==='explorar'){loadOfficial(true)}},550)});
-$('clearFilters').addEventListener('click',()=>{state.query='';state.area='Todos';state.visible=pageSize;$('searchField').value='';loadOfficial(true);$('searchField').focus()});
-$('moreBtn').addEventListener('click',()=>{if(state.visible<visibleItems().length){state.visible+=12;renderFeed()}else if(liveReady&&!liveLast){loadOfficial(false)}else{state.visible+=12;renderFeed()}});
+$('clearFilters').addEventListener('click',()=>{state.query='';state.area='Todos';state.party='Todos';state.visible=pageSize;$('searchField').value='';if($('obmParty'))$('obmParty').value='Todos';loadOfficial(true);$('searchField').focus()});
+$('moreBtn').addEventListener('click',()=>advanceProposalFeed(false));
 window.addEventListener('hashchange',handleRoute);
+
+
+let scrollObserver=null,scrollBusy=false;
+function advanceProposalFeed(auto=false){
+ if(scrollBusy||liveLoading||state.view==='salvos'||state.view==='detalhe'||state.view==='como-funciona')return;
+ const amount=visibleItems().length;
+ if(state.visible<amount){state.visible=Math.min(state.visible+18,amount);renderFeed();return}
+ if(liveReady&&!liveLast){
+  if(auto&&autoFetchedPages>=3)return;
+  if(auto)autoFetchedPages++;
+  scrollBusy=true;state.visible+=18;
+  loadOfficial(false).finally(()=>{scrollBusy=false});
+ }
+}
+function observeAutoMore(){
+ if(!scrollObserver&&typeof IntersectionObserver==='function'){
+  scrollObserver=new IntersectionObserver(entries=>{
+   if(entries.some(e=>e.isIntersecting)&&liveReady&&!liveLoading&&!$('moreRow').hidden){
+    advanceProposalFeed(true);
+   }
+  },{rootMargin:'360px 0px',threshold:0});
+  scrollObserver.observe($('moreRow'));
+ }
+}
 
 function classifyLive(e){const s=normalize(e);if(/educacao|escolar|estudant|universit|professor|ensino/.test(s))return 'Educação';if(/saude|hospital|medicamento|doenca|vacina|tratamento medico/.test(s)||/\\bsus\\b/.test(s))return 'Saúde';if(/trabalho|trabalhador|emprego|salario|previdencia/.test(s))return 'Trabalho';if(/consumidor|consumo|tarifa|comercio|compra|venda/.test(s))return 'Consumo';if(/internet|digital|inteligencia artificial|aplicativo|dados pessoais/.test(s))return 'Tecnologia';if(/transporte|mobilidade|transito|passageiro|rodoviario|aeroporto/.test(s))return 'Mobilidade';return 'Outros'}
 async function loadOfficial(reset){
   if(!reset&&liveLoading)return;
   const token=reset?++liveToken:liveToken;
-  if(reset){livePage=0;liveLast=false;liveReady=false;items=DATA.items.slice();updateChips();renderFeed();}
+  if(reset){livePage=0;liveLast=false;liveReady=false;liveError='';autoFetchedPages=0;items=state.party==='Todos'?DATA.items.slice():[];updateChips();renderFeed();}
   liveLoading=true;
   const p=new URLSearchParams({itens:'100',pagina:String(livePage+1),ordem:'DESC',ordenarPor:'id'});
   if(state.year!=='Todos')p.set('ano',state.year);
   if(state.type!=='Todos')p.set('siglaTipo',state.type);
+  if(state.party!=='Todos')p.set('siglaPartidoAutor',state.party);
   const q=state.query.trim();
   const refMatch=q.match(/^(PL|PLP|PEC|MPV|PDL|PRC|REQ)\s*(\d+)\s*\/\s*(\d{4})$/i);
   if(refMatch){p.set('siglaTipo',refMatch[1].toUpperCase());p.set('numero',refMatch[2]);p.set('ano',refMatch[3]);}
@@ -215,20 +241,37 @@ async function loadOfficial(reset){
     const have=reset?new Set():new Set(items.map(x=>x.id));if(reset)items=[];
     for(const x of page)if(!have.has(x.id)){items.push(x);have.add(x.id)}
     liveReady=true;livePage++;liveLast=d.dados.length<100;
-  }catch(e){if(token!==liveToken)return;console.warn('Consulta à API indisponível, mantendo base de reserva',e);if(!liveReady)items=DATA.items.slice();liveLast=true;}
+  }catch(e){if(token!==liveToken)return;console.warn('Consulta à API indisponível, mantendo base de reserva',e);if(!liveReady)items=state.party==='Todos'?DATA.items.slice():[];liveLast=true;liveError='A API não respondeu a esta pesquisa. Tente novamente ou consulte o portal oficial.';}
   finally{if(token===liveToken){liveLoading=false;$('sourceNote').innerHTML=notice();updateChips();renderFeed();}}
 }
 
 const yearOptions=['Todos',...Array.from({length:new Date().getFullYear()-1945},(_,i)=>String(new Date().getFullYear()-i))];
 const typeOptions=['Todos','PL','PLP','PEC','MPV','PDL','PRC','REQ','RIC','INC','EMC','RCP'];
 const selector=document.createElement('div');selector.setAttribute('aria-label','Filtros legislativos');selector.style.cssText='display:flex;gap:12px;flex-wrap:wrap;margin-top:14px;align-items:center;font-size:13px';
-selector.innerHTML='<label for="obmYear">Ano <select id="obmYear" style="padding:10px;border-radius:8px;border:1px solid #c4beb4;background:white;min-width:110px">'+yearOptions.map(v=>'<option value="'+escapeHtml(v)+'">'+(v==='Todos'?'Todos os anos':v)+'</option>').join('')+'</select></label><label for="obmType">Tipo <select id="obmType" style="padding:10px;border-radius:8px;border:1px solid #c4beb4;background:white;min-width:110px">'+typeOptions.map(v=>'<option value="'+escapeHtml(v)+'">'+(v==='Todos'?'Todos os tipos':v)+'</option>').join('')+'</select></label>';
+selector.innerHTML='<label for="obmYear">Ano <select id="obmYear" style="padding:10px;border-radius:8px;border:1px solid #c4beb4;background:white;min-width:110px">'+yearOptions.map(v=>'<option value="'+escapeHtml(v)+'">'+(v==='Todos'?'Todos os anos':v)+'</option>').join('')+'</select></label><label for="obmType">Tipo <select id="obmType" style="padding:10px;border-radius:8px;border:1px solid #c4beb4;background:white;min-width:110px">'+typeOptions.map(v=>'<option value="'+escapeHtml(v)+'">'+(v==='Todos'?'Todos os tipos':v)+'</option>').join('')+'</select></label>'+'<label for="obmParty">Partido do autor <select id="obmParty" aria-label="Filtrar pelo partido do autor" style="padding:10px;border-radius:8px;border:1px solid #c4beb4;background:white;min-width:135px"><option value="Todos">Todos os partidos</option></select></label>';
 $('searchForm').insertAdjacentElement('afterend',selector);
 if(!yearOptions.includes(state.year))state.year=yearOptions.find(v=>v!=='Todos')||'Todos';
 $('obmYear').value=state.year;
 $('obmType').value=state.type;
 $('obmYear').addEventListener('change',e=>{state.year=e.target.value;state.visible=pageSize;loadOfficial(true)});
 $('obmType').addEventListener('change',e=>{state.type=e.target.value;state.visible=pageSize;loadOfficial(true)});
+const partySelect=$('obmParty');
+partySelect.addEventListener('change',e=>{state.party=e.target.value;state.visible=pageSize;loadOfficial(true)});
+async function fillPartyOptions(){
+ const backup=['AGIR','AVANTE','CIDADANIA','DC','MDB','MISSÃO','NOVO','PCdoB','PDT','PL','PODE','PP','PRD','PSB','PSD','PSDB','PSOL','PT','PV','REPUBLICANOS','SOLIDARIEDADE','UNIÃO'];
+ let list=backup;
+ try{
+  const r=await fetch('https://dadosabertos.camara.leg.br/api/v2/partidos?itens=100',{headers:{Accept:'application/json'}});
+  if(r.ok){const d=(await r.json()).dados;if(Array.isArray(d))list=[...new Set([...backup,...d.map(p=>p.sigla).filter(Boolean)])];}
+ }catch(e){console.info('Partidos oficiais temporariamente indisponíveis; opções de reserva exibidas.')}
+ partySelect.innerHTML='<option value="Todos">Todos os partidos</option>'+list.sort((a,b)=>a.localeCompare(b,'pt-BR')).map(p=>'<option value="'+escapeHtml(p)+'">'+escapeHtml(p)+'</option>').join('');
+ partySelect.value=state.party;
+}
+fillPartyOptions();
+const sourceBadge=$('sourceNote');
+sourceBadge.classList.add('footer-source-note');
+document.querySelector('footer').appendChild(sourceBadge);
+
 if(!location.hash)location.hash='#/explorar';else handleRoute();loadOfficial(true);
 })();
 
