@@ -258,6 +258,14 @@ function onChange(e){
  }
 }
 async function start(){
+ // Links da abertura acompanham o ano civil, sem exigir edição anual do HTML.
+ document.querySelectorAll('[data-watch]').forEach(link=>{
+  const value=link.getAttribute('href')||'';
+  const [path,query]=value.split('?');
+  const params=new URLSearchParams(query||'');
+  params.set('ano',String(new Date().getFullYear()));
+  link.setAttribute('href',path+'?'+params.toString());
+ });
  $('cards').addEventListener('click',onClick);
  $('editorialSection').addEventListener('click',onClick);
  $('pagination').addEventListener('click',onClick);
