@@ -134,3 +134,31 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .chip-row .chip{flex:0 0 auto;white-space:nowrap;min-height:44px;padding:8px 9px;gap:5px;font-size:12px;border-radius:9px}
 .chip-row .chip .topic-dot{width:8px;height:8px}
 @media(min-width:1050px){.chip-row{gap:6px}.chip-row .chip{padding-inline:10px;font-size:13px}}
+
+/* Painel De olho na Câmara: substitui índice temático duplicado. */
+.watch-panel .sideindex-body{padding:25px 23px 22px}
+.watch-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+.watch-kicker{font-size:10px!important;font-weight:700;letter-spacing:.095em;color:var(--signal-ink)!important;margin:0 0 9px!important}
+.watch-heading h2{font-size:25px;line-height:1.06}
+.watch-symbol{color:var(--text);flex:0 0 auto;margin-top:19px}
+.watch-intro{font-size:14px!important;line-height:1.5;margin-top:12px!important;margin-bottom:18px}
+.watch-nav{display:flex;flex-direction:column}
+.watch-item{display:flex;align-items:center;gap:11px;padding:14px 0;border-top:1px solid var(--line);text-decoration:none;min-height:72px;border-radius:0;color:var(--ink)}
+.watch-item:hover .watch-copy strong,.watch-item:focus-visible .watch-copy strong{color:var(--signal-ink)}
+.watch-item.selected .watch-copy strong{color:var(--signal-ink)}
+.watch-item.selected{background:linear-gradient(90deg,rgba(230,141,43,.06),transparent 72%)}
+.watch-icon{width:40px;height:40px;border-radius:11px;background:var(--paper);border:1px solid var(--line);display:flex;align-items:center;justify-content:center;flex:0 0 40px}
+.watch-item:nth-child(1) .watch-icon{color:#b36d0d}
+.watch-item:nth-child(2) .watch-icon{color:#365ca2}
+.watch-item:nth-child(3) .watch-icon{color:#17794e}
+.watch-copy{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
+.watch-copy strong{font-size:13px;font-weight:700;line-height:1.3}
+.watch-copy>span{font-size:11px;line-height:1.45;color:var(--text)}
+.watch-chevron{font-size:22px;line-height:1;color:var(--text);padding:0 2px}
+.watch-disclaimer{border-top:1px solid var(--line);padding-top:14px;font-size:11px!important;line-height:1.5;color:var(--text)}
+@media(min-width:901px) and (max-width:1150px){
+ .watch-panel .sideindex-body{padding:22px 16px}
+ .watch-heading h2{font-size:23px}
+ .watch-item{gap:8px}
+ .watch-icon{width:36px;height:36px;flex-basis:36px}
+}
