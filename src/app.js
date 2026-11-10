@@ -161,7 +161,8 @@ function present(result){
   result.source==='ao vivo'?'Resultados carregados por página diretamente da API, com até 30 registros por página.':
   'Cópia parcial de reserva utilizada porque a API não respondeu. Última coleta: '+(window.OBM_DATA?.generatedAt?new Date(window.OBM_DATA.generatedAt).toLocaleString('pt-BR'):'não informada')+'. A ausência de resultados não comprova inexistência.')+
   ' Propostas não são leis em vigor. Pronta para pauta não confirma votação agendada.');
- observeStatuses();setNav();
+ if(result.source!=='banco de dados')observeStatuses();else observer?.disconnect();
+ setNav();
 }
 function errorState(message){
  $('cards').setAttribute('aria-busy','false');$('cards').innerHTML='<div class="empty-state"><h3>Não foi possível carregar esta consulta.</h3>'+
