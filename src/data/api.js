@@ -6,7 +6,7 @@ const current=()=>Date.now();
 const sleep=ms=>new Promise(r=>setTimeout(r,ms));
 export class SourceError extends Error {constructor(message){super(message);this.name='SourceError'}}
 async function request(path,{signal,attempts=2}={}){
- const url=new URL(path,API+'/').href,entry=cache.get(url);
+ const url=new URL(String(path).replace(/^\/+/,''),API+'/').href,entry=cache.get(url);
  if(entry&&entry.until>current())return entry.value;
  if(pending.has(url))return pending.get(url);
  const task=(async()=>{
