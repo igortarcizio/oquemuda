@@ -27,7 +27,8 @@ test('skeletons: seis cards animáveis',()=>{
 });
 test('card contém apenas O que muda, sem emoji, se aprovada ou Como é hoje, e salvamento acessível',()=>{
  const out=card({...sample,ementa:'<script>alert(1)</script>'},null,false);
- assert.ok(!out.includes('Como é hoje'));assert.match(out,/<h4>O que muda<\/h4>/);
+ assert.ok(!out.includes('Como é hoje'));assert.match(out,/class="change-summary"><p>/);
+ assert.ok(!out.includes("<h4>O que muda</h4>"));
  assert.ok(!out.includes('se aprovada'));assert.ok(!out.includes('⚡'));assert.match(out,/aria-pressed="false"/);
  assert.ok(!out.includes('<script>'));
 });
