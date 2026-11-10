@@ -85,6 +85,54 @@ window.OBM_EDITORIAL = {
     ],
     "area": "Educação"
   },
+  "2650858": {
+    "titulo": "O sigilo profissional pode restringir acesso a documentos públicos?"
+  },
+  "2650859": {
+    "titulo": "A assistência estudantil pode ter um novo programa?"
+  },
+  "2650923": {
+    "titulo": "Chapada das Mesas pode ganhar uma rota turística oficial?"
+  },
+  "2650985": {
+    "titulo": "O que pode mudar nas prerrogativas dos advogados?"
+  },
+  "2651055": {
+    "titulo": "Treze Tílias pode ser reconhecida como cidade austríaca?"
+  },
+  "2651066": {
+    "titulo": "Veículos tradicionais podem ter novas regras no trânsito?"
+  },
+  "2651068": {
+    "titulo": "A Previdência pode reconhecer a violência contra mulheres?"
+  },
+  "2651069": {
+    "titulo": "Bombeiros civis comunitários terão programa nacional?"
+  },
+  "2651082": {
+    "titulo": "Imóveis tombados abandonados podem receber obras públicas?"
+  },
+  "2651092": {
+    "titulo": "Candidatos terão de declarar passaporte estrangeiro?"
+  },
+  "2651096": {
+    "titulo": "Mulheres poderão consultar cadastro de condenados por violência?"
+  },
+  "2651110": {
+    "titulo": "Música autoral terá mais espaço em eventos públicos?"
+  },
+  "2651114": {
+    "titulo": "Como proteger servidores da segurança pública ameaçados?"
+  },
+  "2651158": {
+    "titulo": "Shows com ofensas regionais podem perder verba pública?"
+  },
+  "2651185": {
+    "titulo": "Agentes de proteção devem atuar em grandes eventos?"
+  },
+  "2651186": {
+    "titulo": "Como valorizar agentes de proteção da infância?"
+  },
   "2651217": {
     "titulo": "A saúde pode ser reconhecida expressamente como direito humano?",
     "impacto": "Propõe alterar a Lei do SUS para qualificar a saúde como um direito humano.",
