@@ -57,26 +57,26 @@ const ref=p=>`${p.siglaTipo||'PL'} ${p.numero}/${p.ano}`;
 const proposalUrl=p=>`https://www.camara.leg.br/propostas-legislativas/${encodeURIComponent(p.id)}`;
 function editorialTitle(p){
  if(p.titulo && !/^O que prev[eê] (o|a) [A-Z]{2,6} /i.test(p.titulo))return p.titulo;
- const e=String(p.ementa||'').replace(/\\s+/g,' ').trim();
+ const e=String(p.ementa||'').replace(/\s+/g,' ').trim();
  const typ=String(p.siglaTipo||'');
  if(typ==='REQ'){
-   const m=e.match(/(?:Projeto de Lei|PL|Proposta de Emenda à Constituição|PEC)\\s*(?:n[º°.]?\\s*)?([\\d.]+\\s*\\/\\s*\\d{4})/i);
+   const m=e.match(/(?:Projeto de Lei|PL|Proposta de Emenda à Constituição|PEC)\s*(?:n[º°.]?\s*)?([\d.]+\s*\/\s*\d{4})/i);
    if(/urg[eê]ncia/i.test(e))return m?'Pedido de urgência para análise do projeto '+m[1]:'Pedido de análise em regime de urgência no Congresso';
    return truncate(e,110)||'Requerimento parlamentar: consulte o objeto oficial';
  }
  if(typ==='MSC'){
    const quote=e.match(/[“"]([^”"]{14,210})[”"]/);
    if(quote)return truncate(quote[1],116);
-   const matter=e.replace(/^Submete\\s+à\\s+consideração\\s+do\\s+Congresso\\s+Nacional\\s+(?:o\\s+texto\\s+)?(?:do|da|de|dos|das)?\\s*/i,'');
+   const matter=e.replace(/^Submete\s+à\s+consideração\s+do\s+Congresso\s+Nacional\s+(?:o\s+texto\s+)?(?:do|da|de|dos|das)?\s*/i,'');
    return truncate(matter||e,116);
  }
  if(!e)return ref(p)+' — ementa não disponível';
- return truncate(e.replace(/^Dispõe sobre\\s+/i,'Proposta sobre ').replace(/^Altera\\s+/i,'Mudança proposta em ').replace(/^Estabelece\\s+/i,'Proposta de '),116);
+ return truncate(e.replace(/^Dispõe sobre\s+/i,'Proposta sobre ').replace(/^Altera\s+/i,'Mudança proposta em ').replace(/^Estabelece\s+/i,'Proposta de '),116);
 }
 const localTitle=p=>editorialTitle(p);
 function editorialImpact(p){
  if(p.impacto)return p.impacto;
- const e=String(p.ementa||'').replace(/\\s+/g,' ').trim();
+ const e=String(p.ementa||'').replace(/\s+/g,' ').trim();
  if(String(p.siglaTipo)==='REQ'&&/urg[eê]ncia/i.test(e))
    return 'Requer análise mais rápida de outra proposição. O pedido de urgência não altera a lei nem esclarece, por si só, o conteúdo do projeto citado.';
  if(!e)return 'A ementa oficial ainda não está disponível. Consulte a tramitação no site da Câmara.';
