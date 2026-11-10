@@ -21,3 +21,22 @@ test('consulta API com paginação real de 30 e filtra partido',async()=>{
 test('cópia local não inventa autoria partidária',()=>{
  assert.equal(fromSnapshot({party:'PT'}),null);
 });
+
+test('atalho de pauta envia codSituacao=924 à consulta oficial',async()=>{
+ const original=globalThis.fetch;let url='';
+ globalThis.fetch=async u=>{url=String(u);return {ok:true,json:async()=>({dados:[],links:[]})}};
+ try{
+  const r=await getProposals({page:1,year:'2026',type:'PL',situationCodes:'924'});
+  const qs=new URL(url).searchParams;
+  assert.equal(qs.get('codSituacao'),'924');
+  assert.equal(qs.get('itens'),'30');
+  assert.equal(r.items.length,0);
+ }finally{globalThis.fetch=original}
+});
+test('atalho de aprovadas envia apenas códigos oficiais de remessa e sanção',async()=>{
+ const original=globalThis.fetch;let url='';
+ globalThis.fetch=async u=>{url=String(u);return {ok:true,json:async()=>({dados:[],links:[]})}};
+ try{await getProposals({year:'2025',situationCodes:'1293,1303,1150,1160'});
+   assert.equal(new URL(url).searchParams.get('codSituacao'),'1293,1303,1150,1160');
+ }finally{globalThis.fetch=original}
+});
