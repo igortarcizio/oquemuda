@@ -55,7 +55,7 @@ test('não exibe falsos positivos mesmo quando a listagem ignora o filtro de sit
   return {ok:true,json:async()=>({dados:{id:Number(url.pathname.split('/').pop()),numero:100,ano:2026,siglaTipo:'PL',ementa:'Texto.',statusProposicao:{codSituacao:code,descricaoSituacao:code===924?'Pronta para Pauta':'Recebido pelo Protocolo Digital'}}})};
  };
  try{
-  const result=await getProposals({year:'2026',type:'PL',situationCodes:'924'});
+  const result=await getProposals({year:'2024',type:'PL',situationCodes:'924'});
   assert.equal(result.inspectedCount,2);
   assert.equal(result.items.length,1);
   assert.equal(result.items[0].id,2733332);
