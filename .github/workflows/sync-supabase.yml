@@ -1,6 +1,10 @@
 name: Sincronizar proposições com Supabase
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/sync-supabase.yml'
   schedule:
     - cron: '17 */6 * * *'
 permissions:
@@ -8,7 +12,7 @@ permissions:
 jobs:
   sync:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
