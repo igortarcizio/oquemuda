@@ -63,7 +63,7 @@ def normalize_authors(rows):
     result = []
     for author in rows[:10]:
         uri = author.get("uri") or ""
-        match = re.search(r"/deputados/(\\d+)$", uri)
+        match = re.search(r"/deputados/(\d+)$", uri)
         result.append({
             "nome": author.get("nome") or author.get("tipo") or "Autoria institucional",
             "partido": author.get("siglaPartido"),
