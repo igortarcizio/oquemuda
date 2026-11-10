@@ -226,8 +226,8 @@ async function start(){
  document.addEventListener('change',onChange);
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.page=1;syncURL();showList()});
  window.addEventListener('hashchange',listPageFromHash);
+ listPageFromHash();
  try{const parties=await getParties();$('partySelect').innerHTML='<option value="Todos">Todos os partidos</option>'+
   parties.map(p=>'<option value="'+safeText(p)+'">'+safeText(p)+'</option>').join('');}catch{}
- listPageFromHash();
 }
 start();
