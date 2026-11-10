@@ -94,6 +94,7 @@ $('clearFilters').addEventListener('click',()=>{state.query='';state.area='Todos
 $('moreBtn').addEventListener('click',()=>{if(state.visible<visibleItems().length){state.visible+=12;renderFeed()}else if(liveReady&&!liveLast){loadOfficial(false)}else{state.visible+=12;renderFeed()}});
 window.addEventListener('hashchange',handleRoute);
 
+function classifyLive(e){const s=normalize(e);if(/educacao|escolar|estudant|universit|professor|ensino/.test(s))return 'Educação';if(/saude|hospital|medicamento|doenca|vacina|tratamento medico/.test(s)||/\\bsus\\b/.test(s))return 'Saúde';if(/trabalho|trabalhador|emprego|salario|previdencia/.test(s))return 'Trabalho';if(/consumidor|consumo|tarifa|comercio|compra|venda/.test(s))return 'Consumo';if(/internet|digital|inteligencia artificial|aplicativo|dados pessoais/.test(s))return 'Tecnologia';if(/transporte|mobilidade|transito|passageiro|rodoviario|aeroporto/.test(s))return 'Mobilidade';return 'Outros'}
 async function loadOfficial(reset){
   if(!reset&&liveLoading)return;
   const token=reset?++liveToken:liveToken;
@@ -111,7 +112,7 @@ async function loadOfficial(reset){
     if(!r.ok)throw Error('HTTP '+r.status);
     const d=await r.json();if(!Array.isArray(d.dados))throw Error('Resposta sem lista');
     if(token!==liveToken)return;
-    const page=d.dados.map(x=>{const old=legacy.get(String(x.id))||{};return {id:Number(x.id),numero:Number(x.numero),ano:Number(x.ano),siglaTipo:String(x.siglaTipo||'PL'),ementa:String(x.ementa||''),dataApresentacao:String(x.dataApresentacao||''),area:old.area||'Outros',statusCurto:'Consultar situação',...(old.titulo?{titulo:old.titulo}:{}),...(old.impacto?{impacto:old.impacto}:{}),...(old.publicos?{publicos:old.publicos}:{})}}).filter(x=>x.id&&x.ementa);
+    const page=d.dados.map(x=>{const old=legacy.get(String(x.id))||{};return {id:Number(x.id),numero:Number(x.numero),ano:Number(x.ano),siglaTipo:String(x.siglaTipo||'PL'),ementa:String(x.ementa||''),dataApresentacao:String(x.dataApresentacao||''),area:old.area||classifyLive(x.ementa||''),statusCurto:'Consultar situação',...(old.titulo?{titulo:old.titulo}:{}),...(old.impacto?{impacto:old.impacto}:{}),...(old.publicos?{publicos:old.publicos}:{})}}).filter(x=>x.id&&x.ementa);
     const have=reset?new Set():new Set(items.map(x=>x.id));if(reset)items=[];
     for(const x of page)if(!have.has(x.id)){items.push(x);have.add(x.id)}
     liveReady=true;livePage++;liveLast=d.dados.length<100;
