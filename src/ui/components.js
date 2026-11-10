@@ -86,6 +86,8 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  const after=cardSummary(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
  const full=safeURL(fullTextURL);
+ const pendingText=lastChecked?'Não informado no registro consultado':'Consulta pendente';
+ const verifiedAt=lastChecked?new Date(lastChecked).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):null;
  return '<div class="detail" data-area="'+safeText(p.area||'Outros')+'"><div class="page" style="padding-top:28px"><a class="back" href="#/explorar">← Voltar às propostas</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||'Outros')+'</span> · '+safeText(ref(p))+'</div>'+
  '<h1>'+safeText(title)+'</h1><p class="detail-summary">'+safeText(after)+'</p>'+
@@ -103,10 +105,11 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<div><dt>Autoria e partido atual</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Autoria não informada na consulta':'Autoria ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
  '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
- '<div><dt>Órgão</dt><dd>'+safeText(stage.siglaOrgao||'Não informado')+'</dd></div>'+
- '<div><dt>Registro de tramitação</dt><dd>'+safeText(dateBR(stage.dataHora))+'</dd></div>'+
+ '<div><dt>Órgão</dt><dd>'+safeText(stage.siglaOrgao||pendingText)+'</dd></div>'+
+ '<div><dt>Registro de tramitação</dt><dd>'+safeText(stage.dataHora?dateBR(stage.dataHora):pendingText)+'</dd></div>'+
  '</dl><div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Consultar na Câmara ↗</a>'+
  (full?'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+safeText(full)+'">Texto integral ↗</a>':'')+'</div>'+
+ (verifiedAt?'<p class="small-note">Situação consultada na fonte oficial em '+safeText(verifiedAt)+'. Os registros podem mudar.</p>':'<p class="small-note">Detalhes oficiais ainda não sincronizados. A ficha será complementada quando a fonte estiver disponível.</p>')+
  '<p class="small-note">A filiação exibida corresponde ao dado mais recente disponível, não necessariamente ao partido na apresentação.</p>'+
  '</aside></div></div>';
 }
