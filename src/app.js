@@ -73,7 +73,7 @@ function syncURL(){
  history.replaceState(null,'',location.pathname+location.search+'#/'+base+'?'+args);
 }
 function readHash(){
- const route=location.hash.slice(2)||'explorar',name=route.split('?')[0]||'explorar';
+ const route=location.hash.slice(2)||'explorar',name=(route.split('?')[0]||'explorar').split('/')[0];
  const q=new URLSearchParams(route.split('?')[1]||'');
  state.view=name==='salvos'||name==='como-funciona'||name==='explorar'?name:name==='tema'?'detalhe':'explorar';
  state.page=Math.max(1,Number(q.get('page')||1)||1);
