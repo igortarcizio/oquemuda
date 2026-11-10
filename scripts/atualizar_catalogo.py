@@ -47,12 +47,12 @@ def update_party_directory():
     ok=0
     for page in range(1,11):
         url='https://dadosabertos.camara.leg.br/api/v2/deputados?'+urllib.parse.urlencode({
-            'idLegislatura':57,'itens':100,'pagina':page,'ordenarPor':'id','ordem':'ASC'
+            'idLegislatura':57,'itens':50,'pagina':page,'ordenarPor':'id','ordem':'ASC'
         })
-        for retry in range(2):
+        for retry in range(1):
             try:
                 req=urllib.request.Request(url,headers={'Accept':'application/json','User-Agent':'OQueMuda/2.2'})
-                with urllib.request.urlopen(req,timeout=10) as response:
+                with urllib.request.urlopen(req,timeout=7) as response:
                     body=response.read()
                 if body.lstrip().startswith(b'<'):
                     root=ET.fromstring(body)
@@ -67,7 +67,7 @@ def update_party_directory():
                     if ident.isdecimal() and party: known[ident]=party
                 ok+=1
                 print(f'PARTIDOS página {page}: {len(records)} deputados',flush=True)
-                if len(records)<100: page=999
+                if len(records)<50: page=999
                 break
             except Exception as exc:
                 print(f'AVISO Deputados página {page} tentativa {retry+1}: {exc}',flush=True)
