@@ -16,15 +16,13 @@ concurrency:
 jobs:
   atualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 55
+    timeout-minutes: 7
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Consultar API oficial e gerar catálogo completo por ano e tipo
-        env:
-          OBM_YEARS: '2026,2025,2024,2023,2022'
+      - name: Atualizar reserva recente da API (consulta principal funciona ao vivo)
         run: python scripts/atualizar_catalogo.py
       - name: Publicar novo índice sem perder a base em caso de erro
         run: |
