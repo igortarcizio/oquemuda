@@ -61,7 +61,7 @@ function cleanTopic(v,max=35){let x=String(v||'').replace(/\s+/g,' ').replace(/^
 function editorialTitle(p){
  if(p.titulo&&!/^O que prev[eê]/i.test(p.titulo))return p.titulo;
  const code=(p.siglaTipo||'PL')+' '+p.numero+'/'+p.ano;
- const examples={'PL 5784/2026':'Linhas cortantes em pipas podem ser proibidas?','PL 5783/2026':'Intervalos de descanso no trabalho podem mudar?','PL 5782/2026':'Estudantes vítimas de violência terão novos direitos?','REQ 4410/2026':'Um projeto de lei terá análise mais rápida?','MSC 833/2026':'O que prevê o acordo aéreo com a Áustria?','MSC 835/2026':'O que prevê o acordo aéreo com o Benim?'};
+ const examples={'PL 5784/2026':'Como combater linhas cortantes usadas em pipas?','PL 5783/2026':'Intervalos de descanso no trabalho podem mudar?','PL 5782/2026':'Estudantes vítimas de violência podem ter mais proteção?','REQ 4410/2026':'O PL 4.734/2024 pode tramitar com urgência?','MSC 833/2026':'O que prevê o acordo aéreo com a Áustria?','MSC 835/2026':'O que prevê o acordo aéreo com o Benim?','PL 5786/2026':'Visitas íntimas no sistema socioeducativo podem mudar?','PL 5785/2026':'Universitários podem ajudar na assistência previdenciária?'};
  if(examples[code])return examples[code];
  const e=String(p.ementa||'').replace(/\s+/g,' ').trim(),typ=String(p.siglaTipo||'');
  if(typ==='REQ')return /urg[eê]ncia/i.test(e)?'Qual projeto terá análise de urgência?':'Qual pedido chegou ao Congresso?';
