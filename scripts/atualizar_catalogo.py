@@ -35,6 +35,50 @@ def classify(s):
       ('Mobilidade',('transporte','trânsito','passageiro','aeroporto'))):
         if any(p in x for p in patterns):return name
     return 'Outros'
+def update_party_directory():
+    """Cache leve dos partidos registrados pela Câmara na 57ª legislatura."""
+    target=ROOT/'dados'/'deputados-partidos.js'
+    known={}
+    if target.exists():
+        try:
+            known=json.loads(target.read_text('utf8').split('=',1)[1].strip().rstrip(';'))
+        except (ValueError,TypeError):
+            known={}
+    ok=0
+    for page in range(1,11):
+        url='https://dadosabertos.camara.leg.br/api/v2/deputados?'+urllib.parse.urlencode({
+            'idLegislatura':57,'itens':100,'pagina':page,'ordenarPor':'id','ordem':'ASC'
+        })
+        for retry in range(2):
+            try:
+                req=urllib.request.Request(url,headers={'Accept':'application/json','User-Agent':'OQueMuda/2.2'})
+                with urllib.request.urlopen(req,timeout=10) as response:
+                    body=response.read()
+                if body.lstrip().startswith(b'<'):
+                    root=ET.fromstring(body)
+                    node=root.find('dados')
+                    records=[{ch.tag:ch.text for ch in obj} for obj in node] if node is not None else []
+                else:
+                    records=json.loads(body)['dados']
+                if not isinstance(records,list): raise ValueError('Lista de deputados inválida')
+                for d in records:
+                    ident=str(d.get('id') or '')
+                    party=str(d.get('siglaPartido') or '').strip()
+                    if ident.isdecimal() and party: known[ident]=party
+                ok+=1
+                print(f'PARTIDOS página {page}: {len(records)} deputados',flush=True)
+                if len(records)<100: page=999
+                break
+            except Exception as exc:
+                print(f'AVISO Deputados página {page} tentativa {retry+1}: {exc}',flush=True)
+                if retry==0: time.sleep(1.2)
+        if page==999: break
+    if ok:
+        tmp=target.with_suffix('.tmp')
+        tmp.write_text('window.OBM_PARTIDOS_DEPUTADOS = '+json.dumps(known,ensure_ascii=False,separators=(',',':'))+';\n',encoding='utf8')
+        tmp.replace(target)
+    print(f'Partidos: {ok} páginas consultadas, {len(known)} deputados no cache.',flush=True)
+
 def main():
     items=load_existing()
     ok=0; errors=[]
@@ -72,4 +116,5 @@ def main():
     tmp.write_text('window.OBM_DATA = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\n','utf8')
     tmp.replace(OUTPUT)
     if errors: print(f'::warning title=Atualização parcial::{len(errors)} consultas falharam; registros anteriores preservados.',flush=True)
+    update_party_directory()
 if __name__=='__main__':main()
