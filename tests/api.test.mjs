@@ -40,3 +40,25 @@ test('atalho de aprovadas envia apenas códigos oficiais de remessa e sanção',
    assert.equal(new URL(url).searchParams.get('codSituacao'),'1293,1303,1150,1160');
  }finally{globalThis.fetch=original}
 });
+
+test('não exibe falsos positivos mesmo quando a listagem ignora o filtro de situação',async()=>{
+ const original=globalThis.fetch;
+ globalThis.fetch=async u=>{
+  const url=new URL(String(u));
+  if(url.pathname.endsWith('/proposicoes')){
+   return {ok:true,json:async()=>({dados:[
+    {id:2733331,numero:100,ano:2026,siglaTipo:'PL',ementa:'Proposta apresentada.'},
+    {id:2733332,numero:101,ano:2026,siglaTipo:'PL',ementa:'Proposta pronta para pauta.'}
+   ],links:[]})};
+  }
+  const code=url.pathname.endsWith('/2733331')?1383:924;
+  return {ok:true,json:async()=>({dados:{id:Number(url.pathname.split('/').pop()),numero:100,ano:2026,siglaTipo:'PL',ementa:'Texto.',statusProposicao:{codSituacao:code,descricaoSituacao:code===924?'Pronta para Pauta':'Recebido pelo Protocolo Digital'}}})};
+ };
+ try{
+  const result=await getProposals({year:'2026',type:'PL',situationCodes:'924'});
+  assert.equal(result.inspectedCount,2);
+  assert.equal(result.items.length,1);
+  assert.equal(result.items[0].id,2733332);
+  assert.equal(result.source,'situação verificada');
+ }finally{globalThis.fetch=original}
+});
