@@ -184,3 +184,18 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
  .watch-chevron{display:block}
  .watch-panel .sideindex-body{padding:18px}
 }
+
+/* Evita que a grade de busca force a página a ultrapassar a largura do celular. */
+@media(max-width:900px){
+ .explore-hero{grid-template-columns:minmax(0,1fr);width:100%;min-width:0}
+ .explore-hero > *,.hero-copy,.search-form,.search-control,.filter-row{min-width:0;max-width:100%}
+ .hero-copy{width:100%}
+ .filter-label{min-width:0}
+ .filter-label select{max-width:100%}
+}
+@media(max-width:450px){
+ .search-control{gap:7px}
+ .search-control input{width:0;flex:1 1 0}
+ .search-control .primary-btn{padding:10px 12px;font-size:14px;flex:0 0 auto}
+ .hero-copy h1{overflow-wrap:break-word}
+}
