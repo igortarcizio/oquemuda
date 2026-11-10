@@ -162,3 +162,25 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
  .watch-item{gap:8px}
  .watch-icon{width:36px;height:36px;flex-basis:36px}
 }
+
+/* O acompanhamento também deve estar disponível em telas pequenas. */
+@media(max-width:900px){
+ .explore-hero .watch-panel{display:block}
+ .watch-panel{max-width:none}
+ .watch-panel .sideindex-body{padding:19px 21px}
+ .watch-nav{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin-top:15px}
+ .watch-item{border:1px solid var(--line);border-radius:10px;padding:10px;align-items:flex-start;min-height:98px;gap:8px}
+ .watch-item .watch-icon{width:32px;height:32px;flex-basis:32px}
+ .watch-chevron{display:none}
+ .watch-copy strong{font-size:12px}
+ .watch-copy>span{font-size:10px}
+ .watch-disclaimer{margin-top:12px}
+}
+@media(max-width:620px){
+ .watch-nav{grid-template-columns:1fr;gap:0}
+ .watch-item{min-height:64px;border:0;border-top:1px solid var(--line);border-radius:0;align-items:center;padding:9px 0}
+ .watch-copy strong{font-size:13px}
+ .watch-copy>span{font-size:11px}
+ .watch-chevron{display:block}
+ .watch-panel .sideindex-body{padding:18px}
+}
