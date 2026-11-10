@@ -15,6 +15,7 @@ import sys
 import time
 import urllib.parse
 import urllib.request
+import urllib.error
 
 BASE = "https://dadosabertos.camara.leg.br/arquivos"
 DB = os.environ["SUPABASE_URL"].rstrip("/") + "/rest/v1/proposicoes"
@@ -119,7 +120,11 @@ def write_batch(rows):
     data = json.dumps(rows, ensure_ascii=False).encode("utf-8")
     request = urllib.request.Request(DB + "?on_conflict=id", data=data, method="POST",
         headers={**HEADERS, "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates,return=minimal"})
-    with urllib.request.urlopen(request, timeout=45) as response: response.read()
+    try:
+        with urllib.request.urlopen(request, timeout=45) as response: response.read()
+    except urllib.error.HTTPError as error:
+        print('Erro ao gravar lote:',error.code,error.read().decode('utf-8','replace')[:1500],flush=True)
+        raise
 
 def main():
     indexed = load_index()
@@ -158,8 +163,10 @@ def main():
                 official["autoresConsultados"] = True
             if not updates and new_authors is None:continue
             # Mantém valores obrigatórios em UPSERT; não reduz a cobertura do índice.
+            # PostgREST exige que TODOS os elementos do lote tenham o mesmo conjunto de chaves.
             payload = {k: original[k] for k in ("id", "ano", "numero", "sigla_tipo", "ementa")}
-            if original.get("data_apresentacao"):payload["data_apresentacao"] = original["data_apresentacao"]
+            for field in ("data_apresentacao", "situacao_codigo", "situacao_descricao", "situacao_atualizada_em"):
+                payload[field] = original.get(field)
             payload.update(updates)
             payload.update({"dados_oficiais": official, "atualizado_em": stamp})
             batches.append(payload)
