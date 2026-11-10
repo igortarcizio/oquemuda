@@ -4,6 +4,7 @@ on:
     paths:
       - '.github/workflows/atualizar.yml'
       - 'scripts/atualizar_catalogo.py'
+      - 'src/data/api.js'
   workflow_dispatch:
   schedule:
     - cron: '15 11 * * *'
@@ -16,13 +17,17 @@ concurrency:
 jobs:
   atualizar:
     runs-on: ubuntu-latest
-    timeout-minutes: 7
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Atualizar reserva recente da API (consulta principal funciona ao vivo)
+      - name: Validar sintaxe e testes antes de coletar
+        run: |
+          python -m py_compile scripts/atualizar_catalogo.py
+          npm test
+      - name: Atualizar reserva incremental da API (consulta principal funciona ao vivo)
         run: python scripts/atualizar_catalogo.py
       - name: Publicar cache com sincronização segura
         run: |
