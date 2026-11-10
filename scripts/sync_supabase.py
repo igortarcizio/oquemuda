@@ -19,6 +19,11 @@ def upsert(rows):
     payload=json.dumps(rows,ensure_ascii=False).encode()
     req=urllib.request.Request(DB+'/rest/v1/proposicoes?on_conflict=id',data=payload,method='POST',headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'resolution=merge-duplicates,return=minimal'})
     with urllib.request.urlopen(req,timeout=40) as response:response.read()
+def update_status(id,stage,stamp):
+    payload=json.dumps({'situacao_codigo':stage.get('codSituacao'),'situacao_descricao':stage.get('descricaoSituacao'),'situacao_atualizada_em':stamp,'atualizado_em':stamp}).encode()
+    req=urllib.request.Request(DB+'/rest/v1/proposicoes?id=eq.'+str(id),data=payload,method='PATCH',headers={'apikey':KEY,'Authorization':'Bearer '+KEY,'Content-Type':'application/json','Prefer':'return=minimal'})
+    with urllib.request.urlopen(req,timeout=30) as response:response.read()
+
 def main():
     count=0;stamp=datetime.datetime.now(datetime.timezone.utc).isoformat()
     for year in [datetime.date.today().year,datetime.date.today().year-1]:
@@ -43,8 +48,7 @@ def main():
                 detail=read(BASE+'/proposicoes/'+str(p['id']))['dados']
                 stage=detail.get('statusProposicao') or {}
                 if stage.get('codSituacao') is None:continue
-                row={'id':p['id'],'situacao_codigo':stage.get('codSituacao'),'situacao_descricao':stage.get('descricaoSituacao'),'situacao_atualizada_em':stamp,'atualizado_em':stamp}
-                upsert([row])
+                update_status(p['id'],stage,stamp)
             except Exception as exc:print('Falha no detalhe',p['id'],str(exc)[:100])
             time.sleep(0.3)
     print('Listagens processadas:',count)
