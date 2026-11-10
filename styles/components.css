@@ -128,3 +128,9 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 
 /* Região exclusiva de leitores de tela: mantém aria-live sem repetir o contador visualmente. */
 .sr-only:not(:focus):not(:active){position:absolute!important;width:1px!important;height:1px!important;padding:0!important;margin:-1px!important;overflow:hidden!important;clip:rect(0,0,0,0)!important;white-space:nowrap!important;border:0!important;clip-path:inset(50%)!important}
+
+/* Temáticas em uma linha: compactas em desktop e roláveis no celular, sem reduzir os alvos de toque. */
+.chip-row{display:flex;flex-wrap:nowrap;gap:5px;max-width:100%;overflow-x:auto;overflow-y:hidden;scrollbar-width:thin;scroll-padding-inline:8px;padding-bottom:3px;overscroll-behavior-x:contain}
+.chip-row .chip{flex:0 0 auto;white-space:nowrap;min-height:44px;padding:8px 9px;gap:5px;font-size:12px;border-radius:9px}
+.chip-row .chip .topic-dot{width:8px;height:8px}
+@media(min-width:1050px){.chip-row{gap:6px}.chip-row .chip{padding-inline:10px;font-size:13px}}
