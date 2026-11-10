@@ -1,0 +1,26 @@
+name: Validar frontend
+on:
+  push:
+    paths:
+      - 'src/**'
+      - 'styles/**'
+      - 'dados/editorial.js'
+      - 'index.html'
+      - 'refatorado.html'
+      - 'package.json'
+      - 'tests/**'
+      - '.github/workflows/validacao.yml'
+  pull_request:
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  testes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - run: npm test
