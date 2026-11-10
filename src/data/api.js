@@ -155,7 +155,7 @@ const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
 const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
 export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',situationCodes='',signal}={}){
  if(party!=='Todos')throw new SourceError('Filtro de autoria ainda não indexado no banco');
- const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,coletado_em',order:'id.desc',limit:'30',offset:String((page-1)*30)});
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'id.desc',limit:'30',offset:String((page-1)*30)});
  if(year!=='Todos')q.set('ano','eq.'+year);
  if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
  if(keywords.trim())q.set('ementa','ilike.*'+keywords.trim().replace(/[*,()]/g,' ')+'*');
@@ -174,7 +174,8 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   const totalPages=Number.isFinite(total)?Math.max(1,Math.ceil(total/30)):null;
   const items=data.map(d=>{
     const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||''},getEditorial(d.id));
-    p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao?normalizeStatus({codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao}):(d.situacao_atualizada_em?{label:'Não informada',tone:'neutral',detail:'A situação não consta no registro oficial consultado.'}:{label:'Consulta pendente',tone:'neutral',detail:'A situação ainda não foi obtida na última sincronização.'});
+    const stage=d.dados_oficiais?.statusProposicao||{};
+    p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):(d.situacao_atualizada_em?{label:'Não informada',tone:'neutral',detail:'A situação não consta no registro oficial consultado.'}:{label:'Consulta pendente',tone:'neutral',detail:'A situação ainda não foi obtida na última sincronização.'});
     return p;
   }).filter(p=>p.id&&p.numero&&p.ementa);
   return {items,page,totalPages,hasNext:totalPages?page<totalPages:items.length===30,source:'banco de dados'};
@@ -194,7 +195,7 @@ export async function getDatabaseDetail(id,{signal}={}){
   if(!d)throw new SourceError('Proposição não encontrada no banco');
   const raw=d.dados_oficiais||{};
   const stage=raw.statusProposicao||{};
-  const officialStatus=(d.situacao_codigo==null&&!d.situacao_descricao&&!stage.descricaoSituacao)?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
+  const officialStatus=(d.situacao_codigo==null&&!d.situacao_descricao&&!stage.descricaoSituacao&&!stage.descricaoTramitacao)?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
   return {proposal:normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao},getEditorial(d.id)),
    status:officialStatus||(d.situacao_atualizada_em?{label:'Não informada',tone:'neutral',detail:'A Câmara não informou a situação na consulta.'}:{label:'Consulta pendente',tone:'neutral',detail:'Dados de situação ainda não obtidos da Câmara'}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
