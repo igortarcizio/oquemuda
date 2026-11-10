@@ -92,14 +92,15 @@ function visibleItems(){const base=state.view==='salvos'?items.filter(p=>state.s
 function notice(){if(liveReady)return `<strong>Fonte: API da Câmara dos Deputados.</strong> Consulta ao vivo. ${items.length.toLocaleString('pt-BR')} registros carregados nesta pesquisa. É possível carregar mais páginas da API; as categorias são atribuídas somente aos registros já carregados. Propostas não são leis em vigor.`;return `<strong>Fonte: Câmara dos Deputados.</strong> Base de reserva com ${items.length.toLocaleString('pt-BR')} registros. A consulta ao vivo está em andamento ou indisponível.`}
 function updateNav(){['explorar','salvos','como-funciona'].forEach(k=>{const link=$('nav-'+k);if(link){const active=(state.view===k)||(state.view==='inicio'&&k==='explorar');link.classList.toggle('active',active);active?link.setAttribute('aria-current','page'):link.removeAttribute('aria-current')}});const savedCount=state.saved.size;$('savedCounter').hidden=!savedCount;$('savedCounter').textContent=String(savedCount)}
 function updateChips(){const counts=areaCounts();$('chips').innerHTML=ALL.map(a=>`<button class="chip ${state.area===a?'active':''}" aria-pressed="${state.area===a}" data-filter="${escapeHtml(a)}" type="button" ${a!=='Todos'?`data-area="${escapeHtml(a)}"`:''}>${a!=='Todos'?'<span class="topic-dot" aria-hidden="true"></span>':''}${escapeHtml(a)}</button>`).join('');$('indexlist').innerHTML=ALL.slice(1,7).map(a=>`<li data-area="${escapeHtml(a)}"><button type="button" class="${state.area===a?'selected':''}" data-filter="${escapeHtml(a)}"><span class="indexbar" aria-hidden="true"></span><span class="indexname">${escapeHtml(a)}</span><span class="indexcount">${counts[a]} ${counts[a]===1?'assunto':'assuntos'}</span></button></li>`).join('')}
-function card(p,index,featured){const pTags=(p.publicos||[]).slice(0,3);const desc=escapeHtml(localImpact(p));const reference=escapeHtml(ref(p));const title=escapeHtml(localTitle(p));const date=escapeHtml(dte(p.dataApresentacao));const isSaved=state.saved.has(String(p.id));const area=areaKey(p);const status=escapeHtml(p.statusCurto||'Consultar situação');const bottom=`<div class="card-bottom"><div class="readgroup"><span class="readtime">Leitura de ${readtime(p)} min</span><a class="textlink" href="#/tema/${p.id}">Entender <span aria-hidden="true">→</span></a></div><button type="button" data-save="${p.id}" class="savebtn ${isSaved?'saved':''}" aria-pressed="${isSaved}" aria-label="${isSaved?'Remover dos salvos':'Salvar para depois'}: ${title}">${isSaved?'Salvo':'＋ Salvar'}</button></div>`;
+function card(p,index,featured){const pTags=(p.publicos||[]).slice(0,3);const desc=escapeHtml(localImpact(p));const reference=escapeHtml(ref(p));const title=escapeHtml(localTitle(p));const date=escapeHtml(dte(p.dataApresentacao));const isSaved=state.saved.has(String(p.id));const area=areaKey(p);const status=escapeHtml(p.statusCurtoReal||statusCache.get(Number(p.id))||'Carregando…');const bottom=`<div class="card-bottom"><div class="readgroup"><span class="readtime">Leitura de ${readtime(p)} min</span><a class="textlink" href="#/tema/${p.id}">Entender <span aria-hidden="true">→</span></a></div><button type="button" data-save="${p.id}" class="savebtn ${isSaved?'saved':''}" aria-pressed="${isSaved}" aria-label="${isSaved?'Remover dos salvos':'Salvar para depois'}: ${title}">${isSaved?'Salvo':'＋ Salvar'}</button></div>`;
 const audience=pTags.length?`<div class="affected" aria-label="Públicos mencionados ou associados ao tema">${pTags.map(t=>`<span class="microtag">${escapeHtml(t)}</span>`).join('')}</div>`:'';
-return `<article class="card ${featured?'featured':''}" data-area="${escapeHtml(area)}"><div class="card-banner"><span class="topic-label"><span class="topic-dot"></span>${escapeHtml(area)}</span><span class="status">${status}</span></div>${featured?`<div class="card-body"><div class="card-content"><p class="docref">${reference} · apresentado em ${date}</p><h3><a href="#/tema/${p.id}">${title}</a></h3><p class="impact">${desc}</p></div><div class="sidebits"><div>${pTags.length?'<div class="subheading">Quem pode se interessar</div>':''}${audience}</div>${bottom}</div></div>`:`<div class="card-body"><p class="docref">${reference} · ${date}</p><h3><a href="#/tema/${p.id}">${title}</a></h3><p class="impact">${desc}</p>${audience}${bottom}</div>`}</article>`}
+return `<article class="card ${featured?'featured':''}" data-area="${escapeHtml(area)}"><div class="card-banner"><span class="topic-label"><span class="topic-dot"></span>${escapeHtml(area)}</span><span class="status" data-status-id="${Number(p.id)}">${status}</span></div>${featured?`<div class="card-body"><div class="card-content"><p class="docref">${reference} · apresentado em ${date}</p><h3><a href="#/tema/${p.id}">${title}</a></h3><p class="impact">${desc}</p></div><div class="sidebits"><div>${pTags.length?'<div class="subheading">Quem pode se interessar</div>':''}${audience}</div>${bottom}</div></div>`:`<div class="card-body"><p class="docref">${reference} · ${date}</p><h3><a href="#/tema/${p.id}">${title}</a></h3><p class="impact">${desc}</p>${audience}${bottom}</div>`}</article>`}
 function renderFeed(){const all=visibleItems();const subset=all.slice(0,state.visible);const unfiltered=state.area==='Todos'&&!state.query&&state.view!=='salvos';const total=all.length;const title=state.view==='salvos'?'Assuntos salvos':(state.query||state.area!=='Todos')?(total===1?'1 assunto encontrado':`${total} assuntos encontrados`):(state.view==='inicio'?'Assuntos para começar':'Todos os assuntos');$('listTitle').textContent=title;
 $('listSubtitle').textContent=state.view==='salvos'?'As propostas que você guardou neste navegador.':liveReady?`${items.length.toLocaleString('pt-BR')} registros carregados · ${total.toLocaleString('pt-BR')} ${total===1?'resultado':'resultados'} na parte carregada.`:`${items.length.toLocaleString('pt-BR')} registros de reserva · ${total.toLocaleString('pt-BR')} ${total===1?'resultado':'resultados'}.`;
 $('clearFilters').hidden=!(state.query||state.area!=='Todos');$('cards').innerHTML=subset.map((p,i)=>card(p,i,unfiltered&&i===0&&p.siglaTipo==='PL'&&Boolean(p.titulo)&&Boolean(p.impacto)&&Array.isArray(p.publicos)&&p.publicos.length>0)).join('');
 if(!all.length && !(liveReady&&!liveLast)){$('cards').innerHTML=`<div class="empty-state" style="grid-column:1/-1"><h3>${state.view==='salvos'?'Você ainda não salvou nenhuma proposta.':'Nenhuma proposta encontrada nesta seleção.'}</h3><p>${state.view==='salvos'?'Ao abrir uma ficha, use “Salvar”. Ela ficará disponível aqui, mesmo depois de fechar a página.':'Tente uma palavra diferente, escolha outro tema ou consulte a busca oficial da Câmara. A ausência aqui não significa que não existam propostas sobre o assunto.'}</p><div style="margin-top:17px"><a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>`}
 $('moreBtn').hidden=liveReady?(liveLast&&total<=state.visible):(total<=state.visible);$('moreRow').hidden=$('moreBtn').hidden;$('moreBtn').textContent=liveLoading?'Consultando Câmara…':total>state.visible?'Mostrar mais propostas':'Buscar mais na Câmara';$('moreBtn').disabled=liveLoading;
+observeCardStatus();
 }
 function hero(){const h=$('heroTitle'),s=$('heroSubtitle'),ey=$('heroEyebrow');if(state.view==='inicio'){ey.textContent='Política pública sem complicação';h.innerHTML='O que está sendo decidido pode mudar <span style="text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:4px;text-decoration-thickness:.08em">sua rotina</span>.';s.textContent='Busque um assunto e conheça propostas reais que podem interessar a você.'}else if(state.view==='salvos'){ey.textContent='Salvos';h.textContent='Para ler com calma.';s.textContent='Suas propostas salvas ficam somente neste navegador.'}else{ey.textContent='Explorar';h.textContent='Encontre o que importa para você.';s.textContent='Busque com suas palavras ou escolha um tema.'}}
 function showFeed(view){state.view=view;updateNav();$('detailView').hidden=true;$('infoView').hidden=true;$('feed').hidden=false;$('hero').hidden=false;hero();$('sourceNote').innerHTML=notice();updateChips();renderFeed();$('searchField').value=state.query;window.scrollTo({top:0,behavior:'instant'})}
@@ -113,7 +114,7 @@ function detailPage(p){
  ${aud.length?`<section class="detail-section"><h2>Quem pode se interessar?</h2><p>${aud.map(escapeHtml).join(' · ')}</p><p style="font-size:13px;margin-top:10px">Públicos associados ao tema, sem presumir direitos ou obrigações individuais.</p></section>`:''}
  <section class="detail-section"><h2>O que falta saber?</h2><p>A ementa resume a finalidade do projeto, mas não determina sozinha efeitos concretos, prazos e obrigações. Consulte o texto integral e acompanhe a votação ou o andamento na fonte oficial.</p></section>
  <div class="policy-notice">Informações baseadas em registros oficiais; não substituem orientação jurídica.</div></div>
- <aside class="detail-aside"><h2>Ficha da proposta</h2><dl><div><dt>Proposição</dt><dd>${escapeHtml(ref(p))}</dd></div><div><dt>Autor(es)</dt><dd id="obm-autor-${id}">Consultando…</dd></div><div><dt>Apresentação</dt><dd>${escapeHtml(dte(p.dataApresentacao))}</dd></div><div><dt>Situação</dt><dd id="obm-situacao-${id}">Consultando…</dd></div><div><dt>Órgão atual</dt><dd id="obm-orgao-${id}">Consultando…</dd></div><div><dt>Último registro</dt><dd id="obm-data-${id}">Consultando…</dd></div></dl>
+ <aside class="detail-aside"><h2>Ficha da proposta</h2><dl><div><dt>Proposição</dt><dd>${escapeHtml(ref(p))}</dd></div><div><dt>Autor(es) e partido atual</dt><dd id="obm-autor-${id}">Consultando…</dd></div><div><dt>Apresentação</dt><dd>${escapeHtml(dte(p.dataApresentacao))}</dd></div><div><dt>Situação</dt><dd id="obm-situacao-${id}">Consultando…</dd></div><div><dt>Órgão atual</dt><dd id="obm-orgao-${id}">Consultando…</dd></div><div><dt>Último registro</dt><dd id="obm-data-${id}">Consultando…</dd></div></dl>
  <div class="detail-links"><a class="primary-btn" href="${proposalUrl(p)}" target="_blank" rel="noopener noreferrer">Ver na Câmara ↗</a></div></aside></div></div>`;
 }
 function shortSituation(desc){
@@ -127,6 +128,31 @@ function shortSituation(desc){
  if(/apresentac|apresentad|protocol/.test(x))return 'Apresentada';
  return 'Consultar Câmara';
 }
+const statusCache=new Map();
+const statusInFlight=new Set();
+const statusQueue=[];
+let statusActive=0;
+const cardStatusObserver=typeof IntersectionObserver==='function'?new IntersectionObserver(entries=>{for(const entry of entries){if(entry.isIntersecting){cardStatusObserver.unobserve(entry.target);queueStatus(Number(entry.target.dataset.statusId))}}},{rootMargin:'220px 0px'}):null;
+function observeCardStatus(){
+ const spans=document.querySelectorAll('#cards [data-status-id]');
+ for(const span of spans){const id=Number(span.dataset.statusId);if(statusCache.has(id)){span.textContent=statusCache.get(id);continue}if(cardStatusObserver)cardStatusObserver.observe(span);else queueStatus(id)}
+}
+function queueStatus(id){
+ if(!id||statusCache.has(id)||statusInFlight.has(id))return;
+ statusInFlight.add(id);statusQueue.push(id);pumpStatus();
+}
+function pumpStatus(){
+ while(statusActive<3&&statusQueue.length){
+  const id=statusQueue.shift();statusActive++;
+  const ctrl=new AbortController(),timer=setTimeout(()=>ctrl.abort(),10000);
+  fetch('https://dadosabertos.camara.leg.br/api/v2/proposicoes/'+id,{headers:{Accept:'application/json'},signal:ctrl.signal})
+   .then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()})
+   .then(body=>{const st=body?.dados?.statusProposicao||{};const label=shortSituation(st.descricaoSituacao||st.descricaoTramitacao||'');statusCache.set(id,label);for(const p of items)if(Number(p.id)===id)p.statusCurtoReal=label;document.querySelectorAll('#cards [data-status-id="'+id+'"]').forEach(el=>el.textContent=label)})
+   .catch(()=>{statusCache.set(id,'Não disponível');document.querySelectorAll('#cards [data-status-id="'+id+'"]').forEach(el=>el.textContent='Não disponível')})
+   .finally(()=>{clearTimeout(timer);statusInFlight.delete(id);statusActive--;pumpStatus()})
+ }
+}
+
 async function enrichDetail(id){
  const here=()=>location.hash==='#/tema/'+id;
  const write=(part,value)=>{const el=document.getElementById('obm-'+part+'-'+id);if(el&&here())el.textContent=value};
@@ -142,7 +168,18 @@ async function enrichDetail(id){
  }else if(here()){write('situacao','Não disponível');write('orgao','Não disponível');write('data','Não disponível');write('andamento','Não foi possível carregar o andamento. Consulte o registro oficial.')}
  if(auth.status==='fulfilled'&&here()){
   const arr=Array.isArray(auth.value)?auth.value:[];arr.sort((a,b)=>(a.ordemAssinatura||999)-(b.ordemAssinatura||999));
-  write('autor',arr.length?arr.slice(0,5).map(x=>x.nome).filter(Boolean).join(', ')+(arr.length>5?' e outros':''):'Não informado');
+  const chosen=arr.slice(0,4);
+  if(chosen.length)write('autor',chosen.map(a=>a.nome).filter(Boolean).join(', ')+' · consultando partidos…');
+  const partyNames=await Promise.all(chosen.map(async a=>{
+    const m=String(a.uri||'').match(/^https:\/\/dadosabertos\.camara\.leg\.br\/api\/v2\/deputados\/(\d+)$/);
+    if(!m)return a.nome||'Autoria institucional';
+    try{
+      const dep=await get('https://dadosabertos.camara.leg.br/api/v2/deputados/'+m[1]);
+      const party=dep?.ultimoStatus?.siglaPartido;
+      return (a.nome||dep?.ultimoStatus?.nomeEleitoral||'Deputado')+(party?' ('+party+')':' (partido não informado)');
+    }catch(err){return (a.nome||'Deputado')+' (partido indisponível)'}
+  }));
+  if(here())write('autor',partyNames.length?partyNames.join(', ')+(arr.length>chosen.length?' e outros':''):'Não informado');
  }else if(here())write('autor','Não disponível');
 }
 function showDetail(id){const p=items.find(x=>String(x.id)===String(id));if(!p){location.hash='#/explorar';return}if(state.view!=='detalhe')state.returnView=state.view==='salvos'?'salvos':'explorar';state.view='detalhe';updateNav();$('hero').hidden=true;$('feed').hidden=true;$('infoView').hidden=true;$('detailView').hidden=false;$('detailView').innerHTML=detailPage(p);document.title=`${localTitle(p)} — o que muda?`;window.scrollTo({top:0,behavior:'instant'});enrichDetail(id);}
