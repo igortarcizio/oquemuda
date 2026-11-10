@@ -11,7 +11,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: catalogo-snapshot-v2
+  group: catalogo-snapshot-v3
   cancel-in-progress: false
 jobs:
   atualizar:
@@ -31,6 +31,15 @@ jobs:
           git add dados/catalogo.js
           if ! git diff --cached --quiet; then
             git commit -m 'Atualização automática do catálogo legislativo'
-            git pull --rebase origin main
-            git push
+            for tentativa in 1 2 3 4 5 6; do
+              git pull --rebase origin main
+              if git push origin HEAD:main; then
+                echo "Catálogo publicado no GitHub."
+                exit 0
+              fi
+              echo "::warning::Conflito de sincronização na tentativa ${tentativa}; nova tentativa..."
+              sleep 3
+            done
+            echo "::error::Não foi possível sincronizar os dados após seis tentativas."
+            exit 1
           fi
