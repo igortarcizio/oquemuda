@@ -102,7 +102,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<section class="detail-section"><h2>O que ainda precisa ser confirmado?</h2><p>Antes de afirmar que direitos, prazos ou obrigações mudaram, é necessário conferir a redação integral, as decisões seguintes e, se houver aprovação definitiva, a publicação da norma.</p></section>'+
  '</div><aside class="detail-aside"><h2>Ficha da proposta</h2><dl>'+
  '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+'</dd></div>'+
- '<div><dt>Autoria e partido atual</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Autoria não informada na consulta':'Autoria ainda não verificada')):'Consultando autores…')+'</dd></div>'+
+ '<div><dt>Autoria e partido informado</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Autoria não informada na consulta':'Autoria ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
  '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
  '<div><dt>Órgão</dt><dd>'+safeText(stage.siglaOrgao||pendingText)+'</dd></div>'+
@@ -110,7 +110,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '</dl><div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Consultar na Câmara ↗</a>'+
  (full?'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+safeText(full)+'">Texto integral ↗</a>':'')+'</div>'+
  (verifiedAt?'<p class="small-note">Situação consultada na fonte oficial em '+safeText(verifiedAt)+'. Os registros podem mudar.</p>':'<p class="small-note">Detalhes oficiais ainda não sincronizados. A ficha será complementada quando a fonte estiver disponível.</p>')+
- '<p class="small-note">A filiação exibida corresponde ao dado mais recente disponível, não necessariamente ao partido na apresentação.</p>'+
+ '<p class="small-note">O partido exibido corresponde à informação obtida na fonte oficial e pode refletir a filiação na apresentação, não necessariamente a atual.</p>'+
  '</aside></div></div>';
 }
 export function infoPage(){
