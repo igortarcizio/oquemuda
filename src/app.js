@@ -227,23 +227,27 @@ function listPageFromHash(){
 async function showDetail(id){
  ++sequence;const task=++detailSequence;setViews();setNav();
  const candidate=[...state.items,...getSaved(),...(window.OBM_DATA?.items||[])].find(p=>String(p.id)===String(id));
- if(candidate){$('detailView').innerHTML=detailPage(candidate,{},isSaved(candidate.id));}
+ if(candidate)$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:{label:'Situação não verificada',tone:'neutral'}},isSaved(candidate.id));
  else $('detailView').innerHTML='<div class="page inforoute"><h1>Consultando proposição…</h1><p>Buscando registro na Câmara.</p></div>';
  document.title='Proposta — o que muda?';
  window.scrollTo({top:0,behavior:'instant'});
- try{
-  const detail=await getDetail(id);
-  if(task!==detailSequence||state.view!=='detalhe')return;
-  $('detailView').innerHTML=detailPage(detail.proposal,{...detail,loaded:true},isSaved(id));document.title=ref(detail.proposal)+' — O que muda?';
-  const authors=await getAuthors(id).catch(()=>[]);
-  if(task!==detailSequence||state.view!=='detalhe')return;
-  $('detailView').innerHTML=detailPage(detail.proposal,{...detail,authors,loaded:true},isSaved(id));
- }catch(error){
-  if(task!==detailSequence)return;
-  if(candidate)$('detailView').innerHTML=detailPage(candidate,{loaded:false},isSaved(id));
-  else $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';
+ // Falhas de autoria não podem bloquear a exibição da situação e vice-versa.
+ const [detailResult,authorsResult]=await Promise.allSettled([getDetail(id),getAuthors(id)]);
+ if(task!==detailSequence||state.view!=='detalhe')return;
+ const detail=detailResult.status==='fulfilled'?detailResult.value:null;
+ const authors=authorsResult.status==='fulfilled'?authorsResult.value:[];
+ const proposal=detail?.proposal||candidate;
+ if(!proposal){
+  $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';
+  return;
  }
+ $('detailView').innerHTML=detailPage(proposal,{
+  ...(detail||{}),authors,loaded:true,
+  status:detail?.status||{label:'Situação não verificada',tone:'neutral'}
+ },isSaved(id));
+ document.title=ref(proposal)+' — O que muda?';
 }
+
 function onClick(e){
  const page=e.target.closest('[data-page]');
  if(page&&!page.disabled){setPage(Number(page.dataset.page));return}
