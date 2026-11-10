@@ -118,7 +118,7 @@ def main():
     message=f'Consultas: {ok}; páginas históricas adicionais: {extra_ok}; reserva: {len(items)} entradas antes do limite. Falhas: {len(errors)}.'
     if summary:
         with open(summary,'a',encoding='utf8') as f:
-            f.write('## Atualização de catálogo\\n\\n'+message+'\\n\\n'+('**Aviso:** API indisponível para algumas consultas; registros anteriores preservados.\\n' if errors else 'Consultas realizadas sem erros.\\n'))
+            f.write('## Atualização de catálogo\n\n'+message+'\n\n'+('**Aviso:** API indisponível para algumas consultas; registros anteriores preservados.\n' if errors else 'Consultas realizadas sem erros.\n'))
     print(message,flush=True)
     if ok==0:
       print('::warning title=API indisponível::Nenhuma consulta respondeu. Cache anterior preservado.',flush=True)
@@ -132,7 +132,7 @@ def main():
           'total':len(ordered),'items':ordered}
     OUTPUT.parent.mkdir(parents=True,exist_ok=True)
     tmp=OUTPUT.with_suffix('.tmp')
-    tmp.write_text('window.OBM_DATA = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\\n','utf8')
+    tmp.write_text('window.OBM_DATA = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\n','utf8')
     tmp.replace(OUTPUT)
     if errors: print(f'::warning title=Atualização parcial::{len(errors)} consultas falharam; registros anteriores preservados.',flush=True)
     update_party_directory()
