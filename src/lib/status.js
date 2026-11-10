@@ -11,6 +11,13 @@ export const STATUS={
  unknown:{label:'Situação a confirmar',tone:'neutral'}
 };
 export function normalizeStatus(status) {
+ const code=Number(status?.codSituacao);
+ const officiallyVotable=new Set([924]);
+ const chamberApproved=new Set([1150,1160,1293,1303]);
+ const closed=new Set([923,930,931,940,941,950]);
+ if(officiallyVotable.has(code))return {...STATUS.voting,detail:status?.descricaoSituacao||'Pronta para Pauta'};
+ if(chamberApproved.has(code))return {...STATUS.approved,detail:status?.descricaoSituacao||'Encaminhada após aprovação na Câmara'};
+ if(closed.has(code))return {...STATUS.closed,detail:status?.descricaoSituacao||'Tramitação encerrada'};
  const stage=String(status?.descricaoSituacao||'').trim();
  const movement=String(status?.descricaoTramitacao||'').trim();
  const t=(stage||movement).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
