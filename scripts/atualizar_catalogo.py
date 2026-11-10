@@ -9,8 +9,8 @@ OUTPUT = ROOT / 'dados' / 'catalogo.js'
 BASE = 'https://dadosabertos.camara.leg.br/api/v2/proposicoes'
 TYPES = ('PL', 'PLP', 'PEC', 'MPV', 'PDL', 'PRC')
 YEARS = (2026, 2025)
-def fetch(year, typ):
-    params=urllib.parse.urlencode({'ano':year,'siglaTipo':typ,'itens':100,'pagina':1,'ordenarPor':'id','ordem':'DESC'})
+def fetch(year, typ, page=1):
+    params=urllib.parse.urlencode({'ano':year,'siglaTipo':typ,'itens':100,'pagina':page,'ordenarPor':'id','ordem':'DESC'})
     request=urllib.request.Request(BASE+'?'+params,headers={'Accept':'application/json','User-Agent':'OQueMuda/2.1'})
     with urllib.request.urlopen(request, timeout=9) as reply:
         raw=reply.read()
@@ -20,10 +20,11 @@ def fetch(year, typ):
         return [{child.tag:child.text or '' for child in item} for item in node] if node is not None else []
     return json.loads(raw)['dados']
 def load_existing():
-    if not OUTPUT.exists(): return {}
+    if not OUTPUT.exists(): return {}, {}
     raw=OUTPUT.read_text('utf-8')
     obj=json.loads(raw.split('=',1)[1].strip().rstrip(';'))
-    return {int(p['id']):p for p in obj.get('items',[]) if isinstance(p,dict) and 'id' in p}
+    items={int(p['id']):p for p in obj.get('items',[]) if isinstance(p,dict) and 'id' in p}
+    return items, obj.get('nextPages', {})
 def classify(s):
     x=s.casefold()
     for name,patterns in (
@@ -80,40 +81,58 @@ def update_party_directory():
     print(f'Partidos: {ok} páginas consultadas, {len(known)} deputados no cache.',flush=True)
 
 def main():
-    items=load_existing()
-    ok=0; errors=[]
+    # Uma amostra incremental, com teto explícito. Não representa o universo da Câmara.
+    # Em cada execução: página mais recente e uma página histórica rotativa por recorte.
+    items,cursors=load_existing()
+    ok=0; errors=[]; extra_ok=0
     for year in YEARS:
       for typ in TYPES:
-        try:
-          rows=fetch(year,typ)
-          if not isinstance(rows,list): raise ValueError('Resposta inesperada')
-          for p in rows:
-            try:
-              e=str(p.get('ementa') or '').strip()
-              if not e: continue
-              pid=int(p['id'])
-              items[pid]={'id':pid,'numero':int(p['numero']),'ano':int(p['ano']),'siglaTipo':p.get('siglaTipo') or typ,'ementa':e,'dataApresentacao':p.get('dataApresentacao') or '', 'area':classify(e),'statusCurto':'Consultar situação'}
-            except (KeyError,ValueError,TypeError):continue
-          ok+=1
-          print(f'OK {typ}/{year}: {len(rows)} registros recentes',flush=True)
-        except Exception as err:
-          errors.append(f'{typ}/{year}: {type(err).__name__}: {err}')
-          print('AVISO:',errors[-1],flush=True)
-        time.sleep(.12)
+        key=f'{typ}/{year}'
+        cursor=max(2,min(int(cursors.get(key,2)),1000))
+        pages=[1,cursor]
+        for page in pages:
+          try:
+            rows=fetch(year,typ,page)
+            if not isinstance(rows,list): raise ValueError('Resposta inesperada')
+            for p in rows:
+              try:
+                e=str(p.get('ementa') or '').strip()
+                if not e: continue
+                pid=int(p['id'])
+                items[pid]={'id':pid,'numero':int(p['numero']),'ano':int(p['ano']),'siglaTipo':p.get('siglaTipo') or typ,'ementa':e,'dataApresentacao':p.get('dataApresentacao') or '', 'area':classify(e),'statusCurto':'Consultar situação'}
+              except (KeyError,ValueError,TypeError):continue
+            ok+=1
+            if page>1:
+              extra_ok+=1
+              cursors[key]=page+1 if len(rows)==100 else 2
+            elif len(rows)<100:
+              # Se a primeira página já contém tudo, não consultar páginas antigas.
+              cursors[key]=2
+              break
+            print(f'OK {key} página {page}: {len(rows)} registros',flush=True)
+          except Exception as err:
+            errors.append(f'{key} página {page}: {type(err).__name__}: {err}')
+            print('AVISO:',errors[-1],flush=True)
+          time.sleep(.10)
     summary=os.getenv('GITHUB_STEP_SUMMARY')
-    message=f'Consultas: {ok}/{len(YEARS)*len(TYPES)}; índice de reserva: {len(items)} entradas. Falhas: {len(errors)}.'
+    message=f'Consultas: {ok}; páginas históricas adicionais: {extra_ok}; reserva: {len(items)} entradas antes do limite. Falhas: {len(errors)}.'
     if summary:
         with open(summary,'a',encoding='utf8') as f:
-            f.write('## Atualização de catálogo\n\n'+message+'\n\n'+('**Aviso:** API indisponível para algumas consultas; a versão anterior foi preservada onde necessário.\n' if errors else 'Todas as consultas de reserva responderam.\n'))
+            f.write('## Atualização de catálogo\\n\\n'+message+'\\n\\n'+('**Aviso:** API indisponível para algumas consultas; registros anteriores preservados.\\n' if errors else 'Consultas realizadas sem erros.\\n'))
     print(message,flush=True)
     if ok==0:
-      print('::warning title=API indisponível::Nenhuma consulta respondeu. Site continua consultando a API diretamente pelo navegador. Catálogo em cache preservado.',flush=True)
+      print('::warning title=API indisponível::Nenhuma consulta respondeu. Cache anterior preservado.',flush=True)
       return
-    # Um snapshot recente, não todo o universo legislativo; o frontend usa paginação ao vivo.
-    data={'generatedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),'source':'API Dados Abertos da Câmara','coverage':'Reserva parcial recente, não representa a totalidade de proposições','years':list(YEARS),'types':list(TYPES),'total':len(items),'items':sorted(items.values(),key=lambda x:x['id'],reverse=True)}
+    # Limite de tamanho para não transformar a cópia de reserva em gargalo no celular.
+    ordered=sorted(items.values(),key=lambda x:x['id'],reverse=True)[:3000]
+    data={'generatedAt':datetime.now(timezone.utc).isoformat().replace('+00:00','Z'),
+          'source':'API Dados Abertos da Câmara',
+          'coverage':'Reserva incremental parcial de até 3.000 proposições; não é índice completo',
+          'years':list(YEARS),'types':list(TYPES),'nextPages':cursors,
+          'total':len(ordered),'items':ordered}
     OUTPUT.parent.mkdir(parents=True,exist_ok=True)
     tmp=OUTPUT.with_suffix('.tmp')
-    tmp.write_text('window.OBM_DATA = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\n','utf8')
+    tmp.write_text('window.OBM_DATA = '+json.dumps(data,ensure_ascii=False,separators=(',',':'))+';\\n','utf8')
     tmp.replace(OUTPUT)
     if errors: print(f'::warning title=Atualização parcial::{len(errors)} consultas falharam; registros anteriores preservados.',flush=True)
     update_party_directory()
