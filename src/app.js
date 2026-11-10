@@ -49,7 +49,12 @@ function observeStatuses(){
 function renderChips(){
  $('chips').innerHTML=THEMES.map(theme=>{
   const on=theme===state.topic;
-  return '<button type="button" class="chip '+(on?'active':'')+'" aria-pressed="'+on+'" data-theme="'+safeText(theme)+'">'+safeText(theme)+'</button>';
+  return '<button type="button" class="chip '+(on?'active':'')+'" aria-pressed="'+on+'" data-area="'+safeText(theme)+'" data-theme="'+safeText(theme)+'">'+(theme==='Todos'?'':'<span class="topic-dot" aria-hidden="true"></span>')+safeText(theme)+'</button>';
+ }).join('');
+ const side=$('indexlist');
+ if(side)side.innerHTML=THEMES.filter(t=>t!=='Todos'&&t!=='Outros').map(t=>{
+  const on=t===state.topic;
+  return '<li data-area="'+safeText(t)+'"><button type="button" data-theme="'+safeText(t)+'" class="'+(on?'selected':'')+'" aria-pressed="'+on+'"><span class="topic-dot" aria-hidden="true"></span><span class="indexname">'+safeText(t)+'</span></button></li>';
  }).join('');
 }
 function filterFromUI(){
@@ -101,8 +106,8 @@ function setViews(){
  $('detailView').hidden=state.view!=='detalhe';$('infoView').hidden=state.view!=='como-funciona';
  if(isFeed){
   $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'Explorar';
-  $('heroTitle').textContent=state.view==='salvos'?'Para ler com calma.':'Encontre o que importa para você.';
-  $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Busque um assunto ou escolha filtros.';
+  $('heroTitle').innerHTML=state.view==='salvos'?'Para ler com calma.':'O que está sendo decidido pode mudar <span class="hero-emphasis">sua rotina</span>.';
+  $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Busque um assunto e conheça propostas reais que podem interessar a você.';
   $('searchForm').hidden=state.view==='salvos';$('filters').hidden=state.view==='salvos';
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
   $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':'Todos os assuntos';
@@ -234,6 +239,7 @@ async function start(){
  $('cards').addEventListener('click',onClick);
  $('pagination').addEventListener('click',onClick);
  $('chips').addEventListener('click',onClick);
+ $('sideindex').addEventListener('click',onClick);
  $('detailView').addEventListener('click',onClick);
  $('clearFilters').addEventListener('click',onClick);
  document.addEventListener('change',onChange);
