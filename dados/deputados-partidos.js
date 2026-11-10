@@ -1,0 +1,1 @@
+window.OBM_PARTIDOS_DEPUTADOS = {};
