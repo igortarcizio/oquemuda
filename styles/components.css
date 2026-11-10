@@ -18,7 +18,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .civic-card{box-shadow:0 1px 0 rgba(25,42,55,.02)}
 .civic-card .card-body{padding:21px;gap:0}
 .civic-card h3{font-size:clamp(21px,1.86vw,25px);line-height:1.12;overflow-wrap:break-word;margin:2px 0 17px;letter-spacing:-.015em}
-.civic-card h3 a{text-decoration:none}
+.civic-card h3 a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
 .civic-card .docref{margin-bottom:10px}
 .civic-card .card-banner{gap:6px;padding:10px 17px}
 .civic-card .topic-label{font-size:11px;letter-spacing:.055em}
@@ -70,3 +70,6 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 @media(max-width:900px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.explore-hero{grid-template-columns:1fr}.sideindex{display:none}}
 @media(max-width:650px){.grid{grid-template-columns:1fr}.explore-hero{padding-top:30px}.filter-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.filter-label{display:block}.filter-label select{display:block;margin-top:5px;width:100%;min-width:0}.civic-card h3{font-size:24px}.source-footer{padding:16px 18px}.page-number.edge{min-width:68px}.pagination{gap:5px}}
 @media(prefers-reduced-motion:reduce){.shimmer{animation:none;background:#eeeae2}.civic-card{transition:none}}
+
+/* Acessibilidade tátil: links importantes, além dos botões, têm alvo mínimo de 44px. */
+.brand,.civic-card .textlink,.detail .back,.foot-inner nav a{display:inline-flex;align-items:center;min-height:44px;min-width:44px}
