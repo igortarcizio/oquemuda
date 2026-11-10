@@ -28,10 +28,17 @@ export function card(p,status, saved){
 export function pagination({page,totalPages,hasNext}){
  if(!totalPages&& !hasNext && page<=1)return '';
  const total=Number.isFinite(totalPages)?totalPages:null;
- const chosen=new Set([1,page-2,page-1,page,page+1,page+2]);
- if(total){chosen.add(total);chosen.add(Math.min(total,2))}
- const pages=[...chosen].filter(n=>n>0&&(!total||n<=total)&&n<=Math.max(page+2,5)).sort((a,b)=>a-b);
- if(total&&!pages.includes(total))pages.push(total);
+ const chosen=new Set([1]);
+ if(page<=3){
+  for(let n=1;n<=5;n++)chosen.add(n);
+ }else{
+  for(let n=page-1;n<=page+1;n++)chosen.add(n);
+ }
+ if(total){
+  chosen.add(total);
+  if(page>=total-2)for(let n=Math.max(1,total-4);n<=total;n++)chosen.add(n);
+ }
+ const pages=[...chosen].filter(n=>n>0&&(!total||n<=total)).sort((a,b)=>a-b);
  let previous=0;
  const nodes=[];
  for(const n of pages){
