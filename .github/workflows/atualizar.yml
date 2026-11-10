@@ -11,7 +11,7 @@ on:
 permissions:
   contents: write
 concurrency:
-  group: catalogo-legislativo
+  group: catalogo-snapshot-v2
   cancel-in-progress: false
 jobs:
   atualizar:
