@@ -32,3 +32,14 @@ test('lê detalhes persistidos, estágio e autores sem consumir API oficial',asy
   assert.equal(detail.source,'banco de dados');
  }finally{globalThis.fetch=previous}
 });
+
+test('apresentação oficial é exibida como Apresentada mesmo sem código de situação',async()=>{
+ const previous=globalThis.fetch;
+ globalThis.fetch=async()=>({ok:true,json:async()=>[{id:2649558,sigla_tipo:'PL',numero:5702,ano:2026,ementa:'Texto.',data_apresentacao:'2026-10-29',situacao_codigo:null,situacao_descricao:null,situacao_atualizada_em:'2026-11-10T14:55:00Z',dados_oficiais:{statusProposicao:{descricaoTramitacao:'Apresentação de Proposição',dataHora:'2026-10-29T14:09:08'},autores:[{nome:'Eros Biondini',partido:'PL'}],autoresConsultados:true}}]});
+ try{
+  const detail=await getDatabaseDetail(2649558);
+  assert.equal(detail.status.label,'Apresentada');
+  assert.equal(detail.authors[0].nome,'Eros Biondini');
+  assert.equal(detail.stage.dataHora,'2026-10-29T14:09:08');
+ }finally{globalThis.fetch=previous}
+});
