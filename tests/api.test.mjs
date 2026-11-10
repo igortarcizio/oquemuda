@@ -62,3 +62,29 @@ test('não exibe falsos positivos mesmo quando a listagem ignora o filtro de sit
   assert.equal(result.source,'situação verificada');
  }finally{globalThis.fetch=original}
 });
+
+test('cancelar uma navegação não cancela consulta compartilhada por outro usuário da página',async()=>{
+ const original=globalThis.fetch;
+ let calls=0,finish;
+ const gate=new Promise(resolve=>{finish=resolve});
+ globalThis.fetch=async()=>{calls++;await gate;return {ok:true,json:async()=>({dados:[],links:[]})}};
+ const a=new AbortController(),b=new AbortController();
+ try{
+  const first=getProposals({year:'2017',type:'PL',signal:a.signal});
+  const second=getProposals({year:'2017',type:'PL',signal:b.signal});
+  a.abort();
+  await assert.rejects(first,/cancelada/);
+  finish();
+  const result=await second;
+  assert.equal(result.items.length,0);
+  assert.equal(calls,1);
+ }finally{finish();globalThis.fetch=original}
+});
+test('erro HTTP 400 não gera segunda requisição desnecessária',async()=>{
+ const original=globalThis.fetch;let calls=0;
+ globalThis.fetch=async()=>{calls++;return {ok:false,status:400}};
+ try{
+  await assert.rejects(getProposals({year:'2016',type:'PEC',party:'ZZZ'}),/HTTP 400/);
+  assert.equal(calls,1);
+ }finally{globalThis.fetch=original}
+});
