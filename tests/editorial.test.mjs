@@ -25,9 +25,10 @@ test('mapeia quatro estados comprovados e mantém apresentação neutra',()=>{
 test('skeletons: seis cards animáveis',()=>{
  assert.equal((skeleton(6).match(/class="card skeleton"/g)||[]).length,6);
 });
-test('card contém comparação e salvamento acessível sem permitir HTML injetado',()=>{
+test('card contém apenas O que muda, sem emoji, se aprovada ou Como é hoje, e salvamento acessível',()=>{
  const out=card({...sample,ementa:'<script>alert(1)</script>'},null,false);
- assert.match(out,/Como é hoje/);assert.match(out,/O que muda/);assert.match(out,/aria-pressed="false"/);
+ assert.ok(!out.includes('Como é hoje'));assert.match(out,/<h4>O que muda<\/h4>/);
+ assert.ok(!out.includes('se aprovada'));assert.ok(!out.includes('⚡'));assert.match(out,/aria-pressed="false"/);
  assert.ok(!out.includes('<script>'));
 });
 test('paginação inclui 1 a 5, última página e aria-current',()=>{
