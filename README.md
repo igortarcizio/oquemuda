@@ -70,3 +70,22 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 - **Importante:** a reserva é parcial. Não representa todas as proposições e não deve ser usada para contagens totais, filtros de situação ou inferência de inexistência de propostas.
 - A consulta ao vivo continua sujeita à disponibilidade da API da Câmara. A filtragem de situações ainda é feita em lotes de até 30 registros, com confirmação individual, e **não** substitui uma busca indexada no universo completo.
 - Próxima etapa estrutural: base persistente e sincronização completa por lotes, com API própria de leitura e classificação legislativa auditável.
+
+## Banco de dados Supabase — primeira fase
+
+O projeto **O que muda?** está criado na organização ITS, região `sa-east-1`. A base inicial possui 883 registros do catálogo parcial (2025–2026). A interface pública **continua consultando a API da Câmara** até que a cobertura, os filtros e as situações sejam validados.
+
+A sincronização foi implementada em `scripts/sincronizar_supabase.py` e agendada em `.github/workflows/sincronizar_supabase.yml`. Ela faz upsert por ID, em lotes de 100, preservando dados existentes. A sincronização só é ativada depois de configurar, em **Settings → Secrets and variables → Actions**, os seguintes *repository secrets*:
+
+- `SUPABASE_URL`: `https://ltihbrlamevhmjjlsphc.supabase.co`
+- `SUPABASE_SERVICE_ROLE_KEY`: chave de serviço do projeto, obtida **diretamente no painel do Supabase**. Nunca incluir no frontend, código, issues ou documentação.
+
+O GitHub conectado não disponibiliza uma ação para configurar secrets; por isso a execução agendada ainda depende dessa configuração manual. Não utilize uma chave pública para executar importações. A rotina atual importa apenas o catálogo parcial; ela **não** fornece histórico completo de tramitação nem valida situações legislativas. O frontend não deve ser migrado até que a indexação seja ampliada e auditada.
+
+Consultas de verificação no SQL Editor do Supabase:
+
+```sql
+select count(*) from public.proposicoes;
+select sigla_tipo, ano, count(*) from public.proposicoes group by 1,2 order by 2 desc,1;
+select id, sigla_tipo, numero, ano, ementa from public.proposicoes where ano=2026 and sigla_tipo='PL' order by id desc limit 30;
+```
