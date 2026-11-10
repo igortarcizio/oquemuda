@@ -41,7 +41,7 @@ async function request(path,{signal,attempts=2}={}){
      cache.set(url,{value,until:current()+TTL});
      return value;
     }catch(err){
-     if(err instanceof SourceError && /HTTP 4\\d\\d/.test(err.message) && !/HTTP 429/.test(err.message))throw err;
+     if(err instanceof SourceError && /^Câmara: resposta HTTP 4[0-9][0-9]$/.test(err.message) && !err.message.endsWith('429'))throw err;
      if(i===attempts-1)throw new SourceError('Não foi possível consultar a Câmara agora. '+(err?.message||''));
      await sleep(400*(i+1));
     }finally{clearTimeout(timeout)}
