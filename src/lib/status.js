@@ -29,5 +29,6 @@ export function normalizeStatus(status) {
  if(/pauta.{0,25}plenario|ordem do dia|pront.{0,30}(?:votacao|plenario)|incluid.{0,24}pauta|aguardando votacao(?: em plenario)?/.test(t))return {...STATUS.voting,detail:stage||movement};
  if(/apresentac|apresentad|protocol/.test(t))return {...STATUS.introduced,detail:stage||movement};
  if(/aguardando|parecer|relator|comissao|analis|distribui|tramit|discussao|apreciac/.test(t))return {...STATUS.discussion,detail:stage||movement};
- return {...STATUS.unknown,detail:stage||movement};
+ const official=stage||movement;
+ return {label:official.length>46?official.slice(0,43)+'…':official,tone:'neutral',detail:official};
 }
