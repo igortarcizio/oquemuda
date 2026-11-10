@@ -50,11 +50,32 @@ export async function getProposals({page=1,year='2026',type='PL',party='Todos',k
  if(keywords.trim())qs.set('keywords',keywords.trim());
  const payload=await request('/proposicoes?'+qs.toString(),{signal,attempts:2});
  if(!Array.isArray(payload.data))throw new SourceError('Resposta sem lista de proposições');
- const items=payload.data.map(d=>normalizeProposal(d,getEditorial(d.id))).filter(p=>p.id&&p.numero&&p.ementa);
+ let items=payload.data.map(d=>normalizeProposal(d,getEditorial(d.id))).filter(p=>p.id&&p.numero&&p.ementa);
+ // A API pode retornar itens fora de codSituacao. Confirme a situação de cada
+ // registro de maneira conservadora antes de mostrá-lo como pronto/aprovado.
+ let inspectedCount=0,verificationFailed=0;
+ if(situationCodes){
+   const allowed=new Set(String(situationCodes).split(',').map(Number));
+   const verified=[];
+   for(let offset=0;offset<items.length;offset+=5){
+     if(signal?.aborted)throw new SourceError('Consulta cancelada');
+     const batch=items.slice(offset,offset+5);
+     const checks=await Promise.allSettled(batch.map(p=>getDetail(p.id,{signal})));
+     for(let i=0;i<checks.length;i++){
+       const result=checks[i];inspectedCount++;
+       if(result.status==='fulfilled'){
+         const code=Number(result.value.stage.codSituacao);
+         if(allowed.has(code))verified.push({...batch[i],statusVerificado:result.value.status});
+       }else verificationFailed++;
+     }
+   }
+   items=verified;
+   if(verificationFailed===inspectedCount && inspectedCount>0)throw new SourceError('Não foi possível verificar a situação das propostas no momento.');
+ }
  const last=payload.links.find(l=>l.rel==='last'),next=payload.links.find(l=>l.rel==='next');
  let totalPages=last?parsePage(last):null;
  if(!totalPages&&!next)totalPages=page;
- return {items,page,totalPages,hasNext:!!next||(!totalPages&&items.length===30),source:'ao vivo'};
+ return {items,page,totalPages:situationCodes?null:totalPages,hasNext:!!next||(!totalPages&&payload.data.length===30),source:situationCodes?'situação verificada':'ao vivo',inspectedCount,verificationFailed};
 }
 export async function getDetail(id,{signal}={}) {
  const payload=await request('/proposicoes/'+encodeURIComponent(id),{signal});
