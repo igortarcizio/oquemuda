@@ -6,7 +6,8 @@ import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
-const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',
+const WATCH_MODES={recent:{label:'Novas propostas',hint:'Projetos apresentados recentemente, ordenados do mais novo para o mais antigo.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. Isso não confirma votação agendada ou pauta do Plenário.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160'}};
+const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',mode:'',
   items:[],totalPages:null,hasNext:false,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null;
 const statusCache=new Map(),statusQueued=new Set(),statusQueue=[];
@@ -52,11 +53,7 @@ function renderChips(){
   const on=theme===state.topic;
   return '<button type="button" class="chip '+(on?'active':'')+'" aria-pressed="'+on+'" data-area="'+safeText(theme)+'" data-theme="'+safeText(theme)+'">'+(theme==='Todos'?'':'<span class="topic-dot" aria-hidden="true"></span>')+safeText(theme)+'</button>';
  }).join('');
- const side=$('indexlist');
- if(side)side.innerHTML=THEMES.filter(t=>t!=='Todos'&&t!=='Outros').map(t=>{
-  const on=t===state.topic;
-  return '<li data-area="'+safeText(t)+'"><button type="button" data-theme="'+safeText(t)+'" class="'+(on?'selected':'')+'" aria-pressed="'+on+'"><span class="topic-dot" aria-hidden="true"></span><span class="indexname">'+safeText(t)+'</span></button></li>';
- }).join('');
+
 }
 function filterFromUI(){
  state.year=$('yearSelect').value;state.type=$('typeSelect').value;state.party=$('partySelect').value;
@@ -71,6 +68,7 @@ function paramsForHash(){
  if(state.party!=='Todos')args.set('partido',state.party);
  if(state.topic!=='Todos')args.set('tema',state.topic);
  if(state.query)args.set('busca',state.query);
+ if(state.mode)args.set('modo',state.mode);
  return args.toString();
 }
 function syncURL(){
@@ -86,6 +84,7 @@ function readHash(){
  if(state.view==='explorar'){
   state.year=q.get('ano')||String(new Date().getFullYear());state.type=q.get('tipo')||'PL';
   state.party=q.get('partido')||'Todos';state.topic=THEMES.includes(q.get('tema'))?q.get('tema'):'Todos';state.query=q.get('busca')||'';
+  state.mode=Object.hasOwn(WATCH_MODES,q.get('modo'))?q.get('modo'):'';
  }
  return name==='tema'?route.split('?')[0].split('/')[1]:null;
 }
@@ -112,7 +111,8 @@ function setViews(){
   $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Busque um assunto e conheça propostas reais que podem interessar a você.';
   $('searchForm').hidden=state.view==='salvos';$('filters').hidden=state.view==='salvos';
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
-  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':'Todos os assuntos';
+  document.querySelectorAll('[data-watch]').forEach(a=>{const selected=state.mode===a.dataset.watch;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
+  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:'Todos os assuntos';
   $('clearFilters').hidden=state.view==='salvos';
  }
 }
@@ -128,7 +128,7 @@ function renderEditorial(){
  section.hidden=true;
  $('editorialFeature').innerHTML='';
  $('editorialSupporting').innerHTML='';
- if(!editorialAllowed(state))return;
+ if(state.mode||!editorialAllowed(state))return;
  const selected=selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:state.year});
  if(selected.length!==3)return; // Nunca publicar um destaque sem conteúdo revisado suficiente.
  $('editorialFeature').innerHTML=editorialFeature(selected[0],cachedStatus(selected[0].id),isSaved(selected[0].id));
@@ -146,11 +146,11 @@ function present(result){
  renderEditorial();
  const msg=state.items.length+' '+(state.items.length===1?'proposta exibida':'propostas exibidas')+' na página '+state.page+
    (state.totalPages?' de '+state.totalPages:'')+(state.source==='cópia parcial'?' · reserva parcial':'');
- $('listSubtitle').textContent=msg;announce(msg);
+ $('listSubtitle').textContent=state.mode?msg+' · '+WATCH_MODES[state.mode].hint:msg;announce(msg);
  setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(state.source==='ao vivo'?
   'Resultados carregados por página diretamente da API; 30 registros por página.':
   'Cópia parcial de reserva utilizada porque a API oficial não respondeu. A ausência de resultados aqui não comprova inexistência.')+
-  ' Propostas não são leis. Títulos automáticos e classificação temática exigem conferência da ementa. O bloco “Como é hoje” não inventa regras vigentes.');
+  ' Propostas não são leis em vigor. Os atalhos de andamento usam códigos oficiais de situação, sem garantir data de votação; classificações e resumos exigem conferência na fonte.');
  observeStatuses();setNav();
 }
 function errorState(message){
@@ -175,11 +175,12 @@ async function showList(){
  }
  syncForm();loader();
  const keywords=state.query||TOPIC_API[state.topic]||'';
+ const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
  // Stale-while-revalidate: mostra uma reserva claramente identificada se a API demorar.
  // O sinal aria-live anuncia a origem parcial; o retorno oficial substitui a página.
  const interim=setTimeout(()=>{
   if(id!==sequence)return;
-  const cached=fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'});
+  const cached=!situationCodes?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
   if(cached&&cached.items.length){
    present(cached);
    $('listSubtitle').textContent='Exibindo cópia parcial enquanto a Câmara é consultada…';
@@ -187,14 +188,14 @@ async function showList(){
   }
  },1600);
  try{
-  const result=await getProposals({page:state.page,year:state.year,type:state.type,party:state.party,keywords,signal:activeRequest.signal});
+  const result=await getProposals({page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,signal:activeRequest.signal});
   clearTimeout(interim);
   if(id!==sequence)return;
   present(result);$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL');
  }catch(error){
   clearTimeout(interim);
   if(id!==sequence)return;
-  const cached=fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'});
+  const cached=!situationCodes?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
   if(cached&&cached.items.length){present(cached);return}
   errorState(error.message||'API indisponível');
  }
@@ -229,7 +230,7 @@ function onClick(e){
  const page=e.target.closest('[data-page]');
  if(page&&!page.disabled){setPage(Number(page.dataset.page));return}
  const theme=e.target.closest('[data-theme]');
- if(theme){state.topic=theme.dataset.theme;state.page=1;syncURL();showList();return}
+ if(theme){state.topic=theme.dataset.theme;state.mode='';state.page=1;syncURL();showList();return}
  const save=e.target.closest('[data-save]');
  if(save){
   const id=Number(save.dataset.save);
@@ -243,14 +244,14 @@ function onClick(e){
   }return
  }
  if(e.target.closest('#clearFilters')){
-  state.query='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='PL';state.page=1;
+  state.query='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='PL';state.mode='';state.page=1;
   syncForm();syncURL();showList();return;
  }
  if(e.target.closest('#retryBtn'))showList();
 }
 function onChange(e){
  if(['yearSelect','typeSelect','partySelect'].includes(e.target.id)){
-  filterFromUI();state.page=1;syncURL();showList();
+  filterFromUI();state.mode='';state.page=1;syncURL();showList();
  }
 }
 async function start(){
@@ -258,11 +259,10 @@ async function start(){
  $('editorialSection').addEventListener('click',onClick);
  $('pagination').addEventListener('click',onClick);
  $('chips').addEventListener('click',onClick);
- $('sideindex').addEventListener('click',onClick);
  $('detailView').addEventListener('click',onClick);
  $('clearFilters').addEventListener('click',onClick);
  document.addEventListener('change',onChange);
- $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.page=1;syncURL();showList()});
+ $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.mode='';state.page=1;syncURL();showList()});
  window.addEventListener('hashchange',listPageFromHash);
  listPageFromHash();
  try{const parties=await getParties();$('partySelect').innerHTML='<option value="Todos">Todos os partidos</option>'+
