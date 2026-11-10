@@ -149,3 +149,32 @@ export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keyword
  return {items:filtered.slice((page-1)*30,page*30),page,totalPages:Math.max(1,Math.ceil(filtered.length/30)),
   hasNext:page<Math.ceil(filtered.length/30),source:'cópia parcial'};
 }
+
+/** Leitura principal do catálogo persistido. Chave pública com RLS somente leitura. */
+const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
+const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
+export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',situationCodes='',signal}={}){
+ if(party!=='Todos')throw new SourceError('Filtro de autoria ainda não indexado no banco');
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,coletado_em',order:'id.desc',limit:'30',offset:String((page-1)*30)});
+ if(year!=='Todos')q.set('ano','eq.'+year);
+ if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
+ if(keywords.trim())q.set('ementa','ilike.*'+keywords.trim().replace(/[*,()]/g,' ')+'*');
+ if(situationCodes)q.set('situacao_codigo','in.('+situationCodes+')');
+ const controller=new AbortController();
+ const timeout=setTimeout(()=>controller.abort(),9000);
+ const onAbort=()=>controller.abort();
+ signal?.addEventListener('abort',onAbort,{once:true});
+ try{
+  const response=await fetch(DB_URL+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal:controller.signal});
+  if(!response.ok)throw new SourceError('Banco de dados: HTTP '+response.status);
+  const data=await response.json();
+  if(!Array.isArray(data))throw new SourceError('Resposta inesperada do banco');
+  const range=response.headers.get('content-range')||'';
+  const total=Number(range.split('/')[1]);
+  const totalPages=Number.isFinite(total)?Math.max(1,Math.ceil(total/30)):null;
+  const items=data.map(d=>normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||''},getEditorial(d.id)))
+    .filter(p=>p.id&&p.numero&&p.ementa);
+  return {items,page,totalPages,hasNext:totalPages?page<totalPages:items.length===30,source:'banco de dados'};
+ }catch(e){throw e instanceof SourceError?e:new SourceError('Banco indisponível: '+(e?.message||'erro de conexão'))}
+ finally{clearTimeout(timeout);signal?.removeEventListener('abort',onAbort)}
+}
