@@ -27,7 +27,7 @@ export function card(p,status, saved){
    '<span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
    '<div class="card-body"><p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
    '<h3><a href="#/tema/'+Number(p.id)+'">'+safeText(title)+'</a></h3>'+
-   '<div class="change-summary"><h4>O que muda</h4><p>'+safeText(after)+'</p></div>'+
+   '<div class="change-summary"><p>'+safeText(after)+'</p></div>'+
    (audience.length?'<div class="affected" aria-label="Públicos relacionados">'+audience.slice(0,3).map(a=>'<span class="microtag">'+safeText(a)+'</span>').join('')+'</div>':'')+
    '<div class="card-bottom"><a class="textlink" href="#/tema/'+Number(p.id)+'" aria-label="Entender '+safeText(ref(p))+'">Entender →</a>'+
    '<button class="savebtn '+(saved?'saved':'')+'" type="button" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':'+ Salvar')+'</button></div></div></article>';
