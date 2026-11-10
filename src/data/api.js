@@ -194,10 +194,10 @@ export async function getDatabaseDetail(id,{signal}={}){
   if(!d)throw new SourceError('Proposição não encontrada no banco');
   const raw=d.dados_oficiais||{};
   const stage=raw.statusProposicao||{};
-  const officialStatus=d.situacao_codigo==null?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
+  const officialStatus=(d.situacao_codigo==null&&!d.situacao_descricao&&!stage.descricaoSituacao)?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
   return {proposal:normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao},getEditorial(d.id)),
-   status:officialStatus||{label:'Situação não verificada',tone:'neutral'},stage,
-   authors:Array.isArray(raw.autores)?raw.autores:[],
+   status:officialStatus||{label:'Consulta pendente',tone:'neutral',detail:'Dados de situação ainda não obtidos da Câmara'},stage,
+   authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
    authorsChecked:raw.autoresConsultados===true,
    fullTextURL:raw.urlInteiroTeor||null,source:'banco de dados',
    lastChecked:d.situacao_atualizada_em||null,loaded:true};
