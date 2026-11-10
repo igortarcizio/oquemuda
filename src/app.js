@@ -1,4 +1,4 @@
-import {getProposals,getDatabaseProposals,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
@@ -227,23 +227,32 @@ function listPageFromHash(){
 async function showDetail(id){
  ++sequence;const task=++detailSequence;setViews();setNav();
  const candidate=[...state.items,...getSaved(),...(window.OBM_DATA?.items||[])].find(p=>String(p.id)===String(id));
- if(candidate)$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:{label:'Situação não verificada',tone:'neutral'}},isSaved(candidate.id));
- else $('detailView').innerHTML='<div class="page inforoute"><h1>Consultando proposição…</h1><p>Buscando registro na Câmara.</p></div>';
- document.title='Proposta — o que muda?';
- window.scrollTo({top:0,behavior:'instant'});
- // Falhas de autoria não podem bloquear a exibição da situação e vice-versa.
- const [detailResult,authorsResult]=await Promise.allSettled([getDetail(id),getAuthors(id)]);
+ const neutral={label:'Situação não verificada',tone:'neutral'};
+ if(candidate)$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral},isSaved(candidate.id));
+ else $('detailView').innerHTML='<div class="page inforoute"><h1>Consultando proposição…</h1><p>Buscando registro disponível.</p></div>';
+ document.title='Proposta — o que muda?';window.scrollTo({top:0,behavior:'instant'});
+ let stored=null;
+ try{stored=await getDatabaseDetail(id)}catch{}
+ if(task!==detailSequence||state.view!=='detalhe')return;
+ if(stored){
+  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true},isSaved(id));
+  document.title=ref(stored.proposal)+' — O que muda?';
+ }
+ // Atualização em segundo plano, sem bloquear a ficha que já está no banco.
+ const [detailResult,authorsResult]=await Promise.allSettled([
+  stored?.stage?.codSituacao!=null?Promise.resolve(null):getDetail(id),
+  stored?.authorsChecked?Promise.resolve(stored.authors):getAuthors(id)
+ ]);
  if(task!==detailSequence||state.view!=='detalhe')return;
  const detail=detailResult.status==='fulfilled'?detailResult.value:null;
- const authors=authorsResult.status==='fulfilled'?authorsResult.value:[];
- const proposal=detail?.proposal||candidate;
+ const authors=authorsResult.status==='fulfilled'?authorsResult.value:(stored?.authors||[]);
+ const proposal=detail?.proposal||stored?.proposal||candidate;
  if(!proposal){
-  $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';
-  return;
+  $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';return;
  }
  $('detailView').innerHTML=detailPage(proposal,{
-  ...(detail||{}),authors,loaded:true,
-  status:detail?.status||{label:'Situação não verificada',tone:'neutral'}
+  ...(stored||{}),...(detail||{}),authors,authorsChecked:authorsResult.status==='fulfilled'||stored?.authorsChecked,
+  loaded:true,status:detail?.status||stored?.status||neutral
  },isSaved(id));
  document.title=ref(proposal)+' — O que muda?';
 }
