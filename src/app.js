@@ -1,4 +1,4 @@
-import {getProposals,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
+import {getProposals,getDatabaseProposals,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
@@ -157,6 +157,7 @@ function present(result){
  $('listSubtitle').textContent=statusLine;announce(statusLine);
  setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(result.source==='situação verificada'?
   'A situação foi conferida no registro individual de '+Number(result.inspectedCount||0)+' propostas desta página; o recorte não é exaustivo.':
+  result.source==='banco de dados'?'Resultados consultados no banco persistente do projeto, com até 30 registros por página. Situações individuais podem ser atualizadas separadamente.':
   result.source==='ao vivo'?'Resultados carregados por página diretamente da API, com até 30 registros por página.':
   'Cópia parcial de reserva utilizada porque a API não respondeu. Última coleta: '+(window.OBM_DATA?.generatedAt?new Date(window.OBM_DATA.generatedAt).toLocaleString('pt-BR'):'não informada')+'. A ausência de resultados não comprova inexistência.')+
   ' Propostas não são leis em vigor. Pronta para pauta não confirma votação agendada.');
@@ -195,7 +196,11 @@ async function showList(){
   announce('Propostas da cópia parcial exibidas. Consultando atualização oficial.');
  }
  try{
-  const result=await getProposals({page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,signal:activeRequest.signal});
+  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,signal:activeRequest.signal};
+  // Os estados legislativos só passam ao banco após a sincronização dos códigos oficiais.
+  let result;
+  if(situationCodes){result=await getProposals(args)}
+  else {try{result=await getDatabaseProposals(args)}catch(dbError){result=await getProposals(args)}}
   if(id!==sequence)return;
   if(result.items.length||!hasSnapshot){
    present(result);
