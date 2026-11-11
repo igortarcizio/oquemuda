@@ -587,10 +587,10 @@ const MODES={
   voting:{label:'Prontas para pauta',hint:'Situação oficial “Pronta para Pauta”. Não significa votação agendada.',codes:'924'},
   approved:{label:'Aprovadas na Câmara',hint:'Seguiram ao Senado ou à sanção. Ainda não é lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}
 };
-const modeCache={};
+const modeCache={},MODE_LIMIT=1000;
 async function loadMode(mode){
   if(modeCache[mode])return modeCache[mode];
-  const rows=await db(`/proposicoes?select=id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao&situacao_codigo=in.(${MODES[mode].codes})&order=data_apresentacao.desc,id.desc&limit=600`);
+  const rows=await db(`/proposicoes?select=id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao&situacao_codigo=in.(${MODES[mode].codes})&order=data_apresentacao.desc,id.desc&limit=${MODE_LIMIT}`);
   const list=rows.map(r=>{
     let it=byId.get(String(r.id));
     if(!it){const tags=Array.isArray(r.tags)?r.tags.slice(0,3):[];
@@ -600,7 +600,7 @@ async function loadMode(mode){
     statusCache.set(String(r.id),normalizeStatus({codSituacao:r.situacao_codigo,descricaoSituacao:r.situacao_descricao}));
     return it;
   });
-  modeCache[mode]=list;return list;
+  list.capped=rows.length>=MODE_LIMIT;modeCache[mode]=list;return list;
 }
 
 /* ---------- Salvos ---------- */
@@ -727,15 +727,17 @@ async function renderExplorar(){
       announce('Não foi possível carregar este atalho sem conexão.');return;
     }
     if(token!==lastRoute)return;
+    const capped=list.capped;
     list=list.filter(it=>(state.ano==='Todos'||String(it.ano)===state.ano)&&(state.tipo==='Todos'||it.tipo===state.tipo)&&(!state.area||it.area===state.area));
+    list.capped=capped;
   }else{
     list=filtered();
     if(feat.length)list=list.filter(it=>!feat.includes(it));
   }
   const total=Math.max(1,Math.ceil(list.length/PAGE));if(state.p>total)state.p=total;
   const pageItems=list.slice((state.p-1)*PAGE,state.p*PAGE);
-  const n=list.length.toLocaleString('pt-BR');
-  $('#resultsMeta').innerHTML=`<span>${n} ${list.length===1?'proposta':'propostas'}${total>1?` · página ${state.p} de ${total}`:''}${state.modo?' · '+esc(MODES[state.modo].hint):''}</span>`+pills();
+  const n=list.length.toLocaleString('pt-BR')+(list.capped?'+':'');
+  $('#resultsMeta').innerHTML=`<span>${n} ${list.length===1?'proposta':'propostas'}${total>1?` · página ${state.p} de ${total}`:''}${list.capped?' · mostrando as mais recentes':''}${state.modo?' · '+esc(MODES[state.modo].hint):''}</span>`+pills();
   if(!pageItems.length){$('#grid').innerHTML=emptyState();$('#pagination').innerHTML=''}
   else{$('#grid').innerHTML=pageItems.map(card).join('');$('#pagination').innerHTML=pagination(state.p,total)}
   announce(`${n} ${list.length===1?'proposta encontrada':'propostas encontradas'}${total>1?`, página ${state.p} de ${total}`:''}.`);
@@ -791,7 +793,7 @@ async function renderFicha(){
     <div class="page detail-grid" data-area="${esc(it.area)}">
       <div>
         <section class="block"><h2>O que a proposta quer mudar?</h2>
-          <p>${it.reviewed?esc(it.ed.i):esc(it.title)+(it.altera?`. Para isso, altera: ${esc(it.altera)}`:'')}.</p>
+          <p>${(it.reviewed?esc(it.ed.i):esc(it.title)+(it.altera?`. Para isso, altera: ${esc(it.altera)}`:'')).replace(/[.\s]+$/,'')}.</p>
           ${it.reviewed?'':'<p class="note">Resumo automático a partir da ementa. Ainda não foi explicado pela redação.</p>'}
           <p class="note">Proposta não é lei: o texto pode mudar e precisa passar pela Câmara, pelo Senado e pela sanção.</p></section>
         ${it.reviewed&&it.ed.p?.length?`<section class="block"><h2>Quem pode ser afetado</h2><ul class="who-row">${it.ed.p.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></section>`:''}
