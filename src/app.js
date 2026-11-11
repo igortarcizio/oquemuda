@@ -1,4 +1,4 @@
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
@@ -6,9 +6,9 @@ import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
-const WATCH_MODES={recent:{label:'Novas propostas',hint:'Projetos apresentados recentemente, ordenados do mais novo para o mais antigo.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. Isso não confirma votação agendada ou pauta do Plenário.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160'}};
+const WATCH_MODES={recent:{label:'Novas propostas',hint:'Projetos apresentados recentemente, ordenados do mais novo para o mais antigo.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. Isso não confirma votação agendada ou pauta do Plenário.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926'}};
 const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',mode:'',
-  items:[],totalPages:null,hasNext:false,source:'ao vivo',error:'',loading:false};
+  items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null;
 const statusCache=new Map(),statusQueued=new Set(),statusQueue=[];
 let activeStatus=0;
@@ -135,8 +135,11 @@ function renderEditorial(){
  $('editorialFeature').innerHTML='';
  $('editorialSupporting').innerHTML='';
  if(state.mode||!editorialAllowed(state))return;
- const selected=selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:state.year});
- if(selected.length!==3)return; // Nunca publicar um destaque sem conteúdo revisado suficiente.
+ const selected=state.featuredResult?.items?.length===3?
+  state.featuredResult.items:
+  selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:state.year});
+ if(selected.length!==3)return;
+ for(const p of selected)if(p.statusVerificado)statusCache.set(p.id,p.statusVerificado);
  $('editorialFeature').innerHTML=editorialFeature(selected[0],cachedStatus(selected[0].id),isSaved(selected[0].id));
  $('editorialSupporting').innerHTML=selected.slice(1).map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join('');
  section.hidden=false;
@@ -148,16 +151,16 @@ function present(result){
  state.source=result.source;
  $('cards').setAttribute('aria-busy','false');
  $('cards').innerHTML=state.items.length?state.items.map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join(''):
-  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':'<div class="empty-state"><h3>Nenhuma proposta encontrada neste recorte.</h3><p>Experimente outro ano, assunto ou partido. A Câmara continua sendo a fonte para pesquisas completas.</p></div>');
+  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':'<div class="empty-state"><h3>Nenhuma proposta encontrada neste acervo.</h3><p>O banco é parcial e continua em expansão. A ausência de resultados não significa que não existam outras propostas na Câmara.</p></div>');
  $('pagination').innerHTML=pagination({page:state.page,totalPages:state.totalPages,hasNext:state.hasNext});
  renderEditorial();
  const msg=state.items.length+' '+(state.items.length===1?'proposta exibida':'propostas exibidas')+' na página '+state.page+
    (state.totalPages?' de '+state.totalPages:'')+(state.source==='cópia parcial'?' · reserva parcial':'');
- const statusLine=state.mode&&result.source==='situação verificada'?state.items.length+' confirmada(s) entre '+Number(result.inspectedCount||0)+' registros verificados nesta página · '+WATCH_MODES[state.mode].hint:msg;
+ const statusLine=state.mode&&result.source==='banco de dados'?msg+' · Busca sobre todo o acervo indexado, antes da paginação · '+WATCH_MODES[state.mode].hint:state.mode&&result.source==='situação verificada'?state.items.length+' confirmada(s) entre '+Number(result.inspectedCount||0)+' registros verificados nesta página · '+WATCH_MODES[state.mode].hint:msg;
  $('listSubtitle').textContent=statusLine;announce(statusLine);
  setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(result.source==='situação verificada'?
   'A situação foi conferida no registro individual de '+Number(result.inspectedCount||0)+' propostas desta página; o recorte não é exaustivo.':
-  result.source==='banco de dados'?'Resultados consultados no banco persistente do projeto, com até 30 registros por página. Situações individuais podem ser atualizadas separadamente.':
+  result.source==='banco de dados'?'Busca realizada em todos os registros indexados que atendem aos filtros, com paginação de 30 resultados. O acervo é parcial e não equivale a todas as proposições da Câmara.':
   result.source==='ao vivo'?'Resultados carregados por página diretamente da API, com até 30 registros por página.':
   'Cópia parcial de reserva utilizada porque a API não respondeu. Última coleta: '+(window.OBM_DATA?.generatedAt?new Date(window.OBM_DATA.generatedAt).toLocaleString('pt-BR'):'não informada')+'. A ausência de resultados não comprova inexistência.')+
   ' Propostas não são leis em vigor. Pronta para pauta não confirma votação agendada.');
@@ -184,12 +187,12 @@ async function showList(){
   $('listTitle').textContent='Assuntos salvos';setFooter('As propostas salvas permanecem apenas neste navegador. A situação pode ter mudado desde o salvamento.');
   return;
  }
- syncForm();loader();
+ syncForm();loader();state.featuredResult=null;
  const keywords=state.query||TOPIC_API[state.topic]||'';
  const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
  // A cópia local é exibida imediatamente; a API oficial atualiza quando responder.
  // Não deixar o visitante preso nos skeletons durante instabilidade externa.
- const snapshot=!situationCodes?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
+ const snapshot=!state.mode?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
  const hasSnapshot=!!snapshot?.items?.length;
  if(hasSnapshot){
   present(snapshot);
@@ -197,18 +200,29 @@ async function showList(){
   announce('Propostas da cópia parcial exibidas. Consultando atualização oficial.');
  }
  try{
-  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,signal:activeRequest.signal};
-  // Os estados legislativos só passam ao banco após a sincronização dos códigos oficiais.
+  // Os destaques são obtidos antes da busca e retirados da listagem padrão.
+  const shouldFeature=editorialAllowed(state);
+  if(shouldFeature){
+   try{state.featuredResult=await getDailyFeatured({signal:activeRequest.signal})}
+   catch{state.featuredResult=null}
+  }
+  if(id!==sequence)return;
+  const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>p.siglaTipo===state.type&&String(p.ano)===String(state.year)).map(p=>p.id)||[]:[];
+  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,excludeIds,signal:activeRequest.signal};
   let result;
-  if(situationCodes){result=await getProposals(args)}
-  else {try{result=await getDatabaseProposals(args)}catch(dbError){result=await getProposals(args)}}
+  try{result=await getDatabaseProposals(args)}
+  catch(dbError){
+   // Não retornar ao filtro de apenas 30 da Câmara nos modos legislativos.
+   if(state.mode)throw new Error('A pesquisa integral do acervo está temporariamente indisponível.');
+   result=await getProposals(args);
+  }
   if(id!==sequence)return;
   if(result.items.length||!hasSnapshot){
    present(result);
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
    setFooter('Fonte: cópia parcial da Câmara. A consulta oficial não retornou registros; a cobertura da reserva não é completa.');
-  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL');
+  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL'||!!state.mode);
  }catch(error){
   if(id!==sequence)return;
   if(hasSnapshot){
