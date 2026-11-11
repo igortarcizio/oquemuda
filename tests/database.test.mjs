@@ -60,6 +60,18 @@ test('atalhos filtram o banco inteiro antes da paginação e sem restringir tipo
  }finally{globalThis.fetch=original}
 });
 
+test('modo novidades aplica recorte de 30 dias no banco antes da paginação',async()=>{
+ const original=globalThis.fetch;let called='';
+ globalThis.fetch=async url=>{called=String(url);return {ok:true,headers:{get:()=> '*/0'},json:async()=>[]}};
+ try{
+  const r=await getDatabaseProposals({year:'Todos',type:'Todos',presentedSince:'2026-10-12'});
+  const params=new URL(called).searchParams;
+  assert.equal(params.get('data_apresentacao'),'gte.2026-10-12');
+  assert.equal(params.get('limit'),'30');
+  assert.equal(r.items.length,0);
+ }finally{globalThis.fetch=original}
+});
+
 test('busca dos destaques retorna os IDs na ordem persistida, sem depender dos primeiros 30',async()=>{
  const original=globalThis.fetch;let calls=[];
  globalThis.fetch=async url=>{
