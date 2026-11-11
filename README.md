@@ -29,12 +29,13 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 
 ## Dados e paginação
 
-- A API principal é `https://dadosabertos.camara.leg.br/api/v2/proposicoes`, sempre com `itens=30` e `pagina=N`.
-- O número de páginas é derivado do link `rel=last` retornado pela API. Se não houver informação confiável, o frontend não inventa a última página.
-- Ano, espécie e `siglaPartidoAutor` são filtros da própria API. O tema usa palavras-chave indicativas: é um filtro aproximado, não uma indexação jurídica exaustiva.
-- O catálogo local é um fallback parcial quando a API falha. Não é apresentado como totalidade da legislação.
-- As situações são carregadas sob demanda nos cards visíveis, com até três consultas simultâneas; há cache temporário em SessionStorage.
-- Dados da autoria e filiação recente vêm da API e de um cache atualizado. A sigla atual pode ser diferente da filiação no momento da apresentação.
+- A fonte de verdade continua sendo a Câmara dos Deputados. A plataforma consulta normalmente o **Supabase**, abastecido com os arquivos anuais CSV e complementações pontuais pela API oficial.
+- O importador de arquivos anuais indexa propostas dos tipos **PL, PLP, PEC, MPV, PDL e PRC** dos dois anos mais recentes. O acervo histórico anterior a esse período ainda não é integral.
+- Os atalhos **De olho na Câmara** aplicam os códigos de situação no banco **antes** da paginação. São consultados todos os registros indexados que atendem ao critério, em páginas de 30 resultados; não apenas os primeiros 30 retornados pela Câmara.
+- Os atalhos não restringem automaticamente ano ou tipo. O código **924** significa *Pronta para Pauta*, sem garantir votação agendada. O grupo de encaminhamento ao Senado/sanção usa códigos oficiais selecionados, sujeito a revisão jurídica.
+- Quando o banco está indisponível nos atalhos, a interface informa a falha em vez de simular uma pesquisa exaustiva com apenas uma página da API.
+- O filtro temático usa aproximações textuais na implementação atual, e o filtro partidário ainda pode exigir consultas da API. Ambos demandam indexação adicional.
+- A cópia `dados/catalogo.js` é uma reserva parcial, não representa o total da Câmara.
 
 ## Critérios editoriais e limitações
 
@@ -61,37 +62,26 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 - [Plataforma pública](https://igortarcizio.github.io/oquemuda/#/explorar)
 - [API oficial](https://dadosabertos.camara.leg.br/api/v2/)
 
-## Resiliência e limites atuais
+## Seleção diária — Assuntos para começar
 
-- Requisições simultâneas idênticas compartilham uma única chamada HTTP; abandonar uma tela não cancela a consulta que outra tela ainda utiliza.
-- Erros HTTP definitivos (como 400) não são repetidos. Erros transitórios são tentados no máximo duas vezes.
-- A situação legislativa desconhecida ou indisponível não fica armazenada como se fosse confirmada. Situações confirmadas têm cache temporário.
-- A reserva automática percorre a página recente e uma página histórica rotativa para cada combinação de tipo/ano; acumula até **3.000 registros** e preserva o catálogo anterior quando a API falha.
-- **Importante:** a reserva é parcial. Não representa todas as proposições e não deve ser usada para contagens totais, filtros de situação ou inferência de inexistência de propostas.
-- A consulta ao vivo continua sujeita à disponibilidade da API da Câmara. A filtragem de situações ainda é feita em lotes de até 30 registros, com confirmação individual, e **não** substitui uma busca indexada no universo completo.
-- Próxima etapa estrutural: base persistente e sincronização completa por lotes, com API própria de leitura e classificação legislativa auditável.
+O estado dos três destaques fica em `public.destaques_diarios` no Supabase e é lido pelo frontend independentemente da primeira página de resultados. A rotina `scripts/selecionar_destaques.py` roda **após a importação diária bem-sucedida** de arquivos oficiais no workflow `.github/workflows/sync-bulk.yml`.
 
-## Banco de dados Supabase — primeira fase
+- Seleciona proposições **novas após a última seleção** segundo critérios determinísticos de impacto direto no cotidiano (saúde, trabalho, educação, consumo, mobilidade, tecnologia, moradia, segurança e meio ambiente).
+- Considera linguagem de efeitos concretos e públicos afetados; evita atos meramente simbólicos, honrarias e textos sem elementos suficientes.
+- **Não avalia partido, parlamentar, posição política ou apoio ao mérito da proposta.** A classificação é uma priorização temática aproximada, não um juízo de valor.
+- Prioriza diversidade de assuntos, pode trocar um, dois ou três itens e preserva o restante. **Sem novidades elegíveis, os três destaques permanecem inalterados.**
+- O texto dos registros não revisados é obtido da ementa oficial e de regras automáticas; não recebe selo de revisão humana por engano.
+- O processo usa somente `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` nos secrets do GitHub. A chave administrativa jamais fica no frontend.
 
-O projeto **O que muda?** está criado na organização ITS, região `sa-east-1`. A base inicial possui 883 registros do catálogo parcial (2025–2026). A interface pública **continua consultando a API da Câmara** até que a cobertura, os filtros e as situações sejam validados.
+## Sincronização e limites atuais
 
-A sincronização foi implementada em `scripts/sincronizar_supabase.py` e agendada em `.github/workflows/sincronizar_supabase.yml`. Ela faz upsert por ID, em lotes de 100, preservando dados existentes. A sincronização só é ativada depois de configurar, em **Settings → Secrets and variables → Actions**, os seguintes *repository secrets*:
+- `scripts/sync_bulk.py` lê arquivos anuais oficiais e importa todos os registros dos tipos cobertos nos dois anos mais recentes, em lotes com `upsert`. O processo registra divergências entre ID e identificação legislativa, sem sobrescrever silenciosamente registros conflitantes.
+- `scripts/sync_supabase.py` faz verificações individuais incrementais e tolera respostas HTTP transitórias com tentativas limitadas.
+- O frontend usa a chave **publicável** com RLS e leitura somente pública na tabela dos destaques; alterações usam credenciais de serviço restritas ao GitHub Actions.
+- A situação `Pronta para Pauta` **não** é uma votação oficialmente agendada. Nenhuma etapa deve ser inferida somente pela existência de uma proposta.
+- O acervo cobre por enquanto os tipos e anos importados. **“Todos os resultados” significa todos os registros indexados do recorte**, não a totalidade histórica da Câmara.
+- Documentação e critérios adicionais: `CRITERIOS_EDITORIAIS.md`.
 
-- `SUPABASE_URL`: `https://ltihbrlamevhmjjlsphc.supabase.co`
-- `SUPABASE_SERVICE_ROLE_KEY`: chave de serviço do projeto, obtida **diretamente no painel do Supabase**. Nunca incluir no frontend, código, issues ou documentação.
+## Validação
 
-O GitHub conectado não disponibiliza uma ação para configurar secrets; por isso a execução agendada ainda depende dessa configuração manual. Não utilize uma chave pública para executar importações. A rotina atual importa apenas o catálogo parcial; ela **não** fornece histórico completo de tramitação nem valida situações legislativas. O frontend não deve ser migrado até que a indexação seja ampliada e auditada.
-
-Consultas de verificação no SQL Editor do Supabase:
-
-```sql
-select count(*) from public.proposicoes;
-select sigla_tipo, ano, count(*) from public.proposicoes group by 1,2 order by 2 desc,1;
-select id, sigla_tipo, numero, ano, ementa from public.proposicoes where ano=2026 and sigla_tipo='PL' order by id desc limit 30;
-```
-
-### Consulta ao índice em desenvolvimento
-
-O módulo `src/data/indice.js` permite leitura **somente pública** de propostas no Supabase via chave publicável, com filtros de ano, tipo e texto aplicados pelo PostgreSQL antes da paginação. Testes isolados: `tests/indice.test.mjs`.
-
-O módulo **ainda não é importado pelo controlador da aplicação**. Os resultados do índice são rotulados `índice parcial`; a situação permanece `Situação a confirmar` porque o acervo inicial não contém o andamento verificado. Não ativar a troca de fonte até importar autores, situação e tramitação, ampliar a cobertura e executar testes de integração no navegador.
+Rode `npm test` e `python -m unittest discover -s tests -p 'test_*.py' -v` para testar buscas, seleção diária, preservação dos destaques, importação e sincronização sem credenciais reais.
