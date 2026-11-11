@@ -37,6 +37,17 @@ class SelectorTests(unittest.TestCase):
         self.assertIsNone(selector.relevance(p))
         self.assertEqual(selector.choose(PREVIOUS,[p],TODAY),[])
 
+    def test_new_candidate_on_same_calendar_day_is_not_lost(self):
+        rows=[dict(p) for p in PREVIOUS]
+        rows[0]["candidatos_avaliados"]=[77]
+        existing=proposal(77,"2026-11-10")
+        new=proposal(88,"2026-11-10")
+        selection=selector.choose(rows,[existing,new],TODAY)
+        self.assertEqual(selection[0]["proposicao_id"],88)
+        self.assertEqual(selection[0]["candidatos_avaliados"],[77,88])
+        rows[0]["candidatos_avaliados"]=[77,88]
+        self.assertEqual(selector.choose(rows,[existing,new],TODAY),[])
+
     def test_ignores_party_affiliation_and_selects_across_subjects(self):
         health=proposal(55)
         education=proposal(66,ementa="Assegura às crianças e aos estudantes o acesso gratuito à educação pública e estabelece medidas para apoiar famílias e professores na escola.")
