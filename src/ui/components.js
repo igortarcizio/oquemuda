@@ -1,4 +1,4 @@
-import {safeText,questionTitle,cardSummary,ref,dateBR,officialURL,cleanText} from '../lib/text.js?v=quality-20261111';
+import {safeText,questionTitle,cardSummary,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
@@ -9,11 +9,13 @@ function conciseImpact(value, limit=135){
   return cut.slice(0,lastSpace>limit*0.7?lastSpace:limit).replace(/[.,:;\s]+$/,'')+'…';
 }
 
-import {proposalTags,tagURL} from '../lib/tags.js?v=quality-20261111';
+import {proposalTags,tagURL} from '../lib/tags.js';
 const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em revisão</p>':'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
 
 import {STATUS} from '../lib/status.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
+// Toda proposta tem um tema real; não existe "Outros".
+const themeOf=(p,e=editorial(p))=>p.area||classifyTheme(p,e);
 export function skeleton(count=6){
  return Array.from({length:count},(_,i)=>'<article class="card skeleton" aria-hidden="true"><div class="skeleton-bar shimmer"></div><div class="card-body"><div class="skeleton-ref shimmer"></div><div class="skeleton-heading shimmer"></div><div class="skeleton-heading narrow shimmer"></div><div class="skeleton-block shimmer"></div><div class="skeleton-block small shimmer"></div></div></article>').join('');
 }
@@ -25,8 +27,8 @@ export function card(p,status, saved){
  const e=editorial(p),title=questionTitle(p,e),summary=cardSummary(p,e);
  const after=conciseImpact(summary||'O texto oficial ainda não traz uma síntese suficiente para explicar a mudança.');
 
- return '<article class="card civic-card" data-area="'+safeText(p.area||'Outros')+'">'+
-   '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||'Outros')+'</span>'+
+ return '<article class="card civic-card" data-area="'+safeText(themeOf(p,e))+'">'+
+   '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(themeOf(p,e))+'</span>'+
    '<span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
    '<div class="card-body"><p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
    '<h3><a href="#/tema/'+Number(p.id)+'">'+safeText(title)+'</a></h3>'+
@@ -43,8 +45,8 @@ export function editorialFeature(p,status,saved){
  const e=editorial(p),title=questionTitle(p,e);
  const summary=conciseImpact(cardSummary(p,e),175);
 
- return '<article class="card civic-card editorial-feature" data-area="'+safeText(p.area||e.area||'Outros')+'">'+
-   '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||e.area||'Outros')+'</span><span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
+ return '<article class="card civic-card editorial-feature" data-area="'+safeText(themeOf(p,e))+'">'+
+   '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(themeOf(p,e))+'</span><span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
    '<div class="editorial-feature-body"><div class="editorial-feature-copy"><p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
    '<h3><a href="#/tema/'+Number(p.id)+'">'+safeText(title)+'</a></h3><p class="editorial-feature-lead">'+safeText(summary)+'</p></div>'+
    '<div class="editorial-feature-side">'+
@@ -84,20 +86,24 @@ export function pagination({page,totalPages,hasNext}){
  '</nav>';
 }
 const initials=authors=>authors.length?authors.map(a=>safeText(a.nome)+(a.partido?' <strong>('+safeText(a.partido)+')</strong>':' <span class="muted">(partido não informado)</span>')).join('<span class="author-separator">, </span>'):'Autoria não informada pela API';
-export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null}={},saved=false){
+export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
  const e=editorial(p),title=questionTitle(p,e);
  const after=cardSummary(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
  const full=safeURL(fullTextURL);
- const pendingText=lastChecked?'Não informado no registro consultado':'Consulta pendente';
+ const pendingText=lastChecked?'Não informado no registro consultado':'Em atualização';
+ const area=themeOf(p,e);
+ // Sem explicação revisada, o resumo seria a própria ementa: não repetir o mesmo texto duas vezes.
+ const reviewed=cleanText(after)!==cleanText(p.ementa);
+ const backLabel=backHref==='#/explorar'?'← Voltar às propostas':'← Voltar aos resultados';
  const verifiedAt=lastChecked?new Date(lastChecked).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):null;
- return '<div class="detail" data-area="'+safeText(p.area||'Outros')+'"><div class="page" style="padding-top:28px"><a class="back" href="#/explorar">← Voltar às propostas</a></div>'+
- '<div class="detail-header"><div class="page"><div class="detail-meta"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||'Outros')+'</span> · '+safeText(ref(p))+'</div>'+
- '<h1>'+safeText(title)+'</h1><p class="detail-summary">'+safeText(after)+'</p>'+
+ return '<div class="detail" data-area="'+safeText(area)+'"><div class="page" style="padding-top:28px"><a class="back" href="'+safeText(backHref)+'">'+backLabel+'</a></div>'+
+ '<div class="detail-header"><div class="page"><div class="detail-meta"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(area)+'</span> · '+safeText(ref(p))+'</div>'+
+ '<h1 tabindex="-1" id="detailTitle">'+safeText(title)+'</h1>'+
  subjectLinks(p)+'<button type="button" data-save="'+Number(p.id)+'" aria-pressed="'+saved+'" class="outline-btn">'+(saved?'✓ Salvo':'＋ Salvar para depois')+'</button></div></div>'+
  '<div class="page detail-layout"><div>'+
 
- '<section class="detail-section"><h2>O que a proposta quer mudar?</h2><p>'+safeText(after)+'</p><p class="small-note">O texto ainda pode mudar durante a tramitação; a proposta não é uma lei em vigor.</p></section>'+
+ '<section class="detail-section"><h2>O que a proposta quer mudar?</h2>'+(reviewed?'<p>'+safeText(after)+'</p>':'<p>Esta proposta ainda não tem explicação revisada pela redação. O resumo oficial está logo abaixo.</p>')+'<p class="small-note">O texto ainda pode mudar durante a tramitação; a proposta não é uma lei em vigor.</p></section>'+
  '<section class="detail-section"><h2>O que está no documento oficial?</h2><div class="quote-official"><span class="eyebrow">Ementa oficial</span><p>'+safeText(p.ementa)+'</p></div></section>'+
  '<section class="detail-section"><h2>Em que etapa está?</h2><p>'+(loaded?badge(status):'Verificando andamento na Câmara…')+'</p>'+
  (stage.descricaoTramitacao?'<p class="small-note">Último registro: '+safeText(stage.descricaoTramitacao)+'.</p>':'')+
@@ -107,7 +113,6 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+'</dd></div>'+
  '<div><dt>Autoria e partido informado</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Autoria não informada na consulta':'Autoria ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
- '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
  '<div><dt>Órgão</dt><dd>'+safeText(stage.siglaOrgao||pendingText)+'</dd></div>'+
  '<div><dt>Registro de tramitação</dt><dd>'+safeText(stage.dataHora?dateBR(stage.dataHora):pendingText)+'</dd></div>'+
  '</dl><div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Consultar na Câmara ↗</a>'+
@@ -117,12 +122,12 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '</aside></div></div>';
 }
 export function infoPage(){
- return '<div class="page inforoute"><p class="eyebrow">Como funciona</p><h1>Entender antes de opinar.</h1>'+
+ return '<div class="page inforoute"><p class="eyebrow">Como funciona</p><h1 tabindex="-1" id="infoTitle">Entender antes de opinar.</h1>'+
  '<p class="lead">O que muda? explica, em linguagem clara, propostas da Câmara dos Deputados. Proposta não é lei.</p>'+
  '<div class="steps"><article class="step"><div class="number">01</div><h2>Busque um assunto</h2><p>Encontre propostas por palavra, ano, tipo ou partido do autor.</p></article>'+
  '<article class="step"><div class="number">02</div><h2>Entenda a proposta</h2><p>“O que muda” explica de forma resumida aquilo que o projeto pretende alterar, sem confundir propostas e leis em vigor.</p></article>'+
  '<article class="step"><div class="number">03</div><h2>Confira a fonte</h2><p>Consulte o texto integral, os autores e o andamento na base oficial.</p></article></div>'+
  '<div class="notice" style="margin-top:26px"><strong>Transparência editorial.</strong> Títulos não revisados são sugestões automáticas derivadas da ementa. A classificação temática é auxiliar. A aprovação em uma comissão não equivale à aprovação final.</div>'+
- '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde. As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. A classificação é automática e pode ser aperfeiçoada.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
+ '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde ou Direitos e cidadania; toda proposta recebe um dos 13 temas. As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. A classificação é automática e pode ser aperfeiçoada.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
  '<p style="margin-top:26px"><a class="primary-btn" href="#/explorar">Explorar propostas →</a></p></div>';
 }

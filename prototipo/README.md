@@ -14,8 +14,7 @@ node prototipo/build/build.mjs
 
 | Arquivo | Papel |
 | --- | --- |
-| `build/build.mjs` | Lê o acervo, calcula assuntos e temas, descarta registros de teste e gera o HTML |
-| `build/classify.js` | Regra única de tema (13 temas, sem "Outros"), usada no build e no navegador |
+| `build/build.mjs` | Lê o acervo, calcula assuntos e temas (com `src/lib/themes.js`, a mesma regra do site), descarta registros de teste e gera o HTML |
 | `build/template.html` | Interface: HTML, CSS e JS do protótipo |
 
 ## O que muda em relação ao site

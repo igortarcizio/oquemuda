@@ -8,7 +8,8 @@ export const STATUS={
  approved:{label:'Aprovado na Câmara',tone:'approved'},
  closed:{label:'Arquivado / Rejeitado',tone:'closed'},
  introduced:{label:'Apresentada',tone:'neutral'},
- unknown:{label:'Situação a confirmar',tone:'neutral'}
+ // Rótulo único para qualquer situação ainda não confirmada na fonte oficial.
+ unknown:{label:'Em atualização',tone:'pending'}
 };
 export function normalizeStatus(status) {
  const code=Number(status?.codSituacao);
@@ -21,7 +22,7 @@ export function normalizeStatus(status) {
  const stage=String(status?.descricaoSituacao||'').trim();
  const movement=String(status?.descricaoTramitacao||'').trim();
  const t=(stage||movement).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
- if(!t)return {...STATUS.unknown,detail:'A Câmara não informou a situação nesta consulta.'};
+ if(!t)return {...STATUS.unknown,detail:'A Câmara ainda não informou a situação.'};
  if(/arquivad|rejeitad|prejudicad|retirad|devolvid/.test(t))return {...STATUS.closed,detail:stage||movement};
  // Na Câmara: remessa ao Senado ou à sanção indica conclusão de análise na Casa.
  if(/remetid.{0,28}senado|encaminhad.{0,28}senado|enviad.{0,28}senado|remetid.{0,28}sancao|encaminhad.{0,28}sancao|aprovad.{0,20}plenario|transformad.{0,20}norma/i.test(t))return {...STATUS.approved,detail:stage||movement};

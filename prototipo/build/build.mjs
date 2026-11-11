@@ -14,8 +14,10 @@ for (const f of ['dados/catalogo.js', 'dados/editorial.js', 'dados/deputados-par
 }
 const {classifyTags} = await import(pathToFileURL(path.join(root, 'src/lib/tags.js')).href);
 const {EDITORIAL_PRIORITY} = await import(pathToFileURL(path.join(root, 'src/lib/editorial.js')).href);
-const classifySrc = fs.readFileSync(path.join(here, 'classify.js'), 'utf8');
-const C = new Function(classifySrc + ';return THEME_CLASSIFIER;')();
+const C = await import(pathToFileURL(path.join(root, 'src/lib/themes.js')).href);
+// A mesma regra de temas do site vai embutida no HTML, para classificar também o que chega ao vivo.
+const classifySrc = 'var THEME_CLASSIFIER=(function(){\n' + read('src/lib/themes.js').replace(/^export /gm, '') +
+  '\nreturn {THEMES:THEMES,themeFor:themeFor};})();';
 
 // Registros que não são propostas reais (ex.: "Teste de Comissão") ficam fora do acervo (revisão C8).
 const isJunk = (p) => !p.ementa || p.ementa.trim().length < 20 || /^teste\b/i.test(p.ementa.trim());

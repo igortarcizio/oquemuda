@@ -13,7 +13,9 @@ Decisões tomadas após a revisão:
 - **Filtro "Partido do autor":** saiu do protótipo porque o acervo não tem a autoria de cada proposta. Volta quando a autoria estiver na base.
 - **Anos anteriores:** o filtro de ano mostra só os anos presentes no acervo. Para incluir anos anteriores, o importador (`scripts/sync_bulk.py`, `YEARS`) precisa de uma carga do passado; a sugestão é começar em 2023.
 
-O que ainda falta levar para o site: as correções no `src/` e nos CSS, a coluna `area` e a busca sem acento no banco, o gate de qualidade no sync (C8), a remoção do código morto (C5) e o schema/RLS versionado (C7). A parte ao vivo do protótipo (situação, autoria e atalhos por etapa, via Supabase e API da Câmara) não foi testada fora do ambiente de desenvolvimento.
+**Etapa 1 no site (11/11/2026):** correções rápidas aplicadas em `src/` e `styles/` (itens marcados "✅ Site" na seção 5), com a regra de temas movida para `src/lib/themes.js` e compartilhada com o protótipo.
+
+O que ainda falta levar para o site: o visual novo (etapa 2), a coluna `area` e a busca sem acento no banco, o gate de qualidade no sync (C8), a remoção do código morto (C5) e o schema/RLS versionado (C7). A parte ao vivo do protótipo (situação, autoria e atalhos por etapa, via Supabase e API da Câmara) não foi testada fora do ambiente de desenvolvimento.
 
 ## 1. Resumo executivo
 
@@ -113,21 +115,21 @@ Nos chips, melhor ainda: só alternar `aria-pressed`/`.active` em vez de recriar
 
 ## 5. Plano de ação priorizado
 
-Legenda do status: ✅ resolvido no protótipo, ainda não aplicado ao site · 🟡 parcial · ⬜ pendente · ➖ não se aplica ao protótipo (continua pendente no site).
+Legenda do status: ✅ Site = já no site principal · ✅ Protótipo = resolvido no protótipo, ainda não aplicado ao site · 🟡 parcial · ⬜ pendente · ➖ não se aplica ao protótipo (continua pendente no site).
 
 | Prioridade | Ação | Área | Esforço | Impacto | Status em 11/11 |
 |---|---|---|---|---|---|
-| 1 | Select de ano só com anos indexados; default = ano mais recente coberto (C1) | Código/UX | P | Crítico | ✅ Protótipo |
-| 2 | Remover reescrita de ano nos atalhos "De olho" (C2) | Código | P | Alto | ✅ Protótipo |
-| 3 | Eliminar "Outros": todo card com tema real, mesma regra no card e no filtro (C3) | UX | P | Alto | ✅ Protótipo (13 temas, sem "Outros") |
-| 4 | Memoizar `fromSnapshot` (C4) | Código | P | Alto | ✅ Protótipo |
-| 5 | Gestão de foco em rota, paginação e chips (U1) | A11y | P | Alto | ✅ Protótipo |
-| 6 | Padding lateral do header no mobile (V3) | Visual | P | Médio | ✅ Protótipo |
-| 7 | Bordas 3:1, placeholder 4,5:1, mínimo de 12px (V5) | Visual/A11y | P | Médio | ✅ Protótipo |
-| 8 | Rótulo único de situação + renomear seção de destaques (U4, V4) | UX | P | Médio | ✅ Protótipo |
-| 9 | Tirar `?v=` dos imports internos (C6) | Código | P | Médio | ➖ Não se aplica ao protótipo (arquivo único) |
+| 1 | Select de ano só com anos indexados; default = ano mais recente coberto (C1) | Código/UX | P | Crítico | ✅ Site (etapa 1) |
+| 2 | Remover reescrita de ano nos atalhos "De olho" (C2) | Código | P | Alto | ✅ Site (etapa 1) |
+| 3 | Eliminar "Outros": todo card com tema real, mesma regra no card e no filtro (C3) | UX | P | Alto | 🟡 Site (etapa 1): 13 temas, sem "Outros"; o filtro usa os assuntos até existir a coluna `area` (etapa 3) |
+| 4 | Memoizar `fromSnapshot` (C4) | Código | P | Alto | ✅ Site (etapa 1) |
+| 5 | Gestão de foco em rota, paginação e chips (U1) | A11y | P | Alto | ✅ Site (etapa 1) |
+| 6 | Padding lateral do header no mobile (V3) | Visual | P | Médio | ✅ Site (etapa 1) |
+| 7 | Bordas 3:1, placeholder 4,5:1, mínimo de 12px (V5) | Visual/A11y | P | Médio | ✅ Site (etapa 1) |
+| 8 | Rótulo único de situação + renomear seção de destaques (U4, V4) | UX | P | Médio | ✅ Site (etapa 1) |
+| 9 | Tirar `?v=` dos imports internos (C6) | Código | P | Médio | ✅ Site (etapa 1) |
 | 10 | Bloquear registros de teste/ementas suspeitas no sync (C8) | Dados | P | Médio | 🟡 Parcial (filtrado no build do protótipo; falta no sync) |
-| 11 | Ficha: remover duplicações e "Voltar" com contexto (U5) | UX | P | Médio | ✅ Protótipo |
+| 11 | Ficha: remover duplicações e "Voltar" com contexto (U5) | UX | P | Médio | ✅ Site (etapa 1) |
 | 12 | Tags e `area` pré-calculadas no Python + coluna `area` no banco (C3, C4) | Código | M | Alto | 🟡 Parcial (pré-calculado no build do protótipo; falta no sync/banco) |
 | 13 | Títulos descritivos para não revisados (V1) | Visual/Conteúdo | M | Alto | ✅ Protótipo |
 | 14 | Filtros recolhíveis e "De olho" em chips no mobile (U2) | UX | M | Alto | ✅ Protótipo |
