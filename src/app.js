@@ -1,8 +1,8 @@
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=subjects-20261111';
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
-import {editorialAllowed,selectEditorial} from './lib/editorial.js';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=subjects-20261111';
+import {editorialAllowed,selectEditorial} from './lib/editorial.js?v=subjects-20261111';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
