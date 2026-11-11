@@ -6,7 +6,7 @@ import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
-const WATCH_MODES={recent:{label:'Novas propostas',hint:'Projetos apresentados recentemente, ordenados do mais novo para o mais antigo.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. Isso não confirma votação agendada ou pauta do Plenário.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926'}};
+const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. Isso não confirma votação agendada ou pauta do Plenário.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
 const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null;
@@ -208,7 +208,9 @@ async function showList(){
   }
   if(id!==sequence)return;
   const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>p.siglaTipo===state.type&&String(p.ano)===String(state.year)).map(p=>p.id)||[]:[];
-  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,excludeIds,signal:activeRequest.signal};
+  const day=new Date();day.setUTCDate(day.getUTCDate()-30);
+  const presentedSince=state.mode==='recent'?day.toISOString().slice(0,10):'';
+  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,presentedSince,excludeIds,signal:activeRequest.signal};
   let result;
   try{result=await getDatabaseProposals(args)}
   catch(dbError){
