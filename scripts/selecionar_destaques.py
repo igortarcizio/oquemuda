@@ -44,7 +44,7 @@ def relevance(row):
     if row.get("sigla_tipo") not in TYPES:
         return None
     description = simplify(row.get("ementa", ""))
-    if len(description) < 65 or any(term in description for term in EXCLUDE) or re.search(r"\\bmocao\\b", description):
+    if len(description) < 65 or any(term in description for term in EXCLUDE) or re.search(r"\bmocao\b", description):
         return None
     if row.get("situacao_codigo") in (923, 950, 1292):
         return None
