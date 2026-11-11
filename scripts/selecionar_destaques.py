@@ -19,11 +19,11 @@ HEADERS = {"apikey": KEY, "Authorization": "Bearer " + KEY, "Accept": "applicati
 TYPES = {"PL", "PLP", "PEC", "MPV", "PDL", "PRC"}
 EXCLUDE = (
     "denomina", "denominacao", "da nome", "concede titulo", "dia nacional",
-    "semana nacional", "homenagem", "sessao solene", "moçao", "mocao",
+    "semana nacional", "homenagem", "sessao solene",
     "altera a denominacao", "inclui no calendario", "declara patrono"
 )
 AREAS = {
-    "Saúde": r"\b(sus|saude|hospital|tratamento|paciente|vacina|medicament|doenca|cancer|diabetes)\b",
+    "Saúde": r"\b(sus|saude|hospital\w*|tratamento\w*|paciente\w*|vacina\w*|medicament\w*|doenca\w*|cancer\w*|diabetes)\b",
     "Trabalho": r"\b(trabalh|empreg|salario|previdenc|aposent|licenca|trabalhador|jornada)\w*",
     "Educação": r"\b(educa|escol|universi|estud|professor|alfabetiza|ensino)\w*",
     "Consumo": r"\b(consumidor|tarifa|conta de luz|conta de agua|credito|financiam|fraude banc|superendivid)\w*",
@@ -44,7 +44,7 @@ def relevance(row):
     if row.get("sigla_tipo") not in TYPES:
         return None
     description = simplify(row.get("ementa", ""))
-    if len(description) < 65 or any(term in description for term in EXCLUDE):
+    if len(description) < 65 or any(term in description for term in EXCLUDE) or re.search(r"\\bmocao\\b", description):
         return None
     if row.get("situacao_codigo") in (923, 950, 1292):
         return None
