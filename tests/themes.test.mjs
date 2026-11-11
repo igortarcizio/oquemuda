@@ -50,3 +50,11 @@ test('filtro de tema vai ao banco antes da paginação, junto com a tag',async()
   await assert.rejects(()=>getDatabaseProposals({theme:'Outros'}),/Tema inválido/);
  }finally{globalThis.fetch=original}
 });
+
+test('registro antigo com "Outros" ganha tema real em card e ficha',async()=>{
+ const {card,detailPage}=await import('../src/ui/components.js');
+ const old={id:9,numero:9,ano:2026,siglaTipo:'PLP',ementa:'Altera a Lei Complementar nº 123, de 14 de dezembro de 2006, para reduzir as alíquotas do Simples Nacional.',area:'Outros'};
+ for(const html of [card(old,null,false),detailPage(old,{loaded:true})]){
+  assert.ok(!html.includes('Outros'));assert.match(html,/data-area="Economia"/);
+ }
+});

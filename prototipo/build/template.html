@@ -451,6 +451,7 @@ ul,ol{margin:0;padding:0;list-style:none}
 <script id="data" type="application/json">/*__DATA__*/</script>
 <script>
 /*__CLASSIFY__*/
+/*__TITLES__*/
 (()=>{
 'use strict';
 /* ========================= DADOS ========================= */
@@ -468,48 +469,8 @@ const fold=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase(
 const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
 const dateBR=d=>{const m=String(d||'').match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:'—'};
 
-/* ---------- Título descritivo gerado por regra (só para não revisados) ---------- */
-const IRREG={dispor:'Dispõe',propor:'Propõe',compor:'Compõe',impor:'Impõe',proibir:'Proíbe',prever:'Prevê',rever:'Revê',ter:'Tem',manter:'Mantém',obter:'Obtém',conter:'Contém',deter:'Detém',vir:'Vem',ver:'Vê',dar:'Dá',ser:'É',ir:'Vai',fazer:'Faz',trazer:'Traz',exigir:'Exige',corrigir:'Corrige',dirigir:'Dirige',pedir:'Pede',medir:'Mede',impedir:'Impede',seguir:'Segue',conseguir:'Consegue',prosseguir:'Prossegue',servir:'Serve',conferir:'Confere',transferir:'Transfere',inserir:'Insere',referir:'Refere',sugerir:'Sugere',investir:'Investe',repetir:'Repete',competir:'Compete',reunir:'Reúne',construir:'Constrói',destruir:'Destrói',subsidiar:'Subsidia',veicular:'Veicula'};
-function conj(v){
-  const l=v.toLowerCase();
-  if(IRREG[l])return IRREG[l];
-  if(!/(ar|er|ir)$/.test(l))return null;
-  if(/ear$/.test(l))return cap(l.replace(/ear$/,'eia'));
-  if(/uir$/.test(l))return cap(l.slice(0,-1));
-  if(/zir$/.test(l))return cap(l.slice(0,-2));
-  if(/ar$/.test(l)||/er$/.test(l))return cap(l.slice(0,-1));
-  return cap(l.slice(0,-2)+'e');
-}
-function shorten(s,max=135){
-  if(s.length<=max)return s;
-  const cut=s.slice(0,max);
-  const at=Math.max(cut.lastIndexOf(', '),cut.lastIndexOf(' e '),cut.lastIndexOf('; '));
-  if(at>max*.55)return cut.slice(0,at).replace(/[,;\s]+$/,'');
-  return cut.slice(0,cut.lastIndexOf(' ')).replace(/[,;:\s]+$/,'')+'…';
-}
-function autoTitle(e){
-  let s=String(e||'').replace(/\s+/g,' ').trim();
-  if(!s)return 'Proposta sem ementa informada';
-  let m;
-  if(/radiodifus/i.test(s)&&(m=s.match(/(?:cidade|munic[ií]pio) de ([^,]+?),\s*(?:Estado|no Estado) (?:de|do|da) ([^.,;]+)/i)))
-    return `Autoriza serviço de rádio em ${m[1].trim()} (${m[2].trim()})`;
-  if(/^Requer/i.test(s))return 'Pedido de tramitação: '+shorten(s.replace(/^Requer(?:em)?\s+/i,''),110);
-  m=s.match(/^(?:Alteram?|Acrescentam?|Modifica|Inclui|Dá nova redação|Revoga)\b[\s\S]*?\s(?:a fim de|para)\s+([a-zà-ú]+)\b([\s\S]*)$/i);
-  if(m){const v=conj(m[1]);if(v)s=v+m[2];}
-  s=s.replace(/^Dispõe sobre (a|o|as|os) /i,(x,a)=>'Trata d'+a.toLowerCase()+' ').replace(/^Dispõe sobre /i,'Trata de ');
-  s=s.replace(/,?\s*e dá outras providências\.?$/i,'').replace(/,?\s+(?:e\s+)?alteram?\s+(?:a|o|as|os)\s+(?:Leis?|Decreto|Constituição)[\s\S]*$/i,'');
-  s=s.split(/;\s/)[0].replace(/[.;,:\s]+$/,'');
-  return shorten(s);
-}
-function altera(e){
-  const pre=String(e||'').split(/\s(?:para|a fim de)\s/)[0];
-  if(/^Requer/i.test(String(e||'')))return '';
-  if(!/alter|acrescent|modific|revoga|reda[cç][aã]o/i.test(pre))return '';
-  const out=[],rx=/(Lei Complementar|Decreto-Lei|Lei|Decreto)\s+n[ºo°.]*\s*([\d.]+),\s+de\s+\d{1,2}º?\s+de\s+[a-zç]+\s+de\s+(\d{4})(?:\s*\(([^)]+)\))?/gi;let m;
-  while((m=rx.exec(pre))&&out.length<2){out.push(m[4]?m[4].trim():`${m[1]} ${m[2]}/${m[3]}`)}
-  if(/Constitui[cç][aã]o Federal/i.test(pre)&&out.length<2)out.push('Constituição Federal');
-  return out.join(' e ');
-}
+/* ---------- Títulos: mesma regra do site (src/lib/titles.js, embutida no build) ---------- */
+const autoTitle=TITLES.descriptiveTitle,altera=TITLES.amendedLaws;
 
 /* ---------- Itens ---------- */
 const items=D.rows.map(r=>{

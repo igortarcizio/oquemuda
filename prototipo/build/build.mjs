@@ -40,8 +40,11 @@ for (const [id, e] of Object.entries(ed)) editorial[id] = {t: e.titulo, i: e.imp
 
 const data = {partidos: window.OBM_PARTIDOS_DEPUTADOS || {}, generatedAt: window.OBM_DATA.generatedAt,
   areas: C.THEMES, tags: tagNames, priority: EDITORIAL_PRIORITY, editorial, rows};
+const titlesSrc = 'var TITLES=(function(){\n' + read('src/lib/titles.js').replace(/^export /gm, '') +
+  '\nreturn {descriptiveTitle:descriptiveTitle,amendedLaws:amendedLaws};})();';
 const html = fs.readFileSync(path.join(here, 'template.html'), 'utf8')
   .replace('/*__CLASSIFY__*/', () => classifySrc)
+  .replace('/*__TITLES__*/', () => titlesSrc)
   .replace('/*__DATA__*/', () => JSON.stringify(data).replace(/<\//g, '<\\/'));
 const out = path.join(root, 'prototipo/oquemuda-funcional.html');
 fs.writeFileSync(out, html);

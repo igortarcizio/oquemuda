@@ -143,6 +143,12 @@ export async function getParties(){
  }catch{}
  return fallback;
 }
+const STOPWORDS=new Set(['de','da','do','das','dos','e','a','o','as','os','em','no','na','nos','nas','para','por','com','um','uma','ao','aos']);
+/** Palavras da busca, sem palavras vazias e sem caracteres que a sintaxe do banco reserva. */
+export function searchTokens(text){
+ return String(text||'').toLocaleLowerCase('pt-BR').replace(/[*,()"%.\\]/g,' ').split(/\s+/).filter(t=>t.length>1&&!STOPWORDS.has(t)).slice(0,8);
+}
+const fold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 // A cópia local é normalizada (tags e tema) uma única vez, não a cada troca de filtro.
 let snapshotSource=null,snapshotItems=[];
 function normalizedSnapshot(){
@@ -153,10 +159,10 @@ function normalizedSnapshot(){
 export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',area='Todos'}={}){
  if(party!=='Todos')return null; // Cache não traz autoria completa; jamais filtrar partido por suposição.
  const all=normalizedSnapshot();
- const q=keywords.toLocaleLowerCase('pt-BR');
+ const tokens=searchTokens(keywords).map(fold);
  const filtered=all.filter(p=>(year==='Todos'||String(p.ano)===year)&&(type==='Todos'||p.siglaTipo===type)
    &&(area==='Todos'||p.area===area)&&(!tag||p.tags.includes(tag))
-   &&(!q||[p.ementa,p.titulo,p.impacto,ref(p)].join(' ').toLocaleLowerCase('pt-BR').includes(q)));
+   &&(!tokens.length||tokens.every(t=>fold([p.ementa,p.titulo,p.impacto,ref(p)].join(' ')).includes(t))));
  return {items:filtered.slice((page-1)*30,page*30),page,totalPages:Math.max(1,Math.ceil(filtered.length/30)),
   hasNext:page<Math.ceil(filtered.length/30),source:'cópia parcial'};
 }
@@ -170,13 +176,15 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
  if(year!=='Todos')q.set('ano','eq.'+year);
  if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
- if(keywords.trim())q.set('ementa','ilike.*'+keywords.trim().replace(/[*,()]/g,' ')+'*');
  if(tag)q.set('tags','cs.{'+tag+'}');
- // Tema = propostas com ao menos um assunto do tema (aproximação até existir a coluna area no banco).
+ // Busca: cada palavra precisa aparecer na ementa, em qualquer ordem.
+ // Tema: propostas com ao menos um assunto do tema (aproximação até existir a coluna area no banco).
+ const conditions=searchTokens(keywords).map(t=>'ementa.ilike.*'+t+'*');
  if(theme){
   if(!THEME_TAGS[theme])throw new SourceError('Tema inválido');
-  q.set('and','(tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'})');
+  conditions.push('tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'}');
  }
+ if(conditions.length)q.set('and','('+conditions.join(',')+')');
  if(situationCodes)q.set('situacao_codigo','in.('+situationCodes+')');
  if(/^\d{4}-\d{2}-\d{2}$/.test(presentedSince))q.set('data_apresentacao','gte.'+presentedSince);
  if(excludeIds.length)q.set('id','not.in.('+excludeIds.map(Number).filter(Number.isInteger).join(',')+')');
