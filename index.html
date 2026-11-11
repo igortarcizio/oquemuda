@@ -6,8 +6,8 @@
   <meta name="theme-color" content="#F4F0E6">
   <meta name="description" content="O que muda? Entenda propostas da Câmara dos Deputados, quem pode ser afetado e em que etapa estão.">
   <title>O que muda? | Propostas da Câmara e seus efeitos no cotidiano</title>
-  <link rel="stylesheet" href="./styles/base.css?v=etapa1-20261111">
-  <link rel="stylesheet" href="./styles/components.css?v=etapa1-20261111">
+  <link rel="stylesheet" href="./styles/base.css?v=etapa2-20261111">
+  <link rel="stylesheet" href="./styles/components.css?v=etapa2-20261111">
 </head>
 <body>
   <div class="area-stripe" aria-hidden="true"></div>
@@ -28,8 +28,10 @@
           <p class="sub" id="heroSubtitle">Entenda o que propõem os textos apresentados à Câmara dos Deputados, quem pode ser afetado e em que etapa estão.</p>
           <form class="search-form" role="search" id="searchForm">
             <label for="searchField">Qual assunto você quer acompanhar?</label>
-            <div class="search-control"><input type="search" id="searchField" autocomplete="off" placeholder="Ex.: jornada de trabalho, educação, compras pela internet…"><button type="submit" class="primary-btn">Buscar</button></div>
+            <div class="search-control"><input type="search" id="searchField" autocomplete="off" placeholder="Ex.: aposentadoria, escola, golpe no banco" aria-describedby="searchHint"><button type="submit" class="primary-btn">Buscar</button></div>
+            <p class="search-hint" id="searchHint">Busca nas ementas oficiais. Use palavras soltas, em qualquer ordem.</p>
           </form>
+          <button type="button" class="outline-btn filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filtros <span class="savecount" id="filterCount" hidden></span></button>
           <div class="filter-row" id="filters" aria-label="Filtros legislativos">
             <label class="filter-label" for="yearSelect">Ano de apresentação
               <select id="yearSelect"><option value="Todos">Todos os anos</option></select></label>
@@ -38,7 +40,6 @@
             <label class="filter-label" for="partySelect">Partido do autor
               <select id="partySelect"><option value="Todos">Todos os partidos</option></select></label>
           </div>
-          <div id="activeTag" class="active-subject" hidden><span id="activeTagLabel"></span><button id="removeTag" class="quiet-btn" type="button">Remover tag ×</button></div>
           <div class="chip-row" id="chips" role="group" aria-label="Filtrar por tema"></div>
         </div>
         <aside class="sideindex watch-panel" id="sideindex" aria-labelledby="watchHeading">
@@ -79,7 +80,8 @@
         <div class="section-head feed-heading"><div class="feed-heading-title">
           <h2 id="listTitle" tabindex="-1">Explore as propostas</h2>
           <p class="results-live" id="listSubtitle">Consultando propostas…</p>
-        </div><aside id="proposalTypeInfo" class="proposal-type-info" aria-labelledby="proposalTypeTitle" aria-live="polite" aria-atomic="true" hidden><h3 id="proposalTypeTitle"></h3><p id="proposalTypeDescription"></p></aside><div class="section-actions"><button type="button" class="quiet-btn" id="clearFilters" hidden>Limpar filtros</button></div></div>
+          <div class="active-filters" id="activeFilters" hidden></div>
+        </div><aside id="proposalTypeInfo" class="proposal-type-info" aria-labelledby="proposalTypeTitle" aria-live="polite" aria-atomic="true" hidden><h3 id="proposalTypeTitle"></h3><p id="proposalTypeDescription"></p></aside></div>
         <p class="sr-only" aria-live="polite" aria-atomic="true" id="announcer"></p>
         <div class="grid" id="cards" aria-busy="true"></div>
         <div id="pagination"></div>
@@ -104,7 +106,7 @@
   <script src="./dados/catalogo.js"></script>
   <script src="./dados/editorial.js"></script>
   <script src="./dados/deputados-partidos.js"></script>
-  <script type="module" src="./src/app.js?v=etapa1-20261111"></script>
+  <script type="module" src="./src/app.js?v=etapa2-20261111"></script>
 </body>
 </html>
 

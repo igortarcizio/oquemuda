@@ -128,8 +128,6 @@ function setViews(){
   $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'POLÍTICA E COTIDIANO';
   $('heroTitle').innerHTML=state.view==='salvos'?'Para ler com calma.':'O que está sendo decidido pode mudar <span class="hero-emphasis">sua rotina</span>.';
   $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Entenda o que propõem os textos apresentados à Câmara dos Deputados, quem pode ser afetado e em que etapa estão.';
-  $('activeTag').hidden=!state.tag||state.view==='salvos';
-  $('activeTagLabel').textContent=state.tag?'Assunto: '+state.tag:'';
   $('searchForm').hidden=state.view==='salvos';$('filters').hidden=state.view==='salvos';
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
   document.querySelectorAll('[data-watch]').forEach(a=>{const selected=state.mode===a.dataset.watch;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
@@ -138,8 +136,39 @@ function setViews(){
   $('proposalTypeInfo').hidden=!typeInfo;
   $('proposalTypeTitle').textContent=typeInfo?state.type+' · '+typeInfo.title:'';
   $('proposalTypeDescription').textContent=typeInfo?.description||'';
-  $('clearFilters').hidden=state.view==='salvos';
+  renderActiveFilters();
  }
+}
+/** Filtros aplicados viram etiquetas removíveis (×); com mais de um, aparece "Limpar tudo". */
+function activeFilterList(){
+ const out=[];
+ if(state.query)out.push(['Busca: '+state.query,{query:''}]);
+ if(state.mode)out.push([WATCH_MODES[state.mode].label,{mode:''}]);
+ if(state.tag)out.push(['Assunto: '+state.tag,{tag:''}]);
+ if(state.topic!=='Todos')out.push(['Tema: '+state.topic,{topic:'Todos'}]);
+ if(state.type!=='Todos')out.push(['Tipo: '+state.type,{type:'Todos'}]);
+ if(state.party!=='Todos')out.push(['Partido: '+state.party,{party:'Todos'}]);
+ const defaultYear=state.mode||state.tag?'Todos':DEFAULT_YEAR;
+ if(state.year!==defaultYear)out.push([state.year==='Todos'?'Todos os anos':'Ano: '+state.year,{year:defaultYear}]);
+ return out;
+}
+function renderActiveFilters(){
+ const list=state.view==='explorar'?activeFilterList():[];
+ $('activeFilters').innerHTML=list.map(([label,unset])=>'<span class="pill">'+safeText(label)+'<button type="button" data-unset="'+safeText(JSON.stringify(unset))+'" aria-label="Remover '+safeText(label)+'">×</button></span>').join('')+
+  (list.length>1?'<button type="button" class="quiet-btn" data-clear>Limpar tudo</button>':'');
+ $('activeFilters').hidden=!list.length;
+ const extra=(state.type!=='Todos'?1:0)+(state.party!=='Todos'?1:0)+(state.year!==DEFAULT_YEAR&&!state.mode&&!state.tag?1:0);
+ $('filterCount').textContent=extra;$('filterCount').hidden=!extra;
+}
+/** Lista vazia: diz o motivo e oferece o caminho de volta. */
+function emptyState(){
+ if(state.view==='salvos')return '<div class="empty-state"><h3>Nada salvo ainda.</h3><p>Use “+ Salvar” em qualquer proposta para guardá-la aqui. Os salvos ficam só neste navegador.</p><div class="empty-actions"><a class="primary-btn" href="#/explorar">Explorar propostas</a></div></div>';
+ const tips=[];
+ if(state.year!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"year":"Todos"}\'>Buscar em todos os anos</button>');
+ if(state.topic!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"topic":"Todos"}\'>Tirar o tema '+safeText(state.topic)+'</button>');
+ if(state.type!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"type":"Todos"}\'>Todos os tipos</button>');
+ return '<div class="empty-state"><h3>Nenhuma proposta com esses critérios.</h3><p>'+(state.query?'Nenhuma ementa traz todas as palavras de “'+safeText(state.query)+'”. Tente menos palavras ou um sinônimo. ':'')+
+  'O acervo cobre propostas de '+YEARS.slice().reverse().join(' e ')+'.</p>'+(tips.length?'<div class="empty-actions">'+tips.join('')+'</div>':'')+'</div>';
 }
 function setFooter(text){$('sourceNote').textContent=text}
 function loader(){
@@ -170,7 +199,7 @@ function present(result){
  state.source=result.source;
  $('cards').setAttribute('aria-busy','false');
  $('cards').innerHTML=state.items.length?state.items.map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join(''):
-  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':'<div class="empty-state"><h3>Nenhuma proposta encontrada com os filtros selecionados.</h3><p>Tente outro termo ou ajuste os filtros. O acervo consultado é parcial.</p></div>');
+  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':emptyState());
  $('pagination').innerHTML=pagination({page:state.page,totalPages:state.totalPages,hasNext:state.hasNext});
  renderEditorial();
  const msg=state.items.length+' '+(state.items.length===1?'proposta':'propostas')+' nesta página · Página '+state.page+
@@ -246,7 +275,7 @@ async function showList(){
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
    setFooter('Fonte: cópia parcial da Câmara. A consulta oficial não retornou registros; a cobertura da reserva não é completa.');
-  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!==DEFAULT_YEAR||state.type!=='Todos'||!!state.mode||!!state.tag);
+  }
  }catch(error){
   if(id!==sequence)return;
   if(hasSnapshot){
@@ -320,13 +349,17 @@ function onClick(e){
   if(p){
    const now=toggleSaved(p);setNav();
    if(state.view==='salvos')showList();
-   else if(state.view==='detalhe')save.textContent=now?'✓ Salvo':'＋ Salvar para depois';
-   else {save.textContent=now?'✓ Salvo':'+ Salvar';save.setAttribute('aria-pressed',String(now));save.classList.toggle('saved',now)}
+   else for(const b of document.querySelectorAll('[data-save="'+id+'"]')){
+    b.textContent=now?'✓ Salvo':b.closest('.detail-actions')?'＋ Salvar para depois':'+ Salvar';
+    b.setAttribute('aria-pressed',String(now));b.classList.toggle('saved',now);
+    b.setAttribute('aria-label',(now?'Remover dos salvos ':'Salvar ')+ref(p));
+   }
    announce(now?'Proposição salva neste navegador.':'Proposição removida dos salvos.');
   }return
  }
- if(e.target.closest('#removeTag')){state.tag='';state.page=1;syncURL();showList();return;}
- if(e.target.closest('#clearFilters')){
+ const unset=e.target.closest('[data-unset]');
+ if(unset){Object.assign(state,JSON.parse(unset.dataset.unset));state.page=1;syncForm();syncURL();showList();$('listTitle').focus({preventScroll:true});return}
+ if(e.target.closest('[data-clear]')){
   state.query='';state.tag='';state.topic='Todos';state.party='Todos';state.year=DEFAULT_YEAR;state.type='Todos';state.mode='';state.page=1;
   syncForm();syncURL();showList();return;
  }
@@ -345,8 +378,9 @@ async function start(){
  $('pagination').addEventListener('click',onClick);
  $('chips').addEventListener('click',onClick);
  $('detailView').addEventListener('click',onClick);
- $('clearFilters').addEventListener('click',onClick);
- $('removeTag').addEventListener('click',onClick);
+ $('feed').addEventListener('click',onClick);
+ // Celular: ano, tipo e partido ficam recolhidos atrás do botão "Filtros".
+ $('filtersToggle').addEventListener('click',()=>{const open=$('filters').classList.toggle('open');$('filtersToggle').setAttribute('aria-expanded',String(open))});
  document.addEventListener('change',onChange);
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.mode='';state.page=1;syncURL();showList()});
  window.addEventListener('hashchange',listPageFromHash);

@@ -15,7 +15,9 @@ Decisões tomadas após a revisão:
 
 **Etapa 1 no site (11/11/2026):** correções rápidas aplicadas em `src/` e `styles/` (itens marcados "✅ Site" na seção 5), com a regra de temas movida para `src/lib/themes.js` e compartilhada com o protótipo.
 
-O que ainda falta levar para o site: o visual novo (etapa 2), a coluna `area` e a busca sem acento no banco, o gate de qualidade no sync (C8), a remoção do código morto (C5) e o schema/RLS versionado (C7). A parte ao vivo do protótipo (situação, autoria e atalhos por etapa, via Supabase e API da Câmara) não foi testada fora do ambiente de desenvolvimento.
+**Etapa 2 no site (11/11/2026):** visual novo — títulos descritivos com selo "Explicado pela redação" (regra em `src/lib/titles.js`, compartilhada com o protótipo), card inteiro clicável, destaque com "Quem pode ser afetado", ficha com linha do tempo, filtros ativos removíveis, filtros recolhidos no celular e busca por palavras soltas.
+
+O que ainda falta levar para o site: a coluna `area` e a busca sem acento no banco, o gate de qualidade no sync (C8), a remoção do código morto (C5) e o schema/RLS versionado (C7). A parte ao vivo do protótipo (situação, autoria e atalhos por etapa, via Supabase e API da Câmara) foi testada no GitHub Pages em 11/11/2026.
 
 ## 1. Resumo executivo
 
@@ -129,14 +131,14 @@ Legenda do status: ✅ Site = já no site principal · ✅ Protótipo = resolvid
 | 8 | Rótulo único de situação + renomear seção de destaques (U4, V4) | UX | P | Médio | ✅ Site (etapa 1) |
 | 9 | Tirar `?v=` dos imports internos (C6) | Código | P | Médio | ✅ Site (etapa 1) |
 | 10 | Bloquear registros de teste/ementas suspeitas no sync (C8) | Dados | P | Médio | 🟡 Parcial (filtrado no build do protótipo; falta no sync) |
-| 11 | Ficha: remover duplicações e "Voltar" com contexto (U5) | UX | P | Médio | ✅ Site (etapa 1) |
+| 11 | Ficha: remover duplicações e "Voltar" com contexto (U5) | UX | P | Médio | ✅ Site (etapas 1 e 2) |
 | 12 | Tags e `area` pré-calculadas no Python + coluna `area` no banco (C3, C4) | Código | M | Alto | 🟡 Parcial (pré-calculado no build do protótipo; falta no sync/banco) |
-| 13 | Títulos descritivos para não revisados (V1) | Visual/Conteúdo | M | Alto | ✅ Protótipo |
-| 14 | Filtros recolhíveis e "De olho" em chips no mobile (U2) | UX | M | Alto | ✅ Protótipo |
+| 13 | Títulos descritivos para não revisados (V1) | Visual/Conteúdo | M | Alto | ✅ Site (etapa 2) |
+| 14 | Filtros recolhíveis e "De olho" em chips no mobile (U2) | UX | M | Alto | ✅ Site (etapa 2) |
 | 15 | Apagar código morto e sincronizador duplicado (C5) | Código | M | Médio | ⬜ Pendente |
 | 16 | Versionar schema + RLS (C7) | Segurança | M | Médio | ⬜ Pendente |
-| 17 | Busca full-text sem acento (U3) | Código/UX | M | Médio | 🟡 Parcial (busca sem acento no navegador; falta no banco) |
-| 18 | Ampliar/revisar taxonomia de cor (V2) | Visual | M | Médio | ✅ Protótipo |
+| 17 | Busca full-text sem acento (U3) | Código/UX | M | Médio | 🟡 Site (etapa 2): palavras soltas em qualquer ordem; sem acento só no banco (etapa 3) |
+| 18 | Ampliar/revisar taxonomia de cor (V2) | Visual | M | Médio | ✅ Site (etapa 2): 13 temas, cor na faixa do card |
 | 19 | Carregar `catalogo` só sob demanda (fallback com timeout) | Código | G | Médio | ✅ Protótipo (acervo embutido como reserva) |
 
 ## 6. Discordâncias do comitê
