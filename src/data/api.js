@@ -1,6 +1,7 @@
-import {cleanText, ref, classifyTheme} from '../lib/text.js?v=quality-20261111';
-import {classifyTags} from '../lib/tags.js?v=quality-20261111';
-import {normalizeStatus} from '../lib/status.js';
+import {cleanText, ref, classifyTheme} from '../lib/text.js';
+import {classifyTags} from '../lib/tags.js';
+import {normalizeStatus,STATUS} from '../lib/status.js';
+import {THEME_TAGS} from '../lib/themes.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
 const current=()=>Date.now();
@@ -63,10 +64,11 @@ async function request(path,{signal,attempts=2}={}){
  });
 }
 export function normalizeProposal(raw,editorial={}) {
+ const tags=Array.isArray(raw.tags)&&raw.tags.length?raw.tags:classifyTags(raw.ementa);
  return {id:Number(raw.id),numero:Number(raw.numero),ano:Number(raw.ano),siglaTipo:raw.siglaTipo||'PL',
-  ementa:cleanText(raw.ementa),dataApresentacao:raw.dataApresentacao||'',area:classifyTheme(raw,editorial),
+  ementa:cleanText(raw.ementa),dataApresentacao:raw.dataApresentacao||'',area:classifyTheme({...raw,tags},editorial),
   titulo:editorial.titulo||raw.titulo||'',impacto:editorial.impacto||raw.impacto||'',comoHoje:editorial.comoHoje||raw.comoHoje||'',
-  tags:Array.isArray(raw.tags)&&raw.tags.length?raw.tags:classifyTags(raw.ementa),
+  tags,
   publicos:Array.isArray(editorial.publicos)?editorial.publicos:(raw.publicos||[]), statusCurto:raw.statusCurto||''};
 }
 const getEditorial=id=>window.OBM_EDITORIAL?.[String(id)]||{};
@@ -141,9 +143,16 @@ export async function getParties(){
  }catch{}
  return fallback;
 }
+// A cópia local é normalizada (tags e tema) uma única vez, não a cada troca de filtro.
+let snapshotSource=null,snapshotItems=[];
+function normalizedSnapshot(){
+ const source=window.OBM_DATA?.items||[];
+ if(source!==snapshotSource){snapshotSource=source;snapshotItems=source.map(p=>normalizeProposal(p,getEditorial(p.id)))}
+ return snapshotItems;
+}
 export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',area='Todos'}={}){
  if(party!=='Todos')return null; // Cache não traz autoria completa; jamais filtrar partido por suposição.
- const all=(window.OBM_DATA?.items||[]).map(p=>normalizeProposal(p,getEditorial(p.id)));
+ const all=normalizedSnapshot();
  const q=keywords.toLocaleLowerCase('pt-BR');
  const filtered=all.filter(p=>(year==='Todos'||String(p.ano)===year)&&(type==='Todos'||p.siglaTipo===type)
    &&(area==='Todos'||p.area===area)&&(!tag||p.tags.includes(tag))
@@ -155,7 +164,7 @@ export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keyword
 /** Leitura principal do catálogo persistido. Chave pública com RLS somente leitura. */
 const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
 const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
-export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',situationCodes='',presentedSince='',excludeIds=[],signal}={}){
+export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],signal}={}){
  if(party!=='Todos')throw new SourceError('Filtro de autoria ainda não indexado no banco');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
  const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
@@ -163,6 +172,11 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
  if(keywords.trim())q.set('ementa','ilike.*'+keywords.trim().replace(/[*,()]/g,' ')+'*');
  if(tag)q.set('tags','cs.{'+tag+'}');
+ // Tema = propostas com ao menos um assunto do tema (aproximação até existir a coluna area no banco).
+ if(theme){
+  if(!THEME_TAGS[theme])throw new SourceError('Tema inválido');
+  q.set('and','(tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'})');
+ }
  if(situationCodes)q.set('situacao_codigo','in.('+situationCodes+')');
  if(/^\d{4}-\d{2}-\d{2}$/.test(presentedSince))q.set('data_apresentacao','gte.'+presentedSince);
  if(excludeIds.length)q.set('id','not.in.('+excludeIds.map(Number).filter(Number.isInteger).join(',')+')');
@@ -181,7 +195,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   const items=data.map(d=>{
     const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||''},getEditorial(d.id));
     const stage=d.dados_oficiais?.statusProposicao||{};
-    p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):(d.situacao_atualizada_em?{label:'Não informada',tone:'neutral',detail:'A situação não consta no registro oficial consultado.'}:{label:'Consulta pendente',tone:'neutral',detail:'A situação ainda não foi obtida na última sincronização.'});
+    p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A situação não consta no registro oficial consultado.'}:{...STATUS.unknown,detail:'A situação ainda não foi obtida na última sincronização.'});
     return p;
   }).filter(p=>p.id&&p.numero&&p.ementa);
   return {items,page,totalPages,hasNext:totalPages?page<totalPages:items.length===30,source:'banco de dados'};
@@ -203,7 +217,7 @@ export async function getDatabaseDetail(id,{signal}={}){
   const stage=raw.statusProposicao||{};
   const officialStatus=(d.situacao_codigo==null&&!d.situacao_descricao&&!stage.descricaoSituacao&&!stage.descricaoTramitacao)?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
   return {proposal:normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao},getEditorial(d.id)),
-   status:officialStatus||(d.situacao_atualizada_em?{label:'Não informada',tone:'neutral',detail:'A Câmara não informou a situação na consulta.'}:{label:'Consulta pendente',tone:'neutral',detail:'Dados de situação ainda não obtidos da Câmara'}),stage,
+   status:officialStatus||(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A Câmara não informou a situação na consulta.'}:{...STATUS.unknown,detail:'Dados de situação ainda não obtidos da Câmara.'}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
    authorsChecked:raw.autoresConsultados===true,
    fullTextURL:raw.urlInteiroTeor||null,source:'banco de dados',
@@ -233,7 +247,7 @@ export async function getDailyFeatured({signal}={}){
   const stage=d.dados_oficiais?.statusProposicao||{};
   p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?
     normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):
-    {label:'Consulta pendente',tone:'neutral'};
+    {...STATUS.unknown};
   return p;
  });
  if(items.some(p=>!p))throw new SourceError('Há destaque sem ficha indexada');

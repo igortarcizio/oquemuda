@@ -12,6 +12,7 @@ Plataforma Civic Tech em **HTML, CSS e JavaScript ES Modules**, publicada no Git
 | `src/app.js` | Controlador de rotas, filtros, eventos, acessibilidade e paginação |
 | `src/data/api.js` | Cliente da API da Câmara, normalização de registros, autoria e cache |
 | `src/lib/text.js` | Sanitização, perguntas editoriais e classificação auxiliar |
+| `src/lib/themes.js` | 13 temas (sem "Outros") e a regra única que dá tema a cada proposta; usada pelo site e pelo protótipo |
 | `src/lib/status.js` | Normalização conservadora da situação legislativa |
 | `src/lib/storage.js` | Salvos no LocalStorage com migração dos registros antigos |
 | `src/ui/components.js` | Cards de resumo sem bloco Como é hoje, skeletons, fichas e paginação |
@@ -34,7 +35,7 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 - Os atalhos **De olho na Câmara** aplicam os códigos de situação no banco **antes** da paginação. São consultados todos os registros indexados que atendem ao critério, em páginas de 30 resultados; não apenas os primeiros 30 retornados pela Câmara.
 - Os atalhos não restringem automaticamente ano ou tipo. O código **924** significa *Pronta para Pauta*, sem garantir votação agendada. O grupo de encaminhamento ao Senado/sanção usa códigos oficiais selecionados, sujeito a revisão jurídica.
 - Quando o banco está indisponível nos atalhos, a interface informa a falha em vez de simular uma pesquisa exaustiva com apenas uma página da API.
-- O filtro temático usa aproximações textuais na implementação atual, e o filtro partidário ainda pode exigir consultas da API. Ambos demandam indexação adicional.
+- O filtro temático consulta no banco as propostas com ao menos um assunto (tag) do tema, antes da paginação; o rótulo do card usa a regra completa de `src/lib/themes.js`. Até existir uma coluna `area` no banco, os dois podem divergir em casos de fronteira. O filtro partidário ainda pode exigir consultas da API.
 - A cópia `dados/catalogo.js` é uma reserva parcial, não representa o total da Câmara.
 
 ## Critérios editoriais e limitações

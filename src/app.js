@@ -1,16 +1,22 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=quality-20261111';
-import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
+import {THEMES,safeText,ref,cleanText} from './lib/text.js';
+import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=quality-20261111';
-import {editorialAllowed,selectEditorial} from './lib/editorial.js?v=home-focus-20261111';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js';
+import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
+// Anos oferecidos no filtro = anos presentes no acervo (o banco cobre os mesmos anos da cópia local).
+const CURRENT_YEAR=new Date().getFullYear();
+const YEARS=(()=>{const y=[...new Set((window.OBM_DATA?.years||[]).map(Number).filter(Number.isInteger))].sort((a,b)=>b-a);return y.length?y:[CURRENT_YEAR,CURRENT_YEAR-1]})();
+const DEFAULT_YEAR=String(YEARS[0]);
+const defaultYearFor=q=>q.get('modo')||q.get('tag')?'Todos':DEFAULT_YEAR;
 const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
-const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
+const state={view:'explorar',page:1,year:DEFAULT_YEAR,type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
-let sequence=0,activeRequest=null,detailSequence=0,observer=null;
+let sequence=0,activeRequest=null,detailSequence=0,observer=null,lastListHash='#/explorar',firstRender=true;
 const statusCache=new Map(),statusQueued=new Set(),statusQueue=[];
 let activeStatus=0;
 function announce(text){$('announcer').textContent=text}
@@ -21,7 +27,7 @@ function cachedStatus(id){
  return null;
 }
 function renderStatus(id,status){
- const reliable=!!status && status.label!=='Situação a confirmar';
+ const reliable=!!status && status.tone!=='pending';
  if(reliable){
   statusCache.set(id,status);
   try{sessionStorage.setItem(cacheKey(id),JSON.stringify({status,until:Date.now()+10*60_000}))}catch{}
@@ -38,7 +44,7 @@ function queueStatus(id){
 function workStatus(){
  while(activeStatus<3&&statusQueue.length){
   const id=statusQueue.shift();activeStatus++;
-  getDetail(id).then(d=>renderStatus(id,d.status)).catch(()=>renderStatus(id,{label:'Situação a confirmar',tone:'neutral'}))
+  getDetail(id).then(d=>renderStatus(id,d.status)).catch(()=>renderStatus(id,{...STATUS.unknown,detail:'Não foi possível consultar a situação agora.'}))
     .finally(()=>{activeStatus--;statusQueued.delete(id);workStatus()});
  }
 }
@@ -56,11 +62,14 @@ function observeStatuses(){
  });
 }
 function renderChips(){
- $('chips').innerHTML=THEMES.map(theme=>{
-  const on=theme===state.topic;
-  return '<button type="button" class="chip '+(on?'active':'')+'" aria-pressed="'+on+'" data-area="'+safeText(theme)+'" data-theme="'+safeText(theme)+'">'+(theme==='Todos'?'':'<span class="topic-dot" aria-hidden="true"></span>')+safeText(theme)+'</button>';
- }).join('');
-
+ // Os botões são criados uma vez; depois só o estado muda, para o foco do teclado não se perder.
+ if(!$('chips').children.length){
+  $('chips').innerHTML=THEMES.map(theme=>'<button type="button" class="chip" aria-pressed="false" data-area="'+safeText(theme)+'" data-theme="'+safeText(theme)+'">'+(theme==='Todos'?'':'<span class="topic-dot" aria-hidden="true"></span>')+safeText(theme)+'</button>').join('');
+ }
+ for(const chip of $('chips').querySelectorAll('[data-theme]')){
+  const on=chip.dataset.theme===state.topic;
+  chip.classList.toggle('active',on);chip.setAttribute('aria-pressed',String(on));
+ }
 }
 function filterFromUI(){
  state.year=$('yearSelect').value;state.type=$('typeSelect').value;state.party=$('partySelect').value;
@@ -90,7 +99,7 @@ function readHash(){
  state.view=name==='salvos'||name==='como-funciona'||name==='explorar'?name:name==='tema'?'detalhe':'explorar';
  state.page=Math.max(1,Number(q.get('page')||1)||1);
  if(state.view==='explorar'){
-  state.year=q.get('ano')||String(new Date().getFullYear());state.type=q.get('tipo')||'Todos';
+  state.year=q.get('ano')||defaultYearFor(q);state.type=q.get('tipo')||'Todos';
   state.party=q.get('partido')||'Todos';state.topic=THEMES.includes(q.get('tema'))?q.get('tema'):'Todos';state.query=q.get('busca')||'';
   state.tag=q.get('tag')||'';
   state.mode=Object.hasOwn(WATCH_MODES,q.get('modo'))?q.get('modo'):'';
@@ -100,6 +109,7 @@ function readHash(){
 function setPage(newPage){
  state.page=Math.max(1,newPage);syncURL();showList();
  window.scrollTo({top:Math.max(0,$('feed').getBoundingClientRect().top+window.scrollY-18),behavior:'instant'});
+ $('listTitle').focus({preventScroll:true});
 }
 function setNav(){
  for(const item of ['explorar','salvos','como-funciona']){
@@ -123,7 +133,7 @@ function setViews(){
   $('searchForm').hidden=state.view==='salvos';$('filters').hidden=state.view==='salvos';
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
   document.querySelectorAll('[data-watch]').forEach(a=>{const selected=state.mode===a.dataset.watch;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
-  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:state.tag?'Propostas sobre '+state.tag:'Explore as propostas';
+  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:state.tag?'Propostas sobre '+state.tag:state.topic!=='Todos'?'Propostas de '+state.topic:'Explore as propostas';
   const typeInfo=state.view==='explorar'?proposalTypeInfo(state.type):null;
   $('proposalTypeInfo').hidden=!typeInfo;
   $('proposalTypeTitle').textContent=typeInfo?state.type+' · '+typeInfo.title:'';
@@ -143,10 +153,10 @@ function renderEditorial(){
  section.hidden=true;
  $('editorialFeature').innerHTML='';
  $('editorialSupporting').innerHTML='';
- if(!editorialAllowed(state))return;
+ if(!editorialAllowed(state,DEFAULT_YEAR))return;
  const selected=state.featuredResult?.items?.length===3?
   state.featuredResult.items:
-  selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:new Date().getFullYear()});
+  selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:Number(DEFAULT_YEAR)});
  if(selected.length!==3)return;
  for(const p of selected)if(p.statusVerificado)statusCache.set(p.id,p.statusVerificado);
  $('editorialFeature').innerHTML=editorialFeature(selected[0],cachedStatus(selected[0].id),isSaved(selected[0].id));
@@ -197,11 +207,12 @@ async function showList(){
   return;
  }
  syncForm();loader();
- const keywords=state.query||TOPIC_API[state.topic]||'';
+ const keywords=state.query;
+ const theme=state.topic!=='Todos'?state.topic:'';
  const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
  // A cópia local é exibida imediatamente; a API oficial atualiza quando responder.
  // Não deixar o visitante preso nos skeletons durante instabilidade externa.
- const snapshot=!state.mode&&!state.tag?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
+ const snapshot=!state.mode&&!state.tag?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:theme||'Todos'}):null;
  const hasSnapshot=!!snapshot?.items?.length;
  if(hasSnapshot){
   present(snapshot);
@@ -210,7 +221,7 @@ async function showList(){
  }
  try{
   // Os destaques são obtidos antes da busca e retirados da listagem padrão.
-  const shouldFeature=editorialAllowed(state);
+  const shouldFeature=editorialAllowed(state,DEFAULT_YEAR);
   if(shouldFeature){
    try{state.featuredResult=await getDailyFeatured({signal:activeRequest.signal})}
    catch{state.featuredResult=null}
@@ -220,12 +231,13 @@ async function showList(){
   const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>(state.type==='Todos'||p.siglaTipo===state.type)&&(state.year==='Todos'||String(p.ano)===String(state.year))).map(p=>p.id)||[]:[];
   const day=new Date();day.setUTCDate(day.getUTCDate()-30);
   const presentedSince=state.mode==='recent'?day.toISOString().slice(0,10):'';
-  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,tag:state.tag,situationCodes,presentedSince,excludeIds,signal:activeRequest.signal};
+  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,tag:state.tag,theme,situationCodes,presentedSince,excludeIds,signal:activeRequest.signal};
   let result;
   try{result=await getDatabaseProposals(args)}
   catch(dbError){
    // Não retornar ao filtro de apenas 30 da Câmara nos modos legislativos.
-   if(state.mode||state.tag)throw new Error('A busca de propostas está temporariamente indisponível.');
+   // A API da Câmara não filtra por etapa, assunto ou tema antes da paginação: sem o banco, avisar em vez de simular.
+   if(state.mode||state.tag||theme)throw new Error('A busca de propostas está temporariamente indisponível.');
    result=await getProposals(args);
   }
   if(id!==sequence)return;
@@ -234,7 +246,7 @@ async function showList(){
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
    setFooter('Fonte: cópia parcial da Câmara. A consulta oficial não retornou registros; a cobertura da reserva não é completa.');
-  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!==String(new Date().getFullYear())||state.type!=='Todos'||!!state.mode||!!state.tag);
+  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!==DEFAULT_YEAR||state.type!=='Todos'||!!state.mode||!!state.tag);
  }catch(error){
   if(id!==sequence)return;
   if(hasSnapshot){
@@ -245,24 +257,30 @@ async function showList(){
   errorState(error.message||'API indisponível');
  }
 }
+function focusHeading(el){if(el&&!firstRender)el.focus({preventScroll:true})}
 function listPageFromHash(){
+ const previousView=state.view;
  const direct=readHash();setViews();setNav();
+ if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
  if(state.view==='detalhe')showDetail(direct);
- else if(state.view==='como-funciona'){$('infoView').innerHTML=infoPage();document.title='Como funciona — o que muda?'}
- else showList();
+ else if(state.view==='como-funciona'){$('infoView').innerHTML=infoPage();document.title='Como funciona — o que muda?';window.scrollTo({top:0,behavior:'instant'});focusHeading($('infoTitle'))}
+ else{showList();if(previousView!==state.view)focusHeading($('heroTitle'))}
+ firstRender=false;
 }
 async function showDetail(id){
  ++sequence;const task=++detailSequence;setViews();setNav();
  const candidate=[...state.items,...getSaved(),...(window.OBM_DATA?.items||[])].find(p=>String(p.id)===String(id));
- const neutral={label:'Situação não verificada',tone:'neutral'};
- if(candidate)$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral},isSaved(candidate.id));
+ const neutral={...STATUS.unknown};
+ const keepFocus=()=>{const h=$('detailTitle');if(h&&(document.activeElement===document.body||!document.activeElement||$('detailView').contains(document.activeElement)&&document.activeElement.id==='detailTitle'))h.focus({preventScroll:true})};
+ if(candidate)$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral,backHref:lastListHash},isSaved(candidate.id));
  else $('detailView').innerHTML='<div class="page inforoute"><h1>Consultando proposição…</h1><p>Buscando registro disponível.</p></div>';
  document.title='Proposta — o que muda?';window.scrollTo({top:0,behavior:'instant'});
+ focusHeading($('detailTitle'));
  let stored=null;
  try{stored=await getDatabaseDetail(id)}catch{}
  if(task!==detailSequence||state.view!=='detalhe')return;
  if(stored){
-  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true},isSaved(id));
+  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true,backHref:lastListHash},isSaved(id));keepFocus();
   document.title=ref(stored.proposal)+' — O que muda?';
  }
  // Atualização em segundo plano, sem bloquear a ficha que já está no banco.
@@ -277,15 +295,16 @@ async function showDetail(id){
  if(!proposal){
   $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';return;
  }
- const verifiedLive=detail?.status?.label&&detail.status.label!=='Situação a confirmar';
+ const verifiedLive=detail?.status?.label&&detail.status.tone!=='pending';
  const liveStage=detail?.stage||{};
  const preferredStage=liveStage.descricaoTramitacao||liveStage.descricaoSituacao||liveStage.codSituacao!=null?liveStage:(stored?.stage||{});
  $('detailView').innerHTML=detailPage(proposal,{
   ...(stored||{}),...(detail||{}),stage:preferredStage,
   authors,authorsChecked:authorsResult.status==='fulfilled'||stored?.authorsChecked,
   loaded:true,status:verifiedLive?detail.status:(stored?.status||neutral),
-  fullTextURL:detail?.fullTextURL||stored?.fullTextURL||null
+  fullTextURL:detail?.fullTextURL||stored?.fullTextURL||null,backHref:lastListHash
  },isSaved(id));
+ keepFocus();
  document.title=ref(proposal)+' — O que muda?';
 }
 
@@ -308,7 +327,7 @@ function onClick(e){
  }
  if(e.target.closest('#removeTag')){state.tag='';state.page=1;syncURL();showList();return;}
  if(e.target.closest('#clearFilters')){
-  state.query='';state.tag='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='Todos';state.mode='';state.page=1;
+  state.query='';state.tag='';state.topic='Todos';state.party='Todos';state.year=DEFAULT_YEAR;state.type='Todos';state.mode='';state.page=1;
   syncForm();syncURL();showList();return;
  }
  if(e.target.closest('#retryBtn'))showList();
@@ -319,14 +338,8 @@ function onChange(e){
  }
 }
 async function start(){
- // Links da abertura acompanham o ano civil, sem exigir edição anual do HTML.
- document.querySelectorAll('[data-watch]').forEach(link=>{
-  const value=link.getAttribute('href')||'';
-  const [path,query]=value.split('?');
-  const params=new URLSearchParams(query||'');
-  params.set('ano',String(new Date().getFullYear()));
-  link.setAttribute('href',path+'?'+params.toString());
- });
+ // Ano: só os anos do acervo. Os atalhos "De olho na Câmara" valem para todos os anos (ano=Todos no HTML).
+ $('yearSelect').innerHTML='<option value="Todos">Todos os anos</option>'+YEARS.map(y=>'<option value="'+y+'">'+y+'</option>').join('');
  $('cards').addEventListener('click',onClick);
  $('editorialSection').addEventListener('click',onClick);
  $('pagination').addEventListener('click',onClick);

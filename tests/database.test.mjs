@@ -14,7 +14,7 @@ test('consulta 30 propostas no banco sem chamar Câmara e respeita total',async(
   const result=await getDatabaseProposals({year:'2026',type:'PL',page:1});
   assert.match(called,/supabase.co\/rest\/v1\/proposicoes/);
   assert.equal(result.totalPages,3);
-  assert.equal(result.items[0].statusVerificado.label,'Consulta pendente');
+  assert.equal(result.items[0].statusVerificado.label,'Em atualização');
  }finally{globalThis.fetch=previous}
 });
 

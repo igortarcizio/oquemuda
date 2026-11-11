@@ -1,4 +1,4 @@
-import {cleanText} from './text.js';
+import {cleanText,classifyTheme,THEMES} from './text.js';
 const KEY='oquemuda:salvos:v3',LEGACY='oquemuda:salvos-reais';
 const supported=()=>{try{return typeof localStorage!=='undefined'}catch{return false}};
 const seed=()=>Array.isArray(window.OBM_DATA?.items)?window.OBM_DATA.items:[];
@@ -9,7 +9,7 @@ function normalizeSaved(raw){
    const item=typeof p==='object'&&p!==null?p:indexed.get(String(p));
    if(!item||!Number.isInteger(Number(item.id)))return null;
    return {id:Number(item.id),numero:Number(item.numero),ano:Number(item.ano),siglaTipo:String(item.siglaTipo||'PL'),
-     ementa:cleanText(item.ementa),dataApresentacao:item.dataApresentacao||'',area:item.area||'Outros',
+     ementa:cleanText(item.ementa),dataApresentacao:item.dataApresentacao||'',area:THEMES.includes(item.area)&&item.area!=='Todos'?item.area:classifyTheme(item),
      titulo:item.titulo||'',impacto:item.impacto||'',publicos:Array.isArray(item.publicos)?item.publicos.slice(0,3):[]};
  }).filter(Boolean);
  return [...new Map(normalized.map(p=>[p.id,p])).values()];

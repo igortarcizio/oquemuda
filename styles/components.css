@@ -4,13 +4,15 @@
 html{scroll-padding-top:24px}
 button,select,input,.primary-btn,.outline-btn,.quiet-btn,.chip,.savebtn,.page-number{min-height:44px}
 button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+/* Títulos recebem foco ao trocar de tela (navegação por teclado/leitor de tela), sem contorno visual. */
+[tabindex="-1"]:focus{outline:none}
 [hidden]{display:none!important}
 .search-form{max-width:100%;margin-top:25px}
 .explore-hero{padding-top:48px;padding-bottom:28px}
 .hero-copy h1{font-size:clamp(38px,4vw,49px)}
 .filter-row{display:flex;flex-wrap:wrap;gap:12px;margin:17px 0 8px}
 .filter-label{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
-.filter-label select{background:#fff;border:1px solid var(--line-strong);border-radius:9px;min-width:140px;padding:8px 11px;color:var(--ink);max-width:240px}
+.filter-label select{background:#fff;border:1.5px solid var(--field-border);border-radius:9px;min-width:140px;padding:8px 11px;color:var(--ink);max-width:240px}
 .chip-row{gap:8px;margin-top:12px}
 .chip{min-height:44px}
 .results-live{font-size:13px;color:var(--text);margin-top:6px}
@@ -21,13 +23,15 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .civic-card h3 a{text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
 .civic-card .docref{margin-bottom:10px}
 .civic-card .card-banner{gap:6px;padding:10px 17px}
-.civic-card .topic-label{font-size:11px;letter-spacing:.055em}
-.status-badge{font:600 11px/1.25 'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;min-height:28px;max-width:170px;padding:5px 8px;border-radius:99px;text-align:center;white-space:normal}
+.civic-card .topic-label{font-size:12px;letter-spacing:.055em}
+.status-badge{font:600 12px/1.25 'DM Sans',sans-serif;display:inline-flex;align-items:center;justify-content:center;min-height:28px;max-width:170px;padding:5px 8px;border-radius:99px;text-align:center;white-space:normal}
 .status-badge.discussion{background:#d8f3e6;color:#12643f}
 .status-badge.voting{background:#dceafb;color:#174f8e}
 .status-badge.approved{background:#ebe0fa;color:#69359b}
 .status-badge.closed{background:#fce1de;color:#a2302c}
 .status-badge.neutral{background:#eef0f2;color:#5c6571}
+/* Situação ainda não confirmada: um rótulo só ("Em atualização"), com borda tracejada para não parecer etapa real. */
+.status-badge.pending{background:transparent;color:#5c6571;border:1px dashed #a7adb4}
 .comparison{display:grid;grid-template-columns:1fr;gap:10px;margin-top:1px;flex:1}
 .comparison-part{background:#f7f5f1;border:1px solid #eee9df;padding:13px 14px;border-radius:10px;min-width:0}
 .comparison-part.after{background:#fff9ed;border-color:#f1e2ca}
@@ -87,7 +91,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 /* Hierarquia editorial: um destaque principal, dois secundários, sem interferir nos 30 resultados. */
 .editorial-section{padding:9px 0 34px}
 .editorial-heading{padding:22px 0 23px;align-items:end}
-.editorial-heading .eyebrow{color:var(--signal-ink);font-size:11px;letter-spacing:.13em;font-weight:700;margin-bottom:11px}
+.editorial-heading .eyebrow{color:var(--signal-ink);font-size:12px;letter-spacing:.13em;font-weight:700;margin-bottom:11px}
 .editorial-heading h2{font-size:clamp(30px,3vw,38px)}
 .editorial-heading .editorial-subtitle{font-size:14px;line-height:1.5;max-width:62ch;margin-top:8px;color:var(--text)}
 .editorial-kicker{font-size:12px;color:var(--text);white-space:nowrap;padding-bottom:3px}
@@ -138,7 +142,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 /* Painel De olho na Câmara: substitui índice temático duplicado. */
 .watch-panel .sideindex-body{padding:25px 23px 22px}
 .watch-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
-.watch-kicker{font-size:10px!important;font-weight:700;letter-spacing:.095em;color:var(--signal-ink)!important;margin:0 0 9px!important}
+.watch-kicker{font-size:12px!important;font-weight:700;letter-spacing:.095em;color:var(--signal-ink)!important;margin:0 0 9px!important}
 .watch-heading h2{font-size:25px;line-height:1.06}
 .watch-symbol{color:var(--text);flex:0 0 auto;margin-top:19px}
 .watch-intro{font-size:14px!important;line-height:1.5;margin-top:12px!important;margin-bottom:18px}
@@ -153,9 +157,9 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .watch-item:nth-child(3) .watch-icon{color:#17794e}
 .watch-copy{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
 .watch-copy strong{font-size:13px;font-weight:700;line-height:1.3}
-.watch-copy>span{font-size:11px;line-height:1.45;color:var(--text)}
+.watch-copy>span{font-size:12px;line-height:1.45;color:var(--text)}
 .watch-chevron{font-size:22px;line-height:1;color:var(--text);padding:0 2px}
-.watch-disclaimer{border-top:1px solid var(--line);padding-top:14px;font-size:11px!important;line-height:1.5;color:var(--text)}
+.watch-disclaimer{border-top:1px solid var(--line);padding-top:14px;font-size:12px!important;line-height:1.5;color:var(--text)}
 @media(min-width:901px) and (max-width:1150px){
  .watch-panel .sideindex-body{padding:22px 16px}
  .watch-heading h2{font-size:23px}
@@ -173,14 +177,14 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
  .watch-item .watch-icon{width:32px;height:32px;flex-basis:32px}
  .watch-chevron{display:none}
  .watch-copy strong{font-size:12px}
- .watch-copy>span{font-size:10px}
+ .watch-copy>span{font-size:12px}
  .watch-disclaimer{margin-top:12px}
 }
 @media(max-width:620px){
  .watch-nav{grid-template-columns:1fr;gap:0}
  .watch-item{min-height:64px;border:0;border-top:1px solid var(--line);border-radius:0;align-items:center;padding:9px 0}
  .watch-copy strong{font-size:13px}
- .watch-copy>span{font-size:11px}
+ .watch-copy>span{font-size:12px}
  .watch-chevron{display:block}
  .watch-panel .sideindex-body{padding:18px}
 }

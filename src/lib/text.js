@@ -1,12 +1,13 @@
-import {classifyTags} from './tags.js?v=quality-20261111';
+import {classifyTags} from './tags.js';
+import {THEMES as THEME_LIST,themeFor} from './themes.js';
 /**
  * Utilitários editoriais. Nunca convertem a aprovação de proposta em fato consumado.
  * @typedef {{id:number, siglaTipo:string, numero:number, ano:number, ementa:string, titulo?:string,
  * impacto?:string, area?:string, publicos?:string[], comoHoje?:string}} Proposal
  */
 const ACRONYMS = /\b(?:PL|PLP|PEC|CLT|SUS|STF|STJ|CCJC|INSS|FGTS|LGPD|IBGE|CNJ|TSE|MPV|PDL|ONG|LGBTQIAP\+)\b/g;
-export const THEMES = ['Todos','Trabalho','Consumo','Saúde','Educação','Tecnologia','Mobilidade','Outros'];
-export const TOPIC_API = Object.freeze({Trabalho:'trabalho',Consumo:'consumidor',Saúde:'saúde',Educação:'educação',Tecnologia:'tecnologia',Mobilidade:'transporte'});
+/** Opções do filtro de tema: "Todos" + os 13 temas (não existe "Outros"). */
+export const THEMES = ['Todos',...THEME_LIST];
 
 export function cleanText(input) {
   return String(input ?? '')
@@ -81,11 +82,11 @@ export function questionTitle(p,editorial={}) {
   // Insufficient source detail: identify the record without inventing a subject.
   return 'O que diz o texto do '+ref(p)+'?';
 }
+/** Tema da proposta: o da revisão editorial, quando houver; senão a regra única de src/lib/themes.js. */
 export function classifyTheme(p,editorial={}) {
-  if(editorial.area&&THEMES.includes(editorial.area))return editorial.area;
-  const text=simplify(p.ementa);
-  const options=[['Saúde',/saude|sus\b|hospital|diabetes|medicament|vacina|doenca/],['Trabalho',/trabalh|empreg|salario|previdencia|clt\b/],['Educação',/educac|escolar|universit|professor|estudant|ensino/],['Consumo',/consumidor|consumo|tarifa|comercio|compras/],['Tecnologia',/internet|digital|inteligencia artificial|dados pessoais/],['Mobilidade',/transporte|transito|passageiro|rodovia|mobilidade/]];
-  return options.find(([,rx])=>rx.test(text))?.[0]||'Outros';
+  if(editorial.area&&THEME_LIST.includes(editorial.area))return editorial.area;
+  const tags=Array.isArray(p.tags)&&p.tags.length?p.tags:classifyTags(p.ementa);
+  return themeFor(p.ementa,tags,p.siglaTipo).theme;
 }
 export function cardSummary(p,editorial={}) {
   return cleanText(editorial.impacto||p.impacto||p.ementa);
