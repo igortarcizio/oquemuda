@@ -160,7 +160,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
  if(keywords.trim())q.set('ementa','ilike.*'+keywords.trim().replace(/[*,()]/g,' ')+'*');
  if(situationCodes)q.set('situacao_codigo','in.('+situationCodes+')');
- if(/^\\d{4}-\\d{2}-\\d{2}$/.test(presentedSince))q.set('data_apresentacao','gte.'+presentedSince);
+ if(/^\d{4}-\d{2}-\d{2}$/.test(presentedSince))q.set('data_apresentacao','gte.'+presentedSince);
  if(excludeIds.length)q.set('id','not.in.('+excludeIds.map(Number).filter(Number.isInteger).join(',')+')');
  const controller=new AbortController();
  const timeout=setTimeout(()=>controller.abort(),9000);
