@@ -48,6 +48,10 @@ class SelectorTests(unittest.TestCase):
         rows[0]["candidatos_avaliados"]=[77,88]
         self.assertEqual(selector.choose(rows,[existing,new],TODAY),[])
 
+    def test_promocao_da_saude_nao_e_mocao(self):
+        p=proposal(101,ementa="Institui política de promoção da saúde e assegura aos pacientes e suas famílias acesso gratuito a medicamentos essenciais na rede pública de saúde.")
+        self.assertIsNotNone(selector.relevance(p))
+
     def test_ignores_party_affiliation_and_selects_across_subjects(self):
         health=proposal(55)
         education=proposal(66,ementa="Assegura às crianças e aos estudantes o acesso gratuito à educação pública e estabelece medidas para apoiar famílias e professores na escola.")
