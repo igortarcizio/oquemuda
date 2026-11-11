@@ -33,8 +33,13 @@ def write_json(url, payload, method):
     request = urllib.request.Request(
         url, data=json.dumps(payload, ensure_ascii=False).encode("utf-8"), method=method,
         headers={**DB_HEADERS, "Content-Type": "application/json", "Prefer": "resolution=merge-duplicates,return=minimal"})
-    with urllib.request.urlopen(request, timeout=15) as response:
-        response.read()
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            response.read()
+    except urllib.error.HTTPError as exc:
+        raise RuntimeError("Supabase: falha na gravação (HTTP " + str(exc.code) + ")") from exc
+    except (TimeoutError, urllib.error.URLError) as exc:
+        raise RuntimeError("Supabase: falha de conexão na gravação (" + type(exc).__name__ + ")") from exc
 
 def api(path):
     """Tenta novamente apenas falhas transitórias da Câmara, nunca escritas no banco."""
