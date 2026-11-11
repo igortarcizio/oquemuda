@@ -41,5 +41,5 @@ test('all cards, featured cards and details show clickable specific tags',()=>{
   assert.match(html,/tag=SUS/);assert.match(html,/subject-tag/);
   assert.doesNotMatch(html,/Quem pode se interessar/);
  }
- assert.equal(editorialAllowed({view:'explorar',page:1,query:'',topic:'Todos',party:'Todos',type:'PL',year:2026,tag:'SUS'},2026),true);
+ assert.equal(editorialAllowed({view:'explorar',page:1,query:'',topic:'Todos',party:'Todos',type:'PL',year:2026,tag:'SUS'},2026),false);
 });
