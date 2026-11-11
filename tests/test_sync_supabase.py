@@ -59,6 +59,14 @@ class SyncTests(unittest.TestCase):
             self.assertEqual(fetch.call_count, 1)
             sleep.assert_not_called()
 
+    def test_supabase_write_error_has_separate_diagnostic(self):
+        with patch.object(SYNC.urllib.request, "urlopen", side_effect=error(400)) as fetch, \
+             patch.object(SYNC.time, "sleep") as sleep:
+            with self.assertRaisesRegex(RuntimeError, "Supabase: falha na gravação \\(HTTP 400\\)"):
+                SYNC.patch(98765, {"atualizado_em": "2026-11-10T00:00:00Z"})
+            self.assertEqual(fetch.call_count, 1)
+            sleep.assert_not_called()
+
     def test_incomplete_official_stage_preserves_stored_status(self):
         row = {"id": 98765, "situacao_atualizada_em": None,
                "dados_oficiais": {"statusProposicao": {
