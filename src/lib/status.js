@@ -13,7 +13,7 @@ export const STATUS={
 export function normalizeStatus(status) {
  const code=Number(status?.codSituacao);
  const officiallyVotable=new Set([924]);
- const chamberApproved=new Set([1150,1160,1293,1303,926]);
+ const chamberApproved=new Set([1150,1160,1293,1303,926,1140]);
  const closed=new Set([923,930,931,940,941,950]);
  if(officiallyVotable.has(code))return {...STATUS.voting,detail:status?.descricaoSituacao||'Pronta para Pauta'};
  if(chamberApproved.has(code))return {...STATUS.approved,detail:status?.descricaoSituacao||'Encaminhada após aprovação na Câmara'};
