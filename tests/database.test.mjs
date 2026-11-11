@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {getDatabaseProposals,getDatabaseDetail} from '../src/data/api.js';
+import {getDatabaseProposals,getDatabaseDetail,getDailyFeatured} from '../src/data/api.js';
 globalThis.window={OBM_EDITORIAL:{},OBM_PARTIDOS_DEPUTADOS:{'1234':'PT'}};
 
 test('consulta 30 propostas no banco sem chamar Câmara e respeita total',async()=>{
@@ -42,4 +42,39 @@ test('apresentação oficial é exibida como Apresentada mesmo sem código de si
   assert.equal(detail.authors[0].nome,'Eros Biondini');
   assert.equal(detail.stage.dataHora,'2026-10-29T14:09:08');
  }finally{globalThis.fetch=previous}
+});
+
+test('atalhos filtram o banco inteiro antes da paginação e sem restringir tipo/ano',async()=>{
+ const original=globalThis.fetch;let called='';
+ globalThis.fetch=async url=>{called=String(url);return {ok:true,headers:{get:()=> '0-0/77'},
+  json:async()=>[{id:2690023,numero:12,ano:2025,sigla_tipo:'PLP',ementa:'Regras sobre saúde e atendimento.',data_apresentacao:'2025-10-20',situacao_codigo:924,situacao_descricao:'Pronta para Pauta'}]}};
+ try{
+  const r=await getDatabaseProposals({year:'Todos',type:'Todos',situationCodes:'924',page:2});
+  const u=new URL(called);
+  assert.equal(u.searchParams.get('situacao_codigo'),'in.(924)');
+  assert.equal(u.searchParams.has('ano'),false);
+  assert.equal(u.searchParams.has('sigla_tipo'),false);
+  assert.equal(u.searchParams.get('offset'),'30');
+  assert.equal(r.totalPages,3);
+  assert.equal(r.items[0].siglaTipo,'PLP');
+ }finally{globalThis.fetch=original}
+});
+
+test('busca dos destaques retorna os IDs na ordem persistida, sem depender dos primeiros 30',async()=>{
+ const original=globalThis.fetch;let calls=[];
+ globalThis.fetch=async url=>{
+  const u=new URL(String(url));calls.push(u);
+  if(u.pathname.endsWith('/destaques_diarios'))
+   return {ok:true,json:async()=>[
+    {posicao:1,proposicao_id:88,selecionado_em:'2026-11-11'},
+    {posicao:2,proposicao_id:99,selecionado_em:'2026-11-11'},
+    {posicao:3,proposicao_id:77,selecionado_em:'2026-11-11'}]};
+  return {ok:true,json:async()=>[77,88,99].map(id=>({id,numero:id,ano:2026,sigla_tipo:'PL',ementa:'Propõe novo acesso aos serviços de saúde e atendimento.',data_apresentacao:'2026-11-11',situacao_codigo:null}))};
+ };
+ try{
+  const r=await getDailyFeatured();
+  assert.deepEqual(r.items.map(p=>p.id),[88,99,77]);
+  assert.equal(calls.length,2);
+  assert.equal(calls[1].searchParams.get('id'),'in.(88,99,77)');
+ }finally{globalThis.fetch=original}
 });
