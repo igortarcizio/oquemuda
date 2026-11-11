@@ -78,15 +78,16 @@ def update_selection(rows):
         response.read()
 
 def choose(previous, candidates, day):
-    """Escolhe somente registros posteriores ao dia da seleção anterior."""
+    """Escolhe somente IDs inéditos desde a última avaliação do catálogo."""
     previous = sorted(previous, key=lambda row: row["posicao"])
     if len(previous) != 3:
         return []
     cutoff = max(str(row["selecionado_em"])[:10] for row in previous)
+    seen = set(previous[0].get("candidatos_avaliados") or []) if "candidatos_avaliados" in previous[0] else None
     old = [row["proposicao_id"] for row in previous]
     qualified = []
     for p in candidates:
-        if p["id"] in old or str(p.get("data_apresentacao") or "")[:10] <= cutoff:
+        if p["id"] in old or (p["id"] in seen if seen is not None else str(p.get("data_apresentacao") or "")[:10] <= cutoff):
             continue
         value = relevance(p)
         if value is not None:
@@ -103,11 +104,20 @@ def choose(previous, candidates, day):
     if not fresh:
         return []
     chosen = fresh + [id for id in old if id not in fresh][:3-len(fresh)]
+    observed = sorted({int(p["id"]) for p in candidates})
     return [{"posicao":idx+1, "proposicao_id":id, "selecionado_em":day.isoformat(),
-             "criterio":"interesse_publico_v1"} for idx,id in enumerate(chosen)]
+             "criterio":"interesse_publico_v1", "candidatos_avaliados":observed} for idx,id in enumerate(chosen)]
+
+def update_seen(ids):
+    """Grava o progresso mesmo quando não há rodízio; não altera propostas destacadas."""
+    payload = json.dumps({"candidatos_avaliados":ids}).encode("utf-8")
+    req = urllib.request.Request(BASE + "destaques_diarios?posicao=eq.1",
+        data=payload, method="PATCH",headers={**HEADERS,"Content-Type":"application/json",
+        "Prefer":"return=minimal"})
+    with urllib.request.urlopen(req,timeout=25) as response:response.read()
 
 def main():
-    previous = request("destaques_diarios", {"select":"posicao,proposicao_id,selecionado_em",
+    previous = request("destaques_diarios", {"select":"posicao,proposicao_id,selecionado_em,candidatos_avaliados",
                                            "order":"posicao.asc"})
     if len(previous) != 3:
         raise RuntimeError("Seleção anterior incompleta; atualização cancelada")
@@ -124,6 +134,7 @@ def main():
     now = dt.datetime.now(dt.timezone.utc)
     rows = choose(previous, candidates, now)
     if not rows:
+        update_seen(sorted({int(p["id"]) for p in candidates}))
         print("Sem novas propostas qualificadas: mantidos os 3 destaques anteriores.",flush=True)
         return
     update_selection(rows)
