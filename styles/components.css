@@ -207,3 +207,13 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .subject-tags{flex-wrap:wrap;gap:6px}
 .active-subject{display:flex;align-items:center;gap:12px;margin:14px 0;font-weight:600}
 .active-subject[hidden]{display:none}
+
+/* Explicação do tipo selecionado, junto ao cabeçalho dos resultados. */
+.feed-heading{align-items:center;gap:24px}
+.feed-heading-title{flex:1 1 280px;min-width:0}
+.proposal-type-info{flex:0 1 490px;min-width:0;padding:16px 20px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:12px}
+.proposal-type-info h3{font-family:inherit;font-size:14px;font-weight:600;line-height:1.4;margin:0;color:var(--ink)}
+.proposal-type-info p{font-size:13px;line-height:1.55;margin:6px 0 0;color:var(--text)}
+.feed-heading .section-actions{flex-shrink:0}
+@media(max-width:900px){.feed-heading{flex-wrap:wrap;align-items:flex-start}.proposal-type-info{flex:1 1 100%;order:3}.feed-heading-title{flex:1}.feed-heading .section-actions{margin-left:auto}}
+@media(max-width:640px){.feed-heading{flex-direction:row;gap:16px}.feed-heading-title{flex-basis:100%}.feed-heading .section-actions{margin-left:0}.proposal-type-info{order:2}.feed-heading .section-actions{order:3}}

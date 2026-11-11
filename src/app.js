@@ -1,3 +1,4 @@
+import {proposalTypeInfo} from './lib/proposal-types.js';
 import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=subjects-20261111';
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
@@ -123,6 +124,10 @@ function setViews(){
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
   document.querySelectorAll('[data-watch]').forEach(a=>{const selected=state.mode===a.dataset.watch;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
   $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:state.tag?'Propostas sobre '+state.tag:'Explore as propostas';
+  const typeInfo=state.view==='explorar'?proposalTypeInfo(state.type):null;
+  $('proposalTypeInfo').hidden=!typeInfo;
+  $('proposalTypeTitle').textContent=typeInfo?state.type+' · '+typeInfo.title:'';
+  $('proposalTypeDescription').textContent=typeInfo?.description||'';
   $('clearFilters').hidden=state.view==='salvos';
  }
 }

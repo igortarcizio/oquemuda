@@ -7,7 +7,7 @@
   <meta name="description" content="O que muda? Entenda propostas da Câmara dos Deputados, quem pode ser afetado e em que etapa estão.">
   <title>O que muda? | Propostas da Câmara e seus efeitos no cotidiano</title>
   <link rel="stylesheet" href="./styles/base.css">
-  <link rel="stylesheet" href="./styles/components.css?v=subjects-20261111">
+  <link rel="stylesheet" href="./styles/components.css?v=types-20261111">
 </head>
 <body>
   <div class="area-stripe" aria-hidden="true"></div>
@@ -76,10 +76,10 @@
         <div id="editorialSupporting" class="editorial-support-grid"></div>
       </section>
       <section id="feed" aria-label="Resultados de proposições">
-        <div class="section-head"><div>
+        <div class="section-head feed-heading"><div class="feed-heading-title">
           <h2 id="listTitle">Explore as propostas</h2>
           <p class="results-live" id="listSubtitle">Consultando propostas…</p>
-        </div><div class="section-actions"><button type="button" class="quiet-btn" id="clearFilters" hidden>Limpar filtros</button></div></div>
+        </div><aside id="proposalTypeInfo" class="proposal-type-info" aria-labelledby="proposalTypeTitle" aria-live="polite" aria-atomic="true" hidden><h3 id="proposalTypeTitle"></h3><p id="proposalTypeDescription"></p></aside><div class="section-actions"><button type="button" class="quiet-btn" id="clearFilters" hidden>Limpar filtros</button></div></div>
         <p class="sr-only" aria-live="polite" aria-atomic="true" id="announcer"></p>
         <div class="grid" id="cards" aria-busy="true"></div>
         <div id="pagination"></div>
@@ -104,6 +104,6 @@
   <script src="./dados/catalogo.js"></script>
   <script src="./dados/editorial.js"></script>
   <script src="./dados/deputados-partidos.js"></script>
-  <script type="module" src="./src/app.js?v=subjects-20261111"></script>
+  <script type="module" src="./src/app.js?v=types-20261111"></script>
 </body>
 </html>
