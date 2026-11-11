@@ -6,6 +6,7 @@ on:
     paths:
       - '.github/workflows/sync-bulk.yml'
       - 'scripts/sync_bulk.py'
+      - 'scripts/selecionar_destaques.py'
   schedule:
     - cron: '53 5 * * *'
 concurrency:
@@ -24,8 +25,15 @@ jobs:
           python-version: '3.12'
       - name: Verificar sintaxe
         run: python -m py_compile scripts/sync_bulk.py
+      - name: Validar seletor de destaques
+        run: python -m unittest discover -s tests -p 'test_daily_selection.py' -v
       - name: Atualizar fichas com arquivos oficiais
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
         run: python -u scripts/sync_bulk.py
+      - name: Selecionar destaques após atualização da base
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: python -u scripts/selecionar_destaques.py
