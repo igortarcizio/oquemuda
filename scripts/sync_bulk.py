@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
-"""Atualiza fichas já indexadas com arquivos anuais oficiais da Câmara.
+"""Indexa todas as propostas dos tipos cobertos dos anos recentes e atualiza fichas.
 
 Fonte: https://dadosabertos.camara.leg.br/swagger/api.html (arquivos CSV).
-Importa situação, órgão, último registro e autoria SEM consultar uma URL por proposta.
+Importa proposições, situação, órgão, último registro e autoria por CSV, em lotes.
 Não inventa campos: quando uma informação não está no CSV, preserva dado anterior.
 """
 import csv
@@ -23,6 +23,7 @@ KEY = os.environ["SUPABASE_SERVICE_ROLE_KEY"]
 HEADERS = {"apikey": KEY, "Authorization": "Bearer " + KEY, "Accept": "application/json"}
 YEARS = [dt.date.today().year, dt.date.today().year - 1]
 BATCH = 100
+TYPES = {'PL','PLP','PEC','MPV','PDL','PRC'}
 
 def get_json(url):
     req = urllib.request.Request(url, headers=HEADERS)
@@ -95,9 +96,23 @@ def authors_csv(year, indexed):
 def proposal_csv(year, indexed):
     by_id = {}
     try:
+        new_count = 0
         for row in parse_csv("proposicoes", year):
             id = id_from(row, ("id", "idProposicao"), ("uri", "uriProposicao"))
-            if not id or id not in indexed:continue
+            kind = value(row, "siglaTipo")
+            if not id or kind not in TYPES:continue
+            if id not in indexed:
+                number = value(row, "numero")
+                ementa = value(row, "ementa")
+                if not number or not number.isdigit() or not ementa:continue
+                indexed[id] = {
+                    "id":int(id), "ano":year, "numero":int(number),
+                    "sigla_tipo":kind, "ementa":ementa,
+                    "data_apresentacao":(value(row, "dataApresentacao") or "")[:10] or None,
+                    "dados_oficiais":{}, "situacao_codigo":None,
+                    "situacao_descricao":None, "situacao_atualizada_em":None,
+                }
+                new_count += 1
             stage = {
                 "codSituacao": value(row, "ultimoStatus_idSituacao", "ultimoStatus_codSituacao", "statusProposicao_codSituacao"),
                 "descricaoSituacao": value(row, "ultimoStatus_descricaoSituacao", "statusProposicao_descricaoSituacao"),
@@ -109,7 +124,7 @@ def proposal_csv(year, indexed):
             stage = {k:v for k,v in stage.items() if v is not None}
             by_id[id] = {"stage": stage,
                          "urlInteiroTeor": value(row, "urlInteiroTeor")}
-        print("Proposições do índice no arquivo anual:", len(by_id), year, flush=True)
+        print("Proposições dos tipos cobertos:", len(by_id), "ano:",year,"novas:",new_count, flush=True)
         return by_id, True
     except Exception as error:
         print("Arquivo de proposições indisponível para", year, str(error)[:180], flush=True)
