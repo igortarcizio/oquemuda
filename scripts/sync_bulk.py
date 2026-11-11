@@ -97,6 +97,9 @@ def proposal_csv(year, indexed):
     by_id = {}
     try:
         new_count = 0
+        conflicts = 0
+        # Impede que IDs divergentes com a mesma identificação oficial parem o lote.
+        known_keys = {(p["sigla_tipo"], int(p["numero"]), int(p["ano"])):str(p["id"]) for p in indexed.values()}
         for row in parse_csv("proposicoes", year):
             id = id_from(row, ("id", "idProposicao"), ("uri", "uriProposicao"))
             kind = value(row, "siglaTipo")
@@ -105,6 +108,14 @@ def proposal_csv(year, indexed):
                 number = value(row, "numero")
                 ementa = value(row, "ementa")
                 if not number or not number.isdigit() or not ementa:continue
+                natural_key = (kind, int(number), year)
+                if natural_key in known_keys and known_keys[natural_key] != id:
+                    conflicts += 1
+                    if conflicts <= 5:
+                        print("Divergência de identidade (ignorada):",natural_key,
+                              "existente:",known_keys[natural_key],"CSV:",id,flush=True)
+                    continue
+                known_keys[natural_key] = id
                 indexed[id] = {
                     "id":int(id), "ano":year, "numero":int(number),
                     "sigla_tipo":kind, "ementa":ementa,
@@ -124,7 +135,8 @@ def proposal_csv(year, indexed):
             stage = {k:v for k,v in stage.items() if v is not None}
             by_id[id] = {"stage": stage,
                          "urlInteiroTeor": value(row, "urlInteiroTeor")}
-        print("Proposições dos tipos cobertos:", len(by_id), "ano:",year,"novas:",new_count, flush=True)
+        print("Proposições dos tipos cobertos:", len(by_id), "ano:",year,"novas:",new_count,
+              "divergências de ID:",conflicts,flush=True)
         return by_id, True
     except Exception as error:
         print("Arquivo de proposições indisponível para", year, str(error)[:180], flush=True)
