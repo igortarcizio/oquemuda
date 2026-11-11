@@ -1,0 +1,910 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#F4F0E6">
+<title>O que muda? — protótipo funcional v2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#f4f0e6;--ink:#1f2a33;--text:#4a5560;--line:#e2dccd;--field-border:#85806F;--placeholder:#6B7680;
+  --signal:oklch(.635 .186 31.8);--signal-ink:oklch(.5 .16 31);--focus:#185ca5;--radius:14px;
+  --saude:oklch(.62 .13 165);--saude-ink:oklch(.42 .1 165);--saude-soft:oklch(.955 .03 165);
+  --trabalho:oklch(.69 .144 60);--trabalho-ink:oklch(.46 .11 55);--trabalho-soft:oklch(.955 .03 65);
+  --educacao:oklch(.78 .154 89);--educacao-ink:oklch(.46 .1 85);--educacao-soft:oklch(.96 .045 92);
+  --consumo:oklch(.52 .197 265);--consumo-ink:oklch(.44 .17 265);--consumo-soft:oklch(.95 .028 265);
+  --mobilidade:oklch(.58 .179 358);--mobilidade-ink:oklch(.46 .15 358);--mobilidade-soft:oklch(.955 .028 355);
+  --tecnologia:oklch(.58 .098 209);--tecnologia-ink:oklch(.42 .08 210);--tecnologia-soft:oklch(.95 .022 205);
+  --seguranca:oklch(.5 .12 295);--seguranca-ink:oklch(.42 .12 295);--seguranca-soft:oklch(.955 .022 295);
+  --economia:oklch(.6 .11 100);--economia-ink:oklch(.43 .08 100);--economia-soft:oklch(.955 .035 100);
+  --moradia:oklch(.56 .12 45);--moradia-ink:oklch(.45 .11 45);--moradia-soft:oklch(.955 .025 50);
+  --ambiente:oklch(.5 .1 140);--ambiente-ink:oklch(.4 .09 140);--ambiente-soft:oklch(.95 .03 140);
+  --direitos:oklch(.55 .1 235);--direitos-ink:oklch(.43 .1 235);--direitos-soft:oklch(.955 .02 235);
+  --cultura:oklch(.58 .16 15);--cultura-ink:oklch(.47 .15 15);--cultura-soft:oklch(.955 .025 15);
+  --politica:oklch(.52 .14 325);--politica-ink:oklch(.43 .13 325);--politica-soft:oklch(.955 .025 325);
+  --outros:oklch(.6 .02 245);--outros-ink:oklch(.38 .025 245);--outros-soft:oklch(.95 .008 245);
+}
+[data-area="Saúde"]{--area:var(--saude);--area-ink:var(--saude-ink);--area-soft:var(--saude-soft)}
+[data-area="Trabalho"]{--area:var(--trabalho);--area-ink:var(--trabalho-ink);--area-soft:var(--trabalho-soft)}
+[data-area="Educação"]{--area:var(--educacao);--area-ink:var(--educacao-ink);--area-soft:var(--educacao-soft)}
+[data-area="Consumo"]{--area:var(--consumo);--area-ink:var(--consumo-ink);--area-soft:var(--consumo-soft)}
+[data-area="Mobilidade"]{--area:var(--mobilidade);--area-ink:var(--mobilidade-ink);--area-soft:var(--mobilidade-soft)}
+[data-area="Comunicação e tecnologia"]{--area:var(--tecnologia);--area-ink:var(--tecnologia-ink);--area-soft:var(--tecnologia-soft)}
+[data-area="Segurança"]{--area:var(--seguranca);--area-ink:var(--seguranca-ink);--area-soft:var(--seguranca-soft)}
+[data-area="Economia"]{--area:var(--economia);--area-ink:var(--economia-ink);--area-soft:var(--economia-soft)}
+[data-area="Moradia"]{--area:var(--moradia);--area-ink:var(--moradia-ink);--area-soft:var(--moradia-soft)}
+[data-area="Meio ambiente"]{--area:var(--ambiente);--area-ink:var(--ambiente-ink);--area-soft:var(--ambiente-soft)}
+[data-area="Política e governo"]{--area:var(--politica);--area-ink:var(--politica-ink);--area-soft:var(--politica-soft)}
+[data-area="Direitos e cidadania"]{--area:var(--direitos);--area-ink:var(--direitos-ink);--area-soft:var(--direitos-soft)}
+[data-area="Cultura e esporte"]{--area:var(--cultura);--area-ink:var(--cultura-ink);--area-soft:var(--cultura-soft)}
+
+*,*::before,*::after{box-sizing:border-box}
+html{scroll-padding-top:20px}
+body{margin:0;background:var(--paper);color:var(--ink);font:400 16px/1.6 'DM Sans',system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+button,input,select{font:inherit;color:inherit}
+button{cursor:pointer}
+a{color:inherit}
+h1,h2,h3{font-family:'Newsreader',Georgia,serif;font-weight:500;letter-spacing:-.012em;margin:0;line-height:1.12}
+p{margin:0}
+ul,ol{margin:0;padding:0;list-style:none}
+:focus-visible{outline:3px solid var(--focus);outline-offset:3px}
+[tabindex="-1"]:focus{outline:none}
+.sr-only{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+[hidden]{display:none!important}
+.skip{position:absolute;left:12px;top:-60px;background:var(--ink);color:#fff;padding:10px 14px;border-radius:8px;z-index:100}
+.skip:focus{top:12px}
+
+.proto-bar{background:#1d2730;color:#e9e4d8;font-size:13px}
+.proto-bar .page{display:flex;gap:8px 16px;flex-wrap:wrap;align-items:center;padding-block:8px}
+.proto-tag{background:#e8734f;color:#1d2730;font-weight:700;padding:2px 8px;border-radius:5px;font-size:11px;letter-spacing:.06em}
+.proto-bar #liveState::before{content:'';display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:6px;background:#9aa3ab;vertical-align:1px}
+.proto-bar #liveState.on::before{background:#4ccf8a}
+.proto-bar #liveState.off::before{background:#e8734f}
+
+.page{width:100%;max-width:1160px;margin:0 auto;padding-inline:20px}
+.area-stripe{height:5px;background:linear-gradient(90deg,var(--saude) 0 7.7%,var(--educacao) 7.7% 15.4%,var(--trabalho) 15.4% 23.1%,var(--consumo) 23.1% 30.8%,var(--economia) 30.8% 38.5%,var(--seguranca) 38.5% 46.2%,var(--direitos) 46.2% 53.9%,var(--mobilidade) 53.9% 61.6%,var(--moradia) 61.6% 69.3%,var(--ambiente) 69.3% 77%,var(--tecnologia) 77% 84.7%,var(--cultura) 84.7% 92.4%,var(--politica) 92.4% 100%)}
+
+.site-header{border-bottom:1px solid var(--line)}
+.header-inner{display:flex;justify-content:space-between;align-items:center;gap:20px;padding-block:10px}
+.brand{font:600 25px/1 'Newsreader',Georgia,serif;letter-spacing:-.03em;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.brand span{color:var(--signal)}
+.main-nav ul{display:flex;gap:4px}
+.main-nav a{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:0 10px;font-size:15px;font-weight:500;color:var(--text);text-decoration:none;border-bottom:2px solid transparent}
+.main-nav a:hover{color:var(--ink)}
+.main-nav a[aria-current=page]{color:var(--ink);border-color:var(--signal)}
+.count-badge{background:var(--signal-ink);color:#fff;min-width:20px;height:20px;padding:0 5px;border-radius:5px;font-size:12px;line-height:20px;text-align:center;font-weight:700}
+
+.hero{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:56px;padding-block:40px 26px}
+.hero>*{min-width:0}
+.eyebrow{font-size:12px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--signal-ink)}
+.hero h1{font-size:clamp(34px,4.2vw,50px);line-height:1.06;margin-top:14px;max-width:640px}
+.hero h1 em{font-style:normal;text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:5px;text-decoration-thickness:.07em}
+.hero .sub{font-size:18px;color:var(--text);margin-top:14px;max-width:580px}
+.coverage{display:inline-flex;align-items:center;gap:8px;margin-top:12px;font-size:13px;color:var(--text)}
+.coverage::before{content:'';width:7px;height:7px;border-radius:50%;background:var(--saude)}
+
+.search{margin-top:26px}
+.search label{display:block;font-size:16px;font-weight:600;margin-bottom:10px}
+.search-row{display:flex;gap:10px}
+.search-row input{flex:1;min-width:0;min-height:52px;padding:12px 16px;border:1.5px solid var(--field-border);border-radius:11px;background:#fff;font-size:16px}
+.search-row input::placeholder{color:var(--placeholder)}
+.search-hint{font-size:13px;color:var(--text);margin-top:8px}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px;padding:10px 18px;border-radius:10px;font-weight:600;font-size:15px;text-decoration:none;border:0}
+.btn-primary{background:var(--ink);color:var(--paper)}
+.btn-primary:hover{background:#2d3d4a}
+.btn-outline{background:#fff;border:1.5px solid var(--field-border);color:var(--ink)}
+.btn-outline:hover{border-color:var(--ink)}
+.btn-quiet{background:none;color:var(--ink);text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:4px;padding-inline:4px}
+
+.filters-toggle{display:none}
+.filters{display:flex;flex-wrap:wrap;gap:12px 16px;margin-top:18px}
+.field{display:flex;flex-direction:column;gap:5px;font-size:13px;font-weight:600;color:var(--text)}
+.field select{min-height:44px;min-width:180px;padding:8px 36px 8px 12px;border:1.5px solid var(--field-border);border-radius:10px;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231f2a33' stroke-width='1.8'/%3E%3C/svg%3E") no-repeat right 12px center;appearance:none;font-size:15px;font-weight:500;color:var(--ink)}
+
+.chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:18px}
+.chip{display:inline-flex;align-items:center;gap:7px;min-height:44px;padding:8px 13px;border-radius:999px;background:#fff;border:1.5px solid var(--line);font-size:14px;font-weight:500;color:var(--ink)}
+.chip:hover{border-color:var(--field-border)}
+.chip[aria-pressed=true]{background:var(--ink);border-color:var(--ink);color:var(--paper)}
+.dot{width:9px;height:9px;border-radius:50%;background:var(--area,var(--outros));flex:none}
+.chip[aria-pressed=true] .dot{box-shadow:0 0 0 2px var(--paper)}
+
+.watch{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px;align-self:start}
+.watch h2{font-size:24px;margin-top:6px}
+.watch>p{font-size:14px;color:var(--text);margin-top:8px}
+.watch-list{margin-top:12px}
+.watch-item{display:flex;align-items:center;gap:12px;padding:12px 0;border-top:1px solid var(--line);text-decoration:none;min-height:64px}
+.watch-item:hover strong,.watch-item[aria-current=true] strong{color:var(--signal-ink)}
+.watch-item[aria-current=true]{background:linear-gradient(90deg,#fff3ec,transparent 80%)}
+.watch-ico{width:38px;height:38px;border-radius:10px;background:var(--paper);border:1px solid var(--line);display:grid;place-items:center;flex:none}
+.watch-item strong{display:block;font-size:14px;line-height:1.3}
+.watch-item small{display:block;font-size:12.5px;color:var(--text);line-height:1.4}
+
+.section-head{border-top:1px solid var(--line);padding-block:30px 20px;display:flex;justify-content:space-between;align-items:end;gap:16px;flex-wrap:wrap}
+.section-head h2{font-size:clamp(28px,3vw,36px);margin-top:8px}
+.section-head p{font-size:14px;color:var(--text);margin-top:6px;max-width:62ch}
+.textlink{font-weight:600;font-size:14px;text-decoration:none;display:inline-flex;align-items:center;min-height:44px}
+.textlink:hover{color:var(--signal-ink);text-decoration:underline;text-underline-offset:4px}
+
+.seal{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;color:var(--signal-ink);background:#fff3ec;border:1px solid #f2d3c3;border-radius:999px;padding:3px 10px 3px 8px;white-space:nowrap}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;line-height:1.2;padding:5px 10px;border-radius:999px;white-space:nowrap;max-width:100%;overflow:hidden;text-overflow:ellipsis}
+.status::before{content:'';width:7px;height:7px;border-radius:50%;background:currentColor;opacity:.75;flex:none}
+.st-introduced,.st-neutral{background:#eef0f2;color:#4f5864}
+.st-discussion{background:#d8f3e6;color:#12643f}
+.st-voting{background:#dceafb;color:#174f8e}
+.st-approved{background:#ebe0fa;color:#5f2f8f}
+.st-closed{background:#fce1de;color:#9b2c28}
+.st-pending{background:transparent;color:#5c6571;border:1px dashed #a7adb4}
+.st-pending::before{display:none}
+
+.feature{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(240px,.9fr);background:#fff;border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;position:relative}
+.feature-main{padding:30px 32px;border-top:5px solid var(--area)}
+.meta-row{display:flex;align-items:center;gap:8px 10px;flex-wrap:wrap}
+.topic{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--area-ink)}
+.feature h3{font-size:clamp(28px,3vw,40px);line-height:1.08;margin:12px 0 14px;max-width:24ch}
+.feature h3 a,.card h3 a{text-decoration:none}
+.feature h3 a::after,.card h3 a::after{content:'';position:absolute;inset:0;z-index:1}
+.feature h3 a:hover,.card h3 a:hover{text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:4px}
+.feature h3 a:focus-visible,.card h3 a:focus-visible{outline:none}
+.feature:focus-within,.card:focus-within{box-shadow:0 0 0 3px var(--focus)}
+.lead{font-size:17px;color:var(--text);max-width:58ch}
+.feature-side{background:var(--area-soft);padding:30px 28px;display:flex;flex-direction:column;gap:18px;border-top:5px solid var(--area)}
+.kicker{font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--area-ink)}
+.who{display:flex;flex-direction:column;gap:8px;margin-top:10px}
+.who li{display:flex;align-items:center;gap:10px;font-size:15px;font-weight:500}
+.who li::before{content:'';width:22px;height:22px;flex:none;border-radius:50%;background:#fff url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%2333404b' stroke-width='2.4'%3E%3Ccircle cx='12' cy='8' r='4'/%3E%3Cpath d='M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6'/%3E%3C/svg%3E") no-repeat center;border:1px solid var(--line)}
+.side-actions{margin-top:auto;display:flex;align-items:center;justify-content:space-between;gap:10px;position:relative;z-index:2}
+.more{font-size:14px;font-weight:600}
+.support{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:18px}
+
+.results-meta{display:flex;flex-wrap:wrap;gap:8px 12px;align-items:center;font-size:14px;color:var(--text);margin-top:8px}
+.pill{display:inline-flex;align-items:center;gap:4px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:2px 4px 2px 12px;font-size:13px;font-weight:600;color:var(--ink)}
+.pill button{border:0;background:none;width:32px;height:32px;border-radius:50%;font-size:17px;line-height:1}
+.pill button:hover{background:var(--paper)}
+.type-info{margin-top:14px;padding:14px 18px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:12px;max-width:720px;font-size:14px;color:var(--text)}
+.type-info b{color:var(--ink)}
+
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.card{position:relative;background:#fff;border:1px solid var(--line);border-top:4px solid var(--area);border-radius:var(--radius);padding:18px 20px 16px;display:flex;flex-direction:column;min-width:0;transition:transform .15s,box-shadow .15s}
+.card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,42,51,.07)}
+.card-top{display:flex;align-items:center;justify-content:space-between;gap:10px;min-width:0}
+.docref{font-size:12.5px;color:var(--text);margin-top:12px;font-weight:600;letter-spacing:.01em}
+.card h3{margin-top:6px;overflow-wrap:anywhere}
+.card.reviewed h3{font-size:24px;line-height:1.14}
+.card.auto h3{font:600 18px/1.35 'DM Sans',system-ui,sans-serif;letter-spacing:-.005em}
+.changes{font-size:13px;color:var(--text);margin-top:10px}
+.changes b{font-weight:600;color:var(--ink)}
+.card .lead{font-size:14.5px;margin-top:10px}
+.tags{display:flex;gap:6px;flex-wrap:wrap;margin-top:14px;position:relative;z-index:2}
+.tag{font-size:12.5px;font-weight:600;color:var(--area-ink);background:var(--area-soft);padding:5px 10px;border-radius:7px;text-decoration:none;min-height:30px;display:inline-flex;align-items:center}
+.tag:hover{text-decoration:underline}
+.card-foot{margin-top:auto;padding-top:16px;display:flex;align-items:center;justify-content:space-between;gap:8px}
+.read-hint{font-size:13.5px;font-weight:600}
+.card:hover .read-hint{color:var(--signal-ink)}
+.save{position:relative;z-index:2;display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 14px;border-radius:10px;background:#fff;border:1.5px solid var(--line);font-size:13.5px;font-weight:600;white-space:nowrap}
+.save:hover{border-color:var(--field-border)}
+.save[aria-pressed=true]{background:#fff3ec;border-color:var(--signal);color:var(--signal-ink)}
+
+.empty{grid-column:1/-1;background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:28px;max-width:760px}
+.empty h3{font-size:26px}
+.empty p{color:var(--text);margin-top:8px}
+.empty .actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:16px}
+
+.skeleton{background:#fff;border:1px solid var(--line);border-radius:var(--radius);height:230px;position:relative;overflow:hidden}
+.skeleton::after{content:'';position:absolute;inset:0;background:linear-gradient(100deg,transparent 20%,#f3efe6 40%,transparent 60%);background-size:200% 100%;animation:shine 1.2s linear infinite}
+@keyframes shine{from{background-position:200% 0}to{background-position:-200% 0}}
+
+.pagination{display:flex;justify-content:center;flex-wrap:wrap;gap:6px;margin:30px 0 10px}
+.pg{min-width:44px;min-height:44px;border-radius:10px;background:#fff;border:1.5px solid var(--line);font-size:14px;font-weight:600}
+.pg:hover:not(:disabled){border-color:var(--ink)}
+.pg[aria-current=page]{background:var(--ink);border-color:var(--ink);color:#fff}
+.pg.edge{padding-inline:14px}
+.pg:disabled{opacity:.45;cursor:not-allowed}
+.dots{display:inline-grid;place-items:center;min-width:24px;color:var(--text)}
+
+.back{display:inline-flex;align-items:center;gap:6px;min-height:44px;margin-top:18px;font-size:15px;color:var(--text);text-decoration:none}
+.back:hover{color:var(--ink);text-decoration:underline}
+.detail-head{background:var(--area-soft);border-bottom:1px solid var(--line);border-top:5px solid var(--area);margin-top:8px;padding-block:32px 34px}
+.detail-head h1{font-size:clamp(32px,4.4vw,52px);line-height:1.06;max-width:24ch;margin:14px 0 18px;overflow-wrap:anywhere}
+.detail-head h1.auto{font:600 clamp(26px,3vw,36px)/1.2 'DM Sans',system-ui,sans-serif;letter-spacing:-.015em}
+.row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.detail-grid{display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:44px;padding-block:38px 20px}
+.block{margin-bottom:34px}
+.block h2{font-size:27px;margin-bottom:12px}
+.block p{color:var(--text);max-width:64ch;line-height:1.7}
+.note{font-size:13px;color:var(--text);margin-top:10px}
+.official{background:#fff;border:1px solid var(--line);border-left:4px solid var(--area);border-radius:12px;padding:22px 24px}
+.official p{color:var(--ink);font-size:16.5px}
+.who-row{display:flex;flex-wrap:wrap;gap:8px}
+.who-row li{background:#fff;border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:14px;font-weight:500}
+.timeline{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));margin:6px 0 0}
+.timeline li{position:relative;padding-top:30px;font-size:13px;color:var(--text);text-align:center}
+.timeline li::before{content:'';position:absolute;top:8px;left:50%;width:16px;height:16px;margin-left:-8px;border-radius:50%;background:#fff;border:2px solid #b9b4a7;z-index:1}
+.timeline li::after{content:'';position:absolute;top:15px;left:50%;width:100%;height:2px;background:#d8d3c6}
+.timeline li:last-child::after{display:none}
+.timeline li.done::before{background:var(--area);border-color:var(--area)}
+.timeline li.done::after{background:var(--area)}
+.timeline li.now{color:var(--ink);font-weight:700}
+.timeline li.now::before{width:22px;height:22px;margin-left:-11px;top:5px;background:#fff;border:6px solid var(--area)}
+.timeline li.now::after{background:#d8d3c6}
+.timeline small{display:block;font-weight:500;color:var(--text);font-size:12px}
+.closed-note{background:#fce1de;color:#7e2420;border-radius:10px;padding:12px 16px;font-size:14px;margin-bottom:12px}
+.aside{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:24px;align-self:start}
+.aside h2{font-size:23px;margin-bottom:14px}
+.aside dl{margin:0;display:grid;gap:12px}
+.aside dl div{padding-bottom:12px;border-bottom:1px solid var(--line)}
+.aside dt{font-size:12px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--text)}
+.aside dd{margin:4px 0 0;font-size:15px;overflow-wrap:anywhere}
+.aside .links{display:flex;flex-direction:column;gap:8px;margin-top:20px}
+.muted{color:var(--text)}
+
+.info{padding-block:44px 20px;max-width:860px}
+.info h1{font-size:clamp(34px,4.4vw,50px);margin-top:12px}
+.info .lead{margin-top:14px}
+.steps{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:28px}
+.step{background:#fff;border:1px solid var(--line);border-radius:var(--radius);padding:22px}
+.step b{display:block;font-family:'Newsreader',serif;font-size:30px;color:var(--signal-ink);font-weight:500}
+.step h2{font-size:21px;margin:6px 0}
+.step p{color:var(--text);font-size:15px}
+.info section{margin-top:30px}
+.info section h2{font-size:26px;margin-bottom:8px}
+.info section p{color:var(--text)}
+
+.site-footer{border-top:1px solid var(--line);margin-top:70px}
+.foot{display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap;padding-block:30px;font-size:14px;color:var(--text)}
+.foot p{max-width:560px;margin-top:8px}
+.foot .brand{font-size:22px;color:var(--ink)}
+.source{border-top:1px solid var(--line);padding-block:14px 26px;font-size:12.5px;color:var(--text)}
+
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(20px);background:var(--ink);color:var(--paper);padding:12px 18px;border-radius:10px;font-size:14px;font-weight:500;opacity:0;pointer-events:none;transition:.2s;z-index:60;max-width:90vw}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+@media (max-width:1040px){
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .hero{grid-template-columns:minmax(0,1fr) 270px;gap:30px}
+}
+@media (max-width:720px){
+  .page{padding-inline:18px}
+  .header-inner{flex-wrap:wrap;gap:0;padding-block:6px}
+  .main-nav{width:100%;margin-left:-10px}
+  .hero{grid-template-columns:minmax(0,1fr);gap:16px;padding-block:22px 16px}
+  .hero h1{font-size:34px}
+  .hero .sub{font-size:16px}
+  .search{margin-top:18px}
+  .search-row .btn{padding-inline:14px}
+  .filters-toggle{display:inline-flex;margin-top:12px}
+  .filters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px;padding:14px;background:#fff;border:1px solid var(--line);border-radius:12px}
+  .filters.collapsed{display:none}
+  .field select{min-width:0;width:100%}
+  .chips{flex-wrap:nowrap;overflow-x:auto;margin-inline:-18px;padding:2px 18px 6px;scrollbar-width:none}
+  .chip{flex:none}
+  .watch{order:-1;background:none;border:0;padding:0}
+  .watch .eyebrow,.watch h2,.watch>p{display:none}
+  .watch-list{display:flex;gap:8px;overflow-x:auto;margin:0 -18px;padding:0 18px 4px;scrollbar-width:none}
+  .watch-item{flex:none;border:1px solid var(--line);background:#fff;border-radius:999px;padding:6px 14px 6px 6px;min-height:44px;gap:8px}
+  .watch-item[aria-current=true]{background:#fff3ec;border-color:var(--signal)}
+  .watch-ico{width:32px;height:32px;border-radius:50%}
+  .watch-item small{display:none}
+  .watch-item strong{font-size:13px;white-space:nowrap}
+  .section-head{padding-block:24px 16px}
+  .feature{grid-template-columns:1fr}
+  .feature-main{padding:22px}
+  .feature h3{font-size:28px}
+  .feature-side{border-top:0;padding:18px 22px 22px}
+  .support,.grid,.steps{grid-template-columns:1fr}
+  .card.reviewed h3{font-size:22px}
+  .detail-grid{grid-template-columns:1fr;gap:10px}
+  .timeline{grid-template-columns:1fr}
+  .timeline li{text-align:left;padding:0 0 18px 34px}
+  .timeline li::before{top:3px;left:0;margin-left:0}
+  .timeline li.now::before{left:-3px;margin-left:0;top:0}
+  .timeline li::after{top:19px;left:7px;width:2px;height:100%}
+  .pg.num:not([aria-current]){display:none}
+  .dots{display:none}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important;scroll-behavior:auto!important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#conteudo">Pular para o conteúdo</a>
+<div class="proto-bar" role="note">
+  <div class="page">
+    <span class="proto-tag">PROTÓTIPO FUNCIONAL</span>
+    <span>Acervo embutido: <b id="protoCount"></b> propostas reais, cópia de <b id="protoDate"></b></span>
+    <span id="liveState">Verificando conexão com a base oficial…</span>
+  </div>
+</div>
+<div class="area-stripe" aria-hidden="true"></div>
+<header class="site-header">
+  <div class="page header-inner">
+    <a class="brand" href="#/explorar" aria-label="O que muda? — início">o que muda<span>?</span></a>
+    <nav class="main-nav" aria-label="Navegação principal"><ul>
+      <li><a href="#/explorar" data-nav="explorar">Explorar</a></li>
+      <li><a href="#/salvos" data-nav="salvos">Salvos <span class="count-badge" id="saveCount" hidden></span></a></li>
+      <li><a href="#/como-funciona" data-nav="como-funciona">Como funciona</a></li>
+    </ul></nav>
+  </div>
+</header>
+
+<main id="conteudo" tabindex="-1">
+  <!-- EXPLORAR -->
+  <div id="view-explorar" hidden>
+    <div class="page">
+      <section class="hero" aria-label="Busca e filtros">
+        <div>
+          <p class="eyebrow">Política e cotidiano</p>
+          <h1 id="heroTitle" tabindex="-1">O que está sendo decidido pode mudar <em>sua rotina</em>.</h1>
+          <p class="sub">Entenda o que propõem os textos apresentados à Câmara dos Deputados, quem pode ser afetado e em que etapa estão.</p>
+          <p class="coverage" id="coverage"></p>
+          <form class="search" role="search" id="searchForm">
+            <label for="q">Qual assunto você quer acompanhar?</label>
+            <div class="search-row">
+              <input id="q" type="search" autocomplete="off" placeholder="Ex.: aposentadoria, escola, golpe no banco" aria-describedby="qhint" data-key="q">
+              <button class="btn btn-primary" type="submit" data-key="buscar">Buscar</button>
+            </div>
+            <p class="search-hint" id="qhint">Pode digitar sem acento, com palavras soltas ou o número (ex.: 5751/2026).</p>
+          </form>
+          <button type="button" class="btn btn-outline filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters" data-key="filtersToggle">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>
+            Filtros <span class="count-badge" id="filterCount" style="background:var(--ink)" hidden></span>
+          </button>
+          <div class="filters collapsed" id="filters">
+            <label class="field">Ano de apresentação<select id="fAno" data-key="fAno"></select></label>
+            <label class="field">Tipo de proposta<select id="fTipo" data-key="fTipo"></select></label>
+          </div>
+          <div class="chips" role="group" aria-label="Filtrar por tema" id="chips"></div>
+        </div>
+        <aside class="watch" aria-labelledby="watchTitle">
+          <p class="eyebrow">Tramitação</p>
+          <h2 id="watchTitle">De olho na Câmara</h2>
+          <p>Atalhos por etapa, em todos os anos do acervo.</p>
+          <nav aria-label="Atalhos por etapa" class="watch-list" id="watchList">
+            <a class="watch-item" data-key="w-recent" href="#/explorar?modo=recent">
+              <span class="watch-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#a5600b" stroke-width="1.9" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg></span>
+              <span><strong>Novas propostas</strong><small>Apresentadas nos últimos 30 dias</small></span></a>
+            <a class="watch-item" data-key="w-voting" href="#/explorar?modo=voting">
+              <span class="watch-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2f5597" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="16" rx="2"/><path d="M7 3v4m10-4v4M3 10h18"/></svg></span>
+              <span><strong>Prontas para pauta</strong><small>Podem ir a votação; nada agendado ainda</small></span></a>
+            <a class="watch-item" data-key="w-approved" href="#/explorar?modo=approved">
+              <span class="watch-ico" aria-hidden="true"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#17794e" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="m8 12 2.5 2.5L16 9"/></svg></span>
+              <span><strong>Aprovadas na Câmara</strong><small>Seguiram ao Senado ou à sanção</small></span></a>
+          </nav>
+        </aside>
+      </section>
+
+      <section id="featured" aria-labelledby="focoTitle" hidden>
+        <div class="section-head">
+          <div>
+            <p class="eyebrow">Escolhidas pela redação</p>
+            <h2 id="focoTitle">Propostas em foco</h2>
+            <p>Três propostas recentes com efeito direto no dia a dia, explicadas em linguagem simples.</p>
+          </div>
+          <a class="textlink" href="#/como-funciona">Como escolhemos →</a>
+        </div>
+        <div id="featuredBody"></div>
+      </section>
+
+      <section aria-labelledby="listTitle">
+        <div class="section-head">
+          <div>
+            <h2 id="listTitle" tabindex="-1">Explore as propostas</h2>
+            <div class="results-meta" id="resultsMeta"></div>
+            <div id="typeInfo"></div>
+          </div>
+        </div>
+        <div class="grid" id="grid" aria-live="off"></div>
+        <nav class="pagination" aria-label="Páginas de propostas" id="pagination"></nav>
+      </section>
+    </div>
+  </div>
+
+  <!-- FICHA -->
+  <div id="view-ficha" hidden></div>
+
+  <!-- SALVOS -->
+  <div id="view-salvos" hidden>
+    <div class="page">
+      <div class="section-head" style="border-top:0">
+        <div>
+          <p class="eyebrow">Salvos</p>
+          <h1 id="savedTitle" tabindex="-1" style="font-size:clamp(32px,4vw,46px);margin-top:10px">Para ler com calma</h1>
+          <p>Propostas guardadas neste navegador. A situação pode ter mudado desde que você salvou.</p>
+        </div>
+      </div>
+      <div class="grid" id="savedGrid"></div>
+    </div>
+  </div>
+
+  <!-- COMO FUNCIONA -->
+  <div id="view-como-funciona" hidden>
+    <div class="page info">
+      <p class="eyebrow">Como funciona</p>
+      <h1 id="infoTitle" tabindex="-1">Entender antes de opinar.</h1>
+      <p class="lead">O que muda? explica em linguagem simples as propostas apresentadas à Câmara dos Deputados. Proposta não é lei.</p>
+      <div class="steps">
+        <div class="step"><b>01</b><h2>Busque um assunto</h2><p>Por palavra, tema, ano, tipo ou etapa. Não precisa de acento.</p></div>
+        <div class="step"><b>02</b><h2>Entenda a proposta</h2><p>O que ela pretende mudar, quem pode ser afetado e em que etapa está.</p></div>
+        <div class="step"><b>03</b><h2>Confira a fonte</h2><p>Todo card leva ao texto integral e à ficha oficial da Câmara.</p></div>
+      </div>
+      <section><h2>Títulos e o selo “Explicado pela redação”</h2><p>Propostas com o selo foram lidas por uma pessoa, que escreveu o título em forma de pergunta e o resumo. Nas demais, o título é gerado automaticamente a partir da ementa oficial e descreve o que o texto faz, sem interpretar.</p></section>
+      <section id="destaques"><h2>Como os destaques são escolhidos</h2><p>A seleção prioriza propostas recentes com efeito direto no cotidiano (saúde, trabalho, consumo, educação, mobilidade e segurança). Não considera partido, autor ou posição política, e destacar uma proposta não significa apoiá-la.</p></section>
+      <section><h2>Temas e assuntos</h2><p>Cada proposta recebe assuntos específicos (como SUS, Bullying ou Simples) a partir de palavras da ementa. O tema geral é deduzido desses assuntos. A classificação é automática e pode errar.</p></section>
+      <p style="margin-top:28px"><a class="btn btn-primary" href="#/explorar">Explorar propostas →</a></p>
+    </div>
+  </div>
+</main>
+
+<footer class="site-footer">
+  <div class="page foot">
+    <div><span class="brand">o que muda<span>?</span></span>
+      <p>Propostas da Câmara dos Deputados explicadas em linguagem simples, sempre com link para a fonte oficial.</p></div>
+    <nav aria-label="Rodapé"><ul style="display:flex;gap:16px;flex-wrap:wrap"><li><a class="textlink" href="#/explorar">Explorar</a></li><li><a class="textlink" href="#/salvos">Salvos</a></li><li><a class="textlink" href="#/como-funciona">Como funciona</a></li></ul></nav>
+  </div>
+  <div class="page"><p class="source">Fonte: Dados Abertos da Câmara dos Deputados. Propostas não são leis em vigor. “Pronta para pauta” não significa votação agendada.</p></div>
+</footer>
+
+<p class="sr-only" aria-live="polite" aria-atomic="true" id="announcer"></p>
+<div class="toast" id="toast" aria-hidden="true"></div>
+
+<script id="data" type="application/json">/*__DATA__*/</script>
+<script>
+/*__CLASSIFY__*/
+(()=>{
+'use strict';
+/* ========================= DADOS ========================= */
+const D=JSON.parse(document.getElementById('data').textContent);
+const DB='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1';
+const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE'; // chave pública (somente leitura via RLS), a mesma do site
+const CAMARA='https://dadosabertos.camara.leg.br/api/v2';
+const PAGE=30;
+const THEMES=THEME_CLASSIFIER.THEMES;
+const TYPE_INFO={PL:['Projeto de Lei','Cria ou altera uma lei ordinária. Passa pela Câmara e pelo Senado e segue para sanção ou veto.'],PLP:['Projeto de Lei Complementar','Trata de temas que a Constituição reserva à lei complementar. Precisa da maioria absoluta: 257 deputados e 41 senadores.'],PEC:['Proposta de Emenda à Constituição','Altera a Constituição. Dois turnos em cada Casa, com 3/5 dos votos. Não vai à sanção.'],MPV:['Medida Provisória','Editada pelo presidente, vale desde a publicação e precisa ser aprovada pelo Congresso em até 120 dias.'],PDL:['Projeto de Decreto Legislativo','Competência exclusiva do Congresso, como aprovar acordos internacionais, outorgas de rádio ou sustar atos do Executivo.'],PRC:['Projeto de Resolução da Câmara','Assuntos internos da Câmara, como o Regimento. Não passa pelo Senado.']};
+
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fold=s=>String(s||'').normalize('NFD').replace(/[̀-ͯ]/g,'').toLowerCase();
+const cap=s=>s.charAt(0).toUpperCase()+s.slice(1);
+const dateBR=d=>{const m=String(d||'').match(/^(\d{4})-(\d{2})-(\d{2})/);return m?`${m[3]}/${m[2]}/${m[1]}`:'—'};
+
+/* ---------- Título descritivo gerado por regra (só para não revisados) ---------- */
+const IRREG={dispor:'Dispõe',propor:'Propõe',compor:'Compõe',impor:'Impõe',proibir:'Proíbe',prever:'Prevê',rever:'Revê',ter:'Tem',manter:'Mantém',obter:'Obtém',conter:'Contém',deter:'Detém',vir:'Vem',ver:'Vê',dar:'Dá',ser:'É',ir:'Vai',fazer:'Faz',trazer:'Traz',exigir:'Exige',corrigir:'Corrige',dirigir:'Dirige',pedir:'Pede',medir:'Mede',impedir:'Impede',seguir:'Segue',conseguir:'Consegue',prosseguir:'Prossegue',servir:'Serve',conferir:'Confere',transferir:'Transfere',inserir:'Insere',referir:'Refere',sugerir:'Sugere',investir:'Investe',repetir:'Repete',competir:'Compete',reunir:'Reúne',construir:'Constrói',destruir:'Destrói',subsidiar:'Subsidia',veicular:'Veicula'};
+function conj(v){
+  const l=v.toLowerCase();
+  if(IRREG[l])return IRREG[l];
+  if(!/(ar|er|ir)$/.test(l))return null;
+  if(/ear$/.test(l))return cap(l.replace(/ear$/,'eia'));
+  if(/uir$/.test(l))return cap(l.slice(0,-1));
+  if(/zir$/.test(l))return cap(l.slice(0,-2));
+  if(/ar$/.test(l)||/er$/.test(l))return cap(l.slice(0,-1));
+  return cap(l.slice(0,-2)+'e');
+}
+function shorten(s,max=135){
+  if(s.length<=max)return s;
+  const cut=s.slice(0,max);
+  const at=Math.max(cut.lastIndexOf(', '),cut.lastIndexOf(' e '),cut.lastIndexOf('; '));
+  if(at>max*.55)return cut.slice(0,at).replace(/[,;\s]+$/,'');
+  return cut.slice(0,cut.lastIndexOf(' ')).replace(/[,;:\s]+$/,'')+'…';
+}
+function autoTitle(e){
+  let s=String(e||'').replace(/\s+/g,' ').trim();
+  if(!s)return 'Proposta sem ementa informada';
+  let m;
+  if(/radiodifus/i.test(s)&&(m=s.match(/(?:cidade|munic[ií]pio) de ([^,]+?),\s*(?:Estado|no Estado) (?:de|do|da) ([^.,;]+)/i)))
+    return `Autoriza serviço de rádio em ${m[1].trim()} (${m[2].trim()})`;
+  if(/^Requer/i.test(s))return 'Pedido de tramitação: '+shorten(s.replace(/^Requer(?:em)?\s+/i,''),110);
+  m=s.match(/^(?:Alteram?|Acrescentam?|Modifica|Inclui|Dá nova redação|Revoga)\b[\s\S]*?\s(?:a fim de|para)\s+([a-zà-ú]+)\b([\s\S]*)$/i);
+  if(m){const v=conj(m[1]);if(v)s=v+m[2];}
+  s=s.replace(/^Dispõe sobre (a|o|as|os) /i,(x,a)=>'Trata d'+a.toLowerCase()+' ').replace(/^Dispõe sobre /i,'Trata de ');
+  s=s.replace(/,?\s*e dá outras providências\.?$/i,'').replace(/,?\s+(?:e\s+)?alteram?\s+(?:a|o|as|os)\s+(?:Leis?|Decreto|Constituição)[\s\S]*$/i,'');
+  s=s.split(/;\s/)[0].replace(/[.;,:\s]+$/,'');
+  return shorten(s);
+}
+function altera(e){
+  const pre=String(e||'').split(/\s(?:para|a fim de)\s/)[0];
+  if(/^Requer/i.test(String(e||'')))return '';
+  if(!/alter|acrescent|modific|revoga|reda[cç][aã]o/i.test(pre))return '';
+  const out=[],rx=/(Lei Complementar|Decreto-Lei|Lei|Decreto)\s+n[ºo°.]*\s*([\d.]+),\s+de\s+\d{1,2}º?\s+de\s+[a-zç]+\s+de\s+(\d{4})(?:\s*\(([^)]+)\))?/gi;let m;
+  while((m=rx.exec(pre))&&out.length<2){out.push(m[4]?m[4].trim():`${m[1]} ${m[2]}/${m[3]}`)}
+  if(/Constitui[cç][aã]o Federal/i.test(pre)&&out.length<2)out.push('Constituição Federal');
+  return out.join(' e ');
+}
+
+/* ---------- Itens ---------- */
+const items=D.rows.map(r=>{
+  const [id,tipo,numero,ano,data,ementa,tagIdx,areaIdx]=r;
+  return mkItem({id,tipo,numero,ano,data,ementa,tags:tagIdx.map(i=>D.tags[i]),area:D.areas[areaIdx]});
+});
+function mkItem(p){
+  const ed=D.editorial[String(p.id)];
+  const reviewed=!!(ed&&ed.t&&/\?$/.test(ed.t.trim()));
+  const ref=`${p.tipo} ${p.numero}/${p.ano}`;
+  const area=(ed&&ed.a&&THEMES.includes(ed.a))?ed.a:(THEMES.includes(p.area)?p.area:THEME_CLASSIFIER.themeFor(p.ementa,p.tags,p.tipo).theme);
+  const it={...p,ed:ed||null,reviewed,ref,area};
+  it.title=reviewed?ed.t.trim():autoTitle(p.ementa);
+  it.altera=altera(p.ementa);
+  it.hay=fold([p.ementa,it.title,p.tags.join(' '),ref,`${p.numero}/${p.ano}`,it.area].join(' '));
+  return it;
+}
+const byId=new Map(items.map(i=>[String(i.id),i]));
+const years=[...new Set(items.map(i=>i.ano))].sort((a,b)=>b-a);
+const types=[...new Set(items.map(i=>i.tipo))].sort();
+const sorted=[...items].sort((a,b)=>(b.data>a.data?1:b.data<a.data?-1:b.id-a.id));
+const snapDate=new Date(D.generatedAt);
+
+/* ---------- Situação ---------- */
+const STATUS_LABEL={introduced:'Apresentada',discussion:'Em discussão',voting:'Pronta para pauta',approved:'Aprovada na Câmara',closed:'Arquivada / rejeitada',pending:'Em atualização'};
+function normalizeStatus(st){
+  const code=Number(st?.codSituacao);
+  const stage=String(st?.descricaoSituacao||'').trim(),movement=String(st?.descricaoTramitacao||'').trim();
+  const det=stage||movement;
+  if(code===924)return {tone:'voting',detail:det||'Pronta para Pauta'};
+  if([1150,1160,1293,1303,926,1140].includes(code))return {tone:'approved',detail:det};
+  if([923,930,931,940,941,950].includes(code))return {tone:'closed',detail:det};
+  const t=fold(det);
+  if(!t)return {tone:'pending',detail:'A Câmara ainda não informou a situação.'};
+  if(/arquivad|rejeitad|prejudicad|retirad|devolvid/.test(t))return {tone:'closed',detail:det};
+  if(/remetid.{0,28}senado|encaminhad.{0,28}senado|enviad.{0,28}senado|remetid.{0,28}sancao|encaminhad.{0,28}sancao|aprovad.{0,20}plenario|transformad.{0,20}norma/.test(t))return {tone:'approved',detail:det};
+  if(/pauta.{0,25}plenario|ordem do dia|pront.{0,30}(?:votacao|plenario)|incluid.{0,24}pauta|aguardando votacao/.test(t))return {tone:'voting',detail:det};
+  if(/apresentac|apresentad|protocol/.test(t))return {tone:'introduced',detail:det};
+  if(/aguardando|parecer|relator|comissao|analis|distribui|tramit|discussao|apreciac/.test(t))return {tone:'discussion',detail:det};
+  return {tone:'neutral',detail:det,label:det.length>34?det.slice(0,32)+'…':det};
+}
+const statusCache=new Map();
+const badge=s=>{const st=s||{tone:'pending',detail:'Consultando a situação na base oficial.'};return `<span class="status st-${st.tone}" title="${esc(st.detail||'')}">${esc(st.label||STATUS_LABEL[st.tone]||'Em atualização')}</span>`};
+
+/* ---------- Rede (com tempo-limite e queda silenciosa) ---------- */
+let online=null;
+function setLive(ok){
+  if(online===ok)return;online=ok;
+  const el=$('#liveState');el.className=ok?'on':'off';
+  el.textContent=ok?'Conectado à base oficial: situação e autoria ao vivo':'Sem conexão com a base: usando só o acervo embutido';
+}
+async function getJSON(url,headers={},ms=9000){
+  const ctrl=new AbortController(),t=setTimeout(()=>ctrl.abort(),ms);
+  try{const r=await fetch(url,{headers:{Accept:'application/json',...headers},signal:ctrl.signal});
+    if(!r.ok)throw new Error('HTTP '+r.status);const j=await r.json();setLive(true);return j}
+  catch(e){if(e.name!=='AbortError'||true)setLive(false);throw e}
+  finally{clearTimeout(t)}
+}
+const db=(path)=>getJSON(DB+path,{apikey:DB_KEY});
+
+async function loadStatuses(ids){
+  const need=ids.filter(id=>!statusCache.has(String(id)));
+  if(need.length){
+    try{
+      const rows=await db(`/proposicoes?select=id,situacao_codigo,situacao_descricao&id=in.(${need.join(',')})`);
+      for(const r of rows){statusCache.set(String(r.id),(r.situacao_codigo!=null||r.situacao_descricao)?normalizeStatus({codSituacao:r.situacao_codigo,descricaoSituacao:r.situacao_descricao}):{tone:'pending',detail:'Situação ainda não sincronizada.'})}
+      for(const id of need)if(!statusCache.has(String(id)))statusCache.set(String(id),{tone:'pending',detail:'Fora da base sincronizada.'});
+    }catch{for(const id of need)statusCache.set(String(id),{tone:'pending',detail:'Sem conexão para consultar a situação.'})}
+  }
+  for(const el of $$('[data-st]')){const s=statusCache.get(el.dataset.st);if(s)el.innerHTML=badge(s)}
+}
+
+const MODES={
+  recent:{label:'Novas propostas',hint:'Apresentadas nos 30 dias anteriores à cópia do acervo.'},
+  voting:{label:'Prontas para pauta',hint:'Situação oficial “Pronta para Pauta”. Não significa votação agendada.',codes:'924'},
+  approved:{label:'Aprovadas na Câmara',hint:'Seguiram ao Senado ou à sanção. Ainda não é lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}
+};
+const modeCache={};
+async function loadMode(mode){
+  if(modeCache[mode])return modeCache[mode];
+  const rows=await db(`/proposicoes?select=id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao&situacao_codigo=in.(${MODES[mode].codes})&order=data_apresentacao.desc,id.desc&limit=600`);
+  const list=rows.map(r=>{
+    let it=byId.get(String(r.id));
+    if(!it){const tags=Array.isArray(r.tags)?r.tags.slice(0,3):[];
+      const area=THEME_CLASSIFIER.themeFor(r.ementa,tags,r.sigla_tipo).theme;
+      it=mkItem({id:r.id,tipo:r.sigla_tipo,numero:r.numero,ano:r.ano,data:String(r.data_apresentacao||'').slice(0,10),ementa:r.ementa||'',tags,area});
+      byId.set(String(r.id),it);}
+    statusCache.set(String(r.id),normalizeStatus({codSituacao:r.situacao_codigo,descricaoSituacao:r.situacao_descricao}));
+    return it;
+  });
+  modeCache[mode]=list;return list;
+}
+
+/* ---------- Salvos ---------- */
+const SKEY='oquemuda:prototipo:salvos';let memSaved=[];
+function getSaved(){try{return JSON.parse(localStorage.getItem(SKEY)||'[]')}catch{return memSaved}}
+function setSaved(list){memSaved=list;try{localStorage.setItem(SKEY,JSON.stringify(list))}catch{}}
+const isSaved=id=>getSaved().some(s=>String(s.id)===String(id));
+function toggleSave(id){
+  const list=getSaved(),i=list.findIndex(s=>String(s.id)===String(id));
+  if(i>=0){list.splice(i,1);setSaved(list);return false}
+  const it=byId.get(String(id));if(!it)return false;
+  list.unshift({id:it.id,tipo:it.tipo,numero:it.numero,ano:it.ano,data:it.data,ementa:it.ementa,tags:it.tags,area:it.area});setSaved(list);return true;
+}
+function updateSaveCount(){const n=getSaved().length,c=$('#saveCount');c.textContent=n;c.hidden=!n}
+
+/* ========================= ESTADO / ROTAS ========================= */
+let state={},lastRoute='',lastListHash='#/explorar';
+function parse(){
+  const h=location.hash.replace(/^#\/?/,'')||'explorar';
+  const [path,qs]=h.split('?');const q=new URLSearchParams(qs||'');const parts=path.split('/');
+  const view=parts[0]==='proposta'?'ficha':['explorar','salvos','como-funciona'].includes(parts[0])?parts[0]:'explorar';
+  return {view,id:parts[1]||'',q:q.get('q')||'',area:THEMES.includes(q.get('tema'))?q.get('tema'):'',
+    ano:q.get('ano')||(q.get('modo')||q.get('tag')||q.get('q')?'Todos':String(years[0])),
+    tipo:types.includes(q.get('tipo'))?q.get('tipo'):'Todos',
+    modo:MODES[q.get('modo')]?q.get('modo'):'',tag:q.get('tag')||'',p:Math.max(1,parseInt(q.get('p'))||1)};
+}
+function hashFor(over={}){
+  const s={...state,...over};const q=new URLSearchParams();
+  if(s.q)q.set('q',s.q);if(s.area)q.set('tema',s.area);
+  const defAno=(s.modo||s.tag||s.q)?'Todos':String(years[0]);
+  if(s.ano!==defAno)q.set('ano',s.ano);
+  if(s.tipo!=='Todos')q.set('tipo',s.tipo);if(s.modo)q.set('modo',s.modo);if(s.tag)q.set('tag',s.tag);if(s.p>1)q.set('p',s.p);
+  const str=q.toString();return '#/explorar'+(str?'?'+str:'');
+}
+const go=(over)=>{location.hash=hashFor({p:1,...over})};
+
+/* ========================= RENDER ========================= */
+function card(it){
+  const saved=isSaved(it.id);
+  return `<article class="card ${it.reviewed?'reviewed':'auto'}" data-area="${esc(it.area)}">
+  <div class="card-top"><span class="topic"><span class="dot" aria-hidden="true"></span>${esc(it.area)}</span><span data-st="${it.id}">${badge(statusCache.get(String(it.id)))}</span></div>
+  <p class="docref">${esc(it.ref)} · ${dateBR(it.data)}</p>
+  <h3><a href="#/proposta/${it.id}" data-key="c-${it.id}">${esc(it.title)}</a></h3>
+  ${it.reviewed?`<p class="lead">${esc(it.ed.i)}</p>`:(it.altera?`<p class="changes"><b>Altera:</b> ${esc(it.altera)}</p>`:'')}
+  ${it.tags.length?`<div class="tags">${it.tags.map(t=>`<a class="tag" href="#/explorar?tag=${encodeURIComponent(t)}" data-key="t-${it.id}-${esc(t)}">${esc(t)}</a>`).join('')}</div>`:''}
+  <div class="card-foot">${it.reviewed?seal():'<span class="read-hint" aria-hidden="true">Ler ficha →</span>'}
+  <button type="button" class="save" data-save="${it.id}" data-key="s-${it.id}" aria-pressed="${saved}" aria-label="${saved?'Remover dos salvos':'Salvar'} ${esc(it.ref)}">${saved?'✓ Salvo':'+ Salvar'}</button></div>
+</article>`;
+}
+const seal=()=>`<span class="seal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Explicado pela redação</span>`;
+
+function featured(){
+  const picks=[];for(const id of D.priority){const it=byId.get(String(id));if(it&&it.reviewed&&it.ed.p?.length)picks.push(it);if(picks.length===3)break}
+  if(picks.length<3)for(const it of sorted){if(it.reviewed&&it.ed.p?.length&&!picks.includes(it))picks.push(it);if(picks.length===3)break}
+  return picks;
+}
+function renderFeatured(show){
+  $('#featured').hidden=!show;if(!show)return [];
+  const [f,...rest]=featured();if(!f){$('#featured').hidden=true;return []}
+  const saved=isSaved(f.id);
+  $('#featuredBody').innerHTML=`<article class="feature" data-area="${esc(f.area)}">
+    <div class="feature-main">
+      <div class="meta-row"><span class="topic"><span class="dot" aria-hidden="true"></span>${esc(f.area)}</span><span data-st="${f.id}">${badge(statusCache.get(String(f.id)))}</span>${seal()}</div>
+      <p class="docref">${esc(f.ref)} · apresentado em ${dateBR(f.data)}</p>
+      <h3><a href="#/proposta/${f.id}" data-key="c-${f.id}">${esc(f.title)}</a></h3>
+      <p class="lead">${esc(f.ed.i)}</p>
+      <div class="tags">${f.tags.map(t=>`<a class="tag" href="#/explorar?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>
+    </div>
+    <div class="feature-side">
+      <div><p class="kicker">Quem pode ser afetado</p><ul class="who">${f.ed.p.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></div>
+      <div class="side-actions"><span class="more" aria-hidden="true">Ler explicação →</span>
+      <button type="button" class="save" data-save="${f.id}" data-key="s-${f.id}" aria-pressed="${saved}" aria-label="${saved?'Remover dos salvos':'Salvar'} ${esc(f.ref)}">${saved?'✓ Salvo':'+ Salvar'}</button></div>
+    </div></article>
+    <div class="support">${rest.map(card).join('')}</div>`;
+  return [f,...rest];
+}
+
+function filtered(){
+  const toks=fold(state.q).split(/[\s,]+/).filter(t=>t.length>1&&!['de','da','do','das','dos','e','a','o','em','no','na','para','com'].includes(t));
+  return sorted.filter(it=>
+    (state.ano==='Todos'||String(it.ano)===state.ano)&&(state.tipo==='Todos'||it.tipo===state.tipo)&&
+    (!state.area||it.area===state.area)&&(!state.tag||it.tags.includes(state.tag))&&
+    (!state.modo||state.modo!=='recent'||(snapDate-new Date(it.data))/864e5<=30)&&
+    toks.every(t=>it.hay.includes(t)));
+}
+
+function pagination(page,total){
+  if(total<=1)return '';
+  const set=new Set([1,total,page,page-1,page+1]);if(page<=3)[2,3,4,5].forEach(n=>set.add(n));if(page>=total-2)[total-3,total-2,total-1].forEach(n=>set.add(n));
+  const nums=[...set].filter(n=>n>=1&&n<=total).sort((a,b)=>a-b);let prev=0,html='';
+  html+=`<button class="pg edge" type="button" data-page="${page-1}" data-key="pg-prev" ${page<=1?'disabled':''}>Anterior</button>`;
+  for(const n of nums){if(prev&&n>prev+1)html+='<span class="dots" aria-hidden="true">…</span>';
+    html+=`<button class="pg num" type="button" data-page="${n}" data-key="pg-${n}" ${n===page?'aria-current="page"':''} aria-label="Página ${n}${n===page?', atual':''}">${n}</button>`;prev=n}
+  html+=`<span class="sr-only">Página ${page} de ${total}</span>`;
+  html+=`<button class="pg edge" type="button" data-page="${page+1}" data-key="pg-next" ${page>=total?'disabled':''}>Próxima</button>`;
+  return html;
+}
+
+async function renderExplorar(){
+  // controles
+  $('#q').value=state.q;
+  $('#fAno').value=state.ano;$('#fTipo').value=state.tipo;
+  $$('#chips .chip').forEach(c=>c.setAttribute('aria-pressed',String((c.dataset.area||'')===state.area)));
+  $$('.watch-item').forEach(a=>{const on=a.dataset.key==='w-'+state.modo;if(on)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
+  const nf=(state.ano!==String(years[0])&&!(state.ano==='Todos'&&(state.modo||state.tag||state.q))?1:0)+(state.tipo!=='Todos'?1:0);
+  $('#filterCount').textContent=nf;$('#filterCount').hidden=!nf;
+
+  const clean=!state.q&&!state.area&&!state.tag&&!state.modo&&state.tipo==='Todos'&&state.ano===String(years[0])&&state.p===1;
+  const feat=renderFeatured(clean);
+
+  $('#listTitle').textContent=state.modo?MODES[state.modo].label:state.tag?`Propostas sobre ${state.tag}`:state.area?`Propostas de ${state.area}`:state.q?`Resultados para “${state.q}”`:'Explore as propostas';
+  const ti=TYPE_INFO[state.tipo];
+  $('#typeInfo').innerHTML=ti?`<p class="type-info"><b>${esc(state.tipo)} · ${esc(ti[0])}.</b> ${esc(ti[1])}</p>`:'';
+
+  let list;
+  if(state.modo==='voting'||state.modo==='approved'){
+    $('#grid').innerHTML=Array.from({length:6},()=>'<div class="skeleton" aria-hidden="true"></div>').join('');
+    $('#pagination').innerHTML='';$('#resultsMeta').innerHTML='<span>Consultando a base oficial…</span>';
+    const token=lastRoute;
+    try{list=await loadMode(state.modo)}catch{
+      if(token!==lastRoute)return;
+      $('#resultsMeta').innerHTML=pills();
+      $('#grid').innerHTML=`<div class="empty"><h3>Este atalho precisa de internet.</h3><p>“${esc(MODES[state.modo].label)}” depende da situação oficial de cada proposta, que vem da base atualizada. Sem conexão, não dá para saber quais estão nessa etapa.</p><div class="actions"><button class="btn btn-primary" type="button" data-retry data-key="retry">Tentar de novo</button><a class="btn btn-outline" href="#/explorar">Ver todas as propostas</a></div></div>`;
+      announce('Não foi possível carregar este atalho sem conexão.');return;
+    }
+    if(token!==lastRoute)return;
+    list=list.filter(it=>(state.ano==='Todos'||String(it.ano)===state.ano)&&(state.tipo==='Todos'||it.tipo===state.tipo)&&(!state.area||it.area===state.area));
+  }else{
+    list=filtered();
+    if(feat.length)list=list.filter(it=>!feat.includes(it));
+  }
+  const total=Math.max(1,Math.ceil(list.length/PAGE));if(state.p>total)state.p=total;
+  const pageItems=list.slice((state.p-1)*PAGE,state.p*PAGE);
+  const n=list.length.toLocaleString('pt-BR');
+  $('#resultsMeta').innerHTML=`<span>${n} ${list.length===1?'proposta':'propostas'}${total>1?` · página ${state.p} de ${total}`:''}${state.modo?' · '+esc(MODES[state.modo].hint):''}</span>`+pills();
+  if(!pageItems.length){$('#grid').innerHTML=emptyState();$('#pagination').innerHTML=''}
+  else{$('#grid').innerHTML=pageItems.map(card).join('');$('#pagination').innerHTML=pagination(state.p,total)}
+  announce(`${n} ${list.length===1?'proposta encontrada':'propostas encontradas'}${total>1?`, página ${state.p} de ${total}`:''}.`);
+  loadStatuses([...pageItems,...feat].map(i=>i.id));
+}
+function pills(){
+  const out=[];
+  if(state.q)out.push(['Busca: '+state.q,{q:''}]);
+  if(state.modo)out.push([MODES[state.modo].label,{modo:''}]);
+  if(state.tag)out.push(['Assunto: '+state.tag,{tag:''}]);
+  if(state.area)out.push(['Tema: '+state.area,{area:''}]);
+  if(state.tipo!=='Todos')out.push(['Tipo: '+state.tipo,{tipo:'Todos'}]);
+  const defAno=(state.modo||state.tag||state.q)?'Todos':String(years[0]);
+  if(state.ano!==defAno)out.push([state.ano==='Todos'?'Todos os anos':'Ano: '+state.ano,{ano:defAno}]);
+  if(!out.length)return '';
+  return out.map(([l,o],i)=>`<span class="pill">${esc(l)}<button type="button" data-unset='${esc(JSON.stringify(o))}' data-key="un-${i}-${esc(l)}" aria-label="Remover ${esc(l)}">×</button></span>`).join('')+
+    (out.length>1?`<button type="button" class="btn btn-quiet" data-clear data-key="clear">Limpar tudo</button>`:'');
+}
+function emptyState(){
+  const sugg=[];
+  if(state.ano!=='Todos')sugg.push(`<button class="btn btn-outline" type="button" data-unset='{"ano":"Todos"}' data-key="e-ano">Buscar em todos os anos</button>`);
+  if(state.area)sugg.push(`<button class="btn btn-outline" type="button" data-unset='{"area":""}' data-key="e-area">Tirar o tema ${esc(state.area)}</button>`);
+  if(state.tipo!=='Todos')sugg.push(`<button class="btn btn-outline" type="button" data-unset='{"tipo":"Todos"}' data-key="e-tipo">Todos os tipos</button>`);
+  return `<div class="empty"><h3>Nenhuma proposta com esses critérios.</h3><p>${state.q?`Nenhuma ementa traz todas as palavras de “${esc(state.q)}”. Tente menos palavras ou um sinônimo. `:''}O acervo cobre propostas de ${years.join(' e ')}.</p>${sugg.length?`<div class="actions">${sugg.join('')}</div>`:''}</div>`;
+}
+
+const STEPS=['Apresentada','Comissões','Plenário da Câmara','Senado','Sanção ou veto'];
+function timeline(st,date){
+  const idx={introduced:0,discussion:1,voting:2,approved:3}[st?.tone];
+  if(st?.tone==='closed')return `<p class="closed-note">A tramitação foi encerrada: ${esc(st.detail||'arquivada ou rejeitada')}.</p>`;
+  if(idx==null)return `<p class="note">Etapa ainda não confirmada na base oficial.</p>`;
+  return `<ol class="timeline" aria-label="Etapas da tramitação">${STEPS.map((s,i)=>`<li class="${i<=idx?'done':''} ${i===idx?'now':''}" ${i===idx?'aria-current="step"':''}>${s}${i===0?`<small>${dateBR(date)}</small>`:''}${i===idx&&i>0?'<small>etapa atual</small>':''}</li>`).join('')}</ol>`;
+}
+async function renderFicha(){
+  const it=byId.get(String(state.id));
+  const v=$('#view-ficha');
+  if(!it){v.innerHTML=`<div class="page info"><h1 tabindex="-1" id="detailTitle">Proposta não encontrada</h1><p class="lead">Ela não está no acervo deste protótipo.</p><p style="margin-top:20px"><a class="btn btn-primary" href="#/explorar">Voltar para Explorar</a></p></div>`;return}
+  const backLabel=lastListHash==='#/explorar'?'Voltar às propostas':'Voltar aos resultados';
+  const draw=(extra={})=>{
+    const st=extra.status||statusCache.get(String(it.id));
+    const saved=isSaved(it.id);
+    const authors=extra.authors;
+    v.dataset.area=it.area;v.setAttribute('data-area',it.area);
+    v.innerHTML=`<div class="page"><a class="back" href="${esc(lastListHash)}" data-key="back">← ${backLabel}</a></div>
+    <div class="detail-head" data-area="${esc(it.area)}"><div class="page">
+      <div class="row"><span class="topic"><span class="dot" aria-hidden="true"></span>${esc(it.area)}</span><span class="muted" style="font-size:14px">${esc(it.ref)}</span>${it.reviewed?seal():''}</div>
+      <h1 id="detailTitle" tabindex="-1" class="${it.reviewed?'':'auto'}">${esc(it.title)}</h1>
+      <div class="row">
+        <button type="button" class="save" data-save="${it.id}" data-key="s-${it.id}" aria-pressed="${saved}">${saved?'✓ Salvo':'+ Salvar para depois'}</button>
+        <a class="btn btn-outline" href="https://www.camara.leg.br/propostas-legislativas/${encodeURIComponent(it.id)}" target="_blank" rel="noopener noreferrer">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a>
+      </div>
+    </div></div>
+    <div class="page detail-grid" data-area="${esc(it.area)}">
+      <div>
+        <section class="block"><h2>O que a proposta quer mudar?</h2>
+          <p>${it.reviewed?esc(it.ed.i):esc(it.title)+(it.altera?`. Para isso, altera: ${esc(it.altera)}`:'')}.</p>
+          ${it.reviewed?'':'<p class="note">Resumo automático a partir da ementa. Ainda não foi explicado pela redação.</p>'}
+          <p class="note">Proposta não é lei: o texto pode mudar e precisa passar pela Câmara, pelo Senado e pela sanção.</p></section>
+        ${it.reviewed&&it.ed.p?.length?`<section class="block"><h2>Quem pode ser afetado</h2><ul class="who-row">${it.ed.p.map(p=>`<li>${esc(p)}</li>`).join('')}</ul></section>`:''}
+        <section class="block"><h2>Em que etapa está?</h2>${st&&st.tone!=='pending'?timeline(st,it.data):extra.offline?'<p class="note">Não foi possível consultar a situação agora (sem conexão). Confira em “Ver na Câmara”.</p>':'<p class="note">Consultando a situação na base oficial…</p>'}
+          ${st&&st.detail&&st.tone!=='pending'?`<p class="note">Último registro oficial: “${esc(st.detail)}”${extra.orgao?` (${esc(extra.orgao)})`:''}${extra.when?`, ${dateBR(extra.when)}`:''}.</p>`:''}</section>
+        <section class="block"><h2>Texto oficial</h2><div class="official"><p class="eyebrow" style="margin-bottom:8px">Ementa</p><p>${esc(it.ementa)}</p></div></section>
+      </div>
+      <aside class="aside" aria-labelledby="fichaTitle"><h2 id="fichaTitle">Ficha</h2><dl>
+        <div><dt>Identificação</dt><dd>${esc(it.ref)}</dd></div>
+        <div><dt>Autoria</dt><dd>${extra.offline?'<span class="muted">Indisponível sem conexão</span>':authors?(authors.length?authors.map(a=>`${esc(a.nome)}${a.partido?` <strong>(${esc(a.partido)})</strong>`:''}`).join(', '):'Não informada'):'<span class="muted">Consultando…</span>'}</dd></div>
+        <div><dt>Apresentação</dt><dd>${dateBR(it.data)}</dd></div>
+        <div><dt>Situação</dt><dd>${badge(st)}</dd></div>
+        <div><dt>Assuntos</dt><dd>${it.tags.length?`<div class="tags" style="margin-top:4px">${it.tags.map(t=>`<a class="tag" href="#/explorar?tag=${encodeURIComponent(t)}">${esc(t)}</a>`).join('')}</div>`:'<span class="muted">Em revisão</span>'}</dd></div>
+      </dl>
+      <div class="links">${extra.url?`<a class="btn btn-primary" href="${esc(extra.url)}" target="_blank" rel="noopener noreferrer">Ler texto integral ↗<span class="sr-only"> (abre em nova aba)</span></a>`:''}</div>
+      
+      <p class="note">O partido indicado é o informado pela Câmara e pode ser o da época da apresentação.</p></aside>
+    </div>`;
+  };
+  draw();
+  const token=lastRoute;
+  const extra={};
+  try{
+    const rows=await db(`/proposicoes?select=situacao_codigo,situacao_descricao,dados_oficiais&id=eq.${Number(it.id)}&limit=1`);
+    const d=rows[0];
+    if(d){const so=d.dados_oficiais?.statusProposicao||{};
+      if(d.situacao_codigo!=null||d.situacao_descricao||so.descricaoTramitacao)extra.status=normalizeStatus({...so,codSituacao:d.situacao_codigo??so.codSituacao,descricaoSituacao:d.situacao_descricao||so.descricaoSituacao});
+      extra.orgao=so.siglaOrgao;extra.when=so.dataHora;
+      const u=d.dados_oficiais?.urlInteiroTeor;if(typeof u==='string'&&u.startsWith('https://www.camara.leg.br/'))extra.url=u;
+      if(Array.isArray(d.dados_oficiais?.autores)&&d.dados_oficiais.autores.length)extra.authors=d.dados_oficiais.autores.slice(0,5).map(a=>({nome:a.nome,partido:a.partido||(a.deputadoId?D.partidos[String(a.deputadoId)]:null)}));
+    }
+  }catch{}
+  if(!extra.status||!extra.authors){
+    try{
+      const [pj,aj]=await Promise.all([extra.status?null:getJSON(`${CAMARA}/proposicoes/${it.id}`),extra.authors?null:getJSON(`${CAMARA}/proposicoes/${it.id}/autores`)]);
+      if(pj?.dados){const so=pj.dados.statusProposicao||{};extra.status=normalizeStatus(so);extra.orgao=so.siglaOrgao;extra.when=so.dataHora;
+        const u=pj.dados.urlInteiroTeor;if(typeof u==='string'&&u.startsWith('https://www.camara.leg.br/'))extra.url=u;}
+      if(aj?.dados)extra.authors=aj.dados.slice(0,5).map(a=>{const m=String(a.uri||'').match(/deputados\/(\d+)$/);return {nome:a.nome,partido:m?D.partidos[m[1]]||null:null}});
+    }catch{}
+  }
+  if(!extra.authors&&!extra.status)extra.offline=true;
+  if(extra.status)statusCache.set(String(it.id),extra.status);
+  if(token!==lastRoute)return;
+  const focused=document.activeElement?.dataset?.key;
+  draw(extra);
+  if(focused){const el=document.querySelector(`[data-key="${CSS.escape(focused)}"]`);el?.focus({preventScroll:true})}
+}
+function renderSalvos(){
+  const list=getSaved().map(s=>byId.get(String(s.id))||mkItem(s));
+  list.forEach(i=>{if(!byId.has(String(i.id)))byId.set(String(i.id),i)});
+  $('#savedGrid').innerHTML=list.length?list.map(card).join(''):`<div class="empty"><h3>Nada salvo ainda.</h3><p>Use “+ Salvar” em qualquer proposta para guardar aqui. Fica só neste navegador.</p><div class="actions"><a class="btn btn-primary" href="#/explorar">Explorar propostas</a></div></div>`;
+  loadStatuses(list.map(i=>i.id));
+}
+
+/* ========================= CICLO ========================= */
+let pendingFocus=null;
+async function render(){
+  const prevView=state.view,prevId=state.id;
+  state=parse();
+  const route=location.hash;lastRoute=route;
+  if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
+  for(const v of ['explorar','ficha','salvos','como-funciona'])$('#view-'+v).hidden=state.view!==v;
+  $$('[data-nav]').forEach(a=>{if(a.dataset.nav===state.view)a.setAttribute('aria-current','page');else a.removeAttribute('aria-current')});
+  document.title=state.view==='ficha'?(byId.get(state.id)?.ref||'Proposta')+' — O que muda?':state.view==='salvos'?'Salvos — O que muda?':state.view==='como-funciona'?'Como funciona — O que muda?':'O que muda? — propostas da Câmara explicadas';
+  updateSaveCount();
+  const keep=document.activeElement?.dataset?.key;
+  const viewChanged=prevView!==state.view||prevId!==state.id;
+  if(state.view==='explorar')await renderExplorar();
+  else if(state.view==='ficha'){window.scrollTo(0,0);renderFicha()}
+  else if(state.view==='salvos')renderSalvos();
+  // gestão de foco: mantém o controle usado; ao trocar de tela, vai para o título
+  const target=pendingFocus?$(pendingFocus):null;pendingFocus=null;
+  if(target){target.focus({preventScroll:false});target.scrollIntoView({block:'start'})}
+  else if(viewChanged&&prevView!==undefined){
+    const h={explorar:'#heroTitle',ficha:'#detailTitle',salvos:'#savedTitle','como-funciona':'#infoTitle'}[state.view];
+    const el=$(h);el?.focus({preventScroll:true});if(state.view!=='ficha')window.scrollTo(0,0);
+  }else if(keep){const el=document.querySelector(`[data-key="${CSS.escape(keep)}"]`);el?.focus({preventScroll:true})}
+}
+let tt;function toast(m){const t=$('#toast');t.textContent=m;t.classList.add('show');clearTimeout(tt);tt=setTimeout(()=>t.classList.remove('show'),2400)}
+function announce(m){const a=$('#announcer');a.textContent='';setTimeout(()=>a.textContent=m,60)}
+
+/* ========================= INIT ========================= */
+$('#protoCount').textContent=items.length.toLocaleString('pt-BR');
+$('#protoDate').textContent=snapDate.toLocaleDateString('pt-BR');
+$('#coverage').textContent=`Acervo de ${years.slice().reverse().join(' e ')} · ${items.length.toLocaleString('pt-BR')} propostas`;
+$('#fAno').innerHTML='<option value="Todos">Todos os anos</option>'+years.map(y=>`<option value="${y}">${y}</option>`).join('');
+$('#fTipo').innerHTML='<option value="Todos">Todos os tipos</option>'+types.map(t=>`<option value="${t}">${t}${TYPE_INFO[t]?' · '+TYPE_INFO[t][0]:''}</option>`).join('');
+$('#chips').innerHTML=`<button type="button" class="chip" data-area="" data-key="ch-todos" aria-pressed="true">Todos</button>`+
+  THEMES.map(t=>`<button type="button" class="chip" data-area="${esc(t)}" data-key="ch-${esc(t)}" aria-pressed="false"><span class="dot" aria-hidden="true"></span>${esc(t)}</button>`).join('');
+
+$('#searchForm').addEventListener('submit',e=>{e.preventDefault();const q=$('#q').value.trim();pendingFocus='#listTitle';go({q,modo:'',tag:'',ano:q?'Todos':state.ano})});
+$('#fAno').addEventListener('change',e=>go({ano:e.target.value}));
+$('#fTipo').addEventListener('change',e=>go({tipo:e.target.value}));
+$('#filtersToggle').addEventListener('click',e=>{const open=$('#filters').classList.toggle('collapsed')===false;e.currentTarget.setAttribute('aria-expanded',String(open))});
+document.addEventListener('click',e=>{
+  const chip=e.target.closest('#chips .chip');if(chip){go({area:chip.dataset.area,modo:state.modo});return}
+  const pg=e.target.closest('[data-page]');if(pg&&!pg.disabled){pendingFocus='#listTitle';location.hash=hashFor({p:Number(pg.dataset.page)});return}
+  const un=e.target.closest('[data-unset]');if(un){go(JSON.parse(un.dataset.unset));return}
+  if(e.target.closest('[data-clear]')){location.hash='#/explorar';return}
+  if(e.target.closest('[data-retry]')){render();return}
+  const sv=e.target.closest('[data-save]');
+  if(sv){const on=toggleSave(sv.dataset.save);
+    $$(`[data-save="${sv.dataset.save}"]`).forEach(b=>{b.setAttribute('aria-pressed',String(on));const it=byId.get(sv.dataset.save);
+      b.textContent=on?'✓ Salvo':(b.closest('.detail-head')?'+ Salvar para depois':'+ Salvar');
+      if(!b.closest('.detail-head'))b.setAttribute('aria-label',(on?'Remover dos salvos ':'Salvar ')+(it?.ref||''))});
+    updateSaveCount();toast(on?'Salvo neste navegador.':'Removido dos salvos.');announce(on?'Proposta salva.':'Proposta removida dos salvos.');
+    if(state.view==='salvos')renderSalvos();return}
+});
+window.addEventListener('hashchange',render);
+render();
+// verificação de conexão discreta
+db('/proposicoes?select=id&limit=1').catch(()=>{});
+})();
+</script>
+</body>
+</html>
