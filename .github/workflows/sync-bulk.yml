@@ -17,7 +17,7 @@ permissions:
 jobs:
   bulk:
     runs-on: ubuntu-latest
-    timeout-minutes: 17
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
