@@ -6,7 +6,7 @@ import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
-const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. Isso não confirma votação agendada ou pauta do Plenário.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
+const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
 const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null;
@@ -112,13 +112,13 @@ function setViews(){
  $('editorialSection').hidden=true;
  $('detailView').hidden=state.view!=='detalhe';$('infoView').hidden=state.view!=='como-funciona';
  if(isFeed){
-  $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'Explorar';
+  $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'POLÍTICA E COTIDIANO';
   $('heroTitle').innerHTML=state.view==='salvos'?'Para ler com calma.':'O que está sendo decidido pode mudar <span class="hero-emphasis">sua rotina</span>.';
-  $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Busque um assunto e conheça propostas reais que podem interessar a você.';
+  $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Entenda o que propõem os textos apresentados à Câmara dos Deputados, quem pode ser afetado e em que etapa estão.';
   $('searchForm').hidden=state.view==='salvos';$('filters').hidden=state.view==='salvos';
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
   document.querySelectorAll('[data-watch]').forEach(a=>{const selected=state.mode===a.dataset.watch;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
-  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:'Todos os assuntos';
+  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:'Explore as propostas';
   $('clearFilters').hidden=state.view==='salvos';
  }
 }
@@ -126,8 +126,8 @@ function setFooter(text){$('sourceNote').textContent=text}
 function loader(){
  $('editorialSection').hidden=true;
  $('cards').innerHTML=skeleton(6);$('cards').setAttribute('aria-busy','true');
- $('pagination').innerHTML='';$('listSubtitle').textContent='Buscando até 30 propostas nesta página…';
- announce('Carregando seis cartões de preparação. Aguarde a busca oficial.');
+ $('pagination').innerHTML='';$('listSubtitle').textContent='Consultando propostas…';
+ announce('Consultando propostas. Aguarde.');
 }
 function renderEditorial(){
  const section=$('editorialSection');
@@ -151,30 +151,30 @@ function present(result){
  state.source=result.source;
  $('cards').setAttribute('aria-busy','false');
  $('cards').innerHTML=state.items.length?state.items.map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join(''):
-  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':'<div class="empty-state"><h3>Nenhuma proposta encontrada neste acervo.</h3><p>O banco é parcial e continua em expansão. A ausência de resultados não significa que não existam outras propostas na Câmara.</p></div>');
+  (state.mode&&result.source==='situação verificada'?'<div class="empty-state"><h3>Nenhuma proposta confirmada neste lote.</h3><p>Foram conferidos '+Number(result.inspectedCount||0)+' registros desta página; nenhum apresentou a situação buscada. Isso não significa que não existam outras propostas nessa etapa. Experimente outro ano ou avance para a próxima página.</p></div>':'<div class="empty-state"><h3>Nenhuma proposta encontrada com os filtros selecionados.</h3><p>Tente outro termo ou ajuste os filtros. O acervo consultado é parcial.</p></div>');
  $('pagination').innerHTML=pagination({page:state.page,totalPages:state.totalPages,hasNext:state.hasNext});
  renderEditorial();
- const msg=state.items.length+' '+(state.items.length===1?'proposta exibida':'propostas exibidas')+' na página '+state.page+
+ const msg=state.items.length+' '+(state.items.length===1?'proposta':'propostas')+' nesta página · Página '+state.page+
    (state.totalPages?' de '+state.totalPages:'')+(state.source==='cópia parcial'?' · reserva parcial':'');
- const statusLine=state.mode&&result.source==='banco de dados'?msg+' · Busca sobre todo o acervo indexado, antes da paginação · '+WATCH_MODES[state.mode].hint:state.mode&&result.source==='situação verificada'?state.items.length+' confirmada(s) entre '+Number(result.inspectedCount||0)+' registros verificados nesta página · '+WATCH_MODES[state.mode].hint:msg;
+ const statusLine=state.mode&&result.source==='banco de dados'?msg+' · '+WATCH_MODES[state.mode].hint:state.mode&&result.source==='situação verificada'?state.items.length+' confirmada(s) entre '+Number(result.inspectedCount||0)+' registros verificados nesta página · '+WATCH_MODES[state.mode].hint:msg;
  $('listSubtitle').textContent=statusLine;announce(statusLine);
  setFooter('Fonte: Dados Abertos da Câmara dos Deputados. '+(result.source==='situação verificada'?
   'A situação foi conferida no registro individual de '+Number(result.inspectedCount||0)+' propostas desta página; o recorte não é exaustivo.':
-  result.source==='banco de dados'?'Busca realizada em todos os registros indexados que atendem aos filtros, com paginação de 30 resultados. O acervo é parcial e não equivale a todas as proposições da Câmara.':
-  result.source==='ao vivo'?'Resultados carregados por página diretamente da API, com até 30 registros por página.':
-  'Cópia parcial de reserva utilizada porque a API não respondeu. Última coleta: '+(window.OBM_DATA?.generatedAt?new Date(window.OBM_DATA.generatedAt).toLocaleString('pt-BR'):'não informada')+'. A ausência de resultados não comprova inexistência.')+
+  result.source==='banco de dados'?'A consulta abrange o acervo disponível na plataforma. O acervo é parcial e não reúne todas as propostas da Câmara.':
+  result.source==='ao vivo'?'Dados consultados diretamente na Câmara dos Deputados.':
+  'Não foi possível atualizar os dados agora. Exibimos a última versão disponível, de '+(window.OBM_DATA?.generatedAt?new Date(window.OBM_DATA.generatedAt).toLocaleString('pt-BR'):'não informada')+'. O acervo disponível é parcial.')+
   ' Propostas não são leis em vigor. Pronta para pauta não confirma votação agendada.');
  if(result.source!=='banco de dados')observeStatuses();else observer?.disconnect();
  setNav();
 }
 function errorState(message){
  $('cards').setAttribute('aria-busy','false');$('cards').innerHTML='<div class="empty-state"><h3>Não foi possível carregar esta consulta.</h3>'+
- '<p>'+safeText(message)+' Não interpretamos uma falha de conexão como ausência de propostas.</p>'+
+ '<p>'+safeText(message)+' Tente novamente em instantes ou consulte o portal da Câmara.</p>'+
  '<div style="margin-top:18px"><button type="button" class="outline-btn" id="retryBtn">Tentar novamente</button> '+
  '<a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>';
  $('editorialSection').hidden=true;
  $('pagination').innerHTML='';$('listSubtitle').textContent='Consulta indisponível';
- announce('Falha na consulta. Tente novamente.');setFooter('Fonte: Câmara dos Deputados. A API não respondeu. Nenhuma conclusão sobre quantidade de propostas foi feita.');
+ announce('Falha na consulta. Tente novamente.');setFooter('Fonte: Câmara dos Deputados. A consulta está temporariamente indisponível.');
 }
 async function showList(){
  const id=++sequence;activeRequest?.abort();activeRequest=new AbortController();
@@ -196,7 +196,7 @@ async function showList(){
  const hasSnapshot=!!snapshot?.items?.length;
  if(hasSnapshot){
   present(snapshot);
-  $('listSubtitle').textContent='Exibindo cópia parcial. Verificando atualização na Câmara…';
+  $('listSubtitle').textContent='Exibimos a última versão disponível. Consultando atualizações…';
   announce('Propostas da cópia parcial exibidas. Consultando atualização oficial.');
  }
  try{
@@ -215,7 +215,7 @@ async function showList(){
   try{result=await getDatabaseProposals(args)}
   catch(dbError){
    // Não retornar ao filtro de apenas 30 da Câmara nos modos legislativos.
-   if(state.mode)throw new Error('A pesquisa integral do acervo está temporariamente indisponível.');
+   if(state.mode)throw new Error('A busca de propostas está temporariamente indisponível.');
    result=await getProposals(args);
   }
   if(id!==sequence)return;
@@ -228,8 +228,8 @@ async function showList(){
  }catch(error){
   if(id!==sequence)return;
   if(hasSnapshot){
-   $('listSubtitle').textContent='Cópia parcial disponível. Não foi possível atualizar pela Câmara agora.';
-   setFooter('Fonte: cópia parcial de reserva. Atualização oficial indisponível; os registros podem estar desatualizados.');
+   $('listSubtitle').textContent='Não foi possível atualizar os dados agora. Exibimos a última versão disponível.';
+   setFooter('Fonte: Câmara dos Deputados. Atualização indisponível; os dados exibidos podem estar desatualizados.');
    return;
   }
   errorState(error.message||'API indisponível');
