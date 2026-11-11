@@ -3,12 +3,12 @@ import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,get
 import {THEMES,TOPIC_API,safeText,ref,cleanText} from './lib/text.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=subjects-20261111';
-import {editorialAllowed,selectEditorial} from './lib/editorial.js?v=subjects-20261111';
+import {editorialAllowed,selectEditorial} from './lib/editorial.js?v=all-types-20261111';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
 const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
-const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
+const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null;
 const statusCache=new Map(),statusQueued=new Set(),statusQueue=[];
@@ -90,7 +90,7 @@ function readHash(){
  state.view=name==='salvos'||name==='como-funciona'||name==='explorar'?name:name==='tema'?'detalhe':'explorar';
  state.page=Math.max(1,Number(q.get('page')||1)||1);
  if(state.view==='explorar'){
-  state.year=q.get('ano')||String(new Date().getFullYear());state.type=q.get('tipo')||'PL';
+  state.year=q.get('ano')||String(new Date().getFullYear());state.type=q.get('tipo')||'Todos';
   state.party=q.get('partido')||'Todos';state.topic=THEMES.includes(q.get('tema'))?q.get('tema'):'Todos';state.query=q.get('busca')||'';
   state.tag=q.get('tag')||'';
   state.mode=Object.hasOwn(WATCH_MODES,q.get('modo'))?q.get('modo'):'';
@@ -112,7 +112,7 @@ function setNav(){
 function setViews(){
  const isFeed=state.view==='explorar'||state.view==='salvos';
  $('hero').hidden=!isFeed;$('feed').hidden=!isFeed;
- $('editorialSection').hidden=true;
+ $('editorialSection').hidden=!isFeed;
  $('detailView').hidden=state.view!=='detalhe';$('infoView').hidden=state.view!=='como-funciona';
  if(isFeed){
   $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'POLÍTICA E COTIDIANO';
@@ -133,7 +133,7 @@ function setViews(){
 }
 function setFooter(text){$('sourceNote').textContent=text}
 function loader(){
- $('editorialSection').hidden=true;
+ renderEditorial();
  $('cards').innerHTML=skeleton(6);$('cards').setAttribute('aria-busy','true');
  $('pagination').innerHTML='';$('listSubtitle').textContent='Consultando propostas…';
  announce('Consultando propostas. Aguarde.');
@@ -143,10 +143,10 @@ function renderEditorial(){
  section.hidden=true;
  $('editorialFeature').innerHTML='';
  $('editorialSupporting').innerHTML='';
- if(state.mode||!editorialAllowed(state))return;
+ if(!editorialAllowed(state))return;
  const selected=state.featuredResult?.items?.length===3?
   state.featuredResult.items:
-  selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:state.year});
+  selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:new Date().getFullYear()});
  if(selected.length!==3)return;
  for(const p of selected)if(p.statusVerificado)statusCache.set(p.id,p.statusVerificado);
  $('editorialFeature').innerHTML=editorialFeature(selected[0],cachedStatus(selected[0].id),isSaved(selected[0].id));
@@ -181,7 +181,7 @@ function errorState(message){
  '<p>'+safeText(message)+' Tente novamente em instantes ou consulte o portal da Câmara.</p>'+
  '<div style="margin-top:18px"><button type="button" class="outline-btn" id="retryBtn">Tentar novamente</button> '+
  '<a class="outline-btn" href="https://www.camara.leg.br/busca-portal/proposicoes" target="_blank" rel="noopener noreferrer">Pesquisar na Câmara ↗</a></div></div>';
- $('editorialSection').hidden=true;
+ renderEditorial();
  $('pagination').innerHTML='';$('listSubtitle').textContent='Consulta indisponível';
  announce('Falha na consulta. Tente novamente.');setFooter('Fonte: Câmara dos Deputados. A consulta está temporariamente indisponível.');
 }
@@ -196,7 +196,7 @@ async function showList(){
   $('listTitle').textContent='Assuntos salvos';setFooter('As propostas salvas permanecem apenas neste navegador. A situação pode ter mudado desde o salvamento.');
   return;
  }
- syncForm();loader();state.featuredResult=null;
+ syncForm();loader();
  const keywords=state.query||TOPIC_API[state.topic]||'';
  const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
  // A cópia local é exibida imediatamente; a API oficial atualiza quando responder.
@@ -216,7 +216,8 @@ async function showList(){
    catch{state.featuredResult=null}
   }
   if(id!==sequence)return;
-  const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>p.siglaTipo===state.type&&String(p.ano)===String(state.year)).map(p=>p.id)||[]:[];
+  renderEditorial();
+  const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>(state.type==='Todos'||p.siglaTipo===state.type)&&(state.year==='Todos'||String(p.ano)===String(state.year))).map(p=>p.id)||[]:[];
   const day=new Date();day.setUTCDate(day.getUTCDate()-30);
   const presentedSince=state.mode==='recent'?day.toISOString().slice(0,10):'';
   const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,tag:state.tag,situationCodes,presentedSince,excludeIds,signal:activeRequest.signal};
@@ -233,7 +234,7 @@ async function showList(){
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
    setFooter('Fonte: cópia parcial da Câmara. A consulta oficial não retornou registros; a cobertura da reserva não é completa.');
-  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL'||!!state.mode||!!state.tag);
+  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!==String(new Date().getFullYear())||state.type!=='Todos'||!!state.mode||!!state.tag);
  }catch(error){
   if(id!==sequence)return;
   if(hasSnapshot){
@@ -307,7 +308,7 @@ function onClick(e){
  }
  if(e.target.closest('#removeTag')){state.tag='';state.page=1;syncURL();showList();return;}
  if(e.target.closest('#clearFilters')){
-  state.query='';state.tag='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='PL';state.mode='';state.page=1;
+  state.query='';state.tag='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='Todos';state.mode='';state.page=1;
   syncForm();syncURL();showList();return;
  }
  if(e.target.closest('#retryBtn'))showList();
@@ -341,3 +342,4 @@ async function start(){
   parties.map(p=>'<option value="'+safeText(p)+'">'+safeText(p)+'</option>').join('');$('partySelect').value=state.party;}catch{}
 }
 start();
+

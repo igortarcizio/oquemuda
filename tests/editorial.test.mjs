@@ -39,12 +39,14 @@ test('paginação inclui 1 a 5, última página e aria-current',()=>{
  assert.ok(h.includes('data-page="177"'));assert.ok(h.includes('aria-current="page"'));
 });
 
-test('seção editorial aparece apenas na primeira página sem filtros',()=>{
- const base={view:'explorar',page:1,query:'',topic:'Todos',party:'Todos',type:'PL',year:'2026'};
+test('seção editorial permanece na exploração, independentemente dos filtros',()=>{
+ const base={view:'explorar',page:1,query:'',topic:'Todos',party:'Todos',type:'Todos',year:'2026'};
  assert.equal(editorialAllowed(base,2026),true);
- assert.equal(editorialAllowed({...base,page:2},2026),false);
- assert.equal(editorialAllowed({...base,query:'saúde'},2026),false);
- assert.equal(editorialAllowed({...base,party:'PT'},2026),false);
+ assert.equal(editorialAllowed({...base,page:2},2026),true);
+ assert.equal(editorialAllowed({...base,query:'saúde'},2026),true);
+ assert.equal(editorialAllowed({...base,party:'PT'},2026),true);
+ for(const type of ['PL','PLP','PEC','MPV','PDL','PRC'])assert.equal(editorialAllowed({...base,type},2026),true);
+ assert.equal(editorialAllowed({...base,tag:'SUS',mode:'recent',year:'2025'},2026),true);
  assert.equal(editorialAllowed({...base,view:'salvos'},2026),false);
 });
 test('destaques não repetem a listagem nem publicam material incompleto',()=>{

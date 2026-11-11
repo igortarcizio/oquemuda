@@ -13,10 +13,8 @@ export const EDITORIAL_PRIORITY=Object.freeze([
   2649659, // Anúncios de consórcio
 ]);
 
-export function editorialAllowed(state,currentYear=new Date().getFullYear()){
- return state.view==='explorar'&&state.page===1&&state.query.trim()===''&&
-   !state.tag&&state.topic==='Todos'&&state.party==='Todos'&&
-   state.type==='PL'&&String(state.year)===String(currentYear);
+export function editorialAllowed(state){
+ return state.view==='explorar';
 }
 
 export function selectEditorial(snapshot,editorial,visibleItems,{max=3,year=new Date().getFullYear()}={}){
