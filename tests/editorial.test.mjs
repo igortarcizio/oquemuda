@@ -18,7 +18,7 @@ test('gera título interrogativo curto sem prometer aprovação',()=>{
 });
 test('mapeia quatro estados comprovados e mantém apresentação neutra',()=>{
  assert.equal(normalizeStatus({descricaoSituacao:'Aguardando Parecer do Relator'}).label,'Em discussão');
- assert.equal(normalizeStatus({descricaoSituacao:'Pronto para Ordem do Dia no Plenário'}).label,'Pronto para Votação');
+ assert.equal(normalizeStatus({descricaoSituacao:'Pronto para Ordem do Dia no Plenário'}).label,'Pronta para pauta');
  assert.equal(normalizeStatus({descricaoSituacao:'Remetido ao Senado Federal'}).label,'Aprovado na Câmara');
  assert.equal(normalizeStatus({descricaoSituacao:'Arquivada'}).label,'Arquivado / Rejeitado');
  assert.equal(normalizeStatus({descricaoTramitacao:'Apresentação de Proposição'}).tone,'neutral');
