@@ -28,7 +28,7 @@ test('lê detalhes persistidos, estágio e autores sem consumir API oficial',asy
   assert.equal(calls,1);
   assert.equal(detail.stage.siglaOrgao,'CCJC');
   assert.equal(detail.authors[0].partido,'PT');
-  assert.equal(detail.status.label,'Pronto para Votação');
+  assert.equal(detail.status.label,'Pronta para pauta');
   assert.equal(detail.source,'banco de dados');
  }finally{globalThis.fetch=previous}
 });
