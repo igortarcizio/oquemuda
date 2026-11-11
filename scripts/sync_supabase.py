@@ -3,7 +3,7 @@
 
 - Prioriza fichas ainda não enriquecidas e as que estão desatualizadas.
 - Verifica dados individuais ANTES das listas (indisponibilidade não impede o próximo lote).
-- Um erro 503/429 interrompe o lote sem bombardear a fonte pública.
+- A API da Câmara recebe no máximo três tentativas para falhas transitórias.
 - Persistência por ficha: cada avanço permanece após falhas ou interrupções.
 """
 import datetime as dt
@@ -26,13 +26,8 @@ TRANSIENT = {429, 500, 502, 503, 504}
 
 def read_json(url, headers=None, timeout=9):
     request = urllib.request.Request(url, headers=headers or {"Accept": "application/json", "User-Agent": "OQueMuda/1.0 (sincronizacao publica)"})
-    try:
-        with urllib.request.urlopen(request, timeout=timeout) as response:
-            return json.load(response)
-    except urllib.error.HTTPError as exc:
-        if exc.code in TRANSIENT:
-            raise RuntimeError("Fonte indisponível: HTTP " + str(exc.code)) from exc
-        raise
+    with urllib.request.urlopen(request, timeout=timeout) as response:
+        return json.load(response)
 
 def write_json(url, payload, method):
     request = urllib.request.Request(
@@ -42,7 +37,22 @@ def write_json(url, payload, method):
         response.read()
 
 def api(path):
-    return read_json(CAMARA + path)
+    """Tenta novamente apenas falhas transitórias da Câmara, nunca escritas no banco."""
+    for attempt in range(3):
+        try:
+            return read_json(CAMARA + path)
+        except urllib.error.HTTPError as exc:
+            if exc.code not in TRANSIENT:
+                raise
+            error = "HTTP " + str(exc.code)
+        except (TimeoutError, urllib.error.URLError) as exc:
+            error = type(exc).__name__
+        if attempt < 2:
+            delay = 2 * (attempt + 1)
+            print("API da Câmara:", error, "- nova tentativa em", delay, "s", flush=True)
+            time.sleep(delay)
+        else:
+            raise RuntimeError("API da Câmara indisponível após 3 tentativas (" + error + ")")
 
 def patch(id, payload):
     write_json(DB + "?id=eq." + str(int(id)), payload, "PATCH")
@@ -98,8 +108,9 @@ def enrich():
             if not detail.get("id"):
                 print("Sem ficha oficial:", id, flush=True)
                 continue
-            stage = detail.get("statusProposicao") or {}
             previous = row.get("dados_oficiais") or {}
+            # Uma resposta incompleta não deve apagar a última situação válida.
+            stage = detail.get("statusProposicao") or previous.get("statusProposicao") or {}
             try:
                 authors = normalize_authors(api("/proposicoes/" + str(id) + "/autores").get("dados") or [])
                 authors_checked = True
@@ -117,13 +128,14 @@ def enrich():
                 "autoresConsultados": authors_checked,
             })
             stamp = dt.datetime.now(dt.timezone.utc).isoformat()
-            patch(id, {
-                "situacao_codigo": stage.get("codSituacao"),
-                "situacao_descricao": stage.get("descricaoSituacao"),
-                "situacao_atualizada_em": stamp,
-                "dados_oficiais": saved,
-                "atualizado_em": stamp,
-            })
+            changes = {"dados_oficiais": saved, "atualizado_em": stamp}
+            if stage:
+                changes["situacao_atualizada_em"] = stamp
+            if stage.get("codSituacao") is not None:
+                changes["situacao_codigo"] = stage["codSituacao"]
+            if stage.get("descricaoSituacao"):
+                changes["situacao_descricao"] = stage["descricaoSituacao"]
+            patch(id, changes)
             done += 1
         except RuntimeError as exc:
             print("Enriquecimento interrompido após", done, "fichas:", exc, flush=True)
