@@ -155,7 +155,7 @@ const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
 const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
 export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',situationCodes='',signal}={}){
  if(party!=='Todos')throw new SourceError('Filtro de autoria ainda não indexado no banco');
- const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'id.desc',limit:'30',offset:String((page-1)*30)});
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
  if(year!=='Todos')q.set('ano','eq.'+year);
  if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
  if(keywords.trim())q.set('ementa','ilike.*'+keywords.trim().replace(/[*,()]/g,' ')+'*');
@@ -203,4 +203,33 @@ export async function getDatabaseDetail(id,{signal}={}){
    fullTextURL:raw.urlInteiroTeor||null,source:'banco de dados',
    lastChecked:d.situacao_atualizada_em||null,loaded:true};
  }finally{clearTimeout(timer);signal?.removeEventListener('abort',abort)}
+}
+
+/** Destaques persistidos: três posições, atualizadas somente quando há proposta nova qualificada. */
+export async function getDailyFeatured({signal}={}){
+ const root=DB_URL.replace(/\/proposicoes$/,'');
+ const headers={apikey:DB_KEY,Accept:'application/json'};
+ const list=await fetch(root+'/destaques_diarios?select=posicao,proposicao_id,selecionado_em&order=posicao.asc',{headers,signal});
+ if(!list.ok)throw new SourceError('Destaques indisponíveis: HTTP '+list.status);
+ const slots=await list.json();
+ if(slots.length!==3)throw new SourceError('Seleção diária incompleta');
+ const ids=slots.map(r=>Number(r.proposicao_id));
+ if(ids.some(id=>!Number.isInteger(id)||id<=0))throw new SourceError('IDs de destaque inválidos');
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em',id:'in.('+ids.join(',')+')'});
+ const result=await fetch(DB_URL+'?'+q.toString(),{headers,signal});
+ if(!result.ok)throw new SourceError('Fichas de destaque indisponíveis: HTTP '+result.status);
+ const data=await result.json();
+ const byId=new Map(data.map(d=>[Number(d.id),d]));
+ const items=ids.map(id=>{
+  const d=byId.get(id);
+  if(!d)return null;
+  const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,dataApresentacao:d.data_apresentacao},getEditorial(d.id));
+  const stage=d.dados_oficiais?.statusProposicao||{};
+  p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?
+    normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):
+    {label:'Consulta pendente',tone:'neutral'};
+  return p;
+ });
+ if(items.some(p=>!p))throw new SourceError('Há destaque sem ficha indexada');
+ return {items,updatedAt:slots[0].selecionado_em};
 }
