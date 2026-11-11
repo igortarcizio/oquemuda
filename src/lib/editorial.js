@@ -15,7 +15,7 @@ export const EDITORIAL_PRIORITY=Object.freeze([
 
 export function editorialAllowed(state,currentYear=new Date().getFullYear()){
  return state.view==='explorar'&&state.page===1&&state.query.trim()===''&&
-   state.topic==='Todos'&&state.party==='Todos'&&
+   !state.tag&&state.topic==='Todos'&&state.party==='Todos'&&
    state.type==='PL'&&String(state.year)===String(currentYear);
 }
 

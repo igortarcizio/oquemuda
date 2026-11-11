@@ -7,7 +7,7 @@ import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 const $=id=>document.getElementById(id);
 const pageSize=30;
 const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
-const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',mode:'',
+const state={view:'explorar',page:1,year:String(new Date().getFullYear()),type:'PL',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null;
 const statusCache=new Map(),statusQueued=new Set(),statusQueue=[];
@@ -75,6 +75,7 @@ function paramsForHash(){
  if(state.topic!=='Todos')args.set('tema',state.topic);
  if(state.query)args.set('busca',state.query);
  if(state.mode)args.set('modo',state.mode);
+ if(state.tag)args.set('tag',state.tag);
  return args.toString();
 }
 function syncURL(){
@@ -90,6 +91,7 @@ function readHash(){
  if(state.view==='explorar'){
   state.year=q.get('ano')||String(new Date().getFullYear());state.type=q.get('tipo')||'PL';
   state.party=q.get('partido')||'Todos';state.topic=THEMES.includes(q.get('tema'))?q.get('tema'):'Todos';state.query=q.get('busca')||'';
+  state.tag=q.get('tag')||'';
   state.mode=Object.hasOwn(WATCH_MODES,q.get('modo'))?q.get('modo'):'';
  }
  return name==='tema'?route.split('?')[0].split('/')[1]:null;
@@ -115,10 +117,12 @@ function setViews(){
   $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'POLÍTICA E COTIDIANO';
   $('heroTitle').innerHTML=state.view==='salvos'?'Para ler com calma.':'O que está sendo decidido pode mudar <span class="hero-emphasis">sua rotina</span>.';
   $('heroSubtitle').textContent=state.view==='salvos'?'Propostas guardadas neste navegador.':'Entenda o que propõem os textos apresentados à Câmara dos Deputados, quem pode ser afetado e em que etapa estão.';
+  $('activeTag').hidden=!state.tag||state.view==='salvos';
+  $('activeTagLabel').textContent=state.tag?'Assunto: '+state.tag:'';
   $('searchForm').hidden=state.view==='salvos';$('filters').hidden=state.view==='salvos';
   $('chips').hidden=state.view==='salvos';$('sideindex').hidden=state.view==='salvos';
   document.querySelectorAll('[data-watch]').forEach(a=>{const selected=state.mode===a.dataset.watch;a.classList.toggle('selected',selected);if(selected)a.setAttribute('aria-current','true');else a.removeAttribute('aria-current')});
-  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:'Explore as propostas';
+  $('listTitle').textContent=state.view==='salvos'?'Assuntos salvos':state.mode?WATCH_MODES[state.mode].label:state.tag?'Propostas sobre '+state.tag:'Explore as propostas';
   $('clearFilters').hidden=state.view==='salvos';
  }
 }
@@ -192,7 +196,7 @@ async function showList(){
  const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
  // A cópia local é exibida imediatamente; a API oficial atualiza quando responder.
  // Não deixar o visitante preso nos skeletons durante instabilidade externa.
- const snapshot=!state.mode?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
+ const snapshot=!state.mode&&!state.tag?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:'Todos'}):null;
  const hasSnapshot=!!snapshot?.items?.length;
  if(hasSnapshot){
   present(snapshot);
@@ -210,12 +214,12 @@ async function showList(){
   const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>p.siglaTipo===state.type&&String(p.ano)===String(state.year)).map(p=>p.id)||[]:[];
   const day=new Date();day.setUTCDate(day.getUTCDate()-30);
   const presentedSince=state.mode==='recent'?day.toISOString().slice(0,10):'';
-  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,situationCodes,presentedSince,excludeIds,signal:activeRequest.signal};
+  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,tag:state.tag,situationCodes,presentedSince,excludeIds,signal:activeRequest.signal};
   let result;
   try{result=await getDatabaseProposals(args)}
   catch(dbError){
    // Não retornar ao filtro de apenas 30 da Câmara nos modos legislativos.
-   if(state.mode)throw new Error('A busca de propostas está temporariamente indisponível.');
+   if(state.mode||state.tag)throw new Error('A busca de propostas está temporariamente indisponível.');
    result=await getProposals(args);
   }
   if(id!==sequence)return;
@@ -224,7 +228,7 @@ async function showList(){
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
    setFooter('Fonte: cópia parcial da Câmara. A consulta oficial não retornou registros; a cobertura da reserva não é completa.');
-  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL'||!!state.mode);
+  }$('clearFilters').hidden=!(state.query||state.topic!=='Todos'||state.party!=='Todos'||state.year!=='Todos'||state.type!=='PL'||!!state.mode||!!state.tag);
  }catch(error){
   if(id!==sequence)return;
   if(hasSnapshot){
@@ -296,8 +300,9 @@ function onClick(e){
    announce(now?'Proposição salva neste navegador.':'Proposição removida dos salvos.');
   }return
  }
+ if(e.target.closest('#removeTag')){state.tag='';state.page=1;syncURL();showList();return;}
  if(e.target.closest('#clearFilters')){
-  state.query='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='PL';state.mode='';state.page=1;
+  state.query='';state.tag='';state.topic='Todos';state.party='Todos';state.year=String(new Date().getFullYear());state.type='PL';state.mode='';state.page=1;
   syncForm();syncURL();showList();return;
  }
  if(e.target.closest('#retryBtn'))showList();
@@ -322,6 +327,7 @@ async function start(){
  $('chips').addEventListener('click',onClick);
  $('detailView').addEventListener('click',onClick);
  $('clearFilters').addEventListener('click',onClick);
+ $('removeTag').addEventListener('click',onClick);
  document.addEventListener('change',onChange);
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.mode='';state.page=1;syncURL();showList()});
  window.addEventListener('hashchange',listPageFromHash);

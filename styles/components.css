@@ -199,3 +199,11 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
  .search-control .primary-btn{padding:10px 12px;font-size:14px;flex:0 0 auto}
  .hero-copy h1{overflow-wrap:break-word}
 }
+
+/* Specific subjects remain visually separate from macro-theme filters. */
+.subject-tag{text-decoration:none;display:inline-block;cursor:pointer}
+.subject-tag:hover{text-decoration:underline;filter:brightness(.94)}
+.subject-tag:focus-visible{outline:2px solid currentColor;outline-offset:3px}
+.subject-tags{flex-wrap:wrap;gap:6px}
+.active-subject{display:flex;align-items:center;gap:12px;margin:14px 0;font-weight:600}
+.active-subject[hidden]{display:none}

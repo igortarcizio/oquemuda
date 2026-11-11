@@ -9,6 +9,9 @@ function conciseImpact(value, limit=135){
   return cut.slice(0,lastSpace>limit*0.7?lastSpace:limit).replace(/[.,:;\s]+$/,'')+'…';
 }
 
+import {proposalTags,tagURL} from '../lib/tags.js';
+const subjectLinks=p=>'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
+
 import {STATUS} from '../lib/status.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 export function skeleton(count=6){
@@ -21,14 +24,14 @@ export function badge(status){
 export function card(p,status, saved){
  const e=editorial(p),title=questionTitle(p,e),summary=cardSummary(p,e);
  const after=conciseImpact(summary||'O texto oficial ainda não traz uma síntese suficiente para explicar a mudança.');
- const audience=Array.isArray(e.publicos)?e.publicos:(p.publicos||[]);
+
  return '<article class="card civic-card" data-area="'+safeText(p.area||'Outros')+'">'+
    '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||'Outros')+'</span>'+
    '<span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
    '<div class="card-body"><p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
    '<h3><a href="#/tema/'+Number(p.id)+'">'+safeText(title)+'</a></h3>'+
    '<div class="change-summary"><p>'+safeText(after)+'</p></div>'+
-   (audience.length?'<div class="affected" aria-label="Públicos relacionados">'+audience.slice(0,3).map(a=>'<span class="microtag">'+safeText(a)+'</span>').join('')+'</div>':'')+
+   subjectLinks(p)+
    '<div class="card-bottom"><a class="textlink" href="#/tema/'+Number(p.id)+'" aria-label="Entender '+safeText(ref(p))+'">Entender →</a>'+
    '<button class="savebtn '+(saved?'saved':'')+'" type="button" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':'+ Salvar')+'</button></div></div></article>';
 }
@@ -39,13 +42,13 @@ export function card(p,status, saved){
 export function editorialFeature(p,status,saved){
  const e=editorial(p),title=questionTitle(p,e);
  const summary=conciseImpact(cardSummary(p,e),175);
- const audience=(Array.isArray(e.publicos)?e.publicos:p.publicos||[]).slice(0,3);
+
  return '<article class="card civic-card editorial-feature" data-area="'+safeText(p.area||e.area||'Outros')+'">'+
    '<div class="card-banner"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||e.area||'Outros')+'</span><span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span></div>'+
    '<div class="editorial-feature-body"><div class="editorial-feature-copy"><p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
    '<h3><a href="#/tema/'+Number(p.id)+'">'+safeText(title)+'</a></h3><p class="editorial-feature-lead">'+safeText(summary)+'</p></div>'+
    '<div class="editorial-feature-side">'+
-   (audience.length?'<div><p class="subheading">Quem pode se interessar</p><div class="affected" aria-label="Públicos relacionados">'+audience.map(a=>'<span class="microtag">'+safeText(a)+'</span>').join('')+'</div></div>':'<div></div>')+
+   ('<div><p class="subheading">Assuntos da proposta</p>'+subjectLinks(p)+'</div>')+
    '<div class="card-bottom"><a class="textlink" href="#/tema/'+Number(p.id)+'" aria-label="Entender '+safeText(ref(p))+'">Entender →</a>'+
    '<button type="button" class="savebtn '+(saved?'saved':'')+'" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':'+ Salvar')+'</button></div></div></div></article>';
 }
@@ -91,7 +94,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  return '<div class="detail" data-area="'+safeText(p.area||'Outros')+'"><div class="page" style="padding-top:28px"><a class="back" href="#/explorar">← Voltar às propostas</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta"><span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(p.area||'Outros')+'</span> · '+safeText(ref(p))+'</div>'+
  '<h1>'+safeText(title)+'</h1><p class="detail-summary">'+safeText(after)+'</p>'+
- '<button type="button" data-save="'+Number(p.id)+'" aria-pressed="'+saved+'" class="outline-btn">'+(saved?'✓ Salvo':'＋ Salvar para depois')+'</button></div></div>'+
+ subjectLinks(p)+'<button type="button" data-save="'+Number(p.id)+'" aria-pressed="'+saved+'" class="outline-btn">'+(saved?'✓ Salvo':'＋ Salvar para depois')+'</button></div></div>'+
  '<div class="page detail-layout"><div>'+
 
  '<section class="detail-section"><h2>O que a proposta quer mudar?</h2><p>'+safeText(after)+'</p><p class="small-note">O texto ainda pode mudar durante a tramitação; a proposta não é uma lei em vigor.</p></section>'+
@@ -120,6 +123,6 @@ export function infoPage(){
  '<article class="step"><div class="number">02</div><h2>Entenda a proposta</h2><p>“O que muda” explica de forma resumida aquilo que o projeto pretende alterar, sem confundir propostas e leis em vigor.</p></article>'+
  '<article class="step"><div class="number">03</div><h2>Confira a fonte</h2><p>Consulte o texto integral, os autores e o andamento na base oficial.</p></article></div>'+
  '<div class="notice" style="margin-top:26px"><strong>Transparência editorial.</strong> Títulos não revisados são sugestões automáticas derivadas da ementa. A classificação temática é auxiliar. A aprovação em uma comissão não equivale à aprovação final.</div>'+
- '<section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
+ '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde. As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. A classificação é automática e pode ser aperfeiçoada.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
  '<p style="margin-top:26px"><a class="primary-btn" href="#/explorar">Explorar propostas →</a></p></div>';
 }
