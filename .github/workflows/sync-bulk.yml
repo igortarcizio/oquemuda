@@ -1,12 +1,6 @@
 name: Importar arquivos anuais da Câmara para o Supabase
 on:
   workflow_dispatch:
-  push:
-    branches: [main]
-    paths:
-      - '.github/workflows/sync-bulk.yml'
-      - 'scripts/sync_bulk.py'
-      - 'scripts/selecionar_destaques.py'
   schedule:
     - cron: '53 5 * * *'
 concurrency:
