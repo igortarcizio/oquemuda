@@ -686,7 +686,7 @@
     ],
     [
       "Parentalidade",
-      "parentalidade|licenca parental"
+      "parentalidade|licenca parental|alienacao parental|12[.]?318"
     ],
     [
       "Atletas",
@@ -703,14 +703,6 @@
     [
       "Concessões",
       "concessionari|permissao de servico|permiss.*servico publico"
-    ],
-    [
-      "Civil",
-      "codigo civil|10[.]?406"
-    ],
-    [
-      "Penal",
-      "2[.]?848"
     ],
     [
       "Guarda",

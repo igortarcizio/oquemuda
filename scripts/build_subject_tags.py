@@ -173,13 +173,11 @@ Vestuário|vestuario|textil|texteis|roupa
 Mercúrio|mercurio
 Calor|ilhas de calor|calor extrem
 Medula|medula
-Parentalidade|parentalidade|licenca parental
+Parentalidade|parentalidade|licenca parental|alienacao parental|12[.]?318
 Atletas|atleta
 Prêmios|premio|comenda|honraria|honorario
 Benefícios|beneficio fiscal|incentivo fiscal
 Concessões|concessionari|permissao de servico|permiss.*servico publico
-Civil|codigo civil|10[.]?406
-Penal|2[.]?848
 Guarda|guarda municipal
 Monitoramento|monitoramento|videomonitor
 Consumidor|consumidor|8[.]?078
@@ -269,13 +267,11 @@ const rules=vocabulary.rules.map(([label,pattern])=>[label,new RegExp(pattern)])
 export function classifyTags(ementa){
  const text=fold(ementa),tags=[];
  for(const [label,pattern] of rules)if(pattern.test(text)&&!tags.includes(label))tags.push(label);
- if(tags.length)return tags;
- const words=String(ementa||'').match(/[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ-]{3,}/g)||[];
- const word=words.find(w=>!stops.has(fold(w)));
- return [word?word[0].toLocaleUpperCase('pt-BR')+word.slice(1).toLocaleLowerCase('pt-BR'):'Cadastro'];
+ // No arbitrary word extraction: unmatched subjects require review.
+ return tags.slice(0,3);
 }
 export function proposalTags(p){
- return Array.isArray(p.tags)&&p.tags.length?p.tags:classifyTags(p.ementa);
+ return classifyTags(p.ementa);
 }
 export function tagURL(tag){
  return '#/explorar?'+new URLSearchParams({ano:'Todos',tipo:'Todos',tag,page:'1'}).toString();
@@ -293,13 +289,7 @@ begin
  for rule in select value from jsonb_array_elements(vocabulary->'rules') loop
   if normalized ~ replace(rule->>1, E'\\\\b', E'\\\\y') and not ((rule->>0)=any(tags)) then tags := array_append(tags, rule->>0); end if;
  end loop;
- if cardinality(tags)>0 then return tags; end if;
- for word in select (regexp_matches(coalesce(description,''), '[A-Za-zÀ-ÿ][A-Za-zÀ-ÿ-]{3,}', 'g'))[1] loop
-  if not (vocabulary->'stopwords' ? translate(lower(word), 'áàâãäéèêëíìîïóòôõöúùûüç', 'aaaaaeeeeiiiiooooouuuuc')) then
-   return array[upper(left(word,1)) || lower(substr(word,2))];
-  end if;
- end loop;
- return array['Cadastro'];
+ return tags[1:3];
 end $fn$;
 alter table public.proposicoes add column tags text[] generated always as (public.oqm_subject_tags(ementa)) stored;
 create index proposicoes_tags_gin on public.proposicoes using gin(tags);
@@ -308,3 +298,4 @@ notify pgrst, 'reload schema';
 '''%json.dumps(data,ensure_ascii=False)
 (root/'migrations').mkdir(exist_ok=True)
 (root/'migrations/subject_tags.sql').write_text(sql)
+(root/'migrations/subject_tags_quality.sql').write_text(sql.split('alter table public.proposicoes add column')[0])

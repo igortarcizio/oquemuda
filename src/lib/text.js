@@ -1,3 +1,4 @@
+import {classifyTags} from './tags.js?v=quality-20261111';
 /**
  * Utilitários editoriais. Nunca convertem a aprovação de proposta em fato consumado.
  * @typedef {{id:number, siglaTipo:string, numero:number, ano:number, ementa:string, titulo?:string,
@@ -29,6 +30,8 @@ export const dateBR = raw => {
 };
 export const officialURL = p => 'https://www.camara.leg.br/propostas-legislativas/'+encodeURIComponent(p.id);
 const topicRules=[
+  [/propaganda eleitoral.+bandeira de vento/i,'Propaganda eleitoral com bandeiras de vento pode ser proibida?'],
+  [/condom[ií]nios.+afastamento judicial.+viol[eê]ncia/i,'Moradores violentos podem ser afastados de condomínios pela Justiça?'],
   [/linha(?:s)?\s+cortante|linha(?:s)?\s+com\s+cerol/i,'Como combater o uso de linhas cortantes em pipas?'],
   [/intervalo(?:s)?\s+(?:intra)?jornada|repouso\s+(?:na|durante)\s+jornada/i,'Os intervalos de descanso no trabalho podem mudar?'],
   [/direitos\s+acad[eê]micos.+viol[eê]ncia\s+dom[eé]stica/i,'Estudantes vítimas de violência terão mais proteção?'],
@@ -57,44 +60,26 @@ const topicRules=[
   [/seguran[cç]a\s+p[uú]blica/i,'O que pode mudar na segurança pública?'],
   [/patrim[oô]nio\s+cultural/i,'Como o patrimônio cultural pode ser protegido?']
 ];
-const CUT_END = /\s+(?:de|da|do|das|dos|para|por|em|a|o|com|e|sobre|na|no)$/i;
-function compactSubject(ementa,max=37) {
-  let raw=cleanText(ementa)
-    .replace(/^Altera\s+(?:a\s+)?Lei\s+n[º°.]?\s*[\d.,/ \w-]+?\s*,?\s*para\s+/i,'')
-    .replace(/^(?:Dispõe sobre|Estabelece|Institui|Cria|Altera|Define|Regulamenta|Modifica|Prevê|Autoriza|Proíbe|Determina|Torna obrigat[oó]ria)\s+/i,'')
-    .replace(/^(?:a|o|as|os|um|uma)\s+/i,'')
-    .replace(/^(?:diretrizes|normas|regras)\s+(?:nacionais?\s+)?(?:para|sobre|de)\s+/i,'')
-    .split(/[,;:(]/)[0].replace(/^(?:Lei\s+n[º°.]?|Decreto-Lei\s+n[º°.]?)\s*[\d.,/]+.*$/i,'');
-  raw=cleanText(raw);
-  if(raw.length>max) {
-    const upto=raw.slice(0,max+1),cut=upto.lastIndexOf(' ');
-    raw=upto.slice(0,cut>max*.55?cut:max);
-  }
-  return cleanText(raw.replace(CUT_END,''));
-}
 /** Sempre questionamento, limitado semanticamente. Sem IA não é seguro inventar impactos. */
 export function questionTitle(p,editorial={}) {
   const approved=cleanText(editorial.titulo||p.titulo);
-  if(approved && approved.endsWith('?') && approved.length<=82) return preserveSiglas(approved);
+  if(approved && approved.endsWith('?') && approved.length<=82 && !/para a população|O que esta proposta pretende mudar|O que pode mudar em (?:requer|lei|artigo)/i.test(approved)) return preserveSiglas(approved);
   const e=cleanText(p.ementa);
   if(!e)return 'O que esta proposta pretende mudar?';
+  if(/^Requer(?:em)?\b/i.test(e)){
+    if(/alienação parental/i.test(e))return 'Por que foi pedido votar a revogação da Lei de Alienação Parental?';
+    return /urg[eê]ncia/i.test(e)?'Qual proposta é alvo do pedido de urgência?':'Qual pedido de tramitação foi apresentado?';
+  }
   for(const [regex,q] of topicRules)if(regex.test(e))return q;
   if(p.siglaTipo==='REQ')return /urg[eê]ncia/i.test(e)?'Qual projeto pode tramitar com urgência?':'Qual pedido foi apresentado à Câmara?';
   if(p.siglaTipo==='MSC')return 'O que o Congresso precisa analisar nesta mensagem?';
-  const subject=compactSubject(e,39);
-  if(subject.length>=9 && !/^(?:Lei|Decreto|Artigo)\s+n[º°.]?/i.test(subject)
-     && !/^(?:instituir|criar|reconhece|exigir|assegurar|alterar|vedar)\b/i.test(subject)) {
-    const phrase=/^a\s+/i.test(subject)?'na '+subject.slice(2):
-      /^o\s+/i.test(subject)?'no '+subject.slice(2):
-      /^as\s+/i.test(subject)?'nas '+subject.slice(3):
-      /^os\s+/i.test(subject)?'nos '+subject.slice(3):
-      'em '+subject.charAt(0).toLowerCase()+subject.slice(1);
-    const title='O que pode mudar '+phrase+'?';
-    if(title.length<=81)return preserveSiglas(title);
+  const tags=classifyTags(e);
+  if(tags.length){
+    const subject=tags.join(', ');
+    return preserveSiglas('O que '+ref(p)+' propõe sobre '+subject+'?');
   }
-  const topic=editorial.area||p.area;
-  const contexts={Trabalho:'nas relações de trabalho',Consumo:'nos direitos do consumidor',Saúde:'na saúde',Educação:'na educação',Tecnologia:'na tecnologia',Mobilidade:'no transporte'};
-  return 'O que a proposta pretende mudar '+(contexts[topic]||'para a população')+'?';
+  // Insufficient source detail: identify the record without inventing a subject.
+  return 'O que diz o texto do '+ref(p)+'?';
 }
 export function classifyTheme(p,editorial={}) {
   if(editorial.area&&THEMES.includes(editorial.area))return editorial.area;

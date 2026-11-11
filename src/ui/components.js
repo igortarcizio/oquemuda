@@ -1,4 +1,4 @@
-import {safeText,questionTitle,cardSummary,ref,dateBR,officialURL,cleanText} from '../lib/text.js';
+import {safeText,questionTitle,cardSummary,ref,dateBR,officialURL,cleanText} from '../lib/text.js?v=quality-20261111';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
@@ -9,8 +9,8 @@ function conciseImpact(value, limit=135){
   return cut.slice(0,lastSpace>limit*0.7?lastSpace:limit).replace(/[.,:;\s]+$/,'')+'…';
 }
 
-import {proposalTags,tagURL} from '../lib/tags.js';
-const subjectLinks=p=>'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
+import {proposalTags,tagURL} from '../lib/tags.js?v=quality-20261111';
+const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em revisão</p>':'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
 
 import {STATUS} from '../lib/status.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};

@@ -1,0 +1,42 @@
+name: Verificar títulos e tags dos cards
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'src/lib/text.js'
+      - 'src/lib/tags.js'
+      - 'src/lib/content-quality.js'
+      - 'dados/editorial.js'
+      - 'scripts/audit_content.mjs'
+      - '.github/workflows/content-quality.yml'
+  workflow_run:
+    workflows: ['Sincronizar proposições com Supabase', 'Importar arquivos anuais da Câmara para o Supabase']
+    types: [completed]
+permissions:
+  contents: read
+concurrency:
+  group: content-quality
+  cancel-in-progress: false
+jobs:
+  audit:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Testar regras de qualidade
+        run: npm test
+      - name: Conferir o acervo completo
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/audit_content.mjs
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: qualidade-editorial
+          path: reports/content-quality.json
+          retention-days: 30

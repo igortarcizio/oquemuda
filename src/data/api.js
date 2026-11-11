@@ -1,5 +1,5 @@
-import {cleanText, ref, classifyTheme} from '../lib/text.js';
-import {classifyTags} from '../lib/tags.js';
+import {cleanText, ref, classifyTheme} from '../lib/text.js?v=quality-20261111';
+import {classifyTags} from '../lib/tags.js?v=quality-20261111';
 import {normalizeStatus} from '../lib/status.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
