@@ -1,5 +1,10 @@
 name: Atualizar notícias da Agência Câmara
 on:
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/noticias-camara.yml'
+      - 'scripts/atualizar_noticias.py'
   workflow_dispatch:
   schedule:
     - cron: '25 12 * * *'
