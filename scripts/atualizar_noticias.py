@@ -27,7 +27,7 @@ def extract(xml_bytes):
         parsed = urlparse(url)
         if not title or parsed.scheme != "https" or parsed.hostname not in {"www.camara.leg.br", "camara.leg.br"}:
             continue
-        if not re.match(r"^/noticias/\\d+(?:-|/|$)", parsed.path):
+        if not re.match(r"^/noticias/\d+(?:-|/|$)", parsed.path):
             continue
         if parsed.path in seen:
             continue
