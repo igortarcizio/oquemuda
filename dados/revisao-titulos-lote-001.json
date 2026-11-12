@@ -12,8 +12,10 @@
       "title": "Altera a Lei de Crimes Ambientais. A ementa não informa quais mudanças prevê.",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 146708,
@@ -22,8 +24,10 @@
       "title": "Define períodos para concursos públicos e vestibulares",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 255291,
@@ -32,8 +36,10 @@
       "title": "Permite registrar a surdez na carteira de identidade",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 264726,
@@ -42,8 +48,10 @@
       "title": "Muda as regras sobre disparo de arma de fogo",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 281460,
@@ -52,18 +60,22 @@
       "title": "Altera as regras de organização das Polícias Militares e dos Bombeiros",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 342725,
       "reference": "PL 5777/2025",
       "ementa_sha256": "9700ce9ea3a1b40fb6856faa519a0db21c04600cfad7a28cf21baca5c2c7711e",
-      "title": "Inclui empreendedorismo como atividade extracurricular no ensino médio e profissionalizante",
-      "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
+      "title": "Inclui empreendedorismo na formação extracurricular do ensino médio e profissionalizante",
+      "published_commit": "d97a57bb8c62ba796880841c96cbf3b17bb1b902",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 374450,
@@ -72,8 +84,10 @@
       "title": "Classifica a adulteração de alimentos como crime hediondo",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 424197,
@@ -82,8 +96,10 @@
       "title": "Amplia para dez anos a responsabilidade do empreiteiro pela segurança de edifícios",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 437039,
@@ -92,8 +108,10 @@
       "title": "Cria o Prêmio Frei Galvão do Mérito Social",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2121642,
@@ -102,8 +120,10 @@
       "title": "Aumenta penas para crimes contra profissionais de saúde durante o trabalho",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2168236,
@@ -112,8 +132,10 @@
       "title": "Protege a imagem de vítimas de crimes e acidentes",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2481874,
@@ -122,8 +144,10 @@
       "title": "Cria oito varas federais em Santa Catarina e novos cargos na Justiça Federal",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2481875,
@@ -132,8 +156,10 @@
       "title": "Reorganiza cargos na Justiça Federal e cria turma recursal no Piauí",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2481880,
@@ -142,8 +168,10 @@
       "title": "Prevê apoio financeiro a pessoas com deficiência afetadas pela síndrome congênita do Zika",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2481937,
@@ -152,8 +180,10 @@
       "title": "Protege o sigilo e proíbe cobrança adicional em pagamentos por Pix",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482075,
@@ -162,8 +192,10 @@
       "title": "Veda verba pública e incentivo cultural para apresentações que promovam o crime organizado",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482076,
@@ -172,8 +204,10 @@
       "title": "Prevê medidas para acelerar investigações criminais e compartilhar responsabilidades na segurança pública",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482078,
@@ -182,8 +216,10 @@
       "title": "Pede a suspensão de resolução do Conanda sobre direitos de crianças e adolescentes",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482079,
@@ -192,8 +228,10 @@
       "title": "Define direitos para animais de estimação e tutores em viagens aéreas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482081,
@@ -202,8 +240,10 @@
       "title": "Proíbe cobrança adicional por Pix e exige aviso em estabelecimentos",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482088,
@@ -212,8 +252,10 @@
       "title": "Pede a suspensão das regras federais sobre armas, caça e tiro esportivo",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482091,
@@ -222,8 +264,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482094,
@@ -232,8 +276,10 @@
       "title": "Pede a suspensão de regras do Conanda sobre atendimento a vítimas de violência sexual",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482096,
@@ -242,8 +288,10 @@
       "title": "Pede a suspensão da obrigação de informar operações financeiras à Receita",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482098,
@@ -252,8 +300,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482100,
@@ -262,8 +312,10 @@
       "title": "Pede a suspensão da criação do núcleo contra o crime organizado",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482102,
@@ -272,8 +324,10 @@
       "title": "Pede a suspensão das diretrizes sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482103,
@@ -282,8 +336,10 @@
       "title": "Define crimes por ofensas públicas ao cristianismo e prevê indenização",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482106,
@@ -292,8 +348,10 @@
       "title": "Prevê sensores gratuitos de glicose para crianças com deficiência ou autismo",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482108,
@@ -302,8 +360,10 @@
       "title": "Cria bolsa alimentação para pacientes com diabetes",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482110,
@@ -312,8 +372,10 @@
       "title": "Exige transparência dos beneficiários de emendas parlamentares",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482112,
@@ -322,8 +384,10 @@
       "title": "Cria prêmio nacional em defesa dos direitos das pessoas autistas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482113,
@@ -332,8 +396,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482114,
@@ -342,8 +408,10 @@
       "title": "Permite destinar créditos de energia solar a entidades sociais, de saúde e educação",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482116,
@@ -352,8 +420,10 @@
       "title": "Impede acordo penal para investigados por tráfico de drogas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482117,
@@ -362,8 +432,10 @@
       "title": "Inclui pessoas idosas na política urbana",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482120,
@@ -372,8 +444,10 @@
       "title": "Transfere aos estados a regularização de assentamentos após cinco anos",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482121,
@@ -382,8 +456,10 @@
       "title": "Permite reutilizar ônibus escolares para transporte rural e outros serviços públicos",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482122,
@@ -392,8 +468,10 @@
       "title": "Define fiscalização para caminhões que circulam com eixos suspensos e isenção de pedágio",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482124,
@@ -402,8 +480,10 @@
       "title": "Exige acessibilidade em serviços para consumidores vulneráveis",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482126,
@@ -412,8 +492,10 @@
       "title": "Cria código de defesa do turista e assistência em emergências",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482128,
@@ -422,8 +504,10 @@
       "title": "Regulamenta a profissão de treinador de musculação e fisiculturismo",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482129,
@@ -432,8 +516,10 @@
       "title": "Autoriza estados e DF a legislar sobre temas específicos de direito agrário",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482131,
@@ -442,8 +528,10 @@
       "title": "Limita a 15 anos o sigilo de informações pessoais e exige justificativa",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482132,
@@ -452,8 +540,10 @@
       "title": "Restringe urgência a propostas já analisadas pelas comissões de mérito",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482134,
@@ -462,8 +552,10 @@
       "title": "Autoriza estados e DF a legislar sobre temas específicos de desapropriação",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482135,
@@ -472,8 +564,10 @@
       "title": "Cria programa de reabilitação craniofacial com tecnologia 3D",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482138,
@@ -482,8 +576,10 @@
       "title": "Prevê advertências nos rótulos de bebidas alcoólicas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482140,
@@ -492,8 +588,10 @@
       "title": "Define guarda compartilhada de animais após separação e divisão de despesas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482155,
@@ -502,8 +600,10 @@
       "title": "Inclui processo legislativo nos cursos de Direito",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482156,
@@ -512,8 +612,10 @@
       "title": "Prevê direitos econômicos e incentivo à produção indígena",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482157,
@@ -522,8 +624,10 @@
       "title": "Estabelece teto para ingressos de jogos e competições esportivas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482162,
@@ -532,8 +636,10 @@
       "title": "Permite deduzir do Imposto de Renda despesas veterinárias de animais domésticos",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482163,
@@ -542,8 +648,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482165,
@@ -552,8 +660,10 @@
       "title": "Pede a suspensão das regras do Conanda sobre atendimento a vítimas de violência sexual",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482168,
@@ -562,8 +672,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482169,
@@ -572,8 +684,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482171,
@@ -582,8 +696,10 @@
       "title": "Cria fundo para manutenção de pontes e outras obras de arte especiais",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482173,
@@ -592,8 +708,10 @@
       "title": "Exige planos de emergência para pontes e outras obras de arte especiais",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482176,
@@ -602,8 +720,10 @@
       "title": "Exige inspeções técnicas em pontes e outras obras de arte especiais",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482178,
@@ -612,8 +732,10 @@
       "title": "Reconhece as Folias do Divino Espírito Santo, no Tocantins, como manifestação cultural nacional",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482180,
@@ -622,8 +744,10 @@
       "title": "Proíbe a venda de dados biométricos e reforça a proteção dessas informações",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482183,
@@ -632,8 +756,10 @@
       "title": "Reconhece o ofício das quebradeiras de coco babaçu como manifestação cultural nacional",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482192,
@@ -642,8 +768,10 @@
       "title": "Pede a suspensão das diretrizes sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482193,
@@ -652,8 +780,10 @@
       "title": "Pede a suspensão do comitê nacional de monitoramento do uso da força",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482194,
@@ -662,8 +792,10 @@
       "title": "Pede a suspensão de resolução do Conanda sobre direitos de crianças e adolescentes",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482196,
@@ -672,8 +804,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482201,
@@ -682,8 +816,10 @@
       "title": "Pede a suspensão da desapropriação da Fazenda Floresta e Texas, no Espírito Santo",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482204,
@@ -692,8 +828,10 @@
       "title": "Pede a suspensão da obrigação de informar operações financeiras à Receita",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482207,
@@ -702,8 +840,10 @@
       "title": "Inclui misoginia e misandria entre as formas de discriminação punidas por lei",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482215,
@@ -712,8 +852,10 @@
       "title": "Impede herança por violência, abandono ou falta de pagamento de alimentos contra o falecido",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482217,
@@ -722,8 +864,10 @@
       "title": "Prevê reembolso federal a estados que executam penas em presídios locais",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482220,
@@ -732,8 +876,10 @@
       "title": "Define critérios para diagnóstico de obesidade e acesso a serviços públicos de saúde",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482223,
@@ -742,8 +888,10 @@
       "title": "Exige troco em compras e serviços",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482225,
@@ -752,8 +900,10 @@
       "title": "Proíbe pagar para obter acesso a dados pessoais sensíveis",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482228,
@@ -762,8 +912,10 @@
       "title": "Padroniza o volume de áudio de anúncios no rádio e na TV",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482230,
@@ -772,8 +924,10 @@
       "title": "Regula a prospecção e exploração mineral no fundo do mar",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482234,
@@ -782,8 +936,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482236,
@@ -792,8 +948,10 @@
       "title": "Altera regras para bancos comunitários",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482249,
@@ -802,8 +960,10 @@
       "title": "Cria crime por omitir, atrasar ou fraudar dados exigidos por lei",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482250,
@@ -812,8 +972,10 @@
       "title": "Amplia o acesso de pessoas idosas a programas de adaptação de moradias",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482252,
@@ -822,8 +984,10 @@
       "title": "Proíbe divulgar nomes de produtos químicos usados em envenenamentos",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482258,
@@ -832,8 +996,10 @@
       "title": "Criminaliza saudações nazistas e gestos que incentivam crimes de ódio",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482260,
@@ -842,8 +1008,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482261,
@@ -852,8 +1020,10 @@
       "title": "Pede a suspensão das regras do Conanda sobre atendimento a vítimas de violência sexual",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482262,
@@ -862,8 +1032,10 @@
       "title": "Pede a suspensão da obrigação de informar operações financeiras à Receita",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482263,
@@ -872,8 +1044,10 @@
       "title": "Pede a suspensão do horário restrito para clubes de tiro",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482264,
@@ -882,8 +1056,10 @@
       "title": "Regulamenta eleição direta de diretores em escolas públicas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482266,
@@ -892,8 +1068,10 @@
       "title": "Permite usar vídeos de cidadãos para comprovar infrações de trânsito",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482267,
@@ -902,8 +1080,10 @@
       "title": "Exige transparência em gastos públicos acima de R$ 5 mil com cartões corporativos",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482268,
@@ -912,18 +1092,22 @@
       "title": "Inclui cogumelos entre os produtos com redução integral de IBS e CBS",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482269,
       "reference": "PL 65/2025",
       "ementa_sha256": "b7a69ffb0499ae1764c330cc87596f39da86e309bba1c564b9df98ed65bbf49a",
-      "title": "Proíbe contratos públicos de promover crime, drogas ou violência contra mulheres em eventos para jovens",
-      "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
+      "title": "Contratos públicos de shows para jovens devem vedar apologia a crime, drogas e violência contra mulheres",
+      "published_commit": "d97a57bb8c62ba796880841c96cbf3b17bb1b902",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482271,
@@ -932,8 +1116,10 @@
       "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482273,
@@ -942,8 +1128,10 @@
       "title": "Autoriza loteria para financiar proteção animal e destina prêmios não resgatados",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482274,
@@ -952,8 +1140,10 @@
       "title": "Reduz a jornada semanal máxima para 40 horas e garante dois dias de descanso",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482275,
@@ -962,8 +1152,10 @@
       "title": "Prevê proteção e apoio a mulheres vítimas de violência política",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482276,
@@ -972,8 +1164,10 @@
       "title": "Criminaliza estelionato sentimental e aumenta a pena",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482278,
@@ -982,8 +1176,10 @@
       "title": "Reserva assentos no transporte coletivo para pessoas obesas",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482279,
@@ -992,8 +1188,10 @@
       "title": "Criminaliza o abandono afetivo de crianças e adolescentes",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     },
     {
       "id": 2482280,
@@ -1002,8 +1200,10 @@
       "title": "Impede condenados de ocupar cargos públicos antes do fim da pena e da reabilitação",
       "published_commit": "aeffeba20c24ddaaa5522cc1b5e53d9696c9e73f",
       "editorial_status": "revised",
-      "visual_status": "pending",
-      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+      "visual_status": "validated",
+      "visual_note": "Título integral em até cinco linhas nos cards publicados a 320, 375 e 1440 px, com Newsreader carregada; conferido nas seções de listagem, destaque e ficha.",
+      "visual_checked_at": "2026-11-12T11:51:20Z",
+      "visual_commit": "099a15d020248593215ca377fd15de9f9f1093dd"
     }
   ]
 }
