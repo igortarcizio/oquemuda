@@ -1,5 +1,8 @@
 name: Sincronizar proposições com Supabase
 on:
+  push:
+    paths:
+      - '.github/workflows/sync-supabase.yml'
   workflow_dispatch:
   schedule:
     - cron: '7,37 * * * *'
