@@ -1,4 +1,5 @@
 name: Atualizar catálogo legislativo
+# Alterações neste fluxo permitem executar uma recuperação imediata pelo push.
 on:
   push:
     paths:
