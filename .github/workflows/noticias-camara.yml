@@ -1,0 +1,42 @@
+name: Atualizar notícias da Agência Câmara
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '25 12 * * *'
+permissions:
+  contents: write
+concurrency:
+  group: noticias-camara-diarias
+  cancel-in-progress: false
+jobs:
+  noticias:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validar coletor
+        run: python -m py_compile scripts/atualizar_noticias.py
+      - name: Consultar RSS oficial
+        run: python scripts/atualizar_noticias.py
+      - name: Publicar JSON no GitHub Pages
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          cp dados/noticias-camara.json "$RUNNER_TEMP/noticias-camara.json"
+          for tentativa in 1 2 3 4 5 6; do
+            git fetch origin main
+            git reset --hard FETCH_HEAD
+            cp "$RUNNER_TEMP/noticias-camara.json" dados/noticias-camara.json
+            git add dados/noticias-camara.json
+            if git diff --cached --quiet; then exit 0; fi
+            git commit -m "Atualização diária das notícias da Câmara"
+            if git push origin HEAD:main; then exit 0; fi
+            sleep 3
+          done
+          echo "::error::Falha ao publicar notícias após seis tentativas."
+          exit 1
