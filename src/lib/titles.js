@@ -60,16 +60,44 @@ export function isReviewed(editorial={}){
 
 
 const editorialTitles = {
+  2599315: 'Exige que o IBGE e órgãos federais divulguem dados por território',
+  2641592: 'Cria o título Cidade Amiga da Pessoa com Deficiência',
+  2607125: 'Restringe a herança para condenados por crimes contra a vida de pais, avós, filhos ou netos',
+  2641390: 'Proíbe criar ou divulgar imagens sexuais sintéticas de pessoas identificáveis sem consentimento',
+  2647651: 'Cria sistema de alertas climáticos e o aplicativo Clima Brasil',
+  2640556: 'Prevê tratamento de sequelas permanentes no rosto de mulheres vítimas de violência doméstica',
+  2599487: 'Exige que o SUS inclua remédios para controle de zoonoses na assistência farmacêutica',
+  2599295: 'Cria selo para identificar publicidade dirigida a crianças',
+  2600628: 'Proíbe cobrar dos usuários, via tarifa, custos de saída de concessionárias',
+  2641375: 'Cria índice para avaliar a qualidade e a clareza dos serviços públicos',
+  2611055: 'Prevê custeio de residências inclusivas pela saúde e pela assistência social',
+  2526776: 'Atribui à Cipa a educação sobre prevenção e resposta a desastres climáticos',
+  2525324: 'Prevê dedução no IR aos 65 anos ou mais por plano de saúde de empresa inativa',
+  2640829: 'Define proteção para moradores de áreas de risco na política de defesa civil',
+  2600790: 'Prevê o mesmo reajuste do piso para aposentadorias do INSS acima de um salário mínimo',
+  2599623: 'Cria fundo para substituir redes aéreas por redes subterrâneas',
+  2617479: 'Aprova acordo de cooperação em defesa entre Brasil e Eslováquia',
+  2614419: 'Define regras para investir recursos dos regimes próprios de previdência',
+  2640695: 'Prevê acompanhamento psicossocial do agressor em medidas protetivas',
+  2525732: 'Cria o programa Atleta Sem Fronteiras para apoiar o desenvolvimento de atletas',
+  2494968: 'Define regras de ICMS para importações de pequeno valor feitas por pessoas físicas',
+  2599005: 'Prevê cancelamento simples e imediato de contratos de fornecimento contínuo',
+  2563714: 'Permite transferir condenados por terrorismo a prisões de alta segurança em países com acordo',
+  2507109: 'Restringe a apreensão de habilitação e passaporte como forma de coerção em processos cíveis',
+  2494389: 'Cria centros do SUS para jovens com altas habilidades ou transtornos do neurodesenvolvimento',
+  2603856: 'Cria programa de acolhimento e custeio do resgate de animais vítimas de maus-tratos',
+  2640908: 'Exige acompanhamento técnico da acessibilidade em obras públicas',
+  2644306: 'Exige reavaliar a via de parto se o trabalho de parto parar de avançar ou houver risco',
   2652995: 'Proíbe o uso de IA para anunciar e vender alimentos em lojas e apps de entrega',
   2652993: 'Cria o programa Pronaf Mulher',
   2652992: 'Prevê crédito tributário para estoques de produtos específicos em janeiro de 2027',
   2652977: 'Adia a cobrança de IBS e CBS em vendas de produtos rurais in natura entre contribuintes',
-  2652914: 'Reconhece a Festa de São Sebastião do Mutum, em Mato Grosso, como manifestação cultural nacional',
+  2652914: 'Reconhece a Festa de São Sebastião do Mutum como manifestação da cultura nacional',
   2652911: 'Muda as regras de busca de desaparecidos e de assistência a quem é localizado',
   2652890: 'Reduz o ritmo de crescimento do limite de gastos federais',
   2652867: 'Cria imposto sobre grandes fortunas',
   2652739: 'Proíbe bandeiras de vento na propaganda eleitoral',
-  2652736: 'Permite à Justiça afastar de condomínios ocupantes responsáveis por violência grave',
+  2652736: 'Prevê afastamento judicial por violência grave em condomínios',
   2652684: 'Pede votação de recurso sobre a revogação da Lei de Alienação Parental',
   2652677: 'Amplia garantias para abrir e exercer atividades econômicas',
   2652676: 'Exige que órgãos públicos justifiquem a compra de equipamentos eletrônicos',
@@ -100,7 +128,7 @@ const editorialTitles = {
   2651907: 'Prevê redução da pena por cadastro como doador de medula óssea e pela doação',
   2651866: 'Amplia a margem de tolerância para o cumprimento da meta fiscal da União',
   2651864: 'Prevê financiamento para plataformas coletivas de transporte e entregas',
-  2651863: 'Prevê recuperar documentos de entidades estudantis atingidas pela repressão entre 1964 e 1985',
+  2651863: 'Prevê recuperar a memória do movimento estudantil sob a ditadura',
   2651858: 'Exclui investimentos públicos federais do limite de gastos e os protege contra bloqueios',
   2651409: 'Permite reduzir a pena por doação voluntária de sangue',
   2651389: 'Reforça a preservação da memória e do patrimônio cultural de grupos historicamente excluídos',
@@ -153,12 +181,27 @@ export function displayTitle(p) {
     return 'Suspende a classificação indicativa atribuída a “Record Kids – Desenhos Bíblicos”';
   const broadcast = broadcastTitle(text);
   if (broadcast) return broadcast;
-  return descriptiveTitle(text)
+  const title = descriptiveTitle(text)
     .replace(/^(?:Trata da|Institui a|Estabelece a) obrigatoriedade (?:de|do|da) /i, (prefix) => prefix.endsWith('do ') ? 'Exige o ' : prefix.endsWith('da ') ? 'Exige a ' : 'Exige ')
     .replace(/^Trata da (?:proibição|vedação) de /i, 'Proíbe ')
     .replace(/^Trata da criação (do|da|dos|das) /i, (_, article) => 'Cria ' + article.slice(1) + ' ')
-    .replace(/^Institui (o|a) /i, 'Cria $1 ')
+    .replace(/^Institui (o|a) (?=Programa|Política|Sistema|Dia|Semana|Cadastro|Fundo|Selo|Plano|Prêmio|Comissão|Conselho|Regime|Estatuto|Rede|Campanha)/i, 'Cria $1 ')
+    .replace(/\bSistema Único de Saúde(?:\s*\(SUS\))?/gi, 'SUS')
+    .replace(/\bCarteira Nacional de Habilitação(?:\s*\(CNH\))?/gi, 'CNH')
+    .replace(/\bImposto sobre a Renda (?:da|das) Pessoas? Físicas?(?:\s*\(IRPF\))?/gi, 'Imposto de Renda')
+    .replace(/\bcrianças e adolescentes portadores de deficiência/gi, 'crianças e adolescentes com deficiência')
+    .replace(/\bno âmbito (do|da|dos|das) /gi, (_, article) => 'n' + article.slice(1) + ' ')
+    .replace(/^Aprova o texto (do|da) /i, (_, article) => 'Aprova ' + article.slice(1) + ' ')
+    .replace(/entre o Governo da República Federativa do Brasil e o Governo (?:da|do|de) /i, 'entre Brasil e ')
+    .replace(/, (?:assinado|celebrado|firmado) em [^,]+, em \d{1,2}º? de [a-zç]+ de \d{4}$/i, '')
+    .replace(/,? (?:na forma que especifica|e dá outras providências)\.?$/i, '')
     .replace(/^Veda a utilização de /i, 'Proíbe o uso de ')
     .replace(/^Estabelece diretrizes para /i, 'Define regras para ')
     .replace(/,?\s+e (?:estabelece|adota) outras providências\.?$/i, '');
+  // O título destaca a medida principal. A ficha conserva a ementa integral.
+  if (title.length > TITLE_MAX) {
+    const main = title.split(/,\s+(?:e\s+)?(?:altera|estabelece|institui|define|revoga|disciplina|dispõe sobre|prevê|cria|determina|autoriza|fixa|acrescenta)\s/i)[0];
+    if (main.length >= 28 && !/^(?:Altera|Revoga|Acrescenta|Modifica) (?:o art|a Lei|o Decreto)/i.test(main)) return main;
+  }
+  return title;
 }
