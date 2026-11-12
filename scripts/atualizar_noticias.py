@@ -4,6 +4,9 @@ import json
 import os
 import sys
 import tempfile
+import re
+from email.utils import parsedate_to_datetime
+from datetime import timedelta
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime, timezone
@@ -24,16 +27,24 @@ def extract(xml_bytes):
         parsed = urlparse(url)
         if not title or parsed.scheme != "https" or parsed.hostname not in {"www.camara.leg.br", "camara.leg.br"}:
             continue
-        if not parsed.path.startswith("/noticias/") or not any(ch.isdigit() for ch in parsed.path.split("/")[2][:8] if len(parsed.path.split("/")) > 2):
+        if not re.match(r"^/noticias/\\d+(?:-|/|$)", parsed.path):
             continue
         if parsed.path in seen:
             continue
         seen.add(parsed.path)
-        items.append({"title": title, "url": url})
+        raw_date = item.findtext("pubDate")
+        try:
+            published = parsedate_to_datetime(raw_date).astimezone(timezone.utc)
+        except (TypeError, ValueError, IndexError):
+            continue
+        items.append({"title": title, "url": url, "published_at": published.isoformat(timespec="seconds")})
         if len(items) == 6:
             break
     if len(items) != 6:
         raise ValueError("RSS retornou menos de seis notícias válidas; preservando arquivo anterior")
+    latest = max(datetime.fromisoformat(item["published_at"]) for item in items)
+    if datetime.now(timezone.utc) - latest > timedelta(days=7):
+        raise ValueError("Fonte sem notícias recentes há mais de sete dias")
     return items
 
 
