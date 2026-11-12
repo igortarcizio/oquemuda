@@ -54,6 +54,11 @@ test('linha do tempo só marca etapa confirmada',()=>{
 
 test('títulos dos exemplos são completos, curtos e sem reticências',()=>{
  for(const ementa of ['Aumenta a pena do estelionato praticado com uso de inteligência artificial ou de conteúdo falso.', 'Qualifica o crime de fraude em certame de interesse público praticado com uso de dispositivo eletrônico ou de ferramenta de comunicação.']){
- const title=displayTitle({ementa});assert.ok(title.length<=82);assert.doesNotMatch(title,/[?…]|\\.\\.\\./);assert.match(title,/Projeto/);
+ const title=displayTitle({ementa});assert.ok(title.length<=82);assert.doesNotMatch(title,/[?…]|\\.\\.\\./);assert.doesNotMatch(title,/^Projeto\b/);
  }
+});
+
+test('distingue renovação de TV e autorização de rádio e informa a cidade',()=>{
+ assert.equal(displayTitle({ementa:'Aprova o ato que renova a concessão para explorar serviço de radiodifusão de sons e imagens, no Município de Foz do Iguaçu, Estado do Paraná.'}),'Renova autorização para TV em Foz do Iguaçu (Paraná)');
+ assert.equal(displayTitle({id:2651918}),'Exige lacre de segurança em bagagens despachadas em voos');
 });

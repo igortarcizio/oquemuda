@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - 'src/lib/text.js'
+      - 'src/lib/titles.js'
       - 'src/lib/tags.js'
       - 'src/lib/content-quality.js'
       - 'dados/editorial.js'

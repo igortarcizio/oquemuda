@@ -1,6 +1,6 @@
 import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 import {THEMES as THEME_LIST} from '../lib/themes.js';
-import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=clear-titles-20261112';
+import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-v2';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
