@@ -32,6 +32,12 @@ function validItems(data) {
 function linkFor(item, copy = false) {
   const li = document.createElement('li');
   li.className = 'news-ticker-item';
+  const anchor = document.createElement('a');
+  anchor.href = item.url;
+  anchor.target = '_blank';
+  anchor.rel = 'noopener noreferrer';
+  anchor.setAttribute('aria-label', item.title + ' — Agência Câmara de Notícias (abre em nova aba)');
+  if (copy) anchor.tabIndex = -1;
   const category = classifyHeadline(item.title);
   if (category) {
     const tag = document.createElement('span');
@@ -39,15 +45,16 @@ function linkFor(item, copy = false) {
     tag.dataset.area = category;
     tag.textContent = category;
     tag.setAttribute('aria-hidden', 'true');
-    li.append(tag);
+    anchor.append(tag);
   }
-  const anchor = document.createElement('a');
-  anchor.href = item.url;
-  anchor.target = '_blank';
-  anchor.rel = 'noopener noreferrer';
-  anchor.textContent = item.title;
-  anchor.setAttribute('aria-label', item.title + ' — Agência Câmara de Notícias (abre em nova aba)');
-  if (copy) anchor.tabIndex = -1;
+  const headline = document.createElement('span');
+  headline.className = 'news-ticker-headline';
+  headline.textContent = item.title;
+  const external = document.createElement('span');
+  external.className = 'news-ticker-external';
+  external.textContent = '↗';
+  external.setAttribute('aria-hidden', 'true');
+  anchor.append(headline, external);
   li.append(anchor);
   return li;
 }
@@ -78,7 +85,7 @@ export async function initNewsTicker() {
     root.classList.add('news-ticker-ready');
     const setDuration = () => {
       const distance = first.getBoundingClientRect().width;
-      if (distance > 0) track.style.setProperty('--news-duration', (distance / 55).toFixed(2) + 's');
+      if (distance > 0) track.style.setProperty('--news-duration', (distance / 30).toFixed(2) + 's');
     };
     setDuration();
     if ('ResizeObserver' in window) {

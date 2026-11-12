@@ -9,16 +9,14 @@
   <title>O que muda? | Propostas da Câmara e seus efeitos no cotidiano</title>
   <link rel="stylesheet" href="./styles/base.css?v=etapa2-20261111">
   <link rel="stylesheet" href="./styles/components.css?v=editorial-titles-v2">
-  <link rel="stylesheet" href="./styles/news-ticker.css?v=1">
+  <link rel="stylesheet" href="./styles/news-ticker.css?v=6">
 </head>
 <body>
   <div class="area-stripe" aria-hidden="true"></div>
-  <section id="newsTicker" class="news-ticker" aria-label="Últimas notícias da Agência Câmara">
-    <div class="page news-ticker-inner">
-      <div class="news-ticker-label"><span class="news-ticker-dot" aria-hidden="true"></span>Notícias</div>
-      <div class="news-ticker-viewport" aria-label="Manchetes da Agência Câmara. Passe o cursor ou navegue por teclado para pausar.">
-        <div class="news-ticker-track" aria-live="off"></div>
-      </div>
+  <section id="newsTicker" class="news-ticker" aria-label="Seis notícias da Agência Câmara">
+    <div class="news-ticker-label"><span class="news-ticker-dot" aria-hidden="true"></span>Notícias</div>
+    <div class="news-ticker-viewport" aria-label="Manchetes navegáveis da Agência Câmara">
+      <div class="news-ticker-track" aria-live="off"></div>
     </div>
   </section>
   <header><div class="page header-inner">
@@ -116,7 +114,7 @@
   <script src="./dados/catalogo.js"></script>
   <script src="./dados/editorial.js"></script>
   <script src="./dados/deputados-partidos.js"></script>
-  <script type="module">import { initNewsTicker } from "./src/ui/news-ticker.js?v=1"; initNewsTicker();</script>
+  <script type="module">import { initNewsTicker } from "./src/ui/news-ticker.js?v=6"; initNewsTicker();</script>
   <script type="module" src="./src/app.js?v=editorial-titles-lote-002"></script>
 </body>
 </html>
