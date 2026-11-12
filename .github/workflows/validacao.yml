@@ -29,4 +29,6 @@ jobs:
       - run: python -m unittest discover -s tests -p 'test_*.py' -v
       - run: npm test
       - name: Validar RSS oficial e gerar seis notícias reais
-        run: python scripts/atualizar_noticias.py
+        run: |
+          python scripts/atualizar_noticias.py
+          cat dados/noticias-camara.json
