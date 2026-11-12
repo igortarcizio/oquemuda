@@ -5,6 +5,7 @@ import os
 import sys
 import tempfile
 import re
+import time
 from email.utils import parsedate_to_datetime
 from datetime import timedelta
 import urllib.request
@@ -50,8 +51,18 @@ def extract(xml_bytes):
 
 def update():
     req = urllib.request.Request(FEED, headers={"User-Agent": "OQueMuda-noticias/1.0 (+https://github.com/igortarcizio/oquemuda)", "Accept": "application/rss+xml, application/xml, text/xml"})
-    with urllib.request.urlopen(req, timeout=25) as response:
-        items = extract(response.read(2_000_000))
+    last_error = None
+    for attempt in range(3):
+        try:
+            with urllib.request.urlopen(req, timeout=20) as response:
+                items = extract(response.read(2_000_000))
+            break
+        except (OSError, TimeoutError) as exc:
+            last_error = exc
+            if attempt < 2:
+                time.sleep(2 * (attempt + 1))
+    else:
+        raise RuntimeError("RSS indisponível após três tentativas") from last_error
     payload = {"source": FEED, "updated_at": datetime.now(timezone.utc).isoformat(timespec="seconds"), "items": items}
     OUTPUT.parent.mkdir(parents=True, exist_ok=True)
     with tempfile.NamedTemporaryFile(mode="w", encoding="utf-8", dir=OUTPUT.parent, delete=False) as tmp:
