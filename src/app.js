@@ -3,7 +3,7 @@ import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,get
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-v2';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-v3';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 
 const $=id=>document.getElementById(id);

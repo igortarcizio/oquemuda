@@ -1,0 +1,1009 @@
+{
+  "schema_version": 1,
+  "batch_size": 100,
+  "acervo_order": "id ascending",
+  "batch_start_id": 106701,
+  "batch_end_id": 2482280,
+  "records": [
+    {
+      "id": 106701,
+      "reference": "PL 5809/2025",
+      "ementa_sha256": "9fab6aad8be540b42e1c3a0b39eaaec0993502b7e34170b432abedbf7ce059d3",
+      "title": "Altera a Lei de Crimes Ambientais. A ementa não informa quais mudanças prevê.",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 146708,
+      "reference": "PL 6056/2025",
+      "ementa_sha256": "43b4ff8e702f771ebef580861ca42a6f02a3a15018246d2d9e327e073217b35c",
+      "title": "Define períodos para concursos públicos e vestibulares",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 255291,
+      "reference": "PL 1019/2025",
+      "ementa_sha256": "fffa681d60b6302532ac5ef81666f24dbbe5d73d193ccf64af6c0eb28efd9833",
+      "title": "Permite registrar a surdez na carteira de identidade",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 264726,
+      "reference": "PL 2876/2025",
+      "ementa_sha256": "64cad4a96d6b62a7289811cd6e00ce07f70d3a5877eb47029b73448a4b1dd3b8",
+      "title": "Muda as regras sobre disparo de arma de fogo",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 281460,
+      "reference": "PL 1051/2026",
+      "ementa_sha256": "2b471d34071065d16d187d78738b09f3f90f8fd95fe8bb90926ec1df0df290c2",
+      "title": "Altera as regras de organização das Polícias Militares e dos Bombeiros",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 342725,
+      "reference": "PL 5777/2025",
+      "ementa_sha256": "9700ce9ea3a1b40fb6856faa519a0db21c04600cfad7a28cf21baca5c2c7711e",
+      "title": "Inclui empreendedorismo como atividade extracurricular no ensino médio e profissionalizante",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 374450,
+      "reference": "PL 5807/2025",
+      "ementa_sha256": "9169a97e2d20a9f2be56d447e36277d7890bde7fa16573eebd973e7f9df672c7",
+      "title": "Classifica a adulteração de alimentos como crime hediondo",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 424197,
+      "reference": "PL 1342/2026",
+      "ementa_sha256": "3d8ebe21fdbab3f01de8d9ec3980ea3973999cded45eab638a59a54a2df59a6e",
+      "title": "Amplia para dez anos a responsabilidade do empreiteiro pela segurança de edifícios",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 437039,
+      "reference": "PL 47/2025",
+      "ementa_sha256": "fb43e72835c95a278322c342c992ec8816340bb6467f3c68a7135f581bd561a2",
+      "title": "Cria o Prêmio Frei Galvão do Mérito Social",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2121642,
+      "reference": "PL 2672/2025",
+      "ementa_sha256": "a80f4cbc4fd30ec199332495062aef524e3a3cacf5e4efa90c63857339214dea",
+      "title": "Aumenta penas para crimes contra profissionais de saúde durante o trabalho",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2168236,
+      "reference": "PL 1242/2026",
+      "ementa_sha256": "e98cdcfa1a0958261ada30a934f36b23b30a5f6d9252b331f4e708257e31c338",
+      "title": "Protege a imagem de vítimas de crimes e acidentes",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2481874,
+      "reference": "PL 1/2025",
+      "ementa_sha256": "db5a7d37c4ed61623b964a61b33704ecd08e64b0daa51c360ad904d650d1a655",
+      "title": "Cria oito varas federais em Santa Catarina e novos cargos na Justiça Federal",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2481875,
+      "reference": "PL 2/2025",
+      "ementa_sha256": "6b20d6d9bd82db0254cbafe09f49aadc319c7a913d93231c67850b796ddfb917",
+      "title": "Reorganiza cargos na Justiça Federal e cria turma recursal no Piauí",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2481880,
+      "reference": "MPV 1287/2025",
+      "ementa_sha256": "81ad89085e08793863723e36e25c265fafc600e67e9fe364110f830028d27320",
+      "title": "Prevê apoio financeiro a pessoas com deficiência afetadas pela síndrome congênita do Zika",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2481937,
+      "reference": "MPV 1288/2025",
+      "ementa_sha256": "1a2ff08a8754e17de19c80f90d47e4209eede76bb80e57ddf17828da99510b7c",
+      "title": "Protege o sigilo e proíbe cobrança adicional em pagamentos por Pix",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482075,
+      "reference": "PL 5/2025",
+      "ementa_sha256": "6611fa6648b9ddaccf03767cf158ea211b8b17509804d0cedd40d520d06d98f4",
+      "title": "Veda verba pública e incentivo cultural para apresentações que promovam o crime organizado",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482076,
+      "reference": "PL 6/2025",
+      "ementa_sha256": "fe616198941b0269702fe7422b47c8be8fd1eaa1b69c74cb33bfeeb1ade737e9",
+      "title": "Prevê medidas para acelerar investigações criminais e compartilhar responsabilidades na segurança pública",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482078,
+      "reference": "PDL 3/2025",
+      "ementa_sha256": "8be2289dd5d0915ba360e9aabb580a645597cd4f7bbe7d9e14846c5f33b1e4f7",
+      "title": "Pede a suspensão de resolução do Conanda sobre direitos de crianças e adolescentes",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482079,
+      "reference": "PL 7/2025",
+      "ementa_sha256": "d91110158491b31eb0f08d81751d5ea520a055057fd6e6db0c2db7c9cf7210c2",
+      "title": "Define direitos para animais de estimação e tutores em viagens aéreas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482081,
+      "reference": "PL 9/2025",
+      "ementa_sha256": "e678d2cdfeac6d43d8e4a3b5a1e12163e8b66a5f90e51f5a3016a90e0570b04f",
+      "title": "Proíbe cobrança adicional por Pix e exige aviso em estabelecimentos",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482088,
+      "reference": "PDL 4/2025",
+      "ementa_sha256": "7dea86e882bfc319a2d4f0c6ea571bd20dcf1231ae5421506ca09f498246fa40",
+      "title": "Pede a suspensão das regras federais sobre armas, caça e tiro esportivo",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482091,
+      "reference": "PDL 5/2025",
+      "ementa_sha256": "8d8d6c41b478917287331850d17006ba901262bde878178704cd902a4a58810b",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482094,
+      "reference": "PDL 6/2025",
+      "ementa_sha256": "11d4edef810637d8e84d895830bf9e3931ecc8add2ad99d847452b9cc4f48fc2",
+      "title": "Pede a suspensão de regras do Conanda sobre atendimento a vítimas de violência sexual",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482096,
+      "reference": "PDL 7/2025",
+      "ementa_sha256": "0c5649ca0ec8151e18b256f5b5069e4fd81631e47a3e77a8c0290e33a99924c1",
+      "title": "Pede a suspensão da obrigação de informar operações financeiras à Receita",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482098,
+      "reference": "PDL 8/2025",
+      "ementa_sha256": "4a4a7bc252892dc1a173e97e781694686201f9ad4adfac15324edad9c0e833d8",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482100,
+      "reference": "PDL 9/2025",
+      "ementa_sha256": "07476357c9a6594f373f4d9327e6e2f10ad9b48e47468405f3e8c426c5281ed3",
+      "title": "Pede a suspensão da criação do núcleo contra o crime organizado",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482102,
+      "reference": "PDL 11/2025",
+      "ementa_sha256": "25df79a8be851cb86912b403ef9b6751dab212d2e615cdbc4b6714bec7288619",
+      "title": "Pede a suspensão das diretrizes sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482103,
+      "reference": "PL 10/2025",
+      "ementa_sha256": "9635a8f17d82e71e18540e66525ce081529800deb57476148b8bdd99484d1dff",
+      "title": "Define crimes por ofensas públicas ao cristianismo e prevê indenização",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482106,
+      "reference": "PL 11/2025",
+      "ementa_sha256": "3e8961d4bd747d00adc41c94ef9b27f112885c29adebbb2f1d661cac9f5b9055",
+      "title": "Prevê sensores gratuitos de glicose para crianças com deficiência ou autismo",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482108,
+      "reference": "PL 12/2025",
+      "ementa_sha256": "99321471e6613696dabc15bd4d7a0929d017ee0a3183df6fa3a62ab4b63158ca",
+      "title": "Cria bolsa alimentação para pacientes com diabetes",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482110,
+      "reference": "PLP 1/2025",
+      "ementa_sha256": "203f82b7890557dc7d54726c32c4829d2a7a7cb988d4b56030972b4055ddd774",
+      "title": "Exige transparência dos beneficiários de emendas parlamentares",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482112,
+      "reference": "PRC 1/2025",
+      "ementa_sha256": "05666dcd96e0ca06112e4ea23f9dcad29fff2cb8b0506248fec96bed95bee9fc",
+      "title": "Cria prêmio nacional em defesa dos direitos das pessoas autistas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482113,
+      "reference": "PDL 12/2025",
+      "ementa_sha256": "1eb7174b08c92f9c506d803ba52229a22b06f4a8bc473d2d42dacf61098fdf2e",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482114,
+      "reference": "PL 13/2025",
+      "ementa_sha256": "e3994f3d38c6de8097ddccf4b162a0f20aa97397a06eab073ddc0600ba40f0da",
+      "title": "Permite destinar créditos de energia solar a entidades sociais, de saúde e educação",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482116,
+      "reference": "PL 14/2025",
+      "ementa_sha256": "96fc395e7d6df5a5a9764932782fbfe07e83de397abd3febb0586a947d719732",
+      "title": "Impede acordo penal para investigados por tráfico de drogas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482117,
+      "reference": "PL 15/2025",
+      "ementa_sha256": "32dc367f28317ed636ad39d21ffe1d6a0ce7e526ed4b2094d3380b227570868b",
+      "title": "Inclui pessoas idosas na política urbana",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482120,
+      "reference": "PL 16/2025",
+      "ementa_sha256": "774a73fad32295ae7093ce964730ad5a541f8c8066f50f67cf60cf4dca5cabe6",
+      "title": "Transfere aos estados a regularização de assentamentos após cinco anos",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482121,
+      "reference": "PL 17/2025",
+      "ementa_sha256": "692875bed46c190318ba17f45b7cd64bcb257437bdccc8b5de0c48a1d637f979",
+      "title": "Permite reutilizar ônibus escolares para transporte rural e outros serviços públicos",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482122,
+      "reference": "PL 18/2025",
+      "ementa_sha256": "64eba7178c2135fea316c907d189308bac0b8b86da9aaf5dae2ceb6bcf87a83c",
+      "title": "Define fiscalização para caminhões que circulam com eixos suspensos e isenção de pedágio",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482124,
+      "reference": "PL 19/2025",
+      "ementa_sha256": "390e87009055bb538a82554156cfc3d570d1165f37b4e86148d71811abfc382f",
+      "title": "Exige acessibilidade em serviços para consumidores vulneráveis",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482126,
+      "reference": "PL 20/2025",
+      "ementa_sha256": "c293b367c0a6c83c33a222240dee20f6d080e0aab786f4534c9fee42ec9bf777",
+      "title": "Cria código de defesa do turista e assistência em emergências",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482128,
+      "reference": "PL 21/2025",
+      "ementa_sha256": "970b2526e46113bffa5204502ab0c45021f4b7bf504f37f8b35ec8c683479d4d",
+      "title": "Regulamenta a profissão de treinador de musculação e fisiculturismo",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482129,
+      "reference": "PLP 2/2025",
+      "ementa_sha256": "5ba285b9b0f9389894647694586fb6005b33318a4b684be08fe8fbcb5302bf56",
+      "title": "Autoriza estados e DF a legislar sobre temas específicos de direito agrário",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482131,
+      "reference": "PL 22/2025",
+      "ementa_sha256": "dbc40e6fc5ad4d8e35548b38b29ac2667b386909fe26d9cd0813e38aaeb566f9",
+      "title": "Limita a 15 anos o sigilo de informações pessoais e exige justificativa",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482132,
+      "reference": "PRC 2/2025",
+      "ementa_sha256": "b3edbe1df221c29728dfca1795b603739fe5ccaa8788b9863ca6c9f05ee7f082",
+      "title": "Restringe urgência a propostas já analisadas pelas comissões de mérito",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482134,
+      "reference": "PLP 3/2025",
+      "ementa_sha256": "fa807358b7a3ab11db420cd1400c2501b3bf092cd1adfd8e41e99bfeea91ebe6",
+      "title": "Autoriza estados e DF a legislar sobre temas específicos de desapropriação",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482135,
+      "reference": "PL 23/2025",
+      "ementa_sha256": "dd57fc8e67845d76bd914e8f08d822f53e5e8ef6c78939e3d31961c2c7c6ecc4",
+      "title": "Cria programa de reabilitação craniofacial com tecnologia 3D",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482138,
+      "reference": "PL 24/2025",
+      "ementa_sha256": "b49747962a6294d8d5cc80ca3ccffc57e9450462dda91258ced7eeefa324c65a",
+      "title": "Prevê advertências nos rótulos de bebidas alcoólicas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482140,
+      "reference": "PL 25/2025",
+      "ementa_sha256": "b58a4bdf31419f3d1afd25ec3dd327ac4ad8e0405d44a4fa47a8eb56cd28df76",
+      "title": "Define guarda compartilhada de animais após separação e divisão de despesas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482155,
+      "reference": "PL 26/2025",
+      "ementa_sha256": "c0d594ada6c84726a484481eeac594d1e7fae3705126c617f47e2c2e9f57e6d6",
+      "title": "Inclui processo legislativo nos cursos de Direito",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482156,
+      "reference": "PL 27/2025",
+      "ementa_sha256": "0bdce28e31015d99de64eb65f54b204cf9247038752ac510220b913c513273e7",
+      "title": "Prevê direitos econômicos e incentivo à produção indígena",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482157,
+      "reference": "PL 28/2025",
+      "ementa_sha256": "7bb80c07e869d39ef5ad803f1b3186b663abf25e70585c2fc28996dfb345b481",
+      "title": "Estabelece teto para ingressos de jogos e competições esportivas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482162,
+      "reference": "PL 29/2025",
+      "ementa_sha256": "3e0bedadfe7dce0181104f87f3a2a1379ee8da06c01d2adaf1db69f8235943f2",
+      "title": "Permite deduzir do Imposto de Renda despesas veterinárias de animais domésticos",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482163,
+      "reference": "PDL 13/2025",
+      "ementa_sha256": "7e60980c75dc84f64450af304c0ab67284eeb049b92ae05f919468cb015ed6b6",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482165,
+      "reference": "PDL 14/2025",
+      "ementa_sha256": "d3186dac0c348dbc17c0f5a34836a8fd0b7944b7f3c7b369dc63d4aa66344738",
+      "title": "Pede a suspensão das regras do Conanda sobre atendimento a vítimas de violência sexual",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482168,
+      "reference": "PDL 15/2025",
+      "ementa_sha256": "2c8d33b3579c1d2b524028063fd30e052e03320253d4cc48b93a13c64b7e64d1",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482169,
+      "reference": "PDL 16/2025",
+      "ementa_sha256": "90f213510c6043f137557243d2a5f4f3a853ee63db990bbc762e76cd745e1219",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482171,
+      "reference": "PL 30/2025",
+      "ementa_sha256": "d1f48da70f8fc4ac8d573ddc30143c3f940e3f2ced8ef4b07701b7ffb0268b94",
+      "title": "Cria fundo para manutenção de pontes e outras obras de arte especiais",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482173,
+      "reference": "PL 31/2025",
+      "ementa_sha256": "421c4312d0ab3428f13b9fbda467b1c7b73ac7f8553ff1560d801dc6b0d43129",
+      "title": "Exige planos de emergência para pontes e outras obras de arte especiais",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482176,
+      "reference": "PL 32/2025",
+      "ementa_sha256": "738741ebf162ca83c8c6977f679c90bdbb8aa6075a0c034fc3f827ece64414c8",
+      "title": "Exige inspeções técnicas em pontes e outras obras de arte especiais",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482178,
+      "reference": "PL 33/2025",
+      "ementa_sha256": "cda56b99d90c38333d28f71a4c7e913d696e872e931cefa07008efb9f1107d71",
+      "title": "Reconhece as Folias do Divino Espírito Santo, no Tocantins, como manifestação cultural nacional",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482180,
+      "reference": "PL 36/2025",
+      "ementa_sha256": "cf148646255e91d7aa7aa3ff5f165b810b1a798d929dfbfe6e83363ed1d628e8",
+      "title": "Proíbe a venda de dados biométricos e reforça a proteção dessas informações",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482183,
+      "reference": "PL 37/2025",
+      "ementa_sha256": "7507766eb43f23c5638127df6f47deb45adee3e6494a4c1e3faab2d677d655ee",
+      "title": "Reconhece o ofício das quebradeiras de coco babaçu como manifestação cultural nacional",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482192,
+      "reference": "PDL 17/2025",
+      "ementa_sha256": "eaac3f3e8af846223895b2ea0063ef7f79ce95476fd85dc0426f75a55a22609e",
+      "title": "Pede a suspensão das diretrizes sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482193,
+      "reference": "PDL 18/2025",
+      "ementa_sha256": "8a6d1b25420006efbac11e4a5232ee4586a446a3d18e2f67215e7dd8b3339198",
+      "title": "Pede a suspensão do comitê nacional de monitoramento do uso da força",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482194,
+      "reference": "PDL 19/2025",
+      "ementa_sha256": "ce84bad5b8cf8c8e2a290afbd1df392ee6f841f45b0bacce7e51b0cad7962736",
+      "title": "Pede a suspensão de resolução do Conanda sobre direitos de crianças e adolescentes",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482196,
+      "reference": "PDL 20/2025",
+      "ementa_sha256": "4a4a7bc252892dc1a173e97e781694686201f9ad4adfac15324edad9c0e833d8",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482201,
+      "reference": "PDL 21/2025",
+      "ementa_sha256": "8ef2d8ec7cc08df123817a2bead93576e2c943a19500d49bf58426bfc22f4a63",
+      "title": "Pede a suspensão da desapropriação da Fazenda Floresta e Texas, no Espírito Santo",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482204,
+      "reference": "PDL 22/2025",
+      "ementa_sha256": "168c052d9111ed084cfc287e98f32a865ab653db58c10d9a5c7c0dd31dcf8b73",
+      "title": "Pede a suspensão da obrigação de informar operações financeiras à Receita",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482207,
+      "reference": "PL 40/2025",
+      "ementa_sha256": "c2e02281356b5bd098cd919c0c7368ed1376bcc0dfef6330519ace85205dc5a5",
+      "title": "Inclui misoginia e misandria entre as formas de discriminação punidas por lei",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482215,
+      "reference": "PL 42/2025",
+      "ementa_sha256": "bee6df265515a1f9cd9afbf2bb7f67654fb3d5324616f10985708c1a236bcac0",
+      "title": "Impede herança por violência, abandono ou falta de pagamento de alimentos contra o falecido",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482217,
+      "reference": "PL 43/2025",
+      "ementa_sha256": "d5483d1fee2a60f790b34c2a94638ef68e35d07f75c796fac353c5579eba3652",
+      "title": "Prevê reembolso federal a estados que executam penas em presídios locais",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482220,
+      "reference": "PL 44/2025",
+      "ementa_sha256": "1d9d81d852f69eab441c2af2fbf20c042876b325943abfeb5b97a81de167a273",
+      "title": "Define critérios para diagnóstico de obesidade e acesso a serviços públicos de saúde",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482223,
+      "reference": "PL 45/2025",
+      "ementa_sha256": "003ea8d06f64b116b0bd0464086f985e6c7a5ef893c2c3642ce9a803a3ebe5a3",
+      "title": "Exige troco em compras e serviços",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482225,
+      "reference": "PL 46/2025",
+      "ementa_sha256": "6c2c77a1fd49dda008f70a57d39338609d3e965da810c7260c7d57af0ed88fa3",
+      "title": "Proíbe pagar para obter acesso a dados pessoais sensíveis",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482228,
+      "reference": "PL 48/2025",
+      "ementa_sha256": "8edf4bdb6cfa4261290613e18d0fdf5ee754e315671222c21508c62f43c75e7d",
+      "title": "Padroniza o volume de áudio de anúncios no rádio e na TV",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482230,
+      "reference": "PL 50/2025",
+      "ementa_sha256": "3d718aba844aa26dee1a28861b2f3572473363e6afe9776f696ba0765d3cfdfd",
+      "title": "Regula a prospecção e exploração mineral no fundo do mar",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482234,
+      "reference": "PDL 23/2025",
+      "ementa_sha256": "e3be57daa9f1297be2c2c46c941eb7276b6c40171f206a329b0eb1a96fc94217",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482236,
+      "reference": "PL 52/2025",
+      "ementa_sha256": "5648776be0fe61ce7b95436ff86661403862aded9908d9c000a4f324355ecfef",
+      "title": "Altera regras para bancos comunitários",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482249,
+      "reference": "PL 54/2025",
+      "ementa_sha256": "94808ace117fad07f4851f8c2c981e0b5ed8d0744a8df2fb494350f6542bc991",
+      "title": "Cria crime por omitir, atrasar ou fraudar dados exigidos por lei",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482250,
+      "reference": "PL 55/2025",
+      "ementa_sha256": "b030c5834a11619c3d4b3a2c0aed67a089581c7088b74bb1fb5ee620ba2ba706",
+      "title": "Amplia o acesso de pessoas idosas a programas de adaptação de moradias",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482252,
+      "reference": "PL 56/2025",
+      "ementa_sha256": "160861445202f5576e3d42d50d773c29b8578285d48e73d34cc998922741915a",
+      "title": "Proíbe divulgar nomes de produtos químicos usados em envenenamentos",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482258,
+      "reference": "PL 58/2025",
+      "ementa_sha256": "345d4ef14f92e6e49731b945ef95e85299c9059ee4d0b0ca16bd51281e56ea70",
+      "title": "Criminaliza saudações nazistas e gestos que incentivam crimes de ódio",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482260,
+      "reference": "PDL 24/2025",
+      "ementa_sha256": "4a4a7bc252892dc1a173e97e781694686201f9ad4adfac15324edad9c0e833d8",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482261,
+      "reference": "PDL 25/2025",
+      "ementa_sha256": "3af436f76578781261d746b37c130b9c39d9a7acb2d50765fcb0767660a6ed9b",
+      "title": "Pede a suspensão das regras do Conanda sobre atendimento a vítimas de violência sexual",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482262,
+      "reference": "PDL 26/2025",
+      "ementa_sha256": "a85cf4d91bff6154e6686b1bd9a43f9b843de460faf5bb3ceb96cc9e6404e6b0",
+      "title": "Pede a suspensão da obrigação de informar operações financeiras à Receita",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482263,
+      "reference": "PDL 27/2025",
+      "ementa_sha256": "0249137e2a16c31a56b6854f961ca8f968d3c3bf51823a3a75db10df2e6dcb3c",
+      "title": "Pede a suspensão do horário restrito para clubes de tiro",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482264,
+      "reference": "PL 60/2025",
+      "ementa_sha256": "347d864f37424d4df18bdd3cf0f49e337d4ab7c9ae2fb9687650ac87e7d9bbe7",
+      "title": "Regulamenta eleição direta de diretores em escolas públicas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482266,
+      "reference": "PL 62/2025",
+      "ementa_sha256": "f5c951181ce7e281ac0adb0e432908d3a1714b5a4f75a910697bc2d234aa9155",
+      "title": "Permite usar vídeos de cidadãos para comprovar infrações de trânsito",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482267,
+      "reference": "PL 63/2025",
+      "ementa_sha256": "31f935da592e2cd98e1b082abdc2de14af60f798920550f30dfdf086c7109f04",
+      "title": "Exige transparência em gastos públicos acima de R$ 5 mil com cartões corporativos",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482268,
+      "reference": "PLP 5/2025",
+      "ementa_sha256": "29430760fc2f2bbf6fadd5cc07d8b747d05747bad670c92b4ce006a43b09e015",
+      "title": "Inclui cogumelos entre os produtos com redução integral de IBS e CBS",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482269,
+      "reference": "PL 65/2025",
+      "ementa_sha256": "b7a69ffb0499ae1764c330cc87596f39da86e309bba1c564b9df98ed65bbf49a",
+      "title": "Proíbe contratos públicos de promover crime, drogas ou violência contra mulheres em eventos para jovens",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482271,
+      "reference": "PDL 28/2025",
+      "ementa_sha256": "7f6fa011b44364f6a3d11eb56991b8384039b965280da8d0663b494ed008a62f",
+      "title": "Pede a suspensão das regras sobre uso da força por agentes de segurança",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482273,
+      "reference": "PL 66/2025",
+      "ementa_sha256": "23a8d111fc2d284730000a6a15e5b4c8dd8316ef9aa480eb247869a770e9e410",
+      "title": "Autoriza loteria para financiar proteção animal e destina prêmios não resgatados",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482274,
+      "reference": "PL 67/2025",
+      "ementa_sha256": "20edeb761e63249942bd47967046c2ee9f58bdffc76a10da985298cd47c4a797",
+      "title": "Reduz a jornada semanal máxima para 40 horas e garante dois dias de descanso",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482275,
+      "reference": "PL 68/2025",
+      "ementa_sha256": "d20a5d6367e8879c98c06b8d0bc4a75889ff7c1899711b7dd22d05d12d1e6367",
+      "title": "Prevê proteção e apoio a mulheres vítimas de violência política",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482276,
+      "reference": "PL 69/2025",
+      "ementa_sha256": "81806e1bd2db41cd092aae67321941d537d6c8b79a16612a73399726852df1d4",
+      "title": "Criminaliza estelionato sentimental e aumenta a pena",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482278,
+      "reference": "PL 71/2025",
+      "ementa_sha256": "51e45aa7acd4ea4840a7dc8d7d3258992fe6652d1f6cc3e8c6b72e51db42d780",
+      "title": "Reserva assentos no transporte coletivo para pessoas obesas",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482279,
+      "reference": "PL 72/2025",
+      "ementa_sha256": "2bc1b56f538b418dfeea3740d6305c86cd4887087621d1be73f57ea395fb713d",
+      "title": "Criminaliza o abandono afetivo de crianças e adolescentes",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    },
+    {
+      "id": 2482280,
+      "reference": "PL 73/2025",
+      "ementa_sha256": "735a69b1f3469bd2314d3b992c78f88aeeaa3994d94ac342a35c8ca5a94103a6",
+      "title": "Impede condenados de ocupar cargos públicos antes do fim da pena e da reabilitação",
+      "published_commit": "pending",
+      "editorial_status": "revised",
+      "visual_status": "pending",
+      "visual_note": "Aguardando conferência na plataforma publicada em telas de celular e computador."
+    }
+  ]
+}
