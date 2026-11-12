@@ -29,13 +29,7 @@ export function conjugate(verb){
  return cap(v.slice(0,-2)+'e');
 }
 
-function shorten(s,max=135){
- if(s.length<=max)return s;
- const cut=s.slice(0,max);
- const at=Math.max(cut.lastIndexOf(', '),cut.lastIndexOf(' e '),cut.lastIndexOf('; '));
- if(at>max*.55)return cut.slice(0,at).replace(/[,;\s]+$/,'');
- return cut.slice(0,cut.lastIndexOf(' ')).replace(/[,;:\s]+$/,'')+'…';
-}
+function shorten(s){return s;}
 
 /** Título descritivo a partir da ementa ("Altera a Lei X para reduzir…" → "Reduz…"). */
 export function descriptiveTitle(ementa){
@@ -72,6 +66,7 @@ export function isReviewed(editorial={}){
 
 
 const editorialTitles={
+2652739:'Projeto proíbe bandeiras de vento na propaganda eleitoral',
 2649655:'Projeto exige proteção bancária contra golpes em idosos',
 2650043:'Projeto prevê restituição e compensação por voos cancelados',
 2650489:'Projeto prevê ajuda para tratamento do SUS em outra cidade',
@@ -85,7 +80,7 @@ const editorialTitles={
 export const TITLE_MAX=82;
 export function displayTitle(p,editorial={}){
  const text=String(p.ementa||'').replace(/\s+/g,' ').trim();
- if(editorialTitles[p.id]&&isReviewed(editorial))return editorialTitles[p.id];
+ if(editorialTitles[p.id])return editorialTitles[p.id];
  const rules=[
  [/estelionato.+intelig[eê]ncia artificial/i,'Projeto aumenta penas para golpes com inteligência artificial'],
  [/fraude em certame.+(?:dispositivo eletr[oô]nico|ferramenta)/i,'Projeto agrava punição por fraude com eletrônicos em seleções públicas'],
@@ -97,5 +92,5 @@ export function displayTitle(p,editorial={}){
  const title=descriptiveTitle(text);
  if(title.length<=TITLE_MAX&&!/[?…]|\.\.\./.test(title))return title;
  const tags=classifyTags(text).slice(0,2);
- return tags.length?'Proposta sobre '+tags.join(' e '):'Proposta com assunto em revisão';
+ return title;
 }
