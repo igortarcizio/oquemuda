@@ -1,0 +1,18 @@
+.news-ticker{height:39px;min-height:39px;width:100%;overflow:hidden;border-bottom:1px solid var(--line);background:var(--secondary);font-family:'DM Sans',system-ui,sans-serif}
+.news-ticker-inner{display:flex;align-items:center;height:39px;min-width:0}
+.news-ticker-label{height:100%;display:inline-flex;flex:none;align-items:center;gap:8px;padding-right:15px;margin-right:15px;border-right:1px solid var(--line-strong);font-size:12px;font-weight:700;color:var(--ink);white-space:nowrap;z-index:1}
+.news-ticker-dot{width:7px;height:7px;flex:none;border-radius:50%;background:var(--signal);animation:news-pulse 2s ease-in-out infinite}
+.news-ticker-viewport{flex:1;min-width:0;overflow:hidden;white-space:nowrap}
+.news-ticker-track{display:flex;align-items:center;width:max-content;max-width:none;will-change:transform;animation:news-scroll var(--news-duration,90s) linear infinite;animation-play-state:paused}
+.news-ticker-ready .news-ticker-track{animation-play-state:running}
+.news-ticker-ready .news-ticker-viewport:hover .news-ticker-track,.news-ticker-focused .news-ticker-track{animation-play-state:paused}
+.news-ticker-group{display:flex;align-items:center;flex:none;gap:28px;margin:0;padding:0 28px 0 0;list-style:none}
+.news-ticker-item{display:flex;align-items:center;gap:8px;flex:none;font-size:13.5px;line-height:1.2;white-space:nowrap}
+.news-ticker-item a{font-size:13.5px;text-decoration:none;color:var(--ink)}
+.news-ticker-item a:hover{text-decoration:underline;text-underline-offset:3px}
+.news-ticker-category{font-size:12px;font-weight:600;line-height:1;color:var(--area-ink);background:var(--area-soft);border-radius:3px;padding:4px 6px;white-space:nowrap}
+.news-ticker-unavailable .news-ticker-track{font-size:13.5px;color:var(--text);animation:none;will-change:auto}
+@keyframes news-scroll{to{transform:translateX(-50%)}}
+@keyframes news-pulse{0%,100%{opacity:1}50%{opacity:.3}}
+@media(max-width:600px){.news-ticker-label{padding-right:10px;margin-right:10px}.news-ticker-group{gap:20px;padding-right:20px}}
+@media(prefers-reduced-motion:reduce){.news-ticker-dot{animation:none}.news-ticker-track,.news-ticker-ready .news-ticker-track{animation:none;will-change:auto}.news-ticker-viewport{overflow-x:auto;scrollbar-width:thin}.news-ticker-group[aria-hidden="true"]{display:none}}
