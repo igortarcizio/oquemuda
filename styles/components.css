@@ -270,3 +270,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
  .search-control input{width:auto;flex:1 1 auto;min-width:0}
  .search-control button{width:auto;flex:0 0 auto}
 }
+
+/* Shared title treatment; no clipping or ellipsis. */
+.card.civic-card h3,.card.civic-card.auto h3,.card.civic-card.reviewed h3,.card.editorial-feature h3,.card.editorial-feature h3.auto{font-size:22px;line-height:1.2;max-width:none;overflow:visible;display:block;-webkit-line-clamp:unset;white-space:normal;text-overflow:clip}
+@media(max-width:360px){.card.civic-card h3,.card.editorial-feature h3{font-size:20px}}

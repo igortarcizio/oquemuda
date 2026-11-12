@@ -1,3 +1,4 @@
+import {classifyTags} from './tags.js';
 // Títulos dos cards.
 // Pergunta só quando a proposta foi explicada pela redação (dados/editorial.js).
 // Nas demais, um título descritivo gerado por regra a partir da ementa oficial,
@@ -69,7 +70,32 @@ export function isReviewed(editorial={}){
  return typeof editorial.titulo==='string'&&editorial.titulo.trim().endsWith('?')&&!!String(editorial.impacto||'').trim();
 }
 
-/** Título exibido: pergunta revisada ou título descritivo. */
+
+const editorialTitles={
+2649655:'Projeto exige proteção bancária contra golpes em idosos',
+2650043:'Projeto prevê restituição e compensação por voos cancelados',
+2650489:'Projeto prevê ajuda para tratamento do SUS em outra cidade',
+2651275:'Projeto prevê exames de diabetes e doença celíaca no SUS',
+2649482:'Projeto exige aviso antes da exclusão da Tarifa Social',
+2649659:'Projeto exige verificação de anúncios de consórcios',
+2649753:'Projeto reforça segurança contra fraudes com números de celular',
+2650687:'Projeto define regras para profissionais de apoio escolar',
+2650853:'Projeto autoriza carteira nacional de profissionais da educação'
+};
+export const TITLE_MAX=82;
 export function displayTitle(p,editorial={}){
- return isReviewed(editorial)?editorial.titulo.trim():descriptiveTitle(p.ementa);
+ const text=String(p.ementa||'').replace(/\s+/g,' ').trim();
+ if(editorialTitles[p.id]&&isReviewed(editorial))return editorialTitles[p.id];
+ const rules=[
+ [/estelionato.+intelig[eê]ncia artificial/i,'Projeto aumenta penas para golpes com inteligência artificial'],
+ [/fraude em certame.+(?:dispositivo eletr[oô]nico|ferramenta)/i,'Projeto agrava punição por fraude com eletrônicos em seleções públicas'],
+ [/bandeira de vento/i,'Projeto proíbe bandeiras de vento na propaganda eleitoral'],
+ [/condom[ií]nios.+afastamento judicial/i,'Projeto prevê afastamento de moradores violentos de condomínios'],
+ [/importa[cç][aã]o.+medicamento.+uso pr[oó]prio/i,'Projeto regulamenta importação de remédios para uso pessoal']
+ ];
+ for(const [rx,title] of rules)if(rx.test(text))return title;
+ const title=descriptiveTitle(text);
+ if(title.length<=TITLE_MAX&&!/[?…]|\.\.\./.test(title))return title;
+ const tags=classifyTags(text).slice(0,2);
+ return tags.length?'Proposta sobre '+tags.join(' e '):'Proposta com assunto em revisão';
 }
