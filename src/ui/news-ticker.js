@@ -15,6 +15,8 @@ function validItems(data) {
   const updated = Date.parse(data?.updated_at);
   if (!Number.isFinite(updated) || updated > Date.now() + 5 * 60_000 || Date.now() - updated > MAX_AGE_MS) return [];
   if (!Array.isArray(data?.items)) return [];
+  const dates = data.items.map(item => Date.parse(item?.published_at));
+  if (dates.some(value => !Number.isFinite(value)) || Math.max(...dates) < Date.now() - 7 * 24 * 60 * 60 * 1000) return [];
   const seen = new Set();
   return data.items.filter(item => {
     if (typeof item?.title !== 'string' || !item.title.trim() || typeof item?.url !== 'string') return false;
