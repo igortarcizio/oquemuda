@@ -1,11 +1,21 @@
 {
   "source": "https://www.camara.leg.br/noticias/rss/ultimas-noticias",
-  "updated_at": "2026-11-13T19:55:06+00:00",
+  "updated_at": "2026-11-14T18:22:26+00:00",
   "items": [
+    {
+      "title": "Comissão aprova criação de data para valorizar mulheres que trabalham em setores de infraestrutura",
+      "url": "https://www.camara.leg.br/noticias/1319435-comissao-aprova-criacao-de-data-para-valorizar-mulheres-que-trabalham-em-setores-de-infraestrutura",
+      "published_at": "2026-11-13T21:15:00+00:00"
+    },
     {
       "title": "Comissão aprova proposta que transforma em lei a Política para a Primeira Infância",
       "url": "https://www.camara.leg.br/noticias/1319429-comissao-aprova-proposta-que-transforma-em-lei-a-politica-para-a-primeira-infancia",
-      "published_at": "2026-11-13T19:34:00+00:00"
+      "published_at": "2026-11-13T20:34:00+00:00"
+    },
+    {
+      "title": "Comissão aprova proposta para uso de títulos em concursos de PMs e bombeiros",
+      "url": "https://www.camara.leg.br/noticias/1319294-comissao-aprova-proposta-para-uso-de-titulos-em-concursos-de-pms-e-bombeiros",
+      "published_at": "2026-11-13T20:01:00+00:00"
     },
     {
       "title": "Comissão aprova proposta que aumenta penas para saque de cargas após acidentes de trânsito",
@@ -21,16 +31,6 @@
       "title": "Comissão aprova projeto que proíbe vistoria veicular periódica em razão da idade do veículo",
       "url": "https://www.camara.leg.br/noticias/1319323-comissao-aprova-projeto-que-proibe-vistoria-veicular-periodica-em-razao-da-idade-do-veiculo",
       "published_at": "2026-11-13T18:08:00+00:00"
-    },
-    {
-      "title": "Comissão aprova aumento de pena para feminicídio antecedido por perseguição",
-      "url": "https://www.camara.leg.br/noticias/1319262-comissao-aprova-aumento-de-pena-para-feminicidio-antecedido-por-perseguicao",
-      "published_at": "2026-11-13T17:04:00+00:00"
-    },
-    {
-      "title": "Comissão aprova proposta para integrar moradia, comércio e serviços nos bairros",
-      "url": "https://www.camara.leg.br/noticias/1319243-comissao-aprova-proposta-para-integrar-moradia-comercio-e-servicos-nos-bairros",
-      "published_at": "2026-11-13T16:19:00+00:00"
     }
   ]
 }
