@@ -1,5 +1,5 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=filtros-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=filtros-2';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
@@ -170,6 +170,8 @@ function emptyState(){
  if(state.year!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"year":"Todos"}\'>Buscar em todos os anos</button>');
  if(state.topic!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"topic":"Todos"}\'>Tirar o tema '+safeText(state.topic)+'</button>');
  if(state.type!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"type":"Todos"}\'>Todos os tipos</button>');
+ if(state.party!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"party":"Todos"}\'>Todos os partidos</button>');
+ if(state.query)tips.push('<button type="button" class="outline-btn" data-unset=\'{"query":""}\'>Tirar a palavra “'+safeText(state.query)+'”</button>');
  return '<div class="empty-state"><h3>Nenhuma proposta com esses critérios.</h3><p>'+(state.query?'Nenhuma ementa traz todas as palavras de “'+safeText(state.query)+'”. Tente menos palavras ou um sinônimo. ':'')+
   'O acervo cobre propostas de '+YEARS.slice().reverse().join(' e ')+'.</p>'+(tips.length?'<div class="empty-actions">'+tips.join('')+'</div>':'')+'</div>';
 }
