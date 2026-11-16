@@ -37,6 +37,10 @@ import urllib.request
 
 MODELO = os.environ.get("MODELO", "claude-haiku-5-5")
 LIMITE = int(os.environ.get("LIMITE", "400"))
+# Para de começar propostas novas depois deste tempo, para a execução terminar antes do
+# limite de 5 horas do GitHub e conseguir disparar a próxima rodada.
+PRAZO_MINUTOS = float(os.environ.get("PRAZO_MINUTOS", "250"))
+INICIO = time.time()
 TRABALHADORES = int(os.environ.get("TRABALHADORES", "4"))
 TOKENS_POR_MINUTO = int(os.environ.get("TOKENS_POR_MINUTO", "40000"))
 MAX_TENTATIVAS = 3
@@ -363,6 +367,8 @@ def processar(p, dry=False):
         dry_falha = dry
     if PARAR.is_set():
         return "parado", "chave da API recusada"
+    if time.time() - INICIO > PRAZO_MINUTOS * 60:
+        return "adiado", "prazo da execução; fica para a próxima rodada"
     pid = p["id"]
     base = {"proposicao_id": pid, "modelo": MODELO, "tentativas": min((p.get("_tentativas") or 0) + 1, 9),
             "gerado_em": dt.datetime.now(dt.timezone.utc).isoformat()}
@@ -439,6 +445,12 @@ def main():
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
             f.write(resumo)
+    restam = max(na_fila - cont.get("publicado", 0) - cont.get("sem_texto", 0), 0)
+    # Encadeia a próxima rodada só se ainda há fila E esta rodada avançou (evita laço infinito com erro).
+    continuar = (not ids and not dry and not PARAR.is_set() and restam > 0 and cont.get("publicado", 0) > 0)
+    if os.environ.get("GITHUB_OUTPUT"):
+        with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as f:
+            f.write(f"restam={restam}\ncontinuar={'sim' if continuar else 'nao'}\n")
     if PARAR.is_set():
         print("::error::A API da Anthropic recusou a chave (expirada, revogada ou sem crédito). "
               "Gere uma chave nova no Console e atualize o secret ANTHROPIC_API_KEY. Nenhuma proposta foi marcada como erro por isso.")
