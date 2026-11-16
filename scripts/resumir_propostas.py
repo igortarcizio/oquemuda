@@ -63,6 +63,9 @@ Regras obrigatórias:
 - Frases curtas, palavras do dia a dia, sem juridiquês (troque "mediante" por "por meio de", "no âmbito do" por "no", etc.). Explique siglas na primeira vez.
 - Não dê opinião, não use adjetivos de valor, não diga se a proposta é boa ou ruim.
 - O resumo não pode repetir a ementa nem o título: conte o efeito prático para as pessoas.
+- Nunca fale do material que você recebeu ("texto enviado", "trecho fornecido", "documento"). Se algo não estiver detalhado, diga "o texto da proposta não detalha…".
+- Use "Segundo o autor" no máximo uma vez em cada campo.
+- Não gaste um ponto prático só com a data de entrada em vigor; cite prazo apenas quando for relevante (por exemplo, 180 dias para se adaptar).
 - Escreva em português do Brasil.
 
 Seja direto: não explique seu raciocínio. Responda apenas com um objeto JSON, sem texto antes ou depois, neste formato:
