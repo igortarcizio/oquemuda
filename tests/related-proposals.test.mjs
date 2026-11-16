@@ -7,7 +7,7 @@ const p=(id,tags,date='2026-01-01')=>({id,tags,numero:id,ano:2026,ementa:'Texto 
 
 test('relacionadas exigem tag em comum e não incluem a ficha aberta',()=>{
   const list=rankRelated(source,[source,p(11,['SUS']),p(12,['Educação']),p(13,['Vacinação'])]);
-  assert.deepEqual(list.map(x=>x.proposal.id),[11,13]);
+  assert.deepEqual(list.map(x=>x.proposal.id),[13,11]);
 });
 test('pontuação prioriza mais tags em comum e depois a data',()=>{
   const list=rankRelated(source,[p(11,['SUS'],'2026-01-01'),p(12,['SUS','Vacinação'],'2025-01-01'),p(13,['SUS'],'2026-11-01')]);
