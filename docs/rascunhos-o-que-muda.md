@@ -1,6 +1,6 @@
-# Rascunhos: resumo, "Como é hoje" e "Como ficaria"
+# Textos da redação: resumo, "Como é hoje" e "Como ficaria"
 
-Escritos a partir do texto integral e da justificativa de cada proposta (lidos em 16/11/2026). **Ainda não aparecem no site.** Para publicar, a redação revisa cada um e preenche o campo `validado` com a data em `dados/editorial.js`. Até lá, a ficha mostra o resumo automático.
+Escritos a partir do texto integral e da justificativa de cada proposta (lidos em 16/11/2026). **Aprovados por Lucas em 16/11/2026 e publicados** (campo `validado` em `dados/editorial.js`). Para novas propostas, o fluxo é o mesmo: rascunho a partir do texto integral, revisão humana e, depois, `validado` com a data.
 
 Na revisão, confira principalmente o "Como é hoje": ele descreve a situação atual com base no que o autor diz na justificativa, e é o trecho que mais exige checagem.
 
@@ -23,7 +23,7 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Pessoas idosas · Bancos · Segurança nas agências · Direitos do consumidor
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
 ## PL 5718/2026 — Anúncios enganosos de consórcio podem ter novas barreiras?
 
@@ -45,7 +45,7 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Consumidores · Plataformas digitais e redes sociais · Administradoras de consórcio · Crédito e financiamento
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
 ## PL 5728/2026 — Como evitar a tomada de contas por fraude no número de celular?
 
@@ -67,7 +67,7 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Usuários de celular · Operadoras de telefonia · Aplicativos e redes sociais · Proteção de dados
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
 ## PL 5741/2026 — O que pode mudar quando um voo é cancelado?
 
@@ -89,7 +89,7 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Passageiros de avião · Companhias aéreas · Preço das passagens · Fiscalização da Anac
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
 ## PL 5751/2026 — Pacientes do SUS podem receber ajuda para tratamento em outra cidade?
 
@@ -110,7 +110,7 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Saúde pública (SUS) · Orçamento de prefeituras e estados · Transporte de pacientes
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
 ## PL 5759/2026 — O trabalho do profissional de apoio escolar pode ter novas regras?
 
@@ -132,7 +132,7 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Estudantes com deficiência · Escolas públicas e particulares · Profissionais de apoio escolar · Orçamento da educação (Fundeb)
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
 ## PL 5788/2026 — Crianças podem passar por novos exames preventivos no SUS?
 
@@ -153,5 +153,5 @@ Na revisão, confira principalmente o "Como é hoje": ele descreve a situação 
 
 **Áreas que podem ser afetadas:** Saúde infantil · SUS e atenção básica · Famílias de crianças com diabetes ou doença celíaca
 
-- [ ] Aprovado
+- [x] Aprovado em 16/11/2026
 
