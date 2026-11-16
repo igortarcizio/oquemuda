@@ -32,7 +32,8 @@ window.OBM_EDITORIAL = {
       "Segurança nas agências",
       "Direitos do consumidor"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5714/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5714/2026",
+    "validado": "2026-11-16"
   },
   "2649659": {
     "titulo": "Anúncios enganosos de consórcio podem ter novas barreiras?",
@@ -59,7 +60,8 @@ window.OBM_EDITORIAL = {
       "Administradoras de consórcio",
       "Crédito e financiamento"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5718/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5718/2026",
+    "validado": "2026-11-16"
   },
   "2649753": {
     "titulo": "Como evitar a tomada de contas por fraude no número de celular?",
@@ -86,7 +88,8 @@ window.OBM_EDITORIAL = {
       "Aplicativos e redes sociais",
       "Proteção de dados"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5728/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5728/2026",
+    "validado": "2026-11-16"
   },
   "2650043": {
     "titulo": "O que pode mudar quando um voo é cancelado?",
@@ -112,7 +115,8 @@ window.OBM_EDITORIAL = {
       "Preço das passagens",
       "Fiscalização da Anac"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5741/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5741/2026",
+    "validado": "2026-11-16"
   },
   "2650116": {
     "titulo": "O que propõe a política de soberania digital?",
@@ -146,7 +150,8 @@ window.OBM_EDITORIAL = {
       "Orçamento de prefeituras e estados",
       "Transporte de pacientes"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5751/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5751/2026",
+    "validado": "2026-11-16"
   },
   "2650687": {
     "titulo": "O trabalho do profissional de apoio escolar pode ter novas regras?",
@@ -173,7 +178,8 @@ window.OBM_EDITORIAL = {
       "Profissionais de apoio escolar",
       "Orçamento da educação (Fundeb)"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5759/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5759/2026",
+    "validado": "2026-11-16"
   },
   "2650853": {
     "titulo": "Profissionais da educação podem ganhar uma carteira nacional?",
@@ -274,7 +280,8 @@ window.OBM_EDITORIAL = {
       "SUS e atenção básica",
       "Famílias de crianças com diabetes ou doença celíaca"
     ],
-    "fonte_resumo": "texto integral e da justificativa do PL 5788/2026"
+    "fonte_resumo": "texto integral e da justificativa do PL 5788/2026",
+    "validado": "2026-11-16"
   },
   "2651340": {
     "titulo": "O que pode mudar nos recursos sobre medidas protetivas?",

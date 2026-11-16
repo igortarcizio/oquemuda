@@ -89,12 +89,13 @@ test('rito certo para medida provisória e decreto legislativo',()=>{
   assert.doesNotMatch(pdl,/sanção/);
 });
 
-test('rascunhos do editorial existem e ainda não estão publicados',()=>{
+test('textos editoriais completos e validados',()=>{
   const sandbox={window:{}};
   vm.runInNewContext(readFileSync(new URL('../dados/editorial.js',import.meta.url),'utf8'),sandbox);
   const E=sandbox.window.OBM_EDITORIAL;
   const drafts=Object.entries(E).filter(([,v])=>v.hoje||v.proposta);
   assert.ok(drafts.length>=7);
+  assert.ok(drafts.every(([,v])=>v.validado),'destaques aprovados têm data de validação');
   for(const [id,v] of drafts){
     assert.ok(v.hoje&&v.proposta&&v.pontos?.length&&v.areas?.length,id);
     assert.ok(v.pontos.length<=5,id);
