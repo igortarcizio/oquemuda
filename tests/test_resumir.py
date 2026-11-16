@@ -49,7 +49,8 @@ class Texto(unittest.TestCase):
 
 
 class Saida(unittest.TestCase):
-    BOA = {"resumo": "Pacientes do SUS que precisam se tratar em outra cidade passariam a ter ajuda de custo ou transporte pagos antes do atendimento.",
+    BOA = {"titulo": "Garante transporte para pacientes do SUS que se tratam em outra cidade.",
+           "resumo": "Pacientes do SUS que precisam se tratar em outra cidade passariam a ter ajuda de custo ou transporte pagos antes do atendimento.",
            "hoje": "Segundo o autor, a regra atual deixa de fora trajetos curtos.",
            "proposta": "O município ou estado que encaminhou paga a ajuda de custo ou oferece o transporte.",
            "pontos": ["Ajuda paga antes de cada atendimento.", "Acompanhante incluído quando o médico indicar."],
@@ -63,7 +64,9 @@ class Saida(unittest.TestCase):
     def test_valida_campos_e_tamanhos(self):
         ok = rp.validar(dict(self.BOA), "Altera a Lei 8.080 para assegurar ajuda de custo.")
         self.assertEqual(len(ok["pontos"]), 2)
-        for ruim in [{**self.BOA, "pontos": ["só um"]}, {**self.BOA, "resumo": "curto"},
+        self.assertEqual(ok["titulo"], "Garante transporte para pacientes do SUS que se tratam em outra cidade")
+        for ruim in [{**self.BOA, "titulo": "Pacientes podem ter ajuda?"}, {**self.BOA, "titulo": "x" * 120}, {**self.BOA, "titulo": None},
+                     {**self.BOA, "pontos": ["só um"]}, {**self.BOA, "resumo": "curto"},
                      {**self.BOA, "areas": []}, {**self.BOA, "proposta": "x" * 600}, {**self.BOA, "resumo": None}]:
             with self.assertRaises(ValueError):
                 rp.validar(ruim)
@@ -78,7 +81,7 @@ class Saida(unittest.TestCase):
         textos = [v for v in editorial().values() if v.get("validado")]
         self.assertGreaterEqual(len(textos), 7)
         for v in textos:
-            rp.validar({k: v[k] for k in ("resumo", "hoje", "proposta", "pontos", "areas")})
+            rp.validar({"titulo": "Título curto de referência", **{k: v[k] for k in ("resumo", "hoje", "proposta", "pontos", "areas")}})
 
     def test_prompt_exige_fidelidade_ao_texto(self):
         for regra in ["Use só o que está no texto", "Segundo o autor", "futuro do pretérito", "Não dê opinião", "apenas com um objeto JSON",
@@ -169,3 +172,20 @@ class Robustez(unittest.TestCase):
                 rp.chamar_modelo("prompt")
         finally:
             rp.http, rp.RITMO.esperar = orig_http, orig_espera
+
+
+class RefazerPublicado(unittest.TestCase):
+    def test_falha_ao_refazer_nao_tira_resumo_do_ar(self):
+        gravados = []
+        orig = (rp.gravar, rp.url_inteiro_teor, rp.texto_integral, rp.chamar_modelo)
+        rp.gravar = lambda r: gravados.append(r)
+        rp.url_inteiro_teor = lambda p: "https://x/pdf"
+        rp.texto_integral = lambda u: "Art. 1º " + "texto " * 100
+        rp.chamar_modelo = lambda prompt: ("sem json", {})
+        try:
+            st, _ = rp.processar({"id": 7, "ementa": "E", "_ja_publicado": True, "_tentativas": 1})
+            st2, _ = rp.processar({"id": 8, "ementa": "E", "_tentativas": 0})
+        finally:
+            rp.gravar, rp.url_inteiro_teor, rp.texto_integral, rp.chamar_modelo = orig
+        self.assertEqual((st, st2), ("erro", "erro"))
+        self.assertEqual([g["proposicao_id"] for g in gravados], [8], "só grava erro de quem ainda não estava publicado")

@@ -3,11 +3,11 @@ import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,get
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=resumos-ia-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=titulos-curtos-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js';
-import {mountAiSummary,stopAiSummary} from './ui/ai-summary.js';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
@@ -391,6 +391,7 @@ async function start(){
  document.addEventListener('change',onChange);
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.mode='';state.page=1;syncURL();showList()});
  window.addEventListener('hashchange',listPageFromHash);
+ watchCardTitles();
  listPageFromHash();
  try{const parties=await getParties();$('partySelect').innerHTML='<option value="Todos">Todos os partidos</option>'+
   parties.map(p=>'<option value="'+safeText(p)+'">'+safeText(p)+'</option>').join('');$('partySelect').value=state.party;}catch{}

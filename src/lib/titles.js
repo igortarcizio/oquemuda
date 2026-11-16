@@ -765,6 +765,25 @@ function broadcastTitle(text) {
 
 export const TITLE_MAX = 110;
 
+/** Título escrito à mão pela redação (lista editorialTitles acima). */
+export const hasCuratedTitle = id => Object.prototype.hasOwnProperty.call(editorialTitles, id);
+
+// Encurta títulos automáticos longos sem perder o assunto principal.
+const NUM_EXTENSO = /\s\((?:[a-zà-úç]+(?:[\s-][a-zà-úç]+)*)\)/g;              // "(sessenta por cento)", "(doze)"
+const LOCAL = /,?\s*(?:realizad[ao]s?|localizad[ao]s?|situad[ao]s?)?\s*(?:n|d)o Município de ([^,]+?),\s*(?:(?:n|d)o\s+)?Estado d[eoa] ([^,.;]+)/gi;
+const ORACAO_SECUNDARIA = /(?:,\s+(?:e\s+)?|\s+e\s+)(?:altera|estabelece|institui|define|revoga|disciplina|dispõe sobre|prevê|cria|determina|autoriza|fixa|acrescenta|amplia|agrava|assegura|regulamenta|dá outras)\s/i;
+const COMPLEMENTO = /,\s+(?:pela|pelo|pelas|pelos|observad[ao]s?|assegurando|garantindo|nos termos|segundo|mediante|bem como|de modo|a fim de|inclusive|conforme|destinad[ao]s? a)\s/i;
+export function shortenTitle(title, max = TITLE_MAX) {
+  let t = String(title || '').replace(NUM_EXTENSO, '').replace(LOCAL, (_, c, uf) => ' em ' + c.trim() + ' (' + uf.trim() + ')').replace(/\s{2,}/g, ' ').trim();
+  if (t.length <= max) return t;
+  for (const rx of [ORACAO_SECUNDARIA, COMPLEMENTO]) {
+    const m = t.match(rx);
+    if (m && m.index >= 40 && !/^(?:Altera|Revoga|Acrescenta|Modifica) (?:o art|a Lei|o Decreto)/i.test(t.slice(0, m.index))) t = t.slice(0, m.index).replace(/[,;:\s]+$/, '');
+    if (t.length <= max) break;
+  }
+  return t;
+}
+
 export function displayTitle(p) {
   const text = String(p.ementa || '').replace(/\s+/g, ' ').trim();
   if (editorialTitles[p.id]) return editorialTitles[p.id];
@@ -801,9 +820,5 @@ export function displayTitle(p) {
     .replace(/^Estabelece diretrizes para /i, 'Define regras para ')
     .replace(/,?\s+e (?:estabelece|adota) outras providências\.?$/i, '');
   // O título destaca a medida principal. A ficha conserva a ementa integral.
-  if (title.length > TITLE_MAX) {
-    const main = title.split(/,\s+(?:e\s+)?(?:altera|estabelece|institui|define|revoga|disciplina|dispõe sobre|prevê|cria|determina|autoriza|fixa|acrescenta)\s/i)[0];
-    if (main.length >= 28 && !/^(?:Altera|Revoga|Acrescenta|Modifica) (?:o art|a Lei|o Decreto)/i.test(main)) return main;
-  }
-  return title;
+  return title.length > TITLE_MAX ? shortenTitle(title) : title;
 }

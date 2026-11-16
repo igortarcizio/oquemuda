@@ -170,7 +170,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  const changes=changeSection(p,e,{reviewed,title,area});
  return '<div class="detail" data-area="'+safeText(area)+'"><div class="page"><a class="back" href="'+safeText(backHref)+'">'+backLabel+'</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta">'+topicLabel(area)+'<span>'+safeText(ref(p))+'</span>'+(reviewed?SEAL:'')+'</div>'+
- '<h1 tabindex="-1" id="detailTitle" class="'+(reviewed?'':'auto')+'">'+safeText(title)+'</h1>'+
+ '<h1 tabindex="-1" id="detailTitle" class="'+(reviewed?'':'auto')+(title.length>110?' long':'')+'">'+safeText(title)+'</h1>'+
  '<div class="detail-actions">'+saveButton(p,saved,'＋ Salvar para depois')+'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a></div></div></div>'+
  '<div class="page detail-layout"><div>'+
  changes+

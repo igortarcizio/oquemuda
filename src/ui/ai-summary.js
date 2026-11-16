@@ -1,11 +1,12 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial} from './components.js?v=resumos-ia-1';
+import {changeSectionFor,hasValidatedEditorial} from './components.js?v=titulos-curtos-1';
+import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';
 const KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
-const COLS='resumo,hoje,proposta,pontos,areas,modelo,gerado_em';
+const COLS='titulo,resumo,hoje,proposta,pontos,areas,modelo,gerado_em';
 const cache=new Map();   // id -> linha ou null
 const pending=new Map(); // id -> Promise
 let activeId=null;
@@ -28,6 +29,54 @@ function apply(p){
   section.outerHTML=changeSectionFor(p,row);
   const fresh=document.querySelector('.change-section');
   if(fresh)fresh.dataset.ai='1';
+  applyDetailTitle(p,row);
+}
+
+// Título curto da IA: só onde a redação não escreveu um título à mão.
+export function aiTitleFor(p,row){
+  const t=typeof row?.titulo==='string'?row.titulo.trim():'';
+  if(!t||hasCuratedTitle(Number(p?.id))||hasValidatedEditorial(p))return '';
+  return t;
+}
+function applyDetailTitle(p,row){
+  const t=aiTitleFor(p,row),h=document.getElementById('detailTitle');
+  if(!t||!h)return;
+  h.textContent=t;h.classList.remove('long');
+  setTimeout(()=>{if(activeId===Number(p.id))document.title=t+' — O que muda?'},0);
+}
+
+// Cards da lista e do carrossel: busca os títulos curtos de uma vez, por página.
+const titleCache=new Map(); // id -> titulo ou ''
+export async function fetchAiTitles(ids,{fetchImpl=globalThis.fetch}={}){
+  const want=[...new Set(ids.map(Number))].filter(id=>Number.isInteger(id)&&id>0&&!titleCache.has(id));
+  if(!want.length)return titleCache;
+  const q=new URLSearchParams({select:'proposicao_id,titulo',proposicao_id:'in.('+want.join(',')+')',titulo:'not.is.null'});
+  try{
+    const res=await fetchImpl(URL_RESUMOS+'?'+q.toString(),{headers:{apikey:KEY,Accept:'application/json'}});
+    const rows=res.ok?await res.json():[];
+    for(const id of want)titleCache.set(id,'');
+    for(const r of Array.isArray(rows)?rows:[])if(r?.titulo)titleCache.set(Number(r.proposicao_id),String(r.titulo).trim());
+  }catch{}
+  return titleCache;
+}
+async function applyCardTitles(root=document){
+  const links=[...root.querySelectorAll('.card:not(.reviewed) h3 a[href^="#/tema/"]:not([data-ai-title]), .related-card h3 a[href^="#/tema/"]:not([data-ai-title])')];
+  if(!links.length)return;
+  for(const a of links)a.dataset.aiTitle='pending';
+  const id=a=>Number(a.getAttribute('href').split('/').pop());
+  const cache=await fetchAiTitles(links.map(id));
+  for(const a of links){
+    const t=cache.get(id(a));
+    a.dataset.aiTitle=t?'1':'0';
+    if(t&&!hasCuratedTitle(id(a))){a.title=a.textContent;a.textContent=t}
+  }
+}
+let timer=null;
+export function watchCardTitles(root=document.querySelector('main')||document.body){
+  if(!root||typeof MutationObserver==='undefined')return;
+  const run=()=>{clearTimeout(timer);timer=setTimeout(()=>applyCardTitles(root),120)};
+  new MutationObserver(run).observe(root,{childList:true,subtree:true});
+  run();
 }
 
 export function mountAiSummary(p){
