@@ -1,0 +1,31 @@
+/* Termômetro dos leitores (src/ui/reader-votes.js). */
+.reader-votes[hidden]{display:none}
+.reader-votes{border:1px solid var(--line);border-radius:var(--radius);background:var(--white);padding:22px 24px}
+.reader-votes .eyebrow{margin-bottom:8px}
+.reader-votes h2{margin-bottom:16px}
+.vote-buttons{display:flex;flex-wrap:wrap;gap:10px}
+.vote-btn{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:10px 16px;border:1.5px solid var(--field-border);border-radius:10px;background:var(--white);color:var(--ink);font-weight:500;font-size:15px}
+.vote-btn:hover{border-color:var(--ink)}
+.vote-icon{width:20px;height:20px;flex:none}
+.vote-btn.selected{color:#fff;border-color:transparent}
+.vote-btn.vote-favor.selected{background:var(--vote-favor)}
+.vote-btn.vote-neutro.selected{background:var(--vote-neutro)}
+.vote-btn.vote-contra.selected{background:var(--vote-contra)}
+.reader-votes{--vote-favor:#2E6B4E;--vote-neutro:#5B6670;--vote-contra:#A3402C}
+.vote-result{margin-top:18px}
+.vote-result .quiet-btn{font-size:14px;padding-left:0}
+.vote-rows{display:grid;gap:10px}
+.vote-row{display:grid;grid-template-columns:150px 1fr 48px;align-items:center;gap:12px;font-size:14px}
+.vote-label{color:var(--ink);font-weight:500}
+.vote-you{color:var(--text);font-weight:400;font-size:12px}
+.vote-bar{height:10px;border-radius:5px;background:var(--secondary);overflow:hidden}
+.vote-bar>span{display:block;height:100%;border-radius:5px;transition:width .3s ease}
+.vote-favor .vote-bar>span{background:var(--vote-favor)}
+.vote-neutro .vote-bar>span{background:var(--vote-neutro)}
+.vote-contra .vote-bar>span{background:var(--vote-contra)}
+.vote-pct{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink);font-weight:600}
+.vote-total,.vote-few{margin-top:12px;color:var(--text);font-size:14px}
+.vote-status{margin-top:10px;font-size:14px;color:var(--ink);min-height:0}
+.vote-status:empty{display:none}
+@media(max-width:720px){.reader-votes{padding:18px}.vote-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.vote-btn{justify-content:center;padding:10px 8px;font-size:14px}.vote-row{grid-template-columns:84px 1fr 44px;gap:8px}.vote-you{display:block;line-height:1.2}}
+@media(prefers-reduced-motion:reduce){.vote-bar>span{transition:none}}
