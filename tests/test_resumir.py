@@ -81,7 +81,8 @@ class Saida(unittest.TestCase):
             rp.validar({k: v[k] for k in ("resumo", "hoje", "proposta", "pontos", "areas")})
 
     def test_prompt_exige_fidelidade_ao_texto(self):
-        for regra in ["Use só o que está no texto", "Segundo o autor", "futuro do pretérito", "Não dê opinião", "apenas com um objeto JSON"]:
+        for regra in ["Use só o que está no texto", "Segundo o autor", "futuro do pretérito", "Não dê opinião", "apenas com um objeto JSON",
+                      "Nunca fale do material que você recebeu", "no máximo uma vez", "data de entrada em vigor"]:
             self.assertIn(regra, rp.SISTEMA)
         prompt = rp.montar_prompt({"sigla_tipo": "PL", "numero": 1, "ano": 2026, "ementa": "E."}, "TEXTO")
         self.assertIn("PL 1/2026", prompt)
