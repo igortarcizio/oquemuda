@@ -187,3 +187,15 @@ test('título automático longo é encurtado sem perder o assunto',async()=>{
   const t=shortenTitle('Cria o Sistema Nacional de Acompanhamento de Operações de Financiamento Imobiliário (SNAFI) e estabelece mecanismos de transparência, rastreabilidade e fiscalização das operações');
   assert.equal(t,'Cria o Sistema Nacional de Acompanhamento de Operações de Financiamento Imobiliário (SNAFI)');
 });
+
+test('imports locais novos têm versão no endereço (evita mistura de cache no GitHub Pages)',()=>{
+  const app=readFileSync(new URL('../src/app.js',import.meta.url),'utf8');
+  const ai=readFileSync(new URL('../src/ui/ai-summary.js',import.meta.url),'utf8');
+  for(const mod of ['ui/components.js','ui/ai-summary.js','ui/reader-votes.js'])
+    assert.match(app,new RegExp("from '\\./"+mod.replace('.','\\.')+"\\?v=[^']+'"),mod);
+  // ai-summary e app precisam importar a MESMA versão de components.js (senão viram dois módulos diferentes).
+  const v=s=>s.match(/components\.js\?v=([^']+)'/)[1];
+  assert.equal(v(ai),v(app));
+  const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
+  assert.match(html,/src\/app\.js\?v=[^"]+"/);
+});

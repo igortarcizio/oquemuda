@@ -6,8 +6,8 @@ import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=titulos-curtos-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
-import {mountVotes,stopVotes} from './ui/reader-votes.js';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js';
+import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=modulos-2';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
