@@ -1,7 +1,7 @@
 import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 import {THEMES as THEME_LIST} from '../lib/themes.js';
-import {displayTitle,amendedLaws,isReviewed,descriptiveTitle} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
-import {lawsInEmenta,actionOf,procedureNote,editorialChange} from '../lib/changes.js';
+import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
+import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
@@ -117,7 +117,6 @@ function timeline(status,presentedAt){
   (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>etapa atual</small>':'')+'</li>').join('')+'</ol>';
 }
 
-const norm=s=>cleanText(s).toLowerCase().replace(/[.…\s]+$/,'');
 // Rito: o que ainda precisa acontecer para virar regra (varia pelo tipo).
 function riteNote(p){
  const tipo=String(p.siglaTipo||'').toUpperCase();
@@ -129,13 +128,13 @@ function riteNote(p){
 /** "O que a proposta quer mudar?": resumo, como é hoje x como ficaria (só com validação), o que o texto faz, leis e áreas. */
 export function changeSection(p,e,{reviewed,title,area}){
  const action=actionOf(p),laws=lawsInEmenta(p.ementa),ed=editorialChange(e);
- const full=descriptiveTitle(p.ementa).replace(/\bSistema Único de Saúde(?:\s*\(SUS\))?/gi,'SUS');
- const lead=reviewed?cleanText(e.impacto):(norm(full)!==norm(title)?full:'');
+ // Resumo: o da redação (validado) ou o automático, que nunca repete o título.
+ const lead=ed?.resumo||plainSummary(p,title);
  const lawLabel=/altera|revoga/.test(action.kind)?(laws.length>1?'Leis que muda':'Lei que muda'):(laws.length>1?'Leis citadas':'Lei citada');
  const tags=proposalTags(p);
  const areaChips=ed?.areas?.length?ed.areas.map(a=>'<li>'+safeText(a)+'</li>').join(''):'';
  return '<section class="detail-section change-section" aria-labelledby="changeTitle"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
-  (lead?'<p class="change-lead">'+safeText(lead.replace(/[.\s]+$/,''))+'.</p>':'')+
+  (lead?'<p class="change-lead">'+safeText(lead)+'</p>':'')+
   (ed&&(ed.hoje||ed.proposta)?'<div class="change-compare">'+
     (ed.hoje?'<div class="change-now"><h3>Como é hoje</h3><p>'+safeText(ed.hoje)+'</p></div>':'')+
     (ed.proposta?'<div class="change-next"><h3>Como ficaria</h3><p>'+safeText(ed.proposta)+'</p></div>':'')+'</div>':'')+
@@ -146,8 +145,8 @@ export function changeSection(p,e,{reviewed,title,area}){
    '<div><dt>Áreas que podem ser afetadas</dt><dd>'+(areaChips?'<ul class="change-areas">'+areaChips+'</ul>':
      '<div class="change-areas-auto">'+topicLabel(area)+(tags.length?subjectLinks(p):'')+'</div>')+'</dd></div>'+
   '</dl>'+
-  (ed?'<p class="small-note">“Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
-   reviewed?'':'<p class="small-note">Resumo automático a partir da ementa oficial. Ainda não foi explicado pela redação.</p>')+
+  (ed?'<p class="small-note">Resumo, “Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
+   '<p class="small-note">Resumo automático, feito a partir da ementa oficial'+(reviewed?'.':'. Ainda não foi explicado pela redação.')+'</p>')+
   '<p class="small-note">'+safeText(riteNote(p))+'</p></section>';
 }
 export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){

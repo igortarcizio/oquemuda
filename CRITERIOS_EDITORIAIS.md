@@ -13,7 +13,8 @@ Traduzir proposições oficiais em informações verificáveis e úteis à socie
   - a lei afetada, com nome popular;
   - as áreas (tema e tags);
   - o rito conforme o tipo (MPV, PLP, PDL, PEC).
-- **Parte editorial (propostas revisadas):** "Como é hoje", "Como ficaria", "O que muda na prática" (até 5 pontos) e "Áreas que podem ser afetadas", nos campos `hoje`, `proposta`, `pontos`, `areas` e `fonte_resumo` de `dados/editorial.js`.
+- **Resumo (todas as propostas):** 1 ou 2 frases em linguagem simples, montadas por `plainSummary` com outra estrutura que não a do título (o que faz, em que lei mexe, com palavras do dia a dia). Nas revisadas, o campo `resumo` do editorial substitui o automático depois de validado.
+- **Parte editorial (propostas revisadas):** "Como é hoje", "Como ficaria", "O que muda na prática" (até 5 pontos) e "Áreas que podem ser afetadas", nos campos `resumo`, `hoje`, `proposta`, `pontos`, `areas` e `fonte_resumo` de `dados/editorial.js`.
   - Escrever sempre a partir do texto integral e da justificativa, nunca só da ementa.
   - Quando a situação atual vier do autor, dizer isso ("Segundo o autor…").
   - Só aparece no site quando o campo `validado` tiver a data da revisão humana. Rascunhos ficam sem esse campo.
