@@ -135,14 +135,9 @@ export async function getAuthors(id,{signal}={}){
  }));
  return authors.concat(rows.length>5?[{nome:'E outros autores',partido:null}]:[]);
 }
-export async function getParties(){
- const fallback=['AVANTE','CIDADANIA','MDB','NOVO','PCdoB','PDT','PL','PODE','PP','PRD','PSB','PSD','PSDB','PSOL','PT','PV','REPUBLICANOS','SOLIDARIEDADE','UNIÃO'];
- try{
-  const data=(await request('/partidos?itens=100',{attempts:1})).data;
-  if(Array.isArray(data))return [...new Set([...fallback,...data.map(p=>p.sigla).filter(Boolean)])].sort((a,b)=>a.localeCompare(b,'pt-BR'));
- }catch{}
- return fallback;
-}
+/** Partidos do filtro: os mesmos nomes que o banco grava em `partidos` (ver migração 20261116_partidos_autores.sql). */
+export const PARTIES=Object.freeze(['AVANTE','CIDADANIA','MDB','MISSÃO','NOVO','PCdoB','PDT','PL','PODE','PP','PRD','PSB','PSD','PSDB','PSOL','PT','PV','REDE','REPUBLICANOS','SOLIDARIEDADE','UNIÃO']);
+export async function getParties(){return [...PARTIES]}
 const STOPWORDS=new Set(['de','da','do','das','dos','e','a','o','as','os','em','no','na','nos','nas','para','por','com','um','uma','ao','aos']);
 /** Palavras da busca, sem palavras vazias e sem caracteres que a sintaxe do banco reserva. */
 export function searchTokens(text){
@@ -171,15 +166,18 @@ export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keyword
 const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
 const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
 export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],signal}={}){
- if(party!=='Todos')throw new SourceError('Filtro de autoria ainda não indexado no banco');
+ if(party!=='Todos'&&!/^[\p{L}.]{2,20}$/u.test(party))throw new SourceError('Partido inválido');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
  const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
  if(year!=='Todos')q.set('ano','eq.'+year);
  if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
  if(tag)q.set('tags','cs.{'+tag+'}');
+ // Partido de qualquer autor (coluna calculada pelo banco a partir de dados_oficiais.autores).
+ if(party!=='Todos')q.set('partidos','cs.{"'+party+'"}');
  // Busca: cada palavra precisa aparecer na ementa, em qualquer ordem.
  // Tema: propostas com ao menos um assunto do tema (aproximação até existir a coluna area no banco).
- const conditions=searchTokens(keywords).map(t=>'ementa.ilike.*'+t+'*');
+ // ementa_busca é a ementa em minúsculas e sem acento: "saude" encontra "Saúde".
+ const conditions=searchTokens(keywords).map(t=>'ementa_busca.ilike.*'+fold(t)+'*');
  if(theme){
   if(!THEME_TAGS[theme])throw new SourceError('Tema inválido');
   conditions.push('tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'}');
