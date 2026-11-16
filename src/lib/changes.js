@@ -159,7 +159,142 @@ const listOf=v=>Array.isArray(v)?v.map(clean).filter(Boolean):[];
  */
 export function editorialChange(e={}){
   if(!e||!clean(e.validado))return null;
-  const hoje=clean(e.hoje),proposta=clean(e.proposta),pontos=listOf(e.pontos),areas=listOf(e.areas);
-  if(!hoje&&!proposta&&!pontos.length)return null;
-  return {hoje,proposta,pontos:pontos.slice(0,5),areas:areas.slice(0,6),validado:clean(e.validado),fonte:clean(e.fonte_resumo)};
+  const resumo=clean(e.resumo),hoje=clean(e.hoje),proposta=clean(e.proposta),pontos=listOf(e.pontos),areas=listOf(e.areas);
+  if(!resumo&&!hoje&&!proposta&&!pontos.length)return null;
+  return {resumo,hoje,proposta,pontos:pontos.slice(0,5),areas:areas.slice(0,6),validado:clean(e.validado),fonte:clean(e.fonte_resumo)};
+}
+
+// ---------- Resumo em linguagem simples (todas as propostas) ----------
+// Monta 1 ou 2 frases a partir da ementa, com outra estrutura que não a do título:
+// diz o que a proposta faz, em que lei mexe e com palavras do dia a dia.
+
+const PLAIN=[
+  [/\bSistema Único de Saúde(?:\s*\(SUS\))?/gi,'SUS'],
+  [/\bn[ao] população pediátrica\b/gi,'em crianças e adolescentes'],
+  [/\bno âmbito d(o|a|os|as)\s/gi,'n$1 '],
+  [/\bPoder Executivo\b/g,'governo'],
+  [/\bpessoas jurídicas\b/gi,'empresas'],[/\bpessoa jurídica\b/gi,'empresa'],
+  [/\bImposto sobre a Renda (?:das|da) Pessoas? Físicas?(?:\s*\(IRPF\))?/gi,'Imposto de Renda'],
+  [/\bCarteira Nacional de Habilitação(?:\s*\(CNH\))?/gi,'CNH'],
+  [/\bnecessitem\b/gi,'precisem'],[/\bnecessitam\b/gi,'precisam'],[/\bnecessite\b/gi,'precise'],
+  [/\brealizar tratamento\b/gi,'fazer tratamento'],
+  [/\bem outro município\b/gi,'em outra cidade'],
+  [/\bimputáve(?:l|is) ao transportador\b/gi,'por culpa da companhia aérea'],
+  [/\bpopulação pediátrica\b/gi,'crianças e adolescentes'],
+  [/\bmediante (a|o|as|os) /gi,'por meio d$1 '],[/\bmediante\b/gi,'por meio de'],[/\bcom vistas a\b/gi,'para'],[/\bvisando a?\b/gi,'para'],
+  [/\b(?:o|a)\s+fim de\b/gi,'para'],
+  [/\bdispositivos?\b(?= d[oa] )/gi,'trechos'],
+  [/,?\s*e dá outras providências/gi,''],[/,?\s*(?:na forma|nos termos) que especifica/gi,''],
+  [/,?\s*para (?:o|os) fins? que especifica/gi,'']
+];
+const LAW_DATE=new RegExp('\\s*n[ºo°.]*\\s*([\\d.]+),?\\s+de\\s+\\d{1,2}º?\\s+de\\s+'+MONTH+'\\s+de\\s+(\\d{4})','gi');
+const PLACE=/(?:no |do |em )?Município de ([^,]+?),\s*(?:no |do )?Estado d[eoa] ([^,.;]+)/gi;
+
+export function plainText(s){
+  let t=clean(s);
+  for(const [rx,to] of PLAIN)t=t.replace(rx,to);
+  t=t.replace(LAW_DATE,' $1/$2').replace(PLACE,(_,c,uf)=>'em '+c.trim()+' ('+uf.trim()+')');
+  return t.replace(/\s+,/g,',').replace(/\s{2,}/g,' ').trim();
+}
+
+// Corta no limite de uma oração, sem reticências no meio de palavra.
+function trimClause(s,max=230){
+  s=clean(s).replace(/[.;,:\s]+$/,'');
+  if(s.length<=max)return s;
+  const cut=s.slice(0,max);
+  const at=Math.max(cut.lastIndexOf('; '),cut.lastIndexOf(', '));
+  if(at>max*0.45)return cut.slice(0,at).replace(/[.;,:\s]+$/,'');
+  return cut.slice(0,cut.lastIndexOf(' ')).replace(/[.;,:\s]+$/,'')+'…';
+}
+
+const VERB_PLAIN={assegurar:'garantir',instituir:'criar',vedar:'proibir',dispor:'tratar',estabelecer:'definir',disciplinar:'regular',
+  facultar:'permitir',explicitar:'deixar claro',majorar:'aumentar',minorar:'reduzir',coibir:'combater',fomentar:'incentivar'};
+const plainInfinitive=s=>s.replace(/^(\p{L}+)(\s+sobre)?/u,(m,v,sobre)=>{
+  const k=v.toLowerCase();
+  if(k==='dispor'&&sobre)return 'tratar de';
+  if(k==='tipificar')return 'tornar crime';
+  return VERB_PLAIN[k]||v;
+}).replace(/^tornar crime\s+(?:como crime\s+)?(?:o crime de\s+)?/i,'tornar crime ');
+const PRESENT={Institui:'cria',Cria:'cria',Estabelece:'define',Assegura:'garante',Garante:'garante',Veda:'proíbe',Proíbe:'proíbe',
+  Regulamenta:'regulamenta',Disciplina:'regula',Determina:'determina',Torna:'torna',Concede:'concede',Amplia:'amplia',Atualiza:'atualiza',
+  Inclui:'inclui',Prevê:'prevê',Obriga:'obriga',Permite:'permite',Reduz:'reduz',Fixa:'fixa',Define:'define'};
+
+const FEM=/^(Lei|Política|Consolidação|CLT|Constituição|Nova)\b/;
+const lawPhrase=(l,withAbout=true)=>{
+  if(!l)return 'uma lei em vigor';
+  const name=l.nome||l.ref;
+  const art=FEM.test(name)?'a':'o';
+  return art+' '+name+(withAbout&&l.sobre?', que '+l.sobre+',':'');
+};
+
+function moneyBR(v){
+  const n=Number(String(v).replace(/\./g,'').replace(',','.'));
+  if(!Number.isFinite(n)||!n)return 'R$ '+v;
+  const fmt=x=>x.toLocaleString('pt-BR',{maximumFractionDigits:1});
+  if(n>=1e9)return 'R$ '+fmt(n/1e9)+(n>=2e9?' bilhões':' bilhão');
+  if(n>=1e6)return 'R$ '+fmt(n/1e6)+(n>=2e6?' milhões':' milhão');
+  return 'R$ '+n.toLocaleString('pt-BR');
+}
+const sentence=s=>{s=clean(s);if(!s)return '';s=s.charAt(0).toUpperCase()+s.slice(1);return /[.!?…]$/.test(s)?s:s+'.'};
+
+/** Resumo automático em 1 ou 2 frases. Nunca repete o título palavra por palavra. */
+export function plainSummary(p,title=''){
+  const raw=clean(p?.ementa);if(!raw)return '';
+  const kind=actionOf(p).kind;const laws=lawsInEmenta(raw,4);
+  const text=plainText(raw).replace(/\.$/,'');
+  let out='';
+  const purpose=()=>{const m=text.match(/\s(?:para|a fim de)\s+([\s\S]+)$/i);return m?trimClause(plainInfinitive(m[1])):''};
+  if(kind==='altera'||kind==='constituicao'){
+    const into=l=>{const ph=lawPhrase(l,false);return 'n'+ph};
+    let target;
+    if(kind==='constituicao')target=/Disposições Constitucionais Transitórias/i.test(text)?'nas regras de transição da Constituição':'na Constituição';
+    else if(laws.length>1)target=laws.slice(0,3).map(into).join(', ').replace(/, ([^,]+)$/,' e $1')+(laws.length>3?' e em outras leis':'');
+    else target='n'+lawPhrase(laws[0]);
+    const why=purpose();
+    out=why?'A proposta mexe '+target+' para '+why:
+      'A proposta muda trechos d'+target.slice(1)+'. A ementa oficial não diz o que muda; o detalhe está no texto integral';
+  }else if(kind==='cria'||kind==='cria-altera'){
+    const head=text.split(/;\s*altera|,?\s+(?:e\s+)?altera(?:m)?\s+(?:a|o|as|os)\s+(?:Leis?|Decretos?|Lei Complementar)/i)[0];
+    const m=head.match(/^(\p{L}+)(?:\s+sobre)?\s+([\s\S]+)$/u);
+    const verb=m?(m[1]==='Dispõe'?'trata de':PRESENT[m[1]]||m[1].toLowerCase()):'';
+    const obj=m?trimClause(m[2],200):trimClause(head,200);
+    out=('É uma proposta de lei nova que '+verb+' '+obj).replace(/\btrata de (a|o|as|os) /,'trata d$1 ');
+    if(kind==='cria-altera'&&laws.length)out+='. Para isso, também ajusta '+laws.slice(0,2).map(l=>lawPhrase(l,false)).join(' e ');
+  }else if(kind==='simbolico'){
+    const sym=trimClause(text,220).replace(/^(\p{L}+)/u,v=>PRESENT[v]||v.toLowerCase());
+    out='É uma proposta simbólica, que '+sym+
+      '. Não cria obrigações nem muda direitos';
+  }else if(kind==='outorga'){
+    const ent=raw.match(/(?:^|\s)(?:à|ao)\s+([^,]+?)\s+(?:a|para)\s+(?:executar|explorar)/)||raw.match(/\bautoriza\s+(?:a|o)\s+([^,]+?)\s+a\s+(?:executar|explorar)/);
+    const place=raw.match(/Município de ([^,]+?),\s*(?:no |do )?Estado d[eoa] ([^,.;]+)/i);
+    const medium=/comunit[aá]ria/i.test(raw)?'uma rádio comunitária':/sons e imagens/i.test(raw)?'um canal de TV':'uma rádio';
+    out='Confirma '+(/renova/i.test(raw)?'a renovação da licença':'a licença')+' para '+(ent?ent[1].replace(/\s+/g,' ').replace(/\.$/,'').trim()+' operar ':'operar ')+medium+
+      (place?' em '+place[1].trim()+' ('+place[2].trim()+')':'')+'. A licença foi dada pelo governo e só vale de forma definitiva com o aval do Congresso';
+  }else if(kind==='susta'){
+    const act=text.replace(/^Sustam?,?\s+(?:os\s+)?(?:efeitos\s+)?(?:d[oa]s?\s+)?/i,'');
+    const art=/^(Portaria|Resolução|Instrução|Nota|Deliberação|Circular)/i.test(act)?'a ':/^(Decreto|Ato|Despacho|Parecer)/i.test(act)?'o ':'';
+    out='A proposta quer derrubar uma decisão do governo: '+art+trimClause(act,240)+'. Se for aprovada, essa decisão deixa de valer';
+  }else if(kind==='acordo'){
+    let obj=text.replace(/^Aprova o texto (?:d[oa]s?\s+)?/i,'').replace(/,\s*(?:assinad|celebrad|firmad|adotad)[oa]s?\s+em\s+[\s\S]*$/i,'')
+      .replace(/entre (?:o Governo d)?a República Federativa do Brasil e /i,'com ')
+      .replace(/\bcom (?:o Governo d[aoe]s? )?(?:a )?República (?:d[aoe]s? )/i,'com ')
+      .replace(/\bcom o Governo d([aoe]s?) /i,(x,a)=>a==='e'?'com ':'com '+a.replace(/^a/,'a').replace(/^e/,'')+' ');
+    const fem=/^(Convenção|Emenda|Declaração)/i.test(obj);
+    out='Para valer no Brasil, '+(fem?'a ':'o ')+trimClause(obj,200)+' precisa ser '+(fem?'aprovada':'aprovado')+' pelo Congresso. É isso que a proposta faz';
+  }else if(kind==='orcamento'){
+    const m=raw.match(/em favor (d[eoa]s?) (.+?),\s*no valor de R\$\s*([\d.]+(?:,\d{2})?)/i);
+    out=m?'Libera '+moneyBR(m[3])+' a mais no Orçamento federal para '+(m[1]==='de'?'':m[1].slice(1)+' ')+m[2].trim()+'. O dinheiro já pode ser usado, mas o Congresso precisa confirmar a medida':
+      'Libera dinheiro extra no Orçamento federal para uma despesa específica';
+  }else if(kind==='revoga'){
+    const parts=text.replace(/^Revoga\s+/i,'').split(/,\s+(?=(?:proíbe|estabelece|institui|cria|dispõe|altera)\s)/i);
+    out='A proposta quer acabar com '+trimClause(parts[0],200)+(parts[1]?'. Também '+trimClause(parts.slice(1).join(', ').replace(/^dispõe sobre/i,'trata de'),200):'')+'. Se for aprovada, as regras revogadas deixam de existir';
+  }else if(kind==='autoriza'){
+    out='A proposta autoriza o governo a '+trimClause(text.replace(/^Autoriza\s+o\s+governo\s+a\s+/i,''),200)+'. É uma permissão, não uma obrigação';
+  }else if(kind==='procedimento'){
+    out='É um pedido sobre o andamento de outra proposta: '+trimClause(text.replace(/^Requer(?:em)?\s+/i,''),220)+'. Não muda direitos por si só';
+  }
+  out=sentence(out.replace(/…\./g,'…').replace(/\s{2,}/g,' ').replace(/\s+([,.])/g,'$1').replace(/\.\./g,'.'));
+  const norm=s=>clean(s).toLowerCase().replace(/[^\p{L}\d]+/gu,' ').trim();
+  if(title&&norm(out)===norm(title))out='Em resumo: '+out.charAt(0).toLowerCase()+out.slice(1);
+  return out;
 }

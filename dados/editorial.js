@@ -17,6 +17,7 @@ window.OBM_EDITORIAL = {
       "Familiares"
     ],
     "area": "Consumo",
+    "resumo": "Bancos teriam de proteger melhor os clientes idosos dentro das agências, com funcionário para ajudar nos caixas eletrônicos e alerta para movimentações fora do padrão. Se o golpe acontecer mesmo assim, o banco devolve o dinheiro em até 15 dias, sem precisar de processo.",
     "hoje": "Segundo o autor, muitas agências, sobretudo no interior, não têm funcionário na área dos caixas eletrônicos, e a proteção de privacidade na digitação de senhas só é exigida em capitais e cidades com mais de 500 mil habitantes. O banco já responde por fraudes em suas operações (Súmula 479 do STJ), mas a vítima muitas vezes precisa ir à Justiça para receber.",
     "proposta": "Bancos passam a ter deveres de prevenção em todas as agências e a ressarcir, em até 15 dias, a pessoa idosa vítima de golpe dentro da agência ou por operação suspeita que não foi checada.",
     "pontos": [
@@ -42,6 +43,7 @@ window.OBM_EDITORIAL = {
       "Anunciantes"
     ],
     "area": "Consumo",
+    "resumo": "Anúncios de consórcio e empréstimo na internet passariam a mostrar a empresa responsável, conferida pela plataforma no Banco Central. Promessas como “carta contemplada na hora”, isca do golpe do falso consórcio, ficariam proibidas.",
     "hoje": "Segundo o autor, as plataformas lucram com anúncios de consórcio e crédito, mas não precisam checar se o anunciante tem ligação com uma instituição autorizada pelo Banco Central. É por aí que se espalha o golpe do falso consórcio, com promessa de “carta contemplada” na hora.",
     "proposta": "Plataformas de anúncios e redes sociais passam a verificar quem anuncia crédito e consórcio, e o Código de Defesa do Consumidor proíbe as promessas típicas do golpe.",
     "pontos": [
@@ -68,6 +70,7 @@ window.OBM_EDITORIAL = {
       "Plataformas digitais"
     ],
     "area": "Tecnologia",
+    "resumo": "Ter o número de celular desviado na troca de chip deixaria de bastar para um golpista tomar contas de mensagens, e-mail e redes sociais. Operadoras teriam de avisar e deixar contestar a troca, e os aplicativos, pedir uma verificação extra.",
     "hoje": "Muitos aplicativos usam o número de celular para enviar códigos e recuperar contas. No golpe da troca de chip (SIM swap), o criminoso transfere a linha da vítima, passa a receber esses códigos e assume contas de mensagens, e-mail e redes sociais.",
     "proposta": "Operadoras e aplicativos passam a ser obrigados a adotar proteções para que ter o controle do número, sozinho, não baste para tomar uma conta. O Marco Civil da Internet ganha esse direito do usuário.",
     "pontos": [
@@ -93,6 +96,7 @@ window.OBM_EDITORIAL = {
       "Companhias aéreas"
     ],
     "area": "Mobilidade",
+    "resumo": "Quem cancela uma passagem aérea passaria a receber de volta uma parte mínima do valor, maior quanto mais cedo cancelar. E, se a companhia cancelar o voo por culpa dela, o passageiro recebe tudo de volta e mais uma compensação do mesmo valor.",
     "hoje": "Segundo o autor, não existe um mínimo legal de devolução quando o passageiro cancela a passagem. Tarifas promocionais podem devolver muito pouco, mesmo com cancelamento feito com bastante antecedência e mesmo que a companhia revenda o lugar.",
     "proposta": "Cria a “Lei da Passagem Justa”: devolução mínima que cresce conforme a antecedência do cancelamento, uma tarifa com reembolso integral sempre à venda e compensação extra quando a própria companhia cancela o voo.",
     "pontos": [
@@ -128,6 +132,7 @@ window.OBM_EDITORIAL = {
       "Gestores de saúde"
     ],
     "area": "Saúde",
+    "resumo": "Pacientes do SUS que precisam se tratar em outra cidade passariam a ter mais acesso a transporte ou ajuda de custo. Basta um relatório do médico mostrando que o deslocamento é necessário, mesmo em distâncias curtas, e o dinheiro sai antes do atendimento.",
     "hoje": "A Lei do SUS já prevê ajuda de custo para quem é encaminhado a tratamento em outra cidade (art. 19-X, incluído em abril de 2026), mas com restrições. Segundo o autor, ficam de fora casos como trajetos de ida com menos de 50 km e viagens entre cidades da mesma região metropolitana.",
     "proposta": "As restrições deixam de valer quando o médico do SUS fizer um relatório mostrando que, pela condição de saúde ou pela frequência das viagens, o paciente precisa do apoio. A prefeitura ou o estado que fez o encaminhamento passa a ter de pagar a ajuda de custo antes da viagem ou oferecer o transporte de ida e volta.",
     "pontos": [
@@ -152,6 +157,7 @@ window.OBM_EDITORIAL = {
       "Escolas"
     ],
     "area": "Educação",
+    "resumo": "O profissional que acompanha alunos com deficiência na escola, ajudando na alimentação, na higiene e na locomoção, ganharia regras nacionais: formação mínima, direitos garantidos e proibição de usar estagiário ou voluntário no lugar dele. A família continua sem pagar nada por esse apoio.",
     "hoje": "O Estatuto da Pessoa com Deficiência obriga escolas públicas e particulares a oferecer profissional de apoio escolar sem cobrar a mais, mas não diz como contratá-lo. Cada rede usa um nome (cuidador, monitor, auxiliar) e um tipo de vínculo, e os requisitos de formação estão só em decreto.",
     "proposta": "Cria regras nacionais para a função: atribuições definidas caso a caso, formação mínima prevista em lei e condições de trabalho garantidas, sem criar nova profissão nem fixar salário.",
     "pontos": [
@@ -254,6 +260,7 @@ window.OBM_EDITORIAL = {
       "Rede SUS"
     ],
     "area": "Saúde",
+    "resumo": "Crianças atendidas pelo SUS poderiam fazer um exame de sangue que descobre o diabetes tipo 1 e a doença celíaca antes dos primeiros sintomas. A ideia é evitar diagnósticos tardios, que hoje muitas vezes só acontecem no pronto-socorro.",
     "hoje": "Segundo o autor, boa parte dos diagnósticos de diabetes tipo 1 em crianças só acontece no pronto-socorro, já em cetoacidose, um quadro grave. O exame que identifica a doença anos antes dos sintomas existe, mas não é oferecido de forma organizada pelo SUS.",
     "proposta": "O SUS passa a oferecer, de graça e com autorização dos pais, um exame de sangue que identifica o diabetes tipo 1 e a doença celíaca em crianças antes dos sintomas, com acompanhamento para quem tiver resultado positivo.",
     "pontos": [

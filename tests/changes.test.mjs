@@ -107,3 +107,40 @@ test('ficha usa a seção nova',()=>{
   assert.match(html,/class="detail-section change-section"/);
   assert.match(html,/Lei de Diretrizes e Bases/);
 });
+
+import {plainSummary,plainText} from '../src/lib/changes.js';
+
+test('resumo automático explica em outras palavras e com contexto',()=>{
+  const s=plainSummary(PL('Altera a Lei nº 8.080, de 19 de setembro de 1990, para assegurar ajuda de custo ou transporte a pacientes do Sistema Único de Saúde que necessitem realizar tratamento em outro município.'));
+  assert.equal(s,'A proposta mexe na Lei Orgânica da Saúde, que organiza o SUS e as ações de saúde no país, para garantir ajuda de custo ou transporte a pacientes do SUS que precisem fazer tratamento em outra cidade.');
+});
+
+test('resumo por tipo de proposta',()=>{
+  assert.match(plainSummary({siglaTipo:'MPV',ementa:'Abre crédito extraordinário, em favor do Ministério de Minas e Energia, no valor de R$ 6.605.000.000,00, para os fins que especifica.'}),/^Libera R\$ 6,6 bilhões a mais no Orçamento federal para o Ministério de Minas e Energia\./);
+  assert.match(plainSummary({siglaTipo:'PDL',ementa:'Aprova o ato que renova a permissão outorgada à Rádio Educadora Ltda. para executar serviço de radiodifusão sonora em frequência modulada, no Município de Nova Brasilândia, Estado de Mato Grosso.'}),/^Confirma a renovação da licença para Rádio Educadora Ltda operar uma rádio em Nova Brasilândia \(Mato Grosso\)\./);
+  assert.match(plainSummary({siglaTipo:'PDL',ementa:'Susta os efeitos da Portaria INCRA nº 1.861, de 21 de maio de 2026, que cria o Projeto de Assentamento X.'}),/derrubar uma decisão do governo: a Portaria INCRA 1\.861\/2026, que cria/);
+  assert.match(plainSummary({siglaTipo:'PDL',ementa:'Aprova o texto do Acordo de Cooperação Educacional entre o Governo da República Federativa do Brasil e o Governo da República do Azerbaijão, assinado em Brasília, em 1º de setembro de 2025.'}),/^Para valer no Brasil, o Acordo de Cooperação Educacional com Azerbaijão precisa ser aprovado pelo Congresso/);
+  assert.match(plainSummary(PL('Institui o Dia Nacional do Forró.')),/^É uma proposta simbólica, que cria o Dia Nacional do Forró\. Não cria obrigações/);
+  assert.match(plainSummary(PL('Dispõe sobre a incidência do Imposto sobre a Renda das Pessoas Físicas sobre lucros e dividendos distribuídos por pessoas jurídicas.')),/^É uma proposta de lei nova que trata da incidência do Imposto de Renda sobre lucros e dividendos distribuídos por empresas\.$/);
+  assert.match(plainSummary(PL('Altera a Lei nº 9.394, de 20 de dezembro de 1996.')),/A ementa oficial não diz o que muda/);
+});
+
+test('resumo nunca é igual ao título',()=>{
+  const p=PL('Institui o Dia Nacional do Forró.');
+  const s=plainSummary(p,'É uma proposta simbólica, que cria o Dia Nacional do Forró. Não cria obrigações nem muda direitos.');
+  assert.match(s,/^Em resumo:/);
+});
+
+test('linguagem simples: troca jargão e encurta datas de leis',()=>{
+  assert.equal(plainText('no âmbito do Sistema Único de Saúde (SUS), mediante a adoção da Lei nº 8.080, de 19 de setembro de 1990'),'no SUS, por meio da adoção da Lei 8.080/1990');
+});
+
+test('resumo da redação substitui o automático quando validado',()=>{
+  const p=PL('Altera a Lei nº 8.080, de 19 de setembro de 1990, para X.');
+  const e={titulo:'P?',impacto:'I',publicos:['A'],resumo:'Resumo humano.',hoje:'H',proposta:'F',validado:'2026-11-16'};
+  const html=changeSection(p,e,{reviewed:true,title:'P?',area:'Saúde'});
+  assert.match(html,/<p class="change-lead">Resumo humano\.<\/p>/);
+  const auto=changeSection(p,{...e,validado:''},{reviewed:true,title:'P?',area:'Saúde'});
+  assert.match(auto,/change-lead">A proposta mexe na Lei Orgânica da Saúde/);
+  assert.match(auto,/Resumo automático/);
+});
