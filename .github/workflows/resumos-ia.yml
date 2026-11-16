@@ -1,13 +1,19 @@
 name: Resumos por IA a partir do texto integral
+# Roda sozinho até zerar a fila: cada execução processa um lote e, ao terminar,
+# dispara a próxima enquanto houver propostas sem resumo. O agendamento é uma
+# rede de segurança que reinicia a corrente se ela parar.
 on:
   schedule:
-    # A cada 3 horas. Primeiro zera o acervo, depois só processa as propostas novas.
     - cron: '17 */3 * * *'
+  push:
+    branches: [main]
+    paths:
+      - '.github/workflows/resumos-ia.yml'
   workflow_dispatch:
     inputs:
       limite:
         description: 'Quantas propostas processar nesta execução'
-        default: '400'
+        default: '1800'
       so_ids:
         description: 'IDs específicos (separados por vírgula) para refazer'
         default: ''
@@ -16,6 +22,7 @@ concurrency:
   cancel-in-progress: false
 permissions:
   contents: read
+  actions: write   # para disparar a próxima rodada
 jobs:
   resumir:
     runs-on: ubuntu-latest
@@ -30,13 +37,23 @@ jobs:
       - name: Testes do gerador
         run: python -m unittest tests.test_resumir -v
       - name: Gerar e publicar resumos
+        id: gerar
         env:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           MODELO: ${{ vars.RESUMOS_MODELO || 'claude-haiku-5-5' }}
           TOKENS_POR_MINUTO: ${{ vars.RESUMOS_TOKENS_POR_MINUTO || '40000' }}
-          LIMITE: ${{ github.event.inputs.limite || vars.RESUMOS_LIMITE || '400' }}
+          TRABALHADORES: ${{ vars.RESUMOS_TRABALHADORES || '4' }}
+          LIMITE: ${{ github.event.inputs.limite || vars.RESUMOS_LIMITE || '1800' }}
           MAX_SAIDA: ${{ vars.RESUMOS_MAX_SAIDA || '8000' }}
+          PRAZO_MINUTOS: '250'
           SO_IDS: ${{ github.event.inputs.so_ids || '' }}
         run: python -u scripts/resumir_propostas.py
+      - name: Disparar a próxima rodada
+        if: success() && steps.gerar.outputs.continuar == 'sim'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          echo "Ainda faltam ${{ steps.gerar.outputs.restam }} propostas. Disparando a próxima rodada."
+          gh workflow run resumos-ia.yml --repo "$GITHUB_REPOSITORY" --ref main -f limite="${{ vars.RESUMOS_LIMITE || '1800' }}"

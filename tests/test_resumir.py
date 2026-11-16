@@ -189,3 +189,25 @@ class RefazerPublicado(unittest.TestCase):
             rp.gravar, rp.url_inteiro_teor, rp.texto_integral, rp.chamar_modelo = orig
         self.assertEqual((st, st2), ("erro", "erro"))
         self.assertEqual([g["proposicao_id"] for g in gravados], [8], "só grava erro de quem ainda não estava publicado")
+
+
+class Encadeamento(unittest.TestCase):
+    def test_prazo_adia_sem_gravar(self):
+        gravados = []
+        orig = (rp.gravar, rp.INICIO)
+        rp.gravar = lambda r: gravados.append(r)
+        rp.INICIO = rp.time.time() - rp.PRAZO_MINUTOS * 60 - 1
+        try:
+            st, _ = rp.processar({"id": 1, "ementa": "E"})
+        finally:
+            rp.gravar, rp.INICIO = orig
+        self.assertEqual(st, "adiado")
+        self.assertEqual(gravados, [])
+
+    def test_workflow_se_redispara_com_trava_contra_laco(self):
+        wf = open(os.path.join(RAIZ, ".github", "workflows", "resumos-ia.yml"), encoding="utf-8").read()
+        self.assertIn("actions: write", wf)
+        self.assertIn("gh workflow run resumos-ia.yml", wf)
+        self.assertIn("steps.gerar.outputs.continuar == 'sim'", wf)
+        src = open(os.path.join(RAIZ, "scripts", "resumir_propostas.py"), encoding="utf-8").read()
+        self.assertIn('cont.get("publicado", 0) > 0', src)
