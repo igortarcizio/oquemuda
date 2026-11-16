@@ -149,7 +149,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '</dl>'+(full?'<div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+safeText(full)+'">Ler texto integral ↗<span class="sr-only"> (abre em nova aba)</span></a></div>':'')+
  (verifiedAt?'<p class="small-note">Situação consultada na fonte oficial em '+safeText(verifiedAt)+'. Os registros podem mudar.</p>':'<p class="small-note">Detalhes oficiais ainda não sincronizados. A ficha será complementada quando a fonte estiver disponível.</p>')+
  '<p class="small-note">O partido indicado é o informado pela Câmara e pode ser o da época da apresentação.</p>'+
- '</aside></div><section id="relatedProposals" class="related-proposals" aria-labelledby="relatedHeading" hidden></section></div>';
+ '</aside></div><div class="page"><section id="relatedProposals" class="related-proposals" aria-labelledby="relatedHeading" hidden></section></div></div>';
 }
 export function infoPage(){
  return '<div class="page inforoute"><p class="eyebrow">Como funciona</p><h1 tabindex="-1" id="infoTitle">Entender antes de opinar.</h1>'+
