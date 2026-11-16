@@ -1,3 +1,4 @@
+import io
 import json
 import os
 import re
@@ -108,3 +109,26 @@ class RitmoTeste(unittest.TestCase):
 
     def test_estimativa_de_tokens(self):
         self.assertGreater(rp.estimar_tokens("a" * 32000), 10000)
+
+
+class ChaveRecusada(unittest.TestCase):
+    def test_chave_invalida_para_tudo_sem_marcar_erro(self):
+        import urllib.error
+        gravados = []
+        orig = (rp.http, rp.gravar, rp.texto_integral, rp.url_inteiro_teor, rp.RITMO.esperar)
+        def http_falso(url, **kw):
+            raise urllib.error.HTTPError(url, 401, "Unauthorized", {}, io.BytesIO(b'{"error":"invalid x-api-key"}'))
+        rp.http = http_falso
+        rp.gravar = lambda r: gravados.append(r)
+        rp.texto_integral = lambda url: "Art. 1º " + "texto " * 100
+        rp.url_inteiro_teor = lambda p: "https://exemplo/pdf"
+        rp.RITMO.esperar = lambda t: None
+        os.environ["ANTHROPIC_API_KEY"] = "x"
+        try:
+            st1, _ = rp.processar({"id": 1, "ementa": "E", "sigla_tipo": "PL", "numero": 1, "ano": 2026})
+            st2, _ = rp.processar({"id": 2, "ementa": "E", "sigla_tipo": "PL", "numero": 2, "ano": 2026})
+        finally:
+            rp.http, rp.gravar, rp.texto_integral, rp.url_inteiro_teor, rp.RITMO.esperar = orig
+            rp.PARAR.clear()
+        self.assertEqual((st1, st2), ("parado", "parado"))
+        self.assertEqual(gravados, [], "não grava erro quando a chave é recusada")
