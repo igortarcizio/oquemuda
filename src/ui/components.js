@@ -1,6 +1,7 @@
 import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 import {THEMES as THEME_LIST} from '../lib/themes.js';
-import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
+import {displayTitle,amendedLaws,isReviewed,descriptiveTitle} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
+import {lawsInEmenta,actionOf,procedureNote,editorialChange} from '../lib/changes.js';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
@@ -116,24 +117,54 @@ function timeline(status,presentedAt){
   (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>etapa atual</small>':'')+'</li>').join('')+'</ol>';
 }
 
+const norm=s=>cleanText(s).toLowerCase().replace(/[.…\s]+$/,'');
+// Rito: o que ainda precisa acontecer para virar regra (varia pelo tipo).
+function riteNote(p){
+ const tipo=String(p.siglaTipo||'').toUpperCase();
+ if(tipo==='MPV')return procedureNote(p);
+ if(tipo==='PEC')return 'Proposta não é lei: o texto ainda pode mudar e precisa ser aprovado em dois turnos na Câmara e no Senado.';
+ if(tipo==='PDL'||tipo==='PRC')return 'Proposta não é lei: o texto ainda pode mudar e precisa ser aprovado pelo Congresso.';
+ return 'Proposta não é lei: o texto ainda pode mudar e precisa passar pela Câmara, pelo Senado e pela sanção.'+(tipo==='PLP'?' '+procedureNote(p).replace(/^Projeto de lei complementar: /,'Por ser lei complementar, '):'');
+}
+/** "O que a proposta quer mudar?": resumo, como é hoje x como ficaria (só com validação), o que o texto faz, leis e áreas. */
+export function changeSection(p,e,{reviewed,title,area}){
+ const action=actionOf(p),laws=lawsInEmenta(p.ementa),ed=editorialChange(e);
+ const full=descriptiveTitle(p.ementa).replace(/\bSistema Único de Saúde(?:\s*\(SUS\))?/gi,'SUS');
+ const lead=reviewed?cleanText(e.impacto):(norm(full)!==norm(title)?full:'');
+ const lawLabel=/altera|revoga/.test(action.kind)?(laws.length>1?'Leis que muda':'Lei que muda'):(laws.length>1?'Leis citadas':'Lei citada');
+ const tags=proposalTags(p);
+ const areaChips=ed?.areas?.length?ed.areas.map(a=>'<li>'+safeText(a)+'</li>').join(''):'';
+ return '<section class="detail-section change-section" aria-labelledby="changeTitle"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
+  (lead?'<p class="change-lead">'+safeText(lead.replace(/[.\s]+$/,''))+'.</p>':'')+
+  (ed&&(ed.hoje||ed.proposta)?'<div class="change-compare">'+
+    (ed.hoje?'<div class="change-now"><h3>Como é hoje</h3><p>'+safeText(ed.hoje)+'</p></div>':'')+
+    (ed.proposta?'<div class="change-next"><h3>Como ficaria</h3><p>'+safeText(ed.proposta)+'</p></div>':'')+'</div>':'')+
+  (ed?.pontos?.length?'<h3 class="change-sub">O que muda na prática</h3><ul class="change-points">'+ed.pontos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul>':'')+
+  '<dl class="change-facts">'+
+   '<div><dt>O que o texto faz</dt><dd><strong>'+safeText(action.label)+'.</strong> '+safeText(action.explica)+'</dd></div>'+
+   (laws.length?'<div><dt>'+lawLabel+'</dt><dd><ul class="change-laws">'+laws.map(l=>'<li>'+(l.nome?'<strong>'+safeText(l.nome)+'</strong> <span class="law-ref">('+safeText(l.ref)+')</span>':'<strong>'+safeText(l.ref)+'</strong>')+(l.sobre?': '+safeText(l.sobre)+'.':'.')+'</li>').join('')+'</ul></dd></div>':'')+
+   '<div><dt>Áreas que podem ser afetadas</dt><dd>'+(areaChips?'<ul class="change-areas">'+areaChips+'</ul>':
+     '<div class="change-areas-auto">'+topicLabel(area)+(tags.length?subjectLinks(p):'')+'</div>')+'</dd></div>'+
+  '</dl>'+
+  (ed?'<p class="small-note">“Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
+   reviewed?'':'<p class="small-note">Resumo automático a partir da ementa oficial. Ainda não foi explicado pela redação.</p>')+
+  '<p class="small-note">'+safeText(riteNote(p))+'</p></section>';
+}
 export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
- const e=editorial(p),reviewed=isReviewed(e),title=displayTitle(p,e),area=themeOf(p,e),laws=amendedLaws(p.ementa);
+ const e=editorial(p),reviewed=isReviewed(e),title=displayTitle(p,e),area=themeOf(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
  const full=safeURL(fullTextURL);
  const pendingText=lastChecked?'Não informado no registro consultado':'Em atualização';
  const verifiedAt=lastChecked?new Date(lastChecked).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'}):null;
  const backLabel=backHref==='#/explorar'?'← Voltar às propostas':'← Voltar aos resultados';
  const publicos=reviewed&&Array.isArray(e.publicos)?e.publicos.filter(Boolean):[];
- const whatChanges=reviewed?safeText(cleanText(e.impacto).replace(/[.\s]+$/,''))+'.':
-   safeText(title.replace(/[.…\s]+$/,''))+(laws?'. Para isso, altera: '+safeText(laws):'')+'.';
+ const changes=changeSection(p,e,{reviewed,title,area});
  return '<div class="detail" data-area="'+safeText(area)+'"><div class="page"><a class="back" href="'+safeText(backHref)+'">'+backLabel+'</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta">'+topicLabel(area)+'<span>'+safeText(ref(p))+'</span>'+(reviewed?SEAL:'')+'</div>'+
  '<h1 tabindex="-1" id="detailTitle" class="'+(reviewed?'':'auto')+'">'+safeText(title)+'</h1>'+
  '<div class="detail-actions">'+saveButton(p,saved,'＋ Salvar para depois')+'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a></div></div></div>'+
  '<div class="page detail-layout"><div>'+
- '<section class="detail-section"><h2>O que a proposta quer mudar?</h2><p>'+whatChanges+'</p>'+
-  (reviewed?'':'<p class="small-note">Resumo automático a partir da ementa oficial. Ainda não foi explicado pela redação.</p>')+
-  '<p class="small-note">Proposta não é lei: o texto ainda pode mudar e precisa passar pela Câmara, pelo Senado e pela sanção.</p></section>'+
+ changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
  '<section id="readerVotes" class="detail-section reader-votes" aria-labelledby="votesHeading" hidden></section>'+
  '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
