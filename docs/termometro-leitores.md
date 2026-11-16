@@ -2,9 +2,17 @@
 
 Na ficha de cada proposta aparecem três botões: **A favor**, **Neutro** e **Contra**. Com eles dá para ver se uma medida é bem ou mal recebida por quem lê o site.
 
+## Situação
+
+✅ **Ativo desde 16/11/2026.** A migração foi aplicada no projeto `ltihbrlamevhmjjlsphc` pelo SQL Editor. Na conferência pela chave pública:
+
+- `contar_votos` responde `200`;
+- ler `votos_leitores` diretamente dá `401 permission denied`;
+- um voto inválido dá `400 voto inválido`.
+
 ## Ativar (uma vez, no painel do Supabase)
 
-A seção fica **escondida** até o banco ter as funções de voto. Para ativar:
+A seção fica **escondida** até o banco ter as funções de voto. Em outro projeto ou ambiente, para ativar:
 
 1. Abra o projeto no Supabase e vá em **SQL Editor → New query**.
 2. Cole todo o conteúdo de [`supabase/migrations/20261116_termometro_leitores.sql`](../supabase/migrations/20261116_termometro_leitores.sql).
