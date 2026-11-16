@@ -132,3 +132,39 @@ class ChaveRecusada(unittest.TestCase):
             rp.PARAR.clear()
         self.assertEqual((st1, st2), ("parado", "parado"))
         self.assertEqual(gravados, [], "não grava erro quando a chave é recusada")
+
+
+class Robustez(unittest.TestCase):
+    def test_falha_da_camara_e_temporaria_e_volta_para_a_fila(self):
+        self.assertTrue(rp.refazer({"status": "sem_texto", "erro": "HTTP Error 504: Gateway Timeout", "tentativas": 1}))
+        self.assertTrue(rp.refazer({"status": "erro", "erro": "resposta sem JSON", "tentativas": 2}))
+        self.assertFalse(rp.refazer({"status": "erro", "erro": "x", "tentativas": 3}))
+        self.assertFalse(rp.refazer({"status": "sem_texto", "erro": "PDF sem texto legível", "tentativas": 1}))
+
+    def test_download_tenta_de_novo_e_marca_como_temporario(self):
+        import urllib.error
+        chamadas = []
+        orig_http, orig_sleep = rp.http, rp.time.sleep
+        def falha(url, **kw):
+            chamadas.append(url)
+            raise urllib.error.HTTPError(url, 504, "Gateway Timeout", {}, io.BytesIO(b""))
+        rp.http, rp.time.sleep = falha, lambda s: None
+        try:
+            with self.assertRaises(rp.FalhaTemporaria):
+                rp.baixar_pdf("https://camara/pdf")
+        finally:
+            rp.http, rp.time.sleep = orig_http, orig_sleep
+        self.assertEqual(len(chamadas), 3)
+
+    def test_resposta_cortada_no_limite_vira_erro_com_diagnostico(self):
+        orig_http = rp.http
+        rp.http = lambda url, **kw: json.dumps({"content": [{"type": "thinking", "thinking": "..."}, {"type": "text", "text": "{\"resumo\": \"cort"}],
+                                                 "stop_reason": "max_tokens", "usage": {"input_tokens": 10, "output_tokens": 8000}}).encode()
+        os.environ["ANTHROPIC_API_KEY"] = "x"
+        orig_espera = rp.RITMO.esperar
+        rp.RITMO.esperar = lambda t: None
+        try:
+            with self.assertRaisesRegex(ValueError, "cortada no limite"):
+                rp.chamar_modelo("prompt")
+        finally:
+            rp.http, rp.RITMO.esperar = orig_http, orig_espera

@@ -40,6 +40,7 @@ LIMITE = int(os.environ.get("LIMITE", "400"))
 TRABALHADORES = int(os.environ.get("TRABALHADORES", "4"))
 TOKENS_POR_MINUTO = int(os.environ.get("TOKENS_POR_MINUTO", "40000"))
 MAX_TENTATIVAS = 3
+MAX_SAIDA = int(os.environ.get("MAX_SAIDA", "8000"))  # o modelo pode raciocinar antes de responder
 MAX_CHARS = 60000          # mantém o prompt bem abaixo de 100 mil tokens
 UA = "OQueMuda/1.0 (resumos de dados abertos oficiais)"
 CAMARA = "https://dadosabertos.camara.leg.br/api/v2/proposicoes/"
@@ -64,7 +65,7 @@ Regras obrigatórias:
 - O resumo não pode repetir a ementa nem o título: conte o efeito prático para as pessoas.
 - Escreva em português do Brasil.
 
-Responda apenas com um objeto JSON, sem texto antes ou depois, neste formato:
+Seja direto: não explique seu raciocínio. Responda apenas com um objeto JSON, sem texto antes ou depois, neste formato:
 {"resumo": "1 ou 2 frases, até 320 caracteres, sobre o que muda na vida das pessoas",
  "hoje": "até 2 frases, até 400 caracteres, ou string vazia",
  "proposta": "até 2 frases, até 400 caracteres, sobre como ficaria se aprovada",
@@ -190,7 +191,7 @@ def carregar_candidatas(ids=None):
     base, h = supabase()
     feitos = {}
     for off in range(0, 200000, 1000):
-        q = urllib.parse.urlencode({"select": "proposicao_id,status,tentativas", "limit": 1000, "offset": off})
+        q = urllib.parse.urlencode({"select": "proposicao_id,status,tentativas,erro", "limit": 1000, "offset": off})
         rows = json.loads(http(base + "resumos_ia?" + q, headers=h))
         for r in rows:
             feitos[r["proposicao_id"]] = r
@@ -209,12 +210,19 @@ def carregar_candidatas(ids=None):
                 out.append(p)
             elif deve_pular(p.get("ementa")):
                 continue
-            elif f is None or (f["status"] == "erro" and (f.get("tentativas") or 1) < MAX_TENTATIVAS):
+            elif f is None or (f["status"] in ("erro", "sem_texto") and refazer(f)):
                 p["_tentativas"] = (f or {}).get("tentativas") or 0
                 out.append(p)
         if len(rows) < 1000:
             break
     return out
+
+
+def refazer(f):
+    """Erro de geração ou falha temporária da Câmara: tenta de novo até MAX_TENTATIVAS."""
+    if (f.get("tentativas") or 1) >= MAX_TENTATIVAS:
+        return False
+    return f["status"] == "erro" or bool(TEMPORARIA.search(f.get("erro") or ""))
 
 
 def url_inteiro_teor(p):
@@ -224,9 +232,32 @@ def url_inteiro_teor(p):
     return (d.get("dados") or {}).get("urlInteiroTeor")
 
 
+class FalhaTemporaria(Exception):
+    """Servidor da Câmara fora do ar ou lento: tentar de novo numa próxima execução."""
+
+
+TEMPORARIA = re.compile(r"HTTP Error 5\d\d|timed out|Timeout|temporar|Connection reset|Remote end closed", re.I)
+
+
+def baixar_pdf(url):
+    ultimo = None
+    for espera in (0, 10, 30):
+        if espera:
+            time.sleep(espera)
+        try:
+            return http(url, headers={"User-Agent": UA, "Accept": "application/pdf,*/*"}, timeout=90)
+        except urllib.error.HTTPError as e:
+            if e.code < 500:
+                raise LookupError(f"HTTP {e.code} ao baixar o inteiro teor")
+            ultimo = e
+        except (urllib.error.URLError, TimeoutError, ConnectionError, OSError) as e:
+            ultimo = e
+    raise FalhaTemporaria(f"Câmara indisponível: {ultimo}")
+
+
 def texto_integral(url):
     from pypdf import PdfReader
-    raw = http(url, headers={"User-Agent": UA, "Accept": "application/pdf,*/*"}, timeout=90)
+    raw = baixar_pdf(url)
     if not raw.startswith(b"%PDF"):
         raise LookupError("inteiro teor não é PDF")
     leitor = PdfReader(io.BytesIO(raw))
@@ -263,7 +294,7 @@ def estimar_tokens(texto):
 
 
 def chamar_modelo(prompt):
-    corpo = json.dumps({"model": MODELO, "max_tokens": 1500, "system": SISTEMA,
+    corpo = json.dumps({"model": MODELO, "max_tokens": MAX_SAIDA, "system": SISTEMA,
                         "messages": [{"role": "user", "content": prompt}]}).encode()
     h = {"x-api-key": os.environ["ANTHROPIC_API_KEY"], "anthropic-version": "2023-06-01",
          "content-type": "application/json"}
@@ -274,7 +305,11 @@ def chamar_modelo(prompt):
         RITMO.esperar(estimar_tokens(SISTEMA + prompt))
         try:
             r = json.loads(http("https://api.anthropic.com/v1/messages", data=corpo, headers=h, method="POST", timeout=120))
+            somar_uso(r.get("usage") or {})
             texto = "".join(b.get("text", "") for b in r.get("content", []) if b.get("type") == "text")
+            if r.get("stop_reason") == "max_tokens" and "}" not in texto:
+                tipos = sorted({b.get("type") for b in r.get("content", [])})
+                raise ValueError(f"resposta cortada no limite de {MAX_SAIDA} tokens (blocos: {tipos})")
             return texto, r.get("usage") or {}
         except urllib.error.HTTPError as e:
             if e.code in (429, 500, 502, 503, 529):
@@ -301,6 +336,13 @@ def gravar(registro):
 # ---------- processamento ----------
 
 USO = {"input_tokens": 0, "output_tokens": 0}
+_TRAVA_USO = threading.Lock()
+
+
+def somar_uso(uso):
+    with _TRAVA_USO:
+        for k in USO:
+            USO[k] += int(uso.get(k) or 0)
 
 
 def processar(p, dry=False):
@@ -316,6 +358,11 @@ def processar(p, dry=False):
         texto = texto_integral(url)
         if len(texto) < 300:
             raise LookupError("PDF sem texto legível")
+    except (FalhaTemporaria, urllib.error.URLError, TimeoutError) as e:
+        reg = {**base, "status": "erro", "erro": ("temporário: " + str(e))[:300]}
+        if not dry:
+            gravar(reg)
+        return "erro", str(e)
     except (LookupError, urllib.error.HTTPError) as e:
         reg = {**base, "status": "sem_texto", "erro": str(e)[:300]}
         if not dry:
@@ -327,9 +374,7 @@ def processar(p, dry=False):
     ultimo = ""
     for _ in range(2):
         try:
-            resposta, uso = chamar_modelo(montar_prompt(p, texto))
-            for k in USO:
-                USO[k] += int(uso.get(k) or 0)
+            resposta, _ = chamar_modelo(montar_prompt(p, texto))
             dados = validar(extrair_json(resposta), p.get("ementa") or "")
             gravar({**base, **dados, "status": "publicado", "erro": None, "fonte_url": url,
                     "caracteres_lidos": len(texto)})
