@@ -400,7 +400,8 @@ def main():
         return 0
     ids = [int(x) for x in os.environ.get("SO_IDS", "").split(",") if x.strip()]
     fila = carregar_candidatas(ids or None)
-    print(f"Propostas na fila: {len(fila)}; processando até {LIMITE} com {MODELO}.", flush=True)
+    na_fila = len(fila)
+    print(f"Propostas na fila: {na_fila}; processando até {LIMITE} com {MODELO}.", flush=True)
     fila = fila[:LIMITE]
     cont = {}
     inicio = time.time()
@@ -417,7 +418,10 @@ def main():
     custo = USO["input_tokens"] / 1e6 * 0.10 + USO["output_tokens"] / 1e6 * 0.50 if "haiku" in MODELO else None
     resumo = (f"## Resumos por IA\n\n{json.dumps(cont, ensure_ascii=False)} em {int(time.time() - inicio)} s. "
               f"Tokens: {USO['input_tokens']:,} de entrada, {USO['output_tokens']:,} de saída"
-              + (f" (≈ US$ {custo:.2f})." if custo is not None else ".") + "\n")
+              + (f" (≈ US$ {custo:.2f})." if custo is not None else ".") + "\n"
+              + ("" if ids or dry else
+                 f"\n**Fila:** {na_fila:,} propostas sem resumo antes desta execução; "
+                 f"restam cerca de {max(na_fila - cont.get('publicado', 0) - cont.get('sem_texto', 0), 0):,}.\n"))
     print(resumo)
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
