@@ -7,6 +7,17 @@ Traduzir proposições oficiais em informações verificáveis e úteis à socie
 1. **Conteúdo revisado**: título em pergunta relacionada à vida real; síntese de uma frase sobre o que a proposta pretende alterar; até três públicos relacionados ao tema; ementa e fonte oficial.
 2. **Registro automático**: título extraído do objeto da ementa e texto oficial resumido, sem inventar efeitos. É apresentado sem os elementos visuais de destaque editorial. A plataforma deve deixar claro quando não há análise consolidada.
 
+## "O que a proposta quer mudar?"
+- **Parte automática (todas as propostas)**, gerada em `src/lib/changes.js` só com o que está na ementa:
+  - o que o texto faz (muda lei existente, cria regras, homenagem, derruba ato do governo etc.);
+  - a lei afetada, com nome popular;
+  - as áreas (tema e tags);
+  - o rito conforme o tipo (MPV, PLP, PDL, PEC).
+- **Parte editorial (propostas revisadas):** "Como é hoje", "Como ficaria", "O que muda na prática" (até 5 pontos) e "Áreas que podem ser afetadas", nos campos `hoje`, `proposta`, `pontos`, `areas` e `fonte_resumo` de `dados/editorial.js`.
+  - Escrever sempre a partir do texto integral e da justificativa, nunca só da ementa.
+  - Quando a situação atual vier do autor, dizer isso ("Segundo o autor…").
+  - Só aparece no site quando o campo `validado` tiver a data da revisão humana. Rascunhos ficam sem esse campo.
+
 ## Regras
 - Nunca afirmar que proposta apresentada já está em vigor.
 - Não usar «O que prevê o PL/REQ/MSC nº?» como título.
