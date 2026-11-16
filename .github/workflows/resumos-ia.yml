@@ -1,0 +1,46 @@
+name: Resumos por IA a partir do texto integral
+on:
+  schedule:
+    # A cada 3 horas. Primeiro zera o acervo, depois só processa as propostas novas.
+    - cron: '17 */3 * * *'
+  push:
+    branches: [main]
+    paths:
+      - 'scripts/resumir_propostas.py'
+      - '.github/workflows/resumos-ia.yml'
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: 'Quantas propostas processar nesta execução'
+        default: '400'
+      so_ids:
+        description: 'IDs específicos (separados por vírgula) para refazer'
+        default: ''
+concurrency:
+  group: resumos-ia
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  resumir:
+    runs-on: ubuntu-latest
+    timeout-minutes: 300
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Instalar leitor de PDF
+        run: pip install --quiet pypdf==5.*
+      - name: Testes do gerador
+        run: python -m unittest tests.test_resumir -v
+      - name: Gerar e publicar resumos
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          MODELO: ${{ vars.RESUMOS_MODELO || 'claude-haiku-5-5' }}
+          TOKENS_POR_MINUTO: ${{ vars.RESUMOS_TOKENS_POR_MINUTO || '40000' }}
+          LIMITE: ${{ github.event.inputs.limite || vars.RESUMOS_LIMITE || '400' }}
+          SO_IDS: ${{ github.event.inputs.so_ids || '' }}
+        run: python -u scripts/resumir_propostas.py

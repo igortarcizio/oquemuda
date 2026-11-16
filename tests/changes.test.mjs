@@ -145,3 +145,26 @@ test('resumo da redação substitui o automático quando validado',()=>{
   assert.match(auto,/change-lead">A proposta mexe na Lei Orgânica da Saúde/);
   assert.match(auto,/Resumo automático/);
 });
+
+test('resumo da IA aparece com aviso e nunca passa por texto da redação',async()=>{
+  const p=PL('Altera a Lei nº 8.080, de 19 de setembro de 1990, para X.');
+  const ai={resumo:'Resumo da IA.',hoje:'Hoje.',proposta:'Fica.',pontos:['P1','P2'],areas:['Saúde'],modelo:'claude-haiku-5-5',gerado_em:'2026-11-16T20:00:00Z'};
+  const html=changeSection(p,{},{reviewed:false,title:'T',area:'Saúde',ai});
+  assert.match(html,/Resumo gerado por IA · sem revisão humana/);
+  assert.match(html,/change-lead">Resumo da IA\./);
+  assert.match(html,/gerados por inteligência artificial a partir do texto integral/);
+  assert.doesNotMatch(html,/escritos pela redação/);
+  const human={titulo:'P?',impacto:'I',publicos:['A'],resumo:'Resumo humano.',hoje:'H',proposta:'F',validado:'2026-11-16'};
+  const both=changeSection(p,human,{reviewed:true,title:'P?',area:'Saúde',ai});
+  assert.match(both,/Resumo humano\./);assert.doesNotMatch(both,/gerado por IA/);
+});
+
+test('busca do resumo da IA usa só colunas públicas e trata ausência',async()=>{
+  const {fetchAiSummary}=await import('../src/ui/ai-summary.js');
+  let url='';
+  const row=await fetchAiSummary(123,{fetchImpl:async u=>{url=u;return {ok:true,json:async()=>[{resumo:'R',pontos:[],areas:[]}]}}});
+  assert.equal(row.resumo,'R');
+  assert.match(url,/resumos_ia\?select=resumo%2Choje%2Cproposta%2Cpontos%2Careas%2Cmodelo%2Cgerado_em&proposicao_id=eq\.123/);
+  assert.equal(await fetchAiSummary(1,{fetchImpl:async()=>({ok:true,json:async()=>[]})}),null);
+  assert.equal(await fetchAiSummary(1,{fetchImpl:async()=>({ok:false})}),null);
+});

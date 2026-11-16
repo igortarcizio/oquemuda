@@ -3,10 +3,11 @@ import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,get
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=o-que-muda-3';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=resumos-ia-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js';
+import {mountAiSummary,stopAiSummary} from './ui/ai-summary.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
@@ -290,7 +291,7 @@ async function showList(){
 }
 function focusHeading(el){if(el&&!firstRender)el.focus({preventScroll:true})}
 function listPageFromHash(){
- stopRelated();stopVotes();
+ stopRelated();stopVotes();stopAiSummary();
  const previousView=state.view;
  const direct=readHash();setViews();setNav();
  if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
@@ -304,7 +305,7 @@ async function showDetail(id){
  const candidate=[...state.items,...getSaved(),...(window.OBM_DATA?.items||[])].find(p=>String(p.id)===String(id));
  const neutral={...STATUS.unknown};
  const keepFocus=()=>{const h=$('detailTitle');if(h&&(document.activeElement===document.body||!document.activeElement||$('detailView').contains(document.activeElement)&&document.activeElement.id==='detailTitle'))h.focus({preventScroll:true})};
- if(candidate){$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral,backHref:lastListHash},isSaved(candidate.id));mountVotes(candidate)}
+ if(candidate){$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral,backHref:lastListHash},isSaved(candidate.id));mountVotes(candidate);mountAiSummary(candidate)}
  else $('detailView').innerHTML='<div class="page inforoute"><h1>Consultando proposição…</h1><p>Buscando registro disponível.</p></div>';
  document.title='Proposta — o que muda?';window.scrollTo({top:0,behavior:'instant'});
  focusHeading($('detailTitle'));
@@ -312,7 +313,7 @@ async function showDetail(id){
  try{stored=await getDatabaseDetail(id)}catch{}
  if(task!==detailSequence||state.view!=='detalhe')return;
  if(stored){
-  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true,backHref:lastListHash},isSaved(id));keepFocus();mountVotes(stored.proposal);
+  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true,backHref:lastListHash},isSaved(id));keepFocus();mountVotes(stored.proposal);mountAiSummary(stored.proposal);
   document.title=ref(stored.proposal)+' — O que muda?';
  }
  // Atualização em segundo plano, sem bloquear a ficha que já está no banco.
@@ -338,6 +339,7 @@ async function showDetail(id){
  },isSaved(id));
  keepFocus();
  mountVotes(proposal);
+ mountAiSummary(proposal);
  mountRelated(proposal);
  document.title=ref(proposal)+' — O que muda?';
 }

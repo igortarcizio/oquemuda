@@ -126,14 +126,17 @@ function riteNote(p){
  return 'Proposta não é lei: o texto ainda pode mudar e precisa passar pela Câmara, pelo Senado e pela sanção.'+(tipo==='PLP'?' '+procedureNote(p).replace(/^Projeto de lei complementar: /,'Por ser lei complementar, '):'');
 }
 /** "O que a proposta quer mudar?": resumo, como é hoje x como ficaria (só com validação), o que o texto faz, leis e áreas. */
-export function changeSection(p,e,{reviewed,title,area}){
- const action=actionOf(p),laws=lawsInEmenta(p.ementa),ed=editorialChange(e);
- // Resumo: o da redação (validado) ou o automático, que nunca repete o título.
+export function changeSection(p,e,{reviewed,title,area,ai=null}){
+ const action=actionOf(p),laws=lawsInEmenta(p.ementa),human=editorialChange(e);
+ // Prioridade: redação (validado) > IA a partir do texto integral > automático da ementa.
+ const fromAI=!human&&ai?editorialChange({...ai,validado:ai.gerado_em||'ia'}):null;
+ const ed=human||fromAI;
  const lead=ed?.resumo||plainSummary(p,title);
  const lawLabel=/altera|revoga/.test(action.kind)?(laws.length>1?'Leis que muda':'Lei que muda'):(laws.length>1?'Leis citadas':'Lei citada');
  const tags=proposalTags(p);
  const areaChips=ed?.areas?.length?ed.areas.map(a=>'<li>'+safeText(a)+'</li>').join(''):'';
  return '<section class="detail-section change-section" aria-labelledby="changeTitle"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
+  (fromAI?'<p class="ai-flag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2"/></svg>Resumo gerado por IA · sem revisão humana</p>':'')+
   (lead?'<p class="change-lead">'+safeText(lead)+'</p>':'')+
   (ed&&(ed.hoje||ed.proposta)?'<div class="change-compare">'+
     (ed.hoje?'<div class="change-now"><h3>Como é hoje</h3><p>'+safeText(ed.hoje)+'</p></div>':'')+
@@ -145,10 +148,17 @@ export function changeSection(p,e,{reviewed,title,area}){
    '<div><dt>Áreas que podem ser afetadas</dt><dd>'+(areaChips?'<ul class="change-areas">'+areaChips+'</ul>':
      '<div class="change-areas-auto">'+topicLabel(area)+(tags.length?subjectLinks(p):'')+'</div>')+'</dd></div>'+
   '</dl>'+
-  (ed?'<p class="small-note">Resumo, “Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
+  (fromAI?'<p class="small-note">Resumo, “Como é hoje”, “Como ficaria” e “O que muda na prática” foram gerados por inteligência artificial a partir do texto integral da proposta, sem revisão humana. Podem conter erros: confira o texto oficial antes de tirar conclusões.</p>':
+   ed?'<p class="small-note">Resumo, “Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
    '<p class="small-note">Resumo automático, feito a partir da ementa oficial'+(reviewed?'.':'. Ainda não foi explicado pela redação.')+'</p>')+
   '<p class="small-note">'+safeText(riteNote(p))+'</p></section>';
 }
+/** Seção "O que muda" recalculada para uma proposta, com o resumo da IA quando houver. */
+export function changeSectionFor(p,ai=null){
+ const e=editorial(p);
+ return changeSection(p,e,{reviewed:isReviewed(e),title:displayTitle(p,e),area:themeOf(p,e),ai});
+}
+export function hasValidatedEditorial(p){return !!editorialChange(editorial(p))}
 export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
  const e=editorial(p),reviewed=isReviewed(e),title=displayTitle(p,e),area=themeOf(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
@@ -190,6 +200,7 @@ export function infoPage(){
  '<article class="step"><div class="number">03</div><h2>Confira a fonte</h2><p>Consulte o texto integral, os autores e o andamento na base oficial.</p></article></div>'+
  '<div class="notice" style="margin-top:26px"><strong>Transparência editorial.</strong> Propostas com o selo “Explicado pela redação” foram lidas por uma pessoa, que escreveu o título em forma de pergunta e o resumo. Nas demais, o título é gerado automaticamente a partir da ementa oficial e descreve o que o texto faz, sem interpretar. A classificação temática também é automática. A aprovação em uma comissão não equivale à aprovação final.</div>'+
  '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde ou Direitos e cidadania; toda proposta recebe um dos 13 temas. As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. A classificação é automática e pode ser aperfeiçoada.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
+ '<section style="margin-top:26px"><h2>Resumos gerados por IA</h2><p>Para que toda proposta tenha uma explicação além da ementa, um programa lê o texto integral publicado pela Câmara e usa inteligência artificial para escrever o resumo, como é hoje, como ficaria e o que muda na prática. Esses textos aparecem com o aviso “Resumo gerado por IA · sem revisão humana” e podem conter erros. Quando a redação revisa uma proposta, o texto revisado substitui o da IA e ganha o selo “Explicado pela redação”.</p></section>'+
  '<section style="margin-top:26px"><h2>Termômetro dos leitores</h2><p>Na ficha de cada proposta, você pode dizer se é a favor, neutro ou contra. O voto é anônimo: guardamos só um código aleatório deste navegador, sem nome, e-mail ou endereço IP. O resultado mostra a opinião de quem lê o site, aparece a partir de 5 votos e não é pesquisa de opinião: não representa a população nem o que o Congresso vai decidir.</p></section>'+
  '<p style="margin-top:26px"><a class="primary-btn" href="#/explorar">Explorar propostas →</a></p></div>';
 }
