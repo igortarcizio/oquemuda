@@ -136,7 +136,7 @@ Legenda do status: ✅ Site = já no site principal · ✅ Protótipo = resolvid
 | 13 | Títulos descritivos para não revisados (V1) | Visual/Conteúdo | M | Alto | ✅ Site (etapa 2) |
 | 14 | Filtros recolhíveis e "De olho" em chips no mobile (U2) | UX | M | Alto | ✅ Site (etapa 2) |
 | 15 | Apagar código morto e sincronizador duplicado (C5) | Código | M | Médio | ⬜ Pendente |
-| 16 | Versionar schema + RLS (C7) | Segurança | M | Médio | ⬜ Pendente |
+| 16 | Versionar schema + RLS (C7) | Segurança | M | Médio | 🟡 Iniciado: `supabase/migrations/` criada com o termômetro dos leitores (RLS fechado, acesso só por funções); falta exportar o schema de `proposicoes` e `destaques_diarios` |
 | 17 | Busca full-text sem acento (U3) | Código/UX | M | Médio | 🟡 Site (etapa 2): palavras soltas em qualquer ordem; sem acento só no banco (etapa 3) |
 | 18 | Ampliar/revisar taxonomia de cor (V2) | Visual | M | Médio | ✅ Site (etapa 2): 13 temas, cor na faixa do card |
 | 19 | Carregar `catalogo` só sob demanda (fallback com timeout) | Código | G | Médio | ✅ Protótipo (acervo embutido como reserva) |
