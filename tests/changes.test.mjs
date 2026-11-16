@@ -164,7 +164,26 @@ test('busca do resumo da IA usa só colunas públicas e trata ausência',async()
   let url='';
   const row=await fetchAiSummary(123,{fetchImpl:async u=>{url=u;return {ok:true,json:async()=>[{resumo:'R',pontos:[],areas:[]}]}}});
   assert.equal(row.resumo,'R');
-  assert.match(url,/resumos_ia\?select=resumo%2Choje%2Cproposta%2Cpontos%2Careas%2Cmodelo%2Cgerado_em&proposicao_id=eq\.123/);
+  assert.match(url,/resumos_ia\?select=titulo%2Cresumo%2Choje%2Cproposta%2Cpontos%2Careas%2Cmodelo%2Cgerado_em&proposicao_id=eq\.123/);
   assert.equal(await fetchAiSummary(1,{fetchImpl:async()=>({ok:true,json:async()=>[]})}),null);
   assert.equal(await fetchAiSummary(1,{fetchImpl:async()=>({ok:false})}),null);
+});
+
+test('títulos curtos da IA: busca em lote e respeita título da redação',async()=>{
+  const {fetchAiTitles,aiTitleFor}=await import('../src/ui/ai-summary.js');
+  let url='';
+  const cache=await fetchAiTitles([10,11,10],{fetchImpl:async u=>{url=u;return {ok:true,json:async()=>[{proposicao_id:10,titulo:'Proíbe X'}]}}});
+  assert.match(url,/select=proposicao_id%2Ctitulo&proposicao_id=in.%2810%2C11%29&titulo=not.is.null/);
+  assert.equal(cache.get(10),'Proíbe X');assert.equal(cache.get(11),'');
+  assert.equal(aiTitleFor({id:999999999},{titulo:'Curto'}),'Curto');
+  assert.equal(aiTitleFor({id:999999999},{titulo:'  '}),'');
+});
+
+test('título automático longo é encurtado sem perder o assunto',async()=>{
+  const {shortenTitle}=await import('../src/lib/titles.js');
+  assert.equal(shortenTitle('Reconhece a Romaria de Nossa Senhora da Penha, realizada no Município de João Pessoa, Estado da Paraíba, como manifestação da cultura nacional'),
+    'Reconhece a Romaria de Nossa Senhora da Penha em João Pessoa (Paraíba), como manifestação da cultura nacional');
+  assert.equal(shortenTitle('Inclui os serviços na redução de 60% (sessenta por cento) das alíquotas'),'Inclui os serviços na redução de 60% das alíquotas');
+  const t=shortenTitle('Cria o Sistema Nacional de Acompanhamento de Operações de Financiamento Imobiliário (SNAFI) e estabelece mecanismos de transparência, rastreabilidade e fiscalização das operações');
+  assert.equal(t,'Cria o Sistema Nacional de Acompanhamento de Operações de Financiamento Imobiliário (SNAFI)');
 });

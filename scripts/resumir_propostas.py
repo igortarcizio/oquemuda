@@ -69,7 +69,8 @@ Regras obrigatórias:
 - Escreva em português do Brasil.
 
 Seja direto: não explique seu raciocínio. Responda apenas com um objeto JSON, sem texto antes ou depois, neste formato:
-{"resumo": "1 ou 2 frases, até 320 caracteres, sobre o que muda na vida das pessoas",
+{"titulo": "até 80 caracteres: frase afirmativa e curta que diga o que a proposta faz, começando por verbo no presente (Proíbe, Cria, Exige, Garante, Muda, Aumenta…), sem número do projeto, sem ponto final e sem interrogação",
+ "resumo": "1 ou 2 frases, até 320 caracteres, sobre o que muda na vida das pessoas",
  "hoje": "até 2 frases, até 400 caracteres, ou string vazia",
  "proposta": "até 2 frases, até 400 caracteres, sobre como ficaria se aprovada",
  "pontos": ["de 2 a 5 mudanças práticas concretas, cada uma com até 220 caracteres"],
@@ -143,7 +144,11 @@ def _norm(s):
 def validar(dados, ementa=""):
     if not isinstance(dados, dict):
         raise ValueError("JSON não é objeto")
+    titulo = _txt(dados.get("titulo"), 95, 15, "titulo").rstrip(".").strip()
+    if "?" in titulo:
+        raise ValueError("titulo: não pode ser pergunta")
     out = {
+        "titulo": titulo,
         "resumo": _txt(dados.get("resumo"), 420, 50, "resumo"),
         "hoje": _txt(dados.get("hoje") or "", 520, 0, "hoje"),
         "proposta": _txt(dados.get("proposta"), 520, 30, "proposta"),
@@ -194,7 +199,7 @@ def carregar_candidatas(ids=None):
     base, h = supabase()
     feitos = {}
     for off in range(0, 200000, 1000):
-        q = urllib.parse.urlencode({"select": "proposicao_id,status,tentativas,erro", "limit": 1000, "offset": off})
+        q = urllib.parse.urlencode({"select": "proposicao_id,status,tentativas,erro,titulo", "limit": 1000, "offset": off})
         rows = json.loads(http(base + "resumos_ia?" + q, headers=h))
         for r in rows:
             feitos[r["proposicao_id"]] = r
@@ -213,8 +218,10 @@ def carregar_candidatas(ids=None):
                 out.append(p)
             elif deve_pular(p.get("ementa")):
                 continue
-            elif f is None or (f["status"] in ("erro", "sem_texto") and refazer(f)):
+            elif f is None or (f["status"] in ("erro", "sem_texto") and refazer(f)) or \
+                    (f["status"] == "publicado" and not f.get("titulo")):
                 p["_tentativas"] = (f or {}).get("tentativas") or 0
+                p["_ja_publicado"] = bool(f and f["status"] == "publicado")
                 out.append(p)
         if len(rows) < 1000:
             break
@@ -349,10 +356,15 @@ def somar_uso(uso):
 
 
 def processar(p, dry=False):
+    # Refazendo um resumo que já está no ar (ex.: para ganhar título): falha não tira o antigo do ar.
+    if p.get("_ja_publicado"):
+        dry_falha = True
+    else:
+        dry_falha = dry
     if PARAR.is_set():
         return "parado", "chave da API recusada"
     pid = p["id"]
-    base = {"proposicao_id": pid, "modelo": MODELO, "tentativas": (p.get("_tentativas") or 0) + 1,
+    base = {"proposicao_id": pid, "modelo": MODELO, "tentativas": min((p.get("_tentativas") or 0) + 1, 9),
             "gerado_em": dt.datetime.now(dt.timezone.utc).isoformat()}
     try:
         url = url_inteiro_teor(p)
@@ -363,12 +375,12 @@ def processar(p, dry=False):
             raise LookupError("PDF sem texto legível")
     except (FalhaTemporaria, urllib.error.URLError, TimeoutError) as e:
         reg = {**base, "status": "erro", "erro": ("temporário: " + str(e))[:300]}
-        if not dry:
+        if not dry_falha:
             gravar(reg)
         return "erro", str(e)
     except (LookupError, urllib.error.HTTPError) as e:
         reg = {**base, "status": "sem_texto", "erro": str(e)[:300]}
-        if not dry:
+        if not dry_falha:
             gravar(reg)
         return "sem_texto", str(e)
     texto = recortar(texto)
@@ -389,7 +401,8 @@ def processar(p, dry=False):
         except RuntimeError as e:
             ultimo = str(e)
             break
-    gravar({**base, "status": "erro", "erro": ultimo[:300], "fonte_url": url})
+    if not dry_falha:
+        gravar({**base, "status": "erro", "erro": ultimo[:300], "fonte_url": url})
     return "erro", ultimo
 
 
