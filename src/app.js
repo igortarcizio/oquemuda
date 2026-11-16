@@ -5,6 +5,7 @@ import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-lote-005-regras';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
+import {mountRelated,stopRelated} from './ui/related-proposals.js';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
@@ -288,6 +289,7 @@ async function showList(){
 }
 function focusHeading(el){if(el&&!firstRender)el.focus({preventScroll:true})}
 function listPageFromHash(){
+ stopRelated();
  const previousView=state.view;
  const direct=readHash();setViews();setNav();
  if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
@@ -334,6 +336,7 @@ async function showDetail(id){
   fullTextURL:detail?.fullTextURL||stored?.fullTextURL||null,backHref:lastListHash
  },isSaved(id));
  keepFocus();
+ mountRelated(proposal);
  document.title=ref(proposal)+' — O que muda?';
 }
 
