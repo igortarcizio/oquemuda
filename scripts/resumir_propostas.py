@@ -165,6 +165,13 @@ def montar_prompt(p, texto):
     )
 
 
+class ChaveInvalida(Exception):
+    """A API recusou a chave (expirada, revogada ou sem crédito): a execução inteira para."""
+
+
+PARAR = threading.Event()
+
+
 # ---------- rede ----------
 
 def http(url, data=None, headers=None, method=None, timeout=60):
@@ -277,7 +284,11 @@ def chamar_modelo(prompt):
                     espera = 0
                 espera = max(espera, 10 * (tentativa + 1))
                 continue
-            raise RuntimeError(f"API {e.code}: {e.read()[:300].decode(errors='ignore')}")
+            corpo_erro = e.read()[:300].decode(errors="ignore")
+            if e.code in (401, 403) or (e.code == 400 and "credit balance" in corpo_erro.lower()):
+                PARAR.set()
+                raise ChaveInvalida(f"API {e.code}: {corpo_erro}")
+            raise RuntimeError(f"API {e.code}: {corpo_erro}")
     raise RuntimeError("API indisponível depois de várias tentativas")
 
 
@@ -293,6 +304,8 @@ USO = {"input_tokens": 0, "output_tokens": 0}
 
 
 def processar(p, dry=False):
+    if PARAR.is_set():
+        return "parado", "chave da API recusada"
     pid = p["id"]
     base = {"proposicao_id": pid, "modelo": MODELO, "tentativas": (p.get("_tentativas") or 0) + 1,
             "gerado_em": dt.datetime.now(dt.timezone.utc).isoformat()}
@@ -323,6 +336,8 @@ def processar(p, dry=False):
             return "publicado", ""
         except (ValueError, json.JSONDecodeError) as e:
             ultimo = str(e)
+        except ChaveInvalida:
+            return "parado", "chave da API recusada"
         except RuntimeError as e:
             ultimo = str(e)
             break
@@ -359,6 +374,10 @@ def main():
     if os.environ.get("GITHUB_STEP_SUMMARY"):
         with open(os.environ["GITHUB_STEP_SUMMARY"], "a", encoding="utf-8") as f:
             f.write(resumo)
+    if PARAR.is_set():
+        print("::error::A API da Anthropic recusou a chave (expirada, revogada ou sem crédito). "
+              "Gere uma chave nova no Console e atualize o secret ANTHROPIC_API_KEY. Nenhuma proposta foi marcada como erro por isso.")
+        return 1
     return 1 if cont.get("falha", 0) > len(fila) / 2 else 0
 
 
