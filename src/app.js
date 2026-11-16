@@ -1,5 +1,5 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=filtros-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';

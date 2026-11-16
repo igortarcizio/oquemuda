@@ -90,3 +90,17 @@ test('busca dos destaques retorna os IDs na ordem persistida, sem depender dos p
   assert.equal(calls[1].searchParams.get('id'),'in.(88,99,77)');
  }finally{globalThis.fetch=original}
 });
+
+test('filtros combinados vão todos para o banco: partido, tipo, ano, tema e palavra sem acento',async()=>{
+ const {getDatabaseProposals,getParties,PARTIES}=await import('../src/data/api.js');
+ let url='';
+ globalThis.fetch=async u=>{url=decodeURIComponent(String(u));return {ok:true,headers:{get:()=>'0-0/0'},json:async()=>[]}};
+ await getDatabaseProposals({page:2,year:'2026',type:'PL',party:'UNIÃO',keywords:'Saúde Criança',theme:'Saúde'});
+ assert.match(url,/partidos=cs\.\{"UNIÃO"\}/);
+ assert.match(url,/sigla_tipo=eq\.PL/);assert.match(url,/ano=eq\.2026/);assert.match(url,/offset=30/);
+ assert.match(url,/ementa_busca\.ilike\.\*saude\*/);assert.match(url,/ementa_busca\.ilike\.\*crianca\*/);
+ assert.match(url,/tags\.ov\./);
+ await assert.rejects(getDatabaseProposals({party:'PT,PL'}),/Partido inválido/);
+ assert.deepEqual(await getParties(),[...PARTIES]);
+ assert.ok(PARTIES.includes('PCdoB')&&PARTIES.includes('REPUBLICANOS')&&PARTIES.includes('MISSÃO'));
+});
