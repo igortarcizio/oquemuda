@@ -18,6 +18,11 @@ Traduzir proposições oficiais em informações verificáveis e úteis à socie
   - Escrever sempre a partir do texto integral e da justificativa, nunca só da ementa.
   - Quando a situação atual vier do autor, dizer isso ("Segundo o autor…").
   - Só aparece no site quando o campo `validado` tiver a data da revisão humana. Rascunhos ficam sem esse campo.
+- **Parte gerada por IA (todas as demais propostas):** desde 16/11/2026, com aprovação dos responsáveis, `scripts/resumir_propostas.py` lê o texto integral e gera os mesmos campos com IA, publicando automaticamente na tabela `resumos_ia` do Supabase.
+  - Esses textos aparecem sempre com o aviso "Resumo gerado por IA · sem revisão humana" e **nunca** com o selo "Explicado pela redação".
+  - O texto validado pela redação tem prioridade sobre o da IA.
+  - Para tirar um resumo do ar: `update resumos_ia set status = 'oculto' where proposicao_id = …`.
+  - Para refazer: rodar o workflow "Resumos por IA" com o campo `so_ids`.
 
 ## Regras
 - Nunca afirmar que proposta apresentada já está em vigor.
@@ -37,4 +42,4 @@ Traduzir proposições oficiais em informações verificáveis e úteis à socie
 - **PL sem revisão**: em vez de «O que prevê o PL X/2026?», usar uma frase descritiva derivada da ementa, devidamente resumida e identificável.
 
 ## Próxima evolução recomendada
-Criar uma tabela de revisão por ID da proposição com `titulo`, `impacto`, `publicos`, `tipo_revisao`, `revisado_em`, `fonte`. Usar um pipeline de sugestões automáticas, **sem publicar textos gerados por IA como fatos apurados sem validação**. Priorizar proposições com potencial de afetar diretamente saúde, educação, trabalho, consumo e mobilidade.
+Criar uma tabela de revisão por ID da proposição com `titulo`, `impacto`, `publicos`, `tipo_revisao`, `revisado_em`, `fonte`. Textos gerados por IA só são publicados identificados como tal (ver "Parte gerada por IA"). Priorizar proposições com potencial de afetar diretamente saúde, educação, trabalho, consumo e mobilidade.
