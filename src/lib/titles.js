@@ -60,6 +60,7 @@ export function isReviewed(editorial={}){
 
 
 const editorialTitles = {
+  289361: "Autoriza porte de arma para oficiais de justiça",
   106701: "Altera a Lei de Crimes Ambientais. A ementa não informa quais mudanças prevê.",
   146708: "Define períodos para concursos públicos e vestibulares",
   255291: "Permite registrar a surdez na carteira de identidade",
