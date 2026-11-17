@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="./styles/news-ticker.css?v=6">
   <link rel="stylesheet" href="./styles/related-proposals.css?v=1">
   <link rel="stylesheet" href="./styles/reader-votes.css?v=coluna-1">
+  <link rel="stylesheet" href="./styles/brand-question.css?v=1">
 </head>
 <body>
   <div class="area-stripe" aria-hidden="true"></div>
@@ -22,7 +23,7 @@
     </div>
   </section>
   <header><div class="page header-inner">
-    <a class="brand" href="#/explorar" aria-label="O que muda? — início">o que muda<span>?</span></a>
+    <a class="brand" href="#/explorar" aria-label="O que muda? — início">o que muda<span class="brand-question" aria-hidden="true">?</span></a>
     <nav aria-label="Navegação principal"><ul>
       <li><a href="#/explorar" id="nav-explorar">Explorar</a></li>
       <li><a href="#/salvos" id="nav-salvos">Salvos <span id="savedCounter" class="savecount" hidden></span></a></li>
@@ -118,6 +119,7 @@
   <script src="./dados/deputados-partidos.js"></script>
   <script type="module">import { initNewsTicker } from "./src/ui/news-ticker.js?v=6"; initNewsTicker();</script>
   <script type="module" src="./src/app.js?v=filtros-2"></script>
+  <script type="module">import { initBrandQuestion } from "./src/ui/brand-question.js?v=1"; initBrandQuestion();</script>
 </body>
 </html>
 
