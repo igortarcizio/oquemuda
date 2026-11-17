@@ -1,0 +1,24 @@
+/* A interrogação da marca se inclina sem mover as letras do logotipo. */
+.brand .brand-question{
+  display:inline-block;
+  color:var(--signal);
+  transform-origin:50% 75%;
+  animation:brand-question-curious 6s ease-in-out infinite;
+}
+.brand .brand-question.is-curious{
+  animation:brand-question-trigger .78s ease-in-out 1 both;
+}
+@keyframes brand-question-curious{
+  0%,12%,26%,100%{transform:rotate(0deg)}
+  16%{transform:rotate(-13deg)}
+  21%{transform:rotate(5deg)}
+}
+@keyframes brand-question-trigger{
+  0%,100%{transform:rotate(0deg)}
+  33%{transform:rotate(-13deg)}
+  70%{transform:rotate(5deg)}
+}
+@media(prefers-reduced-motion:reduce){
+  .brand .brand-question,
+  .brand .brand-question.is-curious{animation:none;transform:none}
+}
