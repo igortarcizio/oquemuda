@@ -136,7 +136,6 @@ export function changeSection(p,e,{reviewed,title,area,ai=null}){
  const tags=proposalTags(p);
  const areaChips=ed?.areas?.length?ed.areas.map(a=>'<li>'+safeText(a)+'</li>').join(''):'';
  return '<section class="detail-section change-section" aria-labelledby="changeTitle"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
-  (fromAI?'<p class="ai-flag"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M12 3v3M12 18v3M3 12h3M18 12h3M6 6l2 2M16 16l2 2M6 18l2-2M16 8l2-2"/></svg>Resumo gerado por IA · sem revisão humana</p>':'')+
   (lead?'<p class="change-lead">'+safeText(lead)+'</p>':'')+
   (ed&&(ed.hoje||ed.proposta)?'<div class="change-compare">'+
     (ed.hoje?'<div class="change-now"><h3>Como é hoje</h3><p>'+safeText(ed.hoje)+'</p></div>':'')+
@@ -148,7 +147,7 @@ export function changeSection(p,e,{reviewed,title,area,ai=null}){
    '<div><dt>Áreas que podem ser afetadas</dt><dd>'+(areaChips?'<ul class="change-areas">'+areaChips+'</ul>':
      '<div class="change-areas-auto">'+topicLabel(area)+(tags.length?subjectLinks(p):'')+'</div>')+'</dd></div>'+
   '</dl>'+
-  (fromAI?'<p class="small-note">Resumo, “Como é hoje”, “Como ficaria” e “O que muda na prática” foram gerados por inteligência artificial a partir do texto integral da proposta, sem revisão humana. Podem conter erros: confira o texto oficial antes de tirar conclusões.</p>':
+  (fromAI?'<p class="small-note"><strong>Resumo gerado por IA · sem revisão humana.</strong> Resumo, “Como é hoje”, “Como ficaria” e “O que muda na prática” foram gerados por inteligência artificial a partir do texto integral da proposta. Podem conter erros: confira o texto oficial antes de tirar conclusões.</p>':
    ed?'<p class="small-note">Resumo, “Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
    '<p class="small-note">Resumo automático, feito a partir da ementa oficial'+(reviewed?'.':'. Ainda não foi explicado pela redação.')+'</p>')+
   '<p class="small-note">'+safeText(riteNote(p))+'</p></section>';
