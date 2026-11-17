@@ -2,6 +2,7 @@ import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/te
 import {THEMES as THEME_LIST} from '../lib/themes.js';
 import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
 import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
+import {proposalTypeInfo} from '../lib/proposal-types.js';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
@@ -167,6 +168,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  const backLabel=backHref==='#/explorar'?'← Voltar às propostas':'← Voltar aos resultados';
  const publicos=reviewed&&Array.isArray(e.publicos)?e.publicos.filter(Boolean):[];
  const changes=changeSection(p,e,{reviewed,title,area});
+ const typeInfo=proposalTypeInfo(p.siglaTipo);
  return '<div class="detail" data-area="'+safeText(area)+'"><div class="page"><a class="back" href="'+safeText(backHref)+'">'+backLabel+'</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta">'+topicLabel(area)+'<span>'+safeText(ref(p))+'</span>'+(reviewed?SEAL:'')+'</div>'+
  '<h1 tabindex="-1" id="detailTitle" class="'+(reviewed?'':'auto')+(title.length>110?' long':'')+'">'+safeText(title)+'</h1>'+
@@ -179,7 +181,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
  '</div><div class="detail-side"><aside class="detail-aside" aria-labelledby="fichaTitle"><h2 id="fichaTitle">Ficha</h2><dl>'+
- '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+'</dd></div>'+
+ '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+(typeInfo?'<span class="type-name">'+safeText(typeInfo.title)+'</span><span class="type-desc">'+safeText(typeInfo.description)+'</span>':'')+'</dd></div>'+
  '<div><dt>Autoria</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Não informada na consulta':'Ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
  '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
