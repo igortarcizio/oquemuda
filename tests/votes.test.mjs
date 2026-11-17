@@ -76,12 +76,13 @@ test('resultado só aparece depois de votar ou pedir, e não com poucos votos',(
   assert.match(summaryText({favor:6,neutro:1,contra:3}),/a favor 60%, neutro 10%, contra 30%, em 10 votos/);
 });
 
-test('a ficha tem o espaço do termômetro antes da linha do tempo',async()=>{
+test('o termômetro fica na coluna da direita, logo abaixo da Ficha',async()=>{
   globalThis.window??={OBM_EDITORIAL:{}};
   const {detailPage}=await import('../src/ui/components.js');
   const html=detailPage({id:5,siglaTipo:'PL',numero:1,ano:2026,ementa:'Altera a Lei nº 1.',tags:[]},{loaded:true,status:{label:'Em atualização',tone:'pending'}},false);
-  const votesAt=html.indexOf('id="readerVotes"'),stageAt=html.indexOf('Em que etapa está?');
-  assert.ok(votesAt>0&&votesAt<stageAt);
+  const sideAt=html.indexOf('class="detail-side"'),asideEnd=html.indexOf('</aside>'),votesAt=html.indexOf('id="readerVotes"'),relatedAt=html.indexOf('id="relatedProposals"');
+  assert.ok(sideAt>html.indexOf('Em que etapa está?'));
+  assert.ok(sideAt<asideEnd&&asideEnd<votesAt&&votesAt<relatedAt);
   assert.match(html,/id="readerVotes"[^>]*hidden/);
   const css=readFileSync(new URL('../index.html',import.meta.url),'utf8');
   assert.match(css,/styles\/reader-votes\.css/);

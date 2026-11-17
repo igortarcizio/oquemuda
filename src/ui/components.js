@@ -174,12 +174,11 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<div class="page detail-layout"><div>'+
  changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
- '<section id="readerVotes" class="detail-section reader-votes" aria-labelledby="votesHeading" hidden></section>'+
  '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
  (stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(stage.siglaOrgao)+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
- '</div><aside class="detail-aside" aria-labelledby="fichaTitle"><h2 id="fichaTitle">Ficha</h2><dl>'+
+ '</div><div class="detail-side"><aside class="detail-aside" aria-labelledby="fichaTitle"><h2 id="fichaTitle">Ficha</h2><dl>'+
  '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+'</dd></div>'+
  '<div><dt>Autoria</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Não informada na consulta':'Ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
@@ -189,7 +188,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '</dl>'+(full?'<div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+safeText(full)+'">Ler texto integral ↗<span class="sr-only"> (abre em nova aba)</span></a></div>':'')+
  (verifiedAt?'<p class="small-note">Situação consultada na fonte oficial em '+safeText(verifiedAt)+'. Os registros podem mudar.</p>':'<p class="small-note">Detalhes oficiais ainda não sincronizados. A ficha será complementada quando a fonte estiver disponível.</p>')+
  '<p class="small-note">O partido indicado é o informado pela Câmara e pode ser o da época da apresentação.</p>'+
- '</aside></div><div class="page"><section id="relatedProposals" class="related-proposals" aria-labelledby="relatedHeading" hidden></section></div></div>';
+ '</aside><section id="readerVotes" class="detail-section reader-votes" aria-labelledby="votesHeading" hidden></section></div></div><div class="page"><section id="relatedProposals" class="related-proposals" aria-labelledby="relatedHeading" hidden></section></div></div>';
 }
 export function infoPage(){
  return '<div class="page inforoute"><p class="eyebrow">Como funciona</p><h1 tabindex="-1" id="infoTitle">Entender antes de opinar.</h1>'+
