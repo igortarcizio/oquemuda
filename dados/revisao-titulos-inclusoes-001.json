@@ -1,0 +1,23 @@
+{
+  "schema_version": 1,
+  "review_scope": "late_insertions_before_stable_cursor",
+  "source_table": "public.proposicoes",
+  "source_project": "ltihbrlamevhmjjlsphc",
+  "publication_status": "confirmed",
+  "records": [
+    {
+      "id": 289361,
+      "reference": "PL 5555/2026",
+      "ementa_sha256": "09f820bb2d1d1d0071e02950b22dd56d1a5b08d78bb300c06ffa00260b29fc20",
+      "title": "Autoriza porte de arma para oficiais de justiça",
+      "editorial_status": "revised",
+      "review_reason": "new_row_before_cursor",
+      "publication_status": "confirmed",
+      "published_commit": "22bd3d752ecf73a3f28eb01911be5720f7767eee",
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-17T11:46:00Z",
+      "visual_note": "Live GitHub Pages; Newsreader; card and featured card at 1440, 375 and 320 px; complete title within five lines; detail title matches",
+      "visual_commit": "22bd3d752ecf73a3f28eb01911be5720f7767eee"
+    }
+  ]
+}
