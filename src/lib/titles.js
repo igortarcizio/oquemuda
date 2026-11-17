@@ -749,6 +749,7 @@ const editorialTitles = {
   2484462: "Regula bônus regional para ingresso em universidades federais",
   2484463: "Cria o Programa Mais Dentistas para o Brasil",
   2484465: "Pede suspender reajuste de 2,919% nas passagens entre DF e Entorno",
+  // Lote 007: conferência editorial e visual registrada em dados/revisao-titulos-lote-007.json.
   2484466: "Permite remunerar titulares pelo uso de dados sensíveis e regula a digitalização",
   2484467: "Inclui prevenção às drogas e à violência no currículo da educação básica",
   2484468: "Garante a gestantes acesso gratuito ao Teste da Mãezinha",
