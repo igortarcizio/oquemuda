@@ -13,6 +13,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .filter-row{display:flex;flex-wrap:wrap;gap:12px;margin:17px 0 8px}
 .filter-label{font-size:13px;color:var(--text);display:flex;align-items:center;gap:8px}
 .filter-label select{background:#fff;border:1.5px solid var(--field-border);border-radius:9px;min-width:140px;padding:8px 11px;color:var(--ink);max-width:240px}
+#typeSelect{max-width:320px}
 .chip-row{gap:8px;margin-top:12px}
 .chip{min-height:44px}
 .results-live{font-size:13px;color:var(--text);margin-top:6px}
