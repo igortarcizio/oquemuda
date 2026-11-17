@@ -29,3 +29,14 @@
 .vote-status:empty{display:none}
 @media(max-width:720px){.reader-votes{padding:18px}.vote-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}.vote-btn{justify-content:center;padding:10px 8px;font-size:14px}.vote-row{grid-template-columns:84px 1fr 44px;gap:8px}.vote-you{display:block;line-height:1.2}}
 @media(prefers-reduced-motion:reduce){.vote-bar>span{transition:none}}
+/* Coluna da direita, abaixo da Ficha: mesmo cartão e títulos da Ficha, botões em três colunas iguais. */
+.detail-side{display:grid;gap:24px;align-self:start;align-content:start;min-width:0}
+.detail-side .reader-votes{margin:0;padding:24px}
+.detail-side .reader-votes h2{font-size:24px}
+.detail-side .vote-buttons{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.detail-side .vote-btn{justify-content:center;gap:6px;padding:10px 6px;font-size:14px}
+.detail-side .vote-icon{width:18px;height:18px}
+.detail-side .vote-row{grid-template-columns:84px 1fr 44px;gap:8px}
+.detail-side .vote-you{display:block;line-height:1.2}
+@media(max-width:820px){.detail-side{max-width:600px}}
+@media(max-width:720px){.detail-side .reader-votes{padding:18px}}
