@@ -3,11 +3,11 @@ import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,get
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=aviso-ia-rodape';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=como-funciona-aspas';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=aviso-ia-rodape';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=como-funciona-aspas';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;

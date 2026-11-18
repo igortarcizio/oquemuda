@@ -196,7 +196,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
 }
 export function infoPage(){
  return '<div class="page inforoute"><p class="eyebrow">Como funciona</p><h1 tabindex="-1" id="infoTitle">Entender antes de opinar.</h1>'+
- '<p class="lead">O que muda? explica, em linguagem clara, propostas da Câmara dos Deputados. Proposta não é lei.</p>'+
+ '<p class="lead">“O que muda?” explica, em linguagem clara, propostas da Câmara dos Deputados. Proposta não é lei.</p>'+
  '<div class="steps"><article class="step"><div class="number">01</div><h2>Busque um assunto</h2><p>Encontre propostas por palavra, ano, tipo ou partido do autor.</p></article>'+
  '<article class="step"><div class="number">02</div><h2>Entenda a proposta</h2><p>“O que muda” explica de forma resumida aquilo que o projeto pretende alterar, sem confundir propostas e leis em vigor.</p></article>'+
  '<article class="step"><div class="number">03</div><h2>Confira a fonte</h2><p>Consulte o texto integral, os autores e o andamento na base oficial.</p></article></div>'+
