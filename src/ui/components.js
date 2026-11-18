@@ -1,6 +1,6 @@
 import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 import {THEMES as THEME_LIST} from '../lib/themes.js';
-import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-lote-007-reconciliacao';
+import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-lote-008';
 import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
 import {proposalTypeInfo} from '../lib/proposal-types.js';
 

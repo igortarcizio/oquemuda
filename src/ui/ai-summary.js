@@ -1,8 +1,8 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial} from './components.js?v=editorial-titles-lote-007-reconciliacao';
-import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-006-regras';
+import {changeSectionFor,hasValidatedEditorial} from './components.js?v=editorial-titles-lote-008';
+import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-008';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';
 const KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
