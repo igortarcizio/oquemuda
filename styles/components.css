@@ -106,6 +106,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .watch-item:nth-child(1) .watch-icon{color:#b36d0d}
 .watch-item:nth-child(2) .watch-icon{color:#365ca2}
 .watch-item:nth-child(3) .watch-icon{color:#17794e}
+.watch-item:nth-child(4) .watch-icon{color:#5b6472}
 .watch-copy{display:flex;flex-direction:column;min-width:0;flex:1;gap:3px}
 .watch-copy strong{font-size:13px;font-weight:700;line-height:1.3}
 .watch-copy>span{font-size:12px;line-height:1.45;color:var(--text)}

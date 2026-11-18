@@ -1,7 +1,7 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
 import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=filtros-2';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
-import {STATUS} from './lib/status.js';
+import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=arquivadas';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
 import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=como-funciona-aspas';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
@@ -16,7 +16,7 @@ const CURRENT_YEAR=new Date().getFullYear();
 const YEARS=(()=>{const y=[...new Set((window.OBM_DATA?.years||[]).map(Number).filter(Number.isInteger))].sort((a,b)=>b-a);return y.length?y:[CURRENT_YEAR,CURRENT_YEAR-1]})();
 const DEFAULT_YEAR=String(YEARS[0]);
 const defaultYearFor=q=>q.get('modo')||q.get('tag')?'Todos':DEFAULT_YEAR;
-const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:'1293,1303,1150,1160,926,1140'}};
+const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:APPROVED_CODES.join(',')},closed:{label:'Arquivadas ou recusadas',hint:'A maioria foi arquivada sem votação, por exemplo no fim da legislatura. Arquivar não significa que a Câmara votou contra.',codes:CLOSED_CODES.join(',')}};
 const state={view:'explorar',page:1,year:DEFAULT_YEAR,type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null,lastListHash='#/explorar',firstRender=true;

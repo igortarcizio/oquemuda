@@ -11,11 +11,14 @@ export const STATUS={
  // Rótulo único para qualquer situação ainda não confirmada na fonte oficial.
  unknown:{label:'Em atualização',tone:'pending'}
 };
+// Códigos de situação da Câmara usados aqui e nos atalhos do box "De olho na Câmara".
+export const APPROVED_CODES=[1150,1160,1293,1303,926,1140];
+export const CLOSED_CODES=[923,930,931,940,941,950];
 export function normalizeStatus(status) {
  const code=Number(status?.codSituacao);
  const officiallyVotable=new Set([924]);
- const chamberApproved=new Set([1150,1160,1293,1303,926,1140]);
- const closed=new Set([923,930,931,940,941,950]);
+ const chamberApproved=new Set(APPROVED_CODES);
+ const closed=new Set(CLOSED_CODES);
  if(officiallyVotable.has(code))return {...STATUS.voting,detail:status?.descricaoSituacao||'Pronta para Pauta'};
  if(chamberApproved.has(code))return {...STATUS.approved,detail:status?.descricaoSituacao||'Encaminhada após aprovação na Câmara'};
  if(closed.has(code))return {...STATUS.closed,detail:status?.descricaoSituacao||'Tramitação encerrada'};
