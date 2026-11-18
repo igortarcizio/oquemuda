@@ -150,11 +150,12 @@ test('resumo da IA aparece com aviso e nunca passa por texto da redação',async
   const p=PL('Altera a Lei nº 8.080, de 19 de setembro de 1990, para X.');
   const ai={resumo:'Resumo da IA.',hoje:'Hoje.',proposta:'Fica.',pontos:['P1','P2'],areas:['Saúde'],modelo:'claude-haiku-5-5',gerado_em:'2026-11-16T20:00:00Z'};
   const html=changeSection(p,{},{reviewed:false,title:'T',area:'Saúde',ai});
-  assert.match(html,/<strong>Resumo gerado por IA · sem revisão humana\.<\/strong>/);
+  // O aviso da IA fica no rodapé da página (ai-summary.js), não dentro da seção.
+  assert.doesNotMatch(html,/gerado por IA/);
   assert.doesNotMatch(html,/ai-flag/);
   assert.match(html,/change-lead">Resumo da IA\./);
-  assert.match(html,/gerados por inteligência artificial a partir do texto integral/);
   assert.doesNotMatch(html,/escritos pela redação/);
+  assert.doesNotMatch(html,/Resumo automático/);
   const human={titulo:'P?',impacto:'I',publicos:['A'],resumo:'Resumo humano.',hoje:'H',proposta:'F',validado:'2026-11-16'};
   const both=changeSection(p,human,{reviewed:true,title:'P?',area:'Saúde',ai});
   assert.match(both,/Resumo humano\./);assert.doesNotMatch(both,/gerado por IA/);

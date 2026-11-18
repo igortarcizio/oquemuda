@@ -1,7 +1,7 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial} from './components.js?v=editorial-titles-lote-008';
+import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=aviso-ia-rodape';
 import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-008';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';
@@ -11,7 +11,21 @@ const cache=new Map();   // id -> linha ou null
 const pending=new Map(); // id -> Promise
 let activeId=null;
 
-export function stopAiSummary(){activeId=null}
+export function stopAiSummary(){activeId=null;setAiFooterNotice(false)}
+
+// Aviso de "Resumo gerado por IA" no rodapé da página, só enquanto a ficha aberta usa o resumo da IA.
+export function setAiFooterNotice(show,doc=globalThis.document){
+  if(!doc)return;
+  let note=doc.getElementById('aiFooterNote');
+  if(!show){note?.remove();return}
+  if(note)return;
+  const box=doc.querySelector('footer .footer-inner--source');
+  if(!box)return;
+  note=doc.createElement('p');
+  note.id='aiFooterNote';note.className='source-footer ai-footer-note';note.setAttribute('role','note');
+  note.innerHTML=AI_NOTICE_HTML;
+  box.appendChild(note);
+}
 
 export async function fetchAiSummary(id,{fetchImpl=globalThis.fetch}={}){
   const q=new URLSearchParams({select:COLS,proposicao_id:'eq.'+Number(id),limit:'1'});
@@ -29,6 +43,7 @@ function apply(p){
   section.outerHTML=changeSectionFor(p,row);
   const fresh=document.querySelector('.change-section');
   if(fresh)fresh.dataset.ai='1';
+  setAiFooterNotice(true);
   applyDetailTitle(p,row);
 }
 

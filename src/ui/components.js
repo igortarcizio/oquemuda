@@ -148,11 +148,13 @@ export function changeSection(p,e,{reviewed,title,area,ai=null}){
    '<div><dt>Áreas que podem ser afetadas</dt><dd>'+(areaChips?'<ul class="change-areas">'+areaChips+'</ul>':
      '<div class="change-areas-auto">'+topicLabel(area)+(tags.length?subjectLinks(p):'')+'</div>')+'</dd></div>'+
   '</dl>'+
-  (fromAI?'<p class="small-note"><strong>Resumo gerado por IA · sem revisão humana.</strong> Resumo, “Como é hoje”, “Como ficaria” e “O que muda na prática” foram gerados por inteligência artificial a partir do texto integral da proposta. Podem conter erros: confira o texto oficial antes de tirar conclusões.</p>':
+  (fromAI?'':
    ed?'<p class="small-note">Resumo, “Como é hoje” e “Como ficaria” foram escritos pela redação a partir do '+(ed.fonte?safeText(ed.fonte):'texto integral da proposta')+' e revisados em '+safeText(dateBR(ed.validado))+'.</p>':
    '<p class="small-note">Resumo automático, feito a partir da ementa oficial'+(reviewed?'.':'. Ainda não foi explicado pela redação.')+'</p>')+
   '<p class="small-note">'+safeText(riteNote(p))+'</p></section>';
 }
+/** Aviso do resumo por IA, mostrado no rodapé da página (ver ai-summary.js). */
+export const AI_NOTICE_HTML='<strong>Resumo gerado por IA.</strong> Resumo, “Como é hoje”, “Como ficaria” e “O que muda na prática” foram gerados por inteligência artificial a partir do texto integral da proposta. Podem conter erros: confira o texto oficial antes de tirar conclusões.';
 /** Seção "O que muda" recalculada para uma proposta, com o resumo da IA quando houver. */
 export function changeSectionFor(p,ai=null){
  const e=editorial(p);

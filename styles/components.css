@@ -36,6 +36,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .page-number.edge{min-width:76px}
 .pagination-dots{display:inline-flex;min-width:28px;align-items:center;justify-content:center;color:var(--text)}
 .source-footer{font-size:12px;line-height:1.55;border-top:1px solid var(--line);color:var(--text);padding-top:18px;padding-bottom:22px}
+.ai-footer-note{border-top:0;padding-top:0;margin-top:-12px}
 .source-footer a{color:var(--ink);text-decoration-color:var(--signal)}
 .footer-inner--source{max-width:1160px;margin:0 auto;padding:0 20px}
 .empty-state{grid-column:1/-1;width:100%}

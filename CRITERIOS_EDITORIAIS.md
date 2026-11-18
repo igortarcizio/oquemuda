@@ -19,7 +19,7 @@ Traduzir proposições oficiais em informações verificáveis e úteis à socie
   - Quando a situação atual vier do autor, dizer isso ("Segundo o autor…").
   - Só aparece no site quando o campo `validado` tiver a data da revisão humana. Rascunhos ficam sem esse campo.
 - **Parte gerada por IA (todas as demais propostas):** desde 16/11/2026, com aprovação dos responsáveis, `scripts/resumir_propostas.py` lê o texto integral e gera os mesmos campos com IA, publicando automaticamente na tabela `resumos_ia` do Supabase.
-  - Esses textos aparecem sempre com o aviso "Resumo gerado por IA · sem revisão humana" e **nunca** com o selo "Explicado pela redação".
+  - Esses textos aparecem sempre com o aviso "Resumo gerado por IA", no rodapé da página, e **nunca** com o selo "Explicado pela redação".
   - O texto validado pela redação tem prioridade sobre o da IA.
   - Para tirar um resumo do ar: `update resumos_ia set status = 'oculto' where proposicao_id = …`.
   - Para refazer: rodar o workflow "Resumos por IA" com o campo `so_ids`.

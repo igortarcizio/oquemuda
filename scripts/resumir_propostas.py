@@ -8,7 +8,7 @@ Para cada proposta do Supabase ainda sem resumo:
      pontos práticos e áreas afetadas, só com base no texto;
   4. valida o JSON e grava em public.resumos_ia (status 'publicado').
 
-O site mostra esses textos com o aviso "gerado por IA, sem revisão humana".
+O site mostra esses textos com o aviso "Resumo gerado por IA" no rodapé da página.
 Textos revisados pela redação (dados/editorial.js com `validado`) têm prioridade no site.
 
 Variáveis de ambiente:
