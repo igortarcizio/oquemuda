@@ -85,6 +85,8 @@ export function questionTitle(p,editorial={}) {
 /** Tema da proposta: o da revisão editorial, quando houver; senão a regra única de src/lib/themes.js. */
 export function classifyTheme(p,editorial={}) {
   if(editorial.area&&THEME_LIST.includes(editorial.area))return editorial.area;
+  // Tema principal vindo da classificação oficial da Câmara (coluna area do banco).
+  if(p.areaOficial&&THEME_LIST.includes(p.areaOficial))return p.areaOficial;
   const tags=Array.isArray(p.tags)&&p.tags.length?p.tags:classifyTags(p.ementa);
   return themeFor(p.ementa,tags,p.siglaTipo).theme;
 }

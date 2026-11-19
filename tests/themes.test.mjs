@@ -45,7 +45,9 @@ test('filtro de tema vai ao banco antes da paginação, junto com a tag',async()
   await getDatabaseProposals({page:2,year:'Todos',type:'Todos',theme:'Saúde',tag:'SUS'});
   const q=new URL(url).searchParams;
   assert.equal(q.get('tags'),'cs.{SUS}');
-  assert.match(q.get('and'),/^\(tags\.ov\.\{"SUS","Diabetes"/);
+  // Tema oficial (areas) ou, sem ele ainda, a aproximação pelas tags.
+  assert.match(q.get('and'),/^\(or\(areas\.cs\.\{"Saúde"\},and\(areas\.is\.null,tags\.ov\.\{"SUS","Diabetes"/);
+  assert.match(q.get('select'),/,area$/);
   assert.equal(q.get('offset'),'30');
   await assert.rejects(()=>getDatabaseProposals({theme:'Outros'}),/Tema inválido/);
  }finally{globalThis.fetch=original}

@@ -60,7 +60,7 @@ test('ficha: cai em degraus se faltar coluna de migration',async()=>{
  const row={id:1,sigla_tipo:'PL',numero:5,ano:2025,ementa:'Altera a Lei nº 8.080.',data_apresentacao:'2025-02-03',dados_oficiais:{},tramitacoes:[],texto_atual:null};
  const f=async url=>{const u=decodeURIComponent(String(url));urls.push(u);return /apensada_a/.test(u)?{ok:false,status:400}:{ok:true,status:200,json:async()=>[row]}};
  const d=await getDatabaseDetail(1,{fetchImpl:f});
- assert.equal(urls.length,2);
- assert.match(urls[1],/tramitacoes,texto_atual&/,'mantém o histórico quando só a apensação falta');
+ assert.equal(urls.length,3);
+ assert.match(urls[2],/tramitacoes,texto_atual&/,'mantém o histórico quando só a apensação falta');
  assert.equal(d.apensacao,null);
 });
