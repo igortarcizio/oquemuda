@@ -5,6 +5,7 @@ import os
 import pathlib
 import unittest
 import urllib.error
+import urllib.parse
 from unittest.mock import patch, call
 
 os.environ.setdefault("SUPABASE_URL", "https://example.supabase.co")
@@ -215,3 +216,59 @@ class TramitacaoTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+def page(ids):
+    return {"dados": [{"id": i, "siglaTipo": "PL", "numero": i, "ano": 2026, "ementa": "E", "uri": "x"} for i in ids]}
+
+
+class ListagemTests(unittest.TestCase):
+    def run_lists(self, pages_by_kind, known):
+        calls, written = [], []
+        def api(path):
+            calls.append(path)
+            q = dict(urllib.parse.parse_qsl(path.split("?", 1)[1]))
+            return pages_by_kind.get((q["siglaTipo"], int(q["ano"]), int(q["pagina"])), {"dados": []})
+        with patch.object(SYNC, "api", side_effect=api), \
+             patch.object(SYNC, "known_ids", side_effect=lambda ids: {i for i in ids if i in known}), \
+             patch.object(SYNC, "ensure_rows", side_effect=lambda rows: written.extend(rows)), \
+             patch.dict(SYNC.STATS, {"fichas_novas": 0}), \
+             patch.object(SYNC.time, "sleep"):
+            result = SYNC.lists()
+            return result, calls, written, SYNC.STATS["fichas_novas"]
+
+    def test_segue_paginando_ate_achar_pagina_conhecida(self):
+        y = SYNC.dt.date.today().year
+        pages = {("PL", y, 1): page(range(1000, 900, -1)), ("PL", y, 2): page(range(900, 800, -1)),
+                 ("PL", y, 3): page(range(800, 700, -1))}
+        known = set(range(700, 880))  # página 1 toda nova, 21 novas na 2 (880–900), página 3 toda conhecida
+        (count, ok), calls, written, novas = self.run_lists(pages, known)
+        self.assertTrue(ok)
+        pl = [c for c in calls if "siglaTipo=PL&" in c and "ano=%d" % y in c]
+        self.assertEqual(len(pl), 3, "para na primeira página toda conhecida")
+        self.assertEqual(novas, 121)
+        self.assertTrue(all(r["uri_oficial"] == SYNC.CAMARA + "/proposicoes/" + str(r["id"]) for r in written),
+                        "uri_oficial num formato só")
+
+    def test_limite_de_paginas_mesmo_com_tudo_novo(self):
+        y = SYNC.dt.date.today().year
+        pages = {("PL", y, n): page(range(10000 - 100 * n, 9900 - 100 * n, -1)) for n in range(1, 20)}
+        with patch.object(SYNC, "MAX_LIST_PAGES", 3):
+            _, calls, _, _ = self.run_lists(pages, set())
+        self.assertEqual(len([c for c in calls if "siglaTipo=PL&" in c and "ano=%d" % y in c]), 3)
+
+    def test_registro_da_execucao_nunca_derruba_o_robo(self):
+        with patch.object(SYNC.urllib.request, "urlopen", side_effect=error(404)):
+            SYNC.record_run("2026-11-19T00:00:00+00:00", 1, 2, True)  # não levanta
+
+    def test_registro_envia_contadores(self):
+        sent = []
+        def fake(request, timeout=0):
+            sent.append(json.loads(request.data))
+            return Response({})
+        with patch.object(SYNC.urllib.request, "urlopen", side_effect=fake), \
+             patch.dict(SYNC.STATS, {"tramitacoes": 4, "textos_novos": 1, "fichas_novas": 7}):
+            SYNC.record_run("2026-11-19T00:00:00+00:00", 35, 886, False, "Câmara fora")
+        self.assertEqual({k: sent[0][k] for k in ("robo", "ok", "fichas", "listagens", "fichas_novas", "tramitacoes", "textos_novos", "erro")},
+                         {"robo": "sync_supabase", "ok": False, "fichas": 35, "listagens": 886, "fichas_novas": 7,
+                          "tramitacoes": 4, "textos_novos": 1, "erro": "Câmara fora"})

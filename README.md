@@ -77,7 +77,8 @@ O estado dos três destaques fica em `public.destaques_diarios` no Supabase e é
 ## Sincronização e limites atuais
 
 - `scripts/sync_bulk.py` lê arquivos anuais oficiais e importa todos os registros dos tipos cobertos nos dois anos mais recentes, em lotes com `upsert`. O processo registra divergências entre ID e identificação legislativa, sem sobrescrever silenciosamente registros conflitantes.
-- `scripts/sync_supabase.py` faz verificações individuais incrementais e tolera respostas HTTP transitórias com tentativas limitadas.
+- `scripts/sync_supabase.py` (a cada 30 min) é o único robô que cria fichas novas: lê as listagens mais recentes de cada tipo até achar uma página só com propostas já conhecidas, faz verificações individuais incrementais (situação, autores, histórico de tramitação e texto atual após substitutivo) e tolera respostas HTTP transitórias com tentativas limitadas.
+- Cada execução fica registrada em `public.sync_runs`. Para ver a saúde da base no painel do Supabase: `select * from public.saude_da_base;` (última sincronização válida, falhas em 24 h, fichas com histórico, resumos de texto antigo etc.). Nada disso é exposto à chave pública.
 - O frontend usa a chave **publicável** com RLS e leitura somente pública na tabela dos destaques; alterações usam credenciais de serviço restritas ao GitHub Actions.
 - A situação `Pronta para Pauta` **não** é uma votação oficialmente agendada. Nenhuma etapa deve ser inferida somente pela existência de uma proposta.
 - O acervo cobre por enquanto os tipos e anos importados. **“Todos os resultados” significa todos os registros indexados do recorte**, não a totalidade histórica da Câmara.
