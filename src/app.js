@@ -1,15 +1,15 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=temas-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=temas-2';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=temas-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=temas-2';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=temas-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=temas-2';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -342,6 +342,8 @@ async function showDetail(id){
  // A consulta ao vivo não traz o texto em vigor: herda o que o banco sabe.
  if(proposal&&!proposal.textoAtual&&stored?.proposal?.textoAtual)proposal.textoAtual=stored.proposal.textoAtual;
  if(proposal&&stored?.proposal?.virouLei)proposal.virouLei=true;
+ // Tema oficial e classificação da Câmara vêm do banco; a ficha ao vivo não os traz.
+ if(proposal&&stored?.proposal&&proposal!==stored.proposal){proposal.area=stored.proposal.area;if(stored.proposal.temasOficiais?.length)proposal.temasOficiais=stored.proposal.temasOficiais}
  if(!proposal){
   $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';return;
  }
