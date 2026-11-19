@@ -3,12 +3,13 @@ import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,get
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=arquivadas';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-lote-009b';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=compartilhar-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
 import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=editorial-titles-lote-009b';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
+import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
@@ -294,7 +295,7 @@ async function showList(){
 }
 function focusHeading(el){if(el&&!firstRender)el.focus({preventScroll:true})}
 function listPageFromHash(){
- stopRelated();stopVotes();stopAiSummary();stopReport();
+ stopRelated();stopVotes();stopAiSummary();stopReport();closeShare();
  const previousView=state.view;
  const direct=readHash();setViews();setNav();
  if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
@@ -348,11 +349,18 @@ async function showDetail(id){
  document.title=ref(proposal)+' — O que muda?';
 }
 
+// #cards e #pagination ficam dentro de #feed, e os três escutam cliques: sem esta trava
+// o mesmo clique rodava duas vezes (o "+ Salvar" dos cards salvava e desfazia na hora).
+const handledClicks=new WeakSet();
 function onClick(e){
+ if(handledClicks.has(e))return;
+ handledClicks.add(e);
  const page=e.target.closest('[data-page]');
  if(page&&!page.disabled){setPage(Number(page.dataset.page));return}
  const theme=e.target.closest('[data-theme]');
  if(theme){state.topic=theme.dataset.theme;state.mode='';state.page=1;syncURL();showList();return}
+ const share=e.target.closest('[data-share]');
+ if(share){openShare(share,{announce});return}
  const save=e.target.closest('[data-save]');
  if(save){
   const id=Number(save.dataset.save);

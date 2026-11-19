@@ -1,0 +1,63 @@
+name: Publicar site (GitHub Pages)
+# Publica o site e gera as páginas de prévia de compartilhamento (/p/{id}.html).
+# As prévias não vão para o Git: são geradas aqui a cada publicação.
+# Requer Settings → Pages → Source: "GitHub Actions" (ver docs/compartilhamentos.md).
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+  schedule:
+    # Uma vez por dia, para pegar resumos da IA e mudanças no banco que não geram commit.
+    - cron: '50 9 * * *'
+  # Commits feitos pelo GITHUB_TOKEN (catálogo, notícias) não disparam "push".
+  # Por isso a publicação também roda quando esses fluxos terminam.
+  workflow_run:
+    workflows:
+      - Atualizar catálogo legislativo
+      - Atualizar notícias da Agência Câmara
+      - Sincronizar propostas no Supabase
+      - Importar arquivos anuais da Câmara para o Supabase
+      - Resumos por IA a partir do texto integral
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
+jobs:
+  publicar:
+    # Depois de outro fluxo, só publica se ele terminou bem.
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      # Sempre a main atual (no workflow_run o checkout padrão seria o commit antigo).
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Montar o site
+        run: |
+          mkdir _site
+          tar --exclude=./.git --exclude=./.github --exclude=./node_modules --exclude=./_site -cf - . | tar -xf - -C _site
+      - name: Gerar páginas de prévia
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: |
+          node scripts/gerar_previas.mjs _site/p
+          test -n "$(ls _site/p)"
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+      - id: deploy
+        uses: actions/deploy-pages@v4

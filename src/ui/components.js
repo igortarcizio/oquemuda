@@ -3,6 +3,7 @@ import {THEMES as THEME_LIST} from '../lib/themes.js';
 import {displayTitle,amendedLaws,isReviewed,hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-009b';
 import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
 import {proposalTypeInfo} from '../lib/proposal-types.js';
+import {shareButton} from './share-menu.js?v=1';
 
 function conciseImpact(value, limit=135){
   const text=cleanText(value);
@@ -30,6 +31,8 @@ export function badge(status){
 }
 const SEAL='<span class="seal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Explicado pela redação</span>';
 const saveButton=(p,saved,label='+ Salvar')=>'<button class="savebtn '+(saved?'saved':'')+'" type="button" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':label)+'</button>';
+// Ações do rodapé do card: compartilhar (só ícone) + salvar.
+const cardActions=(p,e,saved)=>'<span class="card-actions">'+shareButton(p.id,{ref:ref(p),title:displayTitle(p,e)})+saveButton(p,saved)+'</span>';
 const topicLabel=area=>'<span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(area)+'</span>';
 const statusSlot=(p,status)=>'<span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span>';
 
@@ -46,7 +49,7 @@ export function card(p,status,saved){
    '<h3><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(displayTitle(p,e))+'</a></h3>'+
    (reviewed?'<p class="card-lead">'+safeText(conciseImpact(e.impacto))+'</p>':laws?'<p class="changes"><b>Altera:</b> '+safeText(laws)+'</p>':'')+
    subjectLinks(p)+
-   '<div class="card-bottom">'+(reviewed?SEAL:'<span class="read-hint" aria-hidden="true">Ler ficha →</span>')+saveButton(p,saved)+'</div></article>';
+   '<div class="card-bottom">'+(reviewed?SEAL:'<span class="read-hint" aria-hidden="true">Ler ficha →</span>')+cardActions(p,e,saved)+'</div></article>';
 }
 
 /**
@@ -67,7 +70,7 @@ export function editorialFeature(p,status,saved){
    '<div class="feature-side">'+
     (publicos.length?'<div><p class="kicker">Quem pode ser afetado</p><ul class="who">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></div>':'<div><p class="kicker">Assuntos da proposta</p>'+subjectLinks(p)+'</div>')+
     (publicos.length?subjectLinks(p):'')+
-    '<div class="card-bottom"><span class="read-hint" aria-hidden="true">'+(reviewed?'Ler explicação →':'Ler ficha →')+'</span>'+saveButton(p,saved)+'</div>'+
+    '<div class="card-bottom"><span class="read-hint" aria-hidden="true">'+(reviewed?'Ler explicação →':'Ler ficha →')+'</span>'+cardActions(p,e,saved)+'</div>'+
    '</div></article>';
 }
 
@@ -176,7 +179,7 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  return '<div class="detail" data-area="'+safeText(area)+'"><div class="page"><a class="back" href="'+safeText(backHref)+'">'+backLabel+'</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta">'+topicLabel(area)+'<span>'+safeText(ref(p))+'</span>'+(reviewed?SEAL:'')+'</div>'+
  '<h1 tabindex="-1" id="detailTitle" data-fonte="'+(reviewed||hasCuratedTitle(Number(p.id))?'redacao':'automatico')+'" class="'+(reviewed?'':'auto')+(title.length>110?' long':'')+'">'+safeText(title)+'</h1>'+
- '<div class="detail-actions">'+saveButton(p,saved,'＋ Salvar para depois')+'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a></div></div></div>'+
+ '<div class="detail-actions">'+saveButton(p,saved,'＋ Salvar para depois')+shareButton(p.id,{ref:ref(p),title,withLabel:true})+'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a></div></div></div>'+
  '<div class="page detail-layout"><div>'+
  changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+

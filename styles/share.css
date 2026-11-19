@@ -1,0 +1,43 @@
+/* Botão e menu de compartilhar (src/ui/share-menu.js). */
+.card-actions{display:flex;align-items:center;gap:8px;flex:none;margin-left:auto;position:relative;z-index:2}
+/* Em telas estreitas o selo e os botões não cabem lado a lado: os botões descem. */
+.civic-card .card-bottom,.editorial-feature .card-bottom{flex-wrap:wrap;row-gap:10px}
+
+.sharebtn{display:inline-flex;align-items:center;justify-content:center;gap:8px;width:44px;min-width:44px;height:44px;min-height:44px;padding:0;
+  background:var(--white);border:1.5px solid var(--line);border-radius:10px;color:var(--ink);cursor:pointer;font:600 13.5px/1.2 'DM Sans',system-ui,sans-serif}
+.sharebtn:hover,.sharebtn[aria-expanded="true"]{border-color:var(--ink)}
+.sharebtn .share-icon{width:20px;height:20px;flex:none}
+/* Na ficha: ícone + "Compartilhar", no tamanho dos outros botões da linha. */
+.sharebtn.with-label{width:auto;height:auto;padding:11px 17px 11px 14px;border-color:var(--field-border);font-size:16px;font-weight:500}
+
+.share-menu{position:fixed;z-index:60;width:264px;max-width:calc(100vw - 24px);background:var(--white);color:var(--ink);
+  border:1px solid var(--line-strong);border-radius:var(--radius);box-shadow:0 12px 32px rgb(20 30 40 / .16),0 2px 6px rgb(20 30 40 / .08);padding:8px}
+.share-menu-head{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:4px 4px 6px 10px}
+.share-menu-title{font-size:13px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--text)}
+.share-menu-title span{white-space:nowrap;letter-spacing:.01em;text-transform:none;color:var(--ink)}
+.share-close{width:40px;height:40px;min-height:40px;border:0;border-radius:10px;background:none;color:var(--text);font-size:24px;line-height:1;cursor:pointer}
+.share-close:hover{background:var(--secondary);color:var(--ink)}
+.share-list{list-style:none;margin:0;padding:0}
+.share-item{display:flex;align-items:center;gap:12px;width:100%;min-height:44px;padding:10px 12px;border:0;border-radius:10px;background:none;
+  color:var(--ink);font:500 15px/1.3 'DM Sans',system-ui,sans-serif;text-align:left;text-decoration:none;cursor:pointer}
+.share-item:hover{background:var(--secondary)}
+.share-item:focus-visible{outline:3px solid var(--focus);outline-offset:-3px}
+.share-item-icon{width:20px;height:20px;flex:none;color:var(--text)}
+.share-list li:last-child{border-top:1px solid var(--line);margin-top:4px;padding-top:4px}
+.share-item.copied,.share-item.copied .share-item-icon{color:var(--saude-ink)}
+.share-fallback{padding:8px 10px 6px}
+.share-fallback[hidden]{display:none}
+.share-fallback label{display:block;font-size:13px;color:var(--text);margin-bottom:6px}
+.share-fallback input{width:100%;padding:9px 10px;border:1.5px solid var(--field-border);border-radius:8px;font:400 14px/1.3 'DM Sans',system-ui,sans-serif;color:var(--ink);background:var(--white)}
+
+/* Celular sem folha nativa: o menu vira uma folha presa embaixo da tela. */
+@media(max-width:640px){
+  .share-menu{left:0;right:0;bottom:0;top:auto;width:auto;max-width:none;border-radius:var(--radius) var(--radius) 0 0;border-bottom:0;
+    padding:8px 10px calc(12px + env(safe-area-inset-bottom));box-shadow:0 -10px 30px rgb(20 30 40 / .18)}
+  .share-item{min-height:48px;font-size:16px}
+  .sharebtn.with-label{padding:11px 15px 11px 12px}
+}
+@media(prefers-reduced-motion:no-preference){
+  .share-menu{animation:share-in .14s ease-out}
+  @keyframes share-in{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+}
