@@ -1,6 +1,6 @@
 import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 import {THEMES as THEME_LIST} from '../lib/themes.js';
-import {displayTitle,amendedLaws,isReviewed} from '../lib/titles.js?v=editorial-titles-lote-009b';
+import {displayTitle,amendedLaws,isReviewed,hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-009b';
 import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
 import {proposalTypeInfo} from '../lib/proposal-types.js';
 
@@ -136,7 +136,9 @@ export function changeSection(p,e,{reviewed,title,area,ai=null}){
  const lawLabel=/altera|revoga/.test(action.kind)?(laws.length>1?'Leis que muda':'Lei que muda'):(laws.length>1?'Leis citadas':'Lei citada');
  const tags=proposalTags(p);
  const areaChips=ed?.areas?.length?ed.areas.map(a=>'<li>'+safeText(a)+'</li>').join(''):'';
- return '<section class="detail-section change-section" aria-labelledby="changeTitle"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
+ // Quem escreveu e qual versão: vai junto quando o leitor reporta um problema (report-problem.js).
+ const fonte=human?'redacao':fromAI?'ia':'automatico',versao=human?human.validado:fromAI?String(ai.gerado_em||''):'';
+ return '<section class="detail-section change-section" aria-labelledby="changeTitle" data-fonte="'+fonte+'" data-versao="'+safeText(versao)+'"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
   (lead?'<p class="change-lead">'+safeText(lead)+'</p>':'')+
   (ed&&(ed.hoje||ed.proposta)?'<div class="change-compare">'+
     (ed.hoje?'<div class="change-now"><h3>Como é hoje</h3><p>'+safeText(ed.hoje)+'</p></div>':'')+
@@ -173,10 +175,11 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  const typeInfo=proposalTypeInfo(p.siglaTipo);
  return '<div class="detail" data-area="'+safeText(area)+'"><div class="page"><a class="back" href="'+safeText(backHref)+'">'+backLabel+'</a></div>'+
  '<div class="detail-header"><div class="page"><div class="detail-meta">'+topicLabel(area)+'<span>'+safeText(ref(p))+'</span>'+(reviewed?SEAL:'')+'</div>'+
- '<h1 tabindex="-1" id="detailTitle" class="'+(reviewed?'':'auto')+(title.length>110?' long':'')+'">'+safeText(title)+'</h1>'+
+ '<h1 tabindex="-1" id="detailTitle" data-fonte="'+(reviewed||hasCuratedTitle(Number(p.id))?'redacao':'automatico')+'" class="'+(reviewed?'':'auto')+(title.length>110?' long':'')+'">'+safeText(title)+'</h1>'+
  '<div class="detail-actions">'+saveButton(p,saved,'＋ Salvar para depois')+'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a></div></div></div>'+
  '<div class="page detail-layout"><div>'+
  changes+
+ '<div id="reportProblem" class="report-problem" hidden></div>'+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
  '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
  (stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(stage.siglaOrgao)+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
@@ -203,6 +206,7 @@ export function infoPage(){
  '<div class="notice" style="margin-top:26px"><strong>Transparência editorial.</strong> Propostas com o selo “Explicado pela redação” foram lidas por uma pessoa, que escreveu o título em forma de pergunta e o resumo. Nas demais, o título é gerado automaticamente a partir da ementa oficial e descreve o que o texto faz, sem interpretar. A classificação temática também é automática. A aprovação em uma comissão não equivale à aprovação final.</div>'+
  '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde ou Direitos e cidadania; toda proposta recebe um dos 13 temas. As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. A classificação é automática e pode ser aperfeiçoada.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
  '<section style="margin-top:26px"><h2>Resumos gerados por IA</h2><p>Para que toda proposta tenha uma explicação além da ementa, um programa lê o texto integral publicado pela Câmara e usa inteligência artificial para escrever o resumo, como é hoje, como ficaria e o que muda na prática. Esses textos aparecem com o aviso “Resumo gerado por IA · sem revisão humana” e podem conter erros. Quando a redação revisa uma proposta, o texto revisado substitui o da IA e ganha o selo “Explicado pela redação”.</p></section>'+
+ '<section style="margin-top:26px"><h2>Reportar um problema</h2><p>Se o título, o resumo ou a explicação de uma proposta estiver errado, desatualizado ou confuso, use “Encontrou um erro neste texto? Reportar” na ficha. O reporte é anônimo e vai para a equipe, que revisa cada caso. Nenhum texto sai do ar automaticamente, por mais reportes que receba: quanto mais pessoas apontam o mesmo problema, antes ele é revisado.</p></section>'+
  '<section style="margin-top:26px"><h2>Termômetro dos leitores</h2><p>Na ficha de cada proposta, você pode dizer se é a favor, neutro ou contra. O voto é anônimo: guardamos só um código aleatório deste navegador, sem nome, e-mail ou endereço IP. O resultado mostra a opinião de quem lê o site, aparece a partir de 5 votos e não é pesquisa de opinião: não representa a população nem o que o Congresso vai decidir.</p></section>'+
  '<p style="margin-top:26px"><a class="primary-btn" href="#/explorar">Explorar propostas →</a></p></div>';
 }

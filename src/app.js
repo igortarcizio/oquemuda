@@ -8,6 +8,7 @@ import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
 import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=editorial-titles-lote-009b';
+import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 
 const $=id=>document.getElementById(id);
 const pageSize=30;
@@ -293,7 +294,7 @@ async function showList(){
 }
 function focusHeading(el){if(el&&!firstRender)el.focus({preventScroll:true})}
 function listPageFromHash(){
- stopRelated();stopVotes();stopAiSummary();
+ stopRelated();stopVotes();stopAiSummary();stopReport();
  const previousView=state.view;
  const direct=readHash();setViews();setNav();
  if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
@@ -307,7 +308,7 @@ async function showDetail(id){
  const candidate=[...state.items,...getSaved(),...(window.OBM_DATA?.items||[])].find(p=>String(p.id)===String(id));
  const neutral={...STATUS.unknown};
  const keepFocus=()=>{const h=$('detailTitle');if(h&&(document.activeElement===document.body||!document.activeElement||$('detailView').contains(document.activeElement)&&document.activeElement.id==='detailTitle'))h.focus({preventScroll:true})};
- if(candidate){$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral,backHref:lastListHash},isSaved(candidate.id));mountVotes(candidate);mountAiSummary(candidate)}
+ if(candidate){$('detailView').innerHTML=detailPage(candidate,{loaded:true,status:neutral,backHref:lastListHash},isSaved(candidate.id));mountVotes(candidate);mountAiSummary(candidate);mountReport(candidate)}
  else $('detailView').innerHTML='<div class="page inforoute"><h1>Consultando proposição…</h1><p>Buscando registro disponível.</p></div>';
  document.title='Proposta — o que muda?';window.scrollTo({top:0,behavior:'instant'});
  focusHeading($('detailTitle'));
@@ -315,7 +316,7 @@ async function showDetail(id){
  try{stored=await getDatabaseDetail(id)}catch{}
  if(task!==detailSequence||state.view!=='detalhe')return;
  if(stored){
-  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true,backHref:lastListHash},isSaved(id));keepFocus();mountVotes(stored.proposal);mountAiSummary(stored.proposal);
+  $('detailView').innerHTML=detailPage(stored.proposal,{...stored,loaded:true,backHref:lastListHash},isSaved(id));keepFocus();mountVotes(stored.proposal);mountAiSummary(stored.proposal);mountReport(stored.proposal);
   document.title=ref(stored.proposal)+' — O que muda?';
  }
  // Atualização em segundo plano, sem bloquear a ficha que já está no banco.
@@ -342,6 +343,7 @@ async function showDetail(id){
  keepFocus();
  mountVotes(proposal);
  mountAiSummary(proposal);
+ mountReport(proposal);
  mountRelated(proposal);
  document.title=ref(proposal)+' — O que muda?';
 }
