@@ -1,14 +1,15 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=apensadas-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=busca-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {jointListHTML} from './lib/apensacao.js';
+import {parseSearch,refLabel} from './lib/search.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=apensadas-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=busca-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=apensadas-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=busca-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -169,6 +170,8 @@ function renderActiveFilters(){
 /** Lista vazia: diz o motivo e oferece o caminho de volta. */
 function emptyState(){
  if(state.view==='salvos')return '<div class="empty-state"><h3>Nada salvo ainda.</h3><p>Use “+ Salvar” em qualquer proposta para guardá-la aqui. Os salvos ficam só neste navegador.</p><div class="empty-actions"><a class="primary-btn" href="#/explorar">Explorar propostas</a></div></div>';
+ const searched=parseSearch(state.query).ref;
+ if(searched)return '<div class="empty-state"><h3>Não encontramos '+safeText(refLabel(searched))+'.</h3><p>Procuramos no acervo do site e na Câmara dos Deputados. Confira o tipo, o número e o ano'+(searched.ano?'':' (por exemplo, PL 999/2026)')+'. O site acompanha propostas da Câmara: projetos que começaram no Senado têm outro número.</p><div class="empty-actions"><button type="button" class="outline-btn" data-unset=\'{"query":""}\'>Limpar a busca</button></div></div>';
  const tips=[];
  if(state.year!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"year":"Todos"}\'>Buscar em todos os anos</button>');
  if(state.topic!=='Todos')tips.push('<button type="button" class="outline-btn" data-unset=\'{"topic":"Todos"}\'>Tirar o tema '+safeText(state.topic)+'</button>');
@@ -277,8 +280,14 @@ async function showList(){
    if(state.mode||state.tag||theme)throw new Error('A busca de propostas está temporariamente indisponível.');
    result=await getProposals(args);
   }
+  // Número de proposta fora do acervo do site: confere direto na Câmara.
+  if(!result.items.length&&result.source==='banco de dados'&&parseSearch(keywords).ref){
+   try{const live=await getProposals(args);if(live.items.length)result=live}catch{}
+  }
   if(id!==sequence)return;
-  if(result.items.length||!hasSnapshot){
+  // O banco é a fonte completa: se ele respondeu, vale a resposta dele, mesmo vazia.
+  // A cópia parcial só fica quando a consulta ao vivo da Câmara (plano B) volta vazia.
+  if(result.items.length||!hasSnapshot||result.source==='banco de dados'){
    present(result);
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
