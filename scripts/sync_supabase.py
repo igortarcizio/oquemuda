@@ -8,6 +8,10 @@
 - Tramitações: só busca o histórico quando a Câmara registra movimentação nova
   (statusProposicao.sequencia maior que a gravada) e, enquanto a movimentação é recente,
   confere se a comissão publicou um substitutivo (texto novo que substitui o original).
+- Listagens: lê as páginas mais recentes de cada tipo até achar uma página só com
+  propostas já conhecidas (no máximo MAX_LIST_PAGES), então recupera sozinho depois de
+  dias fora do ar. É o único robô que cria fichas novas (substitui sincronizar_supabase.py).
+- Cada execução fica registrada em public.sync_runs (migration 20261119_sync_runs.sql).
 """
 import datetime as dt
 import json
@@ -36,6 +40,9 @@ TEXTO_ADOTADO = {
 JANELA_TEXTO_DIAS = 21
 MAX_TRAMITACOES = 200
 TRAM_COLS = "tramitacoes_seq,tramitacoes_ultima,texto_atual"
+MAX_LIST_PAGES = int(os.getenv("MAX_LIST_PAGES", "5"))
+RUNS = os.environ["SUPABASE_URL"].rstrip("/") + "/rest/v1/sync_runs"
+STATS = {"tramitacoes": 0, "textos_novos": 0, "fichas_novas": 0}
 
 def read_json(url, headers=None, timeout=9):
     request = urllib.request.Request(url, headers=headers or {"Accept": "application/json", "User-Agent": "OQueMuda/1.0 (sincronizacao publica)"})
@@ -294,6 +301,7 @@ def enrich():
                     changes.update(extra_changes)
                     tram_done += "tramitacoes" in extra_changes
                     texts_done += "texto_atual" in extra_changes
+                    STATS["tramitacoes"], STATS["textos_novos"] = tram_done, texts_done
                 except RuntimeError:
                     raise
                 except Exception as exc:
@@ -310,45 +318,87 @@ def enrich():
           "| textos novos (substitutivo/redação final):", texts_done, flush=True)
     return done, True
 
+def known_ids(ids):
+    """Quais destes IDs já estão no banco (uma consulta por página de listagem)."""
+    if not ids:
+        return set()
+    q = urllib.parse.urlencode({"select": "id", "id": "in.(" + ",".join(str(int(i)) for i in ids) + ")"})
+    return {int(r["id"]) for r in read_json(DB + "?" + q, DB_HEADERS)}
+
+
 def lists():
     year = dt.date.today().year
     count = 0
     for y in (year, year - 1):
         for kind in ("PL", "PLP", "PEC", "MPV", "PDL", "PRC"):
-            qs = urllib.parse.urlencode({
-                "ano": y, "siglaTipo": kind, "itens": 100,
-                "pagina": 1, "ordenarPor": "id", "ordem": "DESC"})
-            try:
-                data = api("/proposicoes?" + qs).get("dados") or []
-            except RuntimeError as exc:
-                print("Listagens interrompidas:", exc, flush=True)
-                return count, False
-            except Exception as exc:
-                print("Falha na listagem", kind, y, str(exc)[:130], flush=True)
-                continue
-            stamp = dt.datetime.now(dt.timezone.utc).isoformat()
-            rows = [{
-                "id": p["id"], "sigla_tipo": p.get("siglaTipo", kind),
-                "numero": p.get("numero"), "ano": p.get("ano"),
-                "ementa": p.get("ementa", ""),
-                "data_apresentacao": (p.get("dataApresentacao") or "")[:10] or None,
-                "uri_oficial": p.get("uri"),
-                "coletado_em": stamp
-            } for p in data if p.get("id")]
-            try:
-                ensure_rows(rows)
-                count += len(rows)
-            except Exception as exc:
-                print("Falha na escrita da listagem", kind, y, str(exc)[:130], flush=True)
-                return count, False
-            time.sleep(0.3)
-    print("Registros processados em listagens:", count, flush=True)
+            for page in range(1, MAX_LIST_PAGES + 1):
+                qs = urllib.parse.urlencode({
+                    "ano": y, "siglaTipo": kind, "itens": 100,
+                    "pagina": page, "ordenarPor": "id", "ordem": "DESC"})
+                try:
+                    data = api("/proposicoes?" + qs).get("dados") or []
+                except RuntimeError as exc:
+                    print("Listagens interrompidas:", exc, flush=True)
+                    return count, False
+                except Exception as exc:
+                    print("Falha na listagem", kind, y, str(exc)[:130], flush=True)
+                    break
+                stamp = dt.datetime.now(dt.timezone.utc).isoformat()
+                rows = [{
+                    "id": p["id"], "sigla_tipo": p.get("siglaTipo", kind),
+                    "numero": p.get("numero"), "ano": p.get("ano"),
+                    "ementa": p.get("ementa", ""),
+                    "data_apresentacao": (p.get("dataApresentacao") or "")[:10] or None,
+                    "uri_oficial": CAMARA + "/proposicoes/" + str(p["id"]),
+                    "coletado_em": stamp
+                } for p in data if p.get("id")]
+                try:
+                    known = known_ids([r["id"] for r in rows])
+                    ensure_rows(rows)
+                    count += len(rows)
+                    STATS["fichas_novas"] += len(rows) - len(known)
+                except Exception as exc:
+                    print("Falha na escrita da listagem", kind, y, str(exc)[:130], flush=True)
+                    return count, False
+                time.sleep(0.3)
+                # Página inteira já conhecida (ou a última): nada novo mais para trás.
+                if len(data) < 100 or len(known) == len(rows):
+                    break
+    print("Registros processados em listagens:", count, "| fichas novas:", STATS["fichas_novas"], flush=True)
     return count, True
 
+
+def record_run(started, done, count, ok, error=None):
+    """Registro em sync_runs. Sem a tabela (migration não aplicada), só avisa."""
+    payload = {"robo": "sync_supabase", "iniciado_em": started, "terminado_em": dt.datetime.now(dt.timezone.utc).isoformat(),
+               "ok": ok, "fichas": done, "listagens": count, "fichas_novas": STATS["fichas_novas"],
+               "tramitacoes": STATS["tramitacoes"], "textos_novos": STATS["textos_novos"],
+               "erro": (error or "")[:500] or None, "execucao_url": run_url()}
+    request = urllib.request.Request(RUNS, data=json.dumps(payload).encode("utf-8"), method="POST",
+                                     headers={**DB_HEADERS, "Content-Type": "application/json", "Prefer": "return=minimal"})
+    try:
+        with urllib.request.urlopen(request, timeout=15) as response:
+            response.read()
+    except Exception as exc:  # registro nunca derruba a sincronização
+        print("::notice::Execução não registrada em sync_runs:", str(exc)[:120], flush=True)
+
+
+def run_url():
+    server, repo, run = os.getenv("GITHUB_SERVER_URL"), os.getenv("GITHUB_REPOSITORY"), os.getenv("GITHUB_RUN_ID")
+    return f"{server}/{repo}/actions/runs/{run}" if server and repo and run else None
+
+
 def main():
-    done, enriched_ok = enrich()
-    count, lists_ok = lists() if enriched_ok else (0, False)
+    started = dt.datetime.now(dt.timezone.utc).isoformat()
+    try:
+        done, enriched_ok = enrich()
+        count, lists_ok = lists() if enriched_ok else (0, False)
+    except Exception as exc:
+        record_run(started, 0, 0, False, type(exc).__name__ + ": " + str(exc))
+        raise
     print("Resumo: fichas =", done, "listagens =", count, "fonte íntegra =", enriched_ok and lists_ok, flush=True)
+    record_run(started, done, count, enriched_ok and lists_ok,
+               None if enriched_ok and lists_ok else "Câmara ou banco indisponível em parte da execução (ver log)")
     # Indisponibilidade externa não apaga dados; alerta no Actions sem simular sucesso completo.
     if not enriched_ok or not lists_ok:
         sys.exit(2)

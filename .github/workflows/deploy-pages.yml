@@ -15,7 +15,6 @@ on:
     workflows:
       - Atualizar catálogo legislativo
       - Atualizar notícias da Agência Câmara
-      - Sincronizar propostas no Supabase
       - Importar arquivos anuais da Câmara para o Supabase
       - Resumos por IA a partir do texto integral
     types: [completed]

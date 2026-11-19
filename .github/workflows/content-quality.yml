@@ -13,7 +13,6 @@ on:
   workflow_run:
     workflows:
       - 'Sincronizar proposições com Supabase'
-      - 'Sincronizar propostas no Supabase'
       - 'Importar arquivos anuais da Câmara para o Supabase'
       - 'Atualizar catálogo legislativo'
     types: [completed]
