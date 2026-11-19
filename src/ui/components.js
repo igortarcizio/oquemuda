@@ -18,6 +18,7 @@ import {proposalTags,tagURL} from '../lib/tags.js';
 const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em revisão</p>':'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
 
 import {STATUS} from '../lib/status.js';
+import {historyHTML,versionNote} from '../lib/tramitacoes.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 // Toda proposta tem um tema real; não existe "Outros".
 // Registros antigos (cópia local, salvos) podem trazer "Outros" ou temas extintos: recalcula.
@@ -142,6 +143,7 @@ export function changeSection(p,e,{reviewed,title,area,ai=null}){
  // Quem escreveu e qual versão: vai junto quando o leitor reporta um problema (report-problem.js).
  const fonte=human?'redacao':fromAI?'ia':'automatico',versao=human?human.validado:fromAI?String(ai.gerado_em||''):'';
  return '<section class="detail-section change-section" aria-labelledby="changeTitle" data-fonte="'+fonte+'" data-versao="'+safeText(versao)+'"><h2 id="changeTitle">O que a proposta quer mudar?</h2>'+
+  versionNote(p.textoAtual||null,{fonte,ai:fromAI?ai:null})+
   (lead?'<p class="change-lead">'+safeText(lead)+'</p>':'')+
   (ed&&(ed.hoje||ed.proposta)?'<div class="change-compare">'+
     (ed.hoje?'<div class="change-now"><h3>Como é hoje</h3><p>'+safeText(ed.hoje)+'</p></div>':'')+
@@ -166,7 +168,7 @@ export function changeSectionFor(p,ai=null){
  return changeSection(p,e,{reviewed:isReviewed(e),title:displayTitle(p,e),area:themeOf(p,e),ai});
 }
 export function hasValidatedEditorial(p){return !!editorialChange(editorial(p))}
-export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
+export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtual=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
  const e=editorial(p),reviewed=isReviewed(e),title=displayTitle(p,e),area=themeOf(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
  const full=safeURL(fullTextURL);
@@ -184,7 +186,8 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
  '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
- (stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(stage.siglaOrgao)+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
+ (loaded&&tramitacoes.length?historyHTML(tramitacoes,textoAtual||p.textoAtual||null):'')+
+ (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(stage.siglaOrgao)+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
  '<div id="reportProblem" class="report-problem" hidden></div>'+

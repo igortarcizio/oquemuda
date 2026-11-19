@@ -1,12 +1,15 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=compartilhar-1';
+import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=tramitacoes-1';
 import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-009b';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';
 const KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
 const COLS='titulo,resumo,hoje,proposta,pontos,areas,modelo,gerado_em';
+// Versão do texto que o resumo descreve (migration 20261119). Sem as colunas, lê sem elas.
+const VERSION_COLS=',fonte_url,texto_versao,texto_data,texto_orgao';
+let versionColumns=true;
 const cache=new Map();   // id -> linha ou null
 const pending=new Map(); // id -> Promise
 let activeId=null;
@@ -28,8 +31,10 @@ export function setAiFooterNotice(show,doc=globalThis.document){
 }
 
 export async function fetchAiSummary(id,{fetchImpl=globalThis.fetch}={}){
-  const q=new URLSearchParams({select:COLS,proposicao_id:'eq.'+Number(id),limit:'1'});
-  const res=await fetchImpl(URL_RESUMOS+'?'+q.toString(),{headers:{apikey:KEY,Accept:'application/json'}});
+  const url=cols=>URL_RESUMOS+'?'+new URLSearchParams({select:cols,proposicao_id:'eq.'+Number(id),limit:'1'}).toString();
+  const headers={apikey:KEY,Accept:'application/json'};
+  let res=await fetchImpl(url(COLS+(versionColumns?VERSION_COLS:'')),{headers});
+  if(res.status===400&&versionColumns){versionColumns=false;res=await fetchImpl(url(COLS),{headers})}
   if(!res.ok)return null;
   const rows=await res.json();
   const row=Array.isArray(rows)?rows[0]:null;

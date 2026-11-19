@@ -2,6 +2,7 @@ import {cleanText, ref, classifyTheme} from '../lib/text.js';
 import {classifyTags} from '../lib/tags.js';
 import {normalizeStatus,STATUS} from '../lib/status.js';
 import {THEME_TAGS} from '../lib/themes.js';
+import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
 const current=()=>Date.now();
@@ -209,20 +210,29 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  finally{clearTimeout(timeout);signal?.removeEventListener('abort',onAbort)}
 }
 
+const DETAIL_COLS='id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em';
+// Colunas da migration 20261119; se ainda não existirem (HTTP 400), a ficha segue sem elas.
+const HISTORY_COLS=',tramitacoes,texto_atual';
+let historyColumns=true;
 /** Ficha persistida: nunca depende de a Câmara responder no momento da leitura. */
-export async function getDatabaseDetail(id,{signal}={}){
- const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em',id:'eq.'+String(Number(id)),limit:'1'});
+export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={}){
+ const query=extra=>new URLSearchParams({select:DETAIL_COLS+extra,id:'eq.'+String(Number(id)),limit:'1'}).toString();
  const controller=new AbortController(),timer=setTimeout(()=>controller.abort(),8000);
  const abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});
  try{
-  const res=await fetch(DB_URL+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json'},signal:controller.signal});
+  const headers={apikey:DB_KEY,Accept:'application/json'};
+  let res=await fetchImpl(DB_URL+'?'+query(historyColumns?HISTORY_COLS:''),{headers,signal:controller.signal});
+  if(res.status===400&&historyColumns){historyColumns=false;res=await fetchImpl(DB_URL+'?'+query(''),{headers,signal:controller.signal})}
   if(!res.ok)throw new SourceError('Consulta ao banco: HTTP '+res.status);
   const rows=await res.json();const d=rows?.[0];
   if(!d)throw new SourceError('Proposição não encontrada no banco');
   const raw=d.dados_oficiais||{};
   const stage=raw.statusProposicao||{};
   const officialStatus=(d.situacao_codigo==null&&!d.situacao_descricao&&!stage.descricaoSituacao&&!stage.descricaoTramitacao)?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
-  return {proposal:normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao},getEditorial(d.id)),
+  const proposal=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao},getEditorial(d.id));
+  // Vai junto da proposta para o resumo da IA saber se já descreve o texto em vigor.
+  proposal.textoAtual=normalizeTextoAtual(d.texto_atual);
+  return {proposal,tramitacoes:normalizeTramitacoes(d.tramitacoes),textoAtual:proposal.textoAtual,
    status:officialStatus||(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A Câmara não informou a situação na consulta.'}:{...STATUS.unknown,detail:'Dados de situação ainda não obtidos da Câmara.'}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
    authorsChecked:raw.autoresConsultados===true,
