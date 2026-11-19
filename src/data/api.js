@@ -5,6 +5,7 @@ import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 import {normalizeApensacao} from '../lib/apensacao.js';
 import {parseSearch,matchesToken} from '../lib/search.js';
+import {isTheme} from '../lib/temas-oficiais.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
 const current=()=>Date.now();
@@ -177,10 +178,13 @@ export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keyword
 /** Leitura principal do catálogo persistido. Chave pública com RLS somente leitura. */
 const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
 const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
+// Colunas de tema (migration 20261119_temas_oficiais); sem elas (HTTP 400), filtro pelas tags.
+let themeColumns=true;
 export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],signal}={}){
  if(party!=='Todos'&&!/^[\p{L}.]{2,20}$/u.test(party))throw new SourceError('Partido inválido');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
- const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
+ const withThemes=themeColumns;
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em'+(withThemes?',area':''),order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
  const search=parseSearch(keywords);
  if(search.ref){
   // Referência ("PL 999/2026"): a proposta é única, então os outros filtros não se aplicam.
@@ -201,7 +205,10 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  const conditions=search.tokens.map(t=>'ementa_busca.ilike.*'+fold(t)+'*');
  if(theme){
   if(!THEME_TAGS[theme])throw new SourceError('Tema inválido');
-  conditions.push('tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'}');
+  const byTags='tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'}';
+  // Tema oficial: a proposta aparece em todos os seus temas (areas). Sem tema oficial ainda
+  // (areas nulo), vale a aproximação pelas tags, como antes.
+  conditions.push(withThemes?'or(areas.cs.{"'+theme+'"},and(areas.is.null,'+byTags+'))':byTags);
  }
  if(conditions.length)q.set('and','('+conditions.join(',')+')');
  if(situationCodes)q.set('situacao_codigo','in.('+situationCodes+')');
@@ -213,6 +220,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  signal?.addEventListener('abort',onAbort,{once:true});
  try{
   const response=await fetch(DB_URL+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal:controller.signal});
+  if(response.status===400&&withThemes){themeColumns=false;return getDatabaseProposals(arguments[0])}
   if(!response.ok)throw new SourceError('Banco de dados: HTTP '+response.status);
   const data=await response.json();
   if(!Array.isArray(data))throw new SourceError('Resposta inesperada do banco');
@@ -220,7 +228,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   const total=Number(range.split('/')[1]);
   const totalPages=Number.isFinite(total)?Math.max(1,Math.ceil(total/30)):null;
   const items=data.map(d=>{
-    const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||''},getEditorial(d.id));
+    const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||'',areaOficial:d.area},getEditorial(d.id));
     const stage=d.dados_oficiais?.statusProposicao||{};
     p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A situação não consta no registro oficial consultado.'}:{...STATUS.unknown,detail:'A situação ainda não foi obtida na última sincronização.'});
     return p;
@@ -233,7 +241,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
 const DETAIL_COLS='id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em';
 // Colunas das migrations de 19/11, das mais novas para as mais antigas. Se uma ainda não
 // existir (HTTP 400), a ficha tenta sem ela e lembra a escolha.
-const EXTRA_COLS=[',tramitacoes,texto_atual,apensada_a',',tramitacoes,texto_atual',''];
+const EXTRA_COLS=[',tramitacoes,texto_atual,apensada_a,area,temas_oficiais',',tramitacoes,texto_atual,apensada_a',',tramitacoes,texto_atual',''];
 let extraLevel=0;
 /** Ficha persistida: nunca depende de a Câmara responder no momento da leitura. */
 export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={}){
@@ -250,7 +258,8 @@ export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={
   const raw=d.dados_oficiais||{};
   const stage=raw.statusProposicao||{};
   const officialStatus=(d.situacao_codigo==null&&!d.situacao_descricao&&!stage.descricaoSituacao&&!stage.descricaoTramitacao)?null:normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao});
-  const proposal=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao},getEditorial(d.id));
+  const proposal=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,areaOficial:d.area},getEditorial(d.id));
+  proposal.temasOficiais=Array.isArray(d.temas_oficiais)?d.temas_oficiais.map(t=>typeof t?.tema==='string'?t.tema.trim():'').filter(Boolean):[];
   // Vai junto da proposta para o resumo da IA saber se já descreve o texto em vigor.
   proposal.textoAtual=normalizeTextoAtual(d.texto_atual);
   proposal.virouLei=isLaw(officialStatus);
@@ -283,15 +292,16 @@ export async function getDailyFeatured({signal}={}){
  if(slots.length!==3)throw new SourceError('Seleção diária incompleta');
  const ids=slots.map(r=>Number(r.proposicao_id));
  if(ids.some(id=>!Number.isInteger(id)||id<=0))throw new SourceError('IDs de destaque inválidos');
- const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em',id:'in.('+ids.join(',')+')'});
- const result=await fetch(DB_URL+'?'+q.toString(),{headers,signal});
+ const featuredQuery=extra=>new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em'+extra,id:'in.('+ids.join(',')+')'}).toString();
+ let result=await fetch(DB_URL+'?'+featuredQuery(themeColumns?',area':''),{headers,signal});
+ if(result.status===400&&themeColumns){themeColumns=false;result=await fetch(DB_URL+'?'+featuredQuery(''),{headers,signal})}
  if(!result.ok)throw new SourceError('Fichas de destaque indisponíveis: HTTP '+result.status);
  const data=await result.json();
  const byId=new Map(data.map(d=>[Number(d.id),d]));
  const items=ids.map(id=>{
   const d=byId.get(id);
   if(!d)return null;
-  const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao},getEditorial(d.id));
+  const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,areaOficial:isTheme(d.area)?d.area:null},getEditorial(d.id));
   const stage=d.dados_oficiais?.statusProposicao||{};
   p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?
     normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):

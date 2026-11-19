@@ -84,7 +84,7 @@ test('ficha lê histórico e texto atual; sem a migration, cai para a consulta a
  urls.length=0;
  const old=async url=>{urls.push(String(url));return /tramitacoes/.test(decodeURIComponent(url))?{ok:false,status:400}:{ok:true,status:200,json:async()=>[{...row,tramitacoes:undefined,texto_atual:undefined}]}};
  const d2=await getDatabaseDetail(2600635,{fetchImpl:old});
- assert.equal(urls.length,3,'completo → só histórico → básico');
+ assert.equal(urls.length,4,'temas → apensação → só histórico → básico');
  assert.deepEqual(d2.tramitacoes,[]);
  assert.equal(d2.proposal.textoAtual,null);
 });

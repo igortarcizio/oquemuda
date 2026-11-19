@@ -1,0 +1,33 @@
+name: Temas oficiais da Câmara
+# Aplica os temas oficiais (arquivos anuais proposicoesTemas) às propostas do banco.
+# Roda depois da importação diária (sync-bulk, 05:53 UTC). Grava só o que mudou.
+on:
+  push:
+    paths:
+      - '.github/workflows/temas-oficiais.yml'
+      - 'scripts/aplicar_temas.mjs'
+      - 'src/lib/temas-oficiais.js'
+  workflow_dispatch:
+  schedule:
+    - cron: '41 6 * * *'
+concurrency:
+  group: temas-oficiais
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  temas:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: Testes da regra de temas
+        run: node --test tests/temas-oficiais.test.mjs
+      - name: Aplicar temas oficiais
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+        run: node scripts/aplicar_temas.mjs
