@@ -1,38 +1,61 @@
 /**
- * Situação amigável baseada APENAS em descrição de situação/tramitação da API oficial.
+ * Situação amigável a partir do código oficial da Câmara (codSituacao).
+ * Tabela: /referencias/proposicoes/codSituacao, conferida em 19/11/2026 (99 códigos).
+ * Código desconhecido cai no texto da situação/tramitação (regex), como antes.
  * "Apresentação" não significa que uma matéria esteja em debate — classe neutra.
  */
 export const STATUS={
  discussion:{label:'Em discussão',tone:'discussion'},
  voting:{label:'Pronta para pauta',tone:'voting'},
  approved:{label:'Aprovado na Câmara',tone:'approved'},
+ law:{label:'Virou lei',tone:'law'},
  closed:{label:'Arquivado / Rejeitado',tone:'closed'},
  introduced:{label:'Apresentada',tone:'neutral'},
+ joint:{label:'Tramita em conjunto',tone:'discussion'},
  // Rótulo único para qualquer situação ainda não confirmada na fonte oficial.
  unknown:{label:'Em atualização',tone:'pending'}
 };
-// Códigos de situação da Câmara usados aqui e nos atalhos do box "De olho na Câmara".
-export const APPROVED_CODES=[1150,1160,1293,1303,926,1140];
-export const CLOSED_CODES=[923,930,931,940,941,950];
+const JOINT_DETAIL='Tramita junto com outra proposta (apensada) e segue o andamento dela.';
+// Só o que muda a etiqueta; o resto ("Aguardando parecer", "Aguardando relator"…) é "Em discussão".
+const BY_CODE={
+ voting:[924],
+ // A Câmara concluiu: foi ao Senado, à sanção ou à promulgação.
+ approved:[926,1070,1150,1160,1293,1294,1303,939],
+ law:[1140],
+ // Encerradas sem virar lei: arquivo, rejeição, retirada, devolução, perda de eficácia, veto total.
+ closed:[914,923,930,931,937,940,941,950,1120,1222,1230,1250,1260,1285,1292],
+ // Acabaram de chegar: esperam despacho, distribuição ou registro.
+ introduced:[905,906,912,917,1010,1080,1110,1200,1201,1210,1220,1221,1290,1291,1381,1382,1383],
+ joint:[925,927]
+};
+const GENERIC_CODES=new Set([1161,1311]); // "Outros" e "<Não Definido>"
+const CODE_TONE=new Map(Object.entries(BY_CODE).flatMap(([k,codes])=>codes.map(c=>[c,k])));
+/** Códigos usados nos atalhos do box "De olho na Câmara" e nos filtros do banco. */
+export const APPROVED_CODES=[...BY_CODE.approved,...BY_CODE.law];
+export const CLOSED_CODES=[...BY_CODE.closed];
+export const LAW_CODES=[...BY_CODE.law];
+export const isLaw=status=>status?.tone==='law';
 export function normalizeStatus(status) {
- const code=Number(status?.codSituacao);
- const officiallyVotable=new Set([924]);
- const chamberApproved=new Set(APPROVED_CODES);
- const closed=new Set(CLOSED_CODES);
- if(officiallyVotable.has(code))return {...STATUS.voting,detail:status?.descricaoSituacao||'Pronta para Pauta'};
- if(chamberApproved.has(code))return {...STATUS.approved,detail:status?.descricaoSituacao||'Encaminhada após aprovação na Câmara'};
- if(closed.has(code))return {...STATUS.closed,detail:status?.descricaoSituacao||'Tramitação encerrada'};
+ const raw=status?.codSituacao;
+ const code=raw===null||raw===undefined||raw===''?NaN:Number(raw);
+ const official=String(status?.descricaoSituacao||'').trim();
+ const tone=CODE_TONE.get(code);
+ if(tone==='joint')return {...STATUS.joint,detail:JOINT_DETAIL};
+ if(tone)return {...STATUS[tone],detail:official||STATUS[tone].label};
+ // Código conhecido da tabela oficial e não listado acima: está em andamento na Câmara.
+ if(Number.isInteger(code)&&code>=900&&code<=1400&&!GENERIC_CODES.has(code)&&official)return {...STATUS.discussion,detail:official};
  const stage=String(status?.descricaoSituacao||'').trim();
  const movement=String(status?.descricaoTramitacao||'').trim();
  const t=(stage||movement).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
  if(!t)return {...STATUS.unknown,detail:'A Câmara ainda não informou a situação.'};
- if(/arquivad|rejeitad|prejudicad|retirad|devolvid/.test(t))return {...STATUS.closed,detail:stage||movement};
+ if(/transformad.{0,20}(?:em )?norma/.test(t))return {...STATUS.law,detail:stage||movement};
+ if(/arquivad|rejeitad|prejudic|retirad|devolvid|perdeu a eficacia|tramitacao finalizada|vetad/.test(t))return {...STATUS.closed,detail:stage||movement};
  // Na Câmara: remessa ao Senado ou à sanção indica conclusão de análise na Casa.
- if(/remetid.{0,28}senado|encaminhad.{0,28}senado|enviad.{0,28}senado|remetid.{0,28}sancao|encaminhad.{0,28}sancao|aprovad.{0,20}plenario|transformad.{0,20}norma/i.test(t))return {...STATUS.approved,detail:stage||movement};
+ if(/remetid.{0,28}senado|encaminhad.{0,28}senado|enviad.{0,28}senado|remetid.{0,28}sancao|encaminhad.{0,28}sancao|aprovad.{0,20}plenario/i.test(t))return {...STATUS.approved,detail:stage||movement};
  // A aprovação por uma comissão não permite anunciar "Aprovado na Câmara".
  if(/pauta.{0,25}plenario|ordem do dia|pront.{0,30}(?:votacao|plenario)|incluid.{0,24}pauta|aguardando votacao(?: em plenario)?/.test(t))return {...STATUS.voting,detail:stage||movement};
  if(/apresentac|apresentad|protocol/.test(t))return {...STATUS.introduced,detail:stage||movement};
  if(/aguardando|parecer|relator|comissao|analis|distribui|tramit|discussao|apreciac/.test(t))return {...STATUS.discussion,detail:stage||movement};
- const official=stage||movement;
- return {label:official.length>46?official.slice(0,43)+'…':official,tone:'neutral',detail:official};
+ const text=stage||movement;
+ return {label:text.length>46?text.slice(0,43)+'…':text,tone:'neutral',detail:text};
 }

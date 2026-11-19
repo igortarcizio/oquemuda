@@ -37,7 +37,8 @@ test('histórico escapa HTML, mostra datas reais e recolhe o resto',()=>{
  const list=normalizeTramitacoes(RAW);
  const html=historyHTML(list,normalizeTextoAtual(TEXTO));
  assert.match(html,/17\/11\/2026/);
- assert.match(html,/Texto modificado:<\/strong> Substitutivo aprovado na comissão \(CSPCCO\) em 17\/11\/2026/);
+ assert.match(html,/Texto modificado:<\/strong> Substitutivo aprovado na Comissão de Segurança Pública e Combate ao Crime Organizado \(CSPCCO\) em 17\/11\/2026/);
+ assert.match(html,/<abbr class="history-org" title="Comissão de Segurança Pública e Combate ao Crime Organizado">CSPCCO<\/abbr>/);
  assert.ok(!html.includes('<img'),'descrição vinda do banco é escapada');
  assert.ok(!html.includes('javascript:'),'link fora da Câmara não vira link');
  assert.match(html,/Ver todas as 5 movimentações/);
@@ -60,7 +61,8 @@ test('aviso de versão: atualizado, desatualizado e sem mudança',()=>{
  assert.match(stale,/O texto desta proposta mudou/);
  assert.match(stale,/ainda descreve o texto original e está sendo atualizado/);
  const fresh=versionNote(v,{fonte:'ia',ai:{fonte_url:TEXTO.url,texto_versao:'SBT-A',texto_orgao:'CSPCCO',texto_data:'2026-11-17'}});
- assert.match(fresh,/Este resumo explica o <strong>substitutivo aprovado na comissão \(CSPCCO\) em 17\/11\/2026<\/strong>/);
+ assert.match(fresh,/Este resumo explica o <strong>substitutivo aprovado na Comissão de Segurança Pública e Combate ao Crime Organizado \(CSPCCO\) em 17\/11\/2026<\/strong>/);
+ assert.match(versionNote({...v,sigla:'RDF',descricao:'Redação final aprovada pela Câmara',orgao:'CCJC'},{fonte:'automatico'}),/Redação final aprovada pela Câmara \(CCJC\)/);
  assert.match(versionNote(v,{fonte:'redacao'}),/escrita para o texto original/);
 });
 

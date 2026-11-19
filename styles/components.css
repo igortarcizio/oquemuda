@@ -23,6 +23,7 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .status-badge.voting{background:#dceafb;color:#174f8e}
 .status-badge.approved{background:#ebe0fa;color:#69359b}
 .status-badge.closed{background:#fce1de;color:#a2302c}
+.status-badge.law{background:#1f3b2c;color:#fff}
 .status-badge.neutral{background:#eef0f2;color:#5c6571}
 /* Situação ainda não confirmada: um rótulo só ("Em atualização"), com borda tracejada para não parecer etapa real. */
 .status-badge.pending{background:transparent;color:#5c6571;border:1px dashed #a7adb4}
@@ -329,3 +330,4 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 /* Ficha: nome por extenso e explicação do tipo de proposta, abaixo da sigla. */
 .detail-aside .type-name{display:block;margin-top:2px;color:var(--ink);font-weight:600}
 .detail-aside .type-desc{display:block;margin-top:6px;color:var(--text);font-size:13px;line-height:1.55}
+abbr.history-org{text-decoration:none;cursor:help}
