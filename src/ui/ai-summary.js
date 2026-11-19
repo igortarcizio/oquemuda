@@ -45,6 +45,7 @@ function apply(p){
   if(fresh)fresh.dataset.ai='1';
   setAiFooterNotice(true);
   applyDetailTitle(p,row);
+  document.dispatchEvent(new CustomEvent('oquemuda:changesection'));
 }
 
 // Título curto da IA: só onde a redação não escreveu um título à mão.
@@ -56,7 +57,7 @@ export function aiTitleFor(p,row){
 function applyDetailTitle(p,row){
   const t=aiTitleFor(p,row),h=document.getElementById('detailTitle');
   if(!t||!h)return;
-  h.textContent=t;h.classList.remove('long');
+  h.textContent=t;h.classList.remove('long');h.dataset.fonte='ia';
   setTimeout(()=>{if(activeId===Number(p.id))document.title=t+' — O que muda?'},0);
 }
 
