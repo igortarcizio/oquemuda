@@ -20,6 +20,7 @@ const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em
 import {STATUS} from '../lib/status.js';
 import {historyHTML,versionNote} from '../lib/tramitacoes.js';
 import {orgaoRotulo} from '../lib/orgaos.js';
+import {apensacaoHTML,showsApensacao} from '../lib/apensacao.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 // Toda proposta tem um tema real; não existe "Outros".
 // Registros antigos (cópia local, salvos) podem trazer "Outros" ou temas extintos: recalcula.
@@ -170,7 +171,7 @@ export function changeSectionFor(p,ai=null){
  return changeSection(p,e,{reviewed:isReviewed(e),title:displayTitle(p,e),area:themeOf(p,e),ai});
 }
 export function hasValidatedEditorial(p){return !!editorialChange(editorial(p))}
-export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtual=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
+export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtual=null,apensacao=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
  const e=editorial(p),reviewed=isReviewed(e),title=displayTitle(p,e),area=themeOf(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
  const full=safeURL(fullTextURL);
@@ -187,9 +188,10 @@ export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtu
  '<div class="page detail-layout"><div>'+
  changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
- '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
+ '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded&&showsApensacao(apensacao,status)?apensacaoHTML(apensacao):'')+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
  (loaded&&tramitacoes.length?historyHTML(tramitacoes,textoAtual||p.textoAtual||null):'')+
  (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(orgaoRotulo(stage.siglaOrgao))+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
+ '<div id="jointList" class="joint-list-wrap" hidden></div>'+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
  '<div id="reportProblem" class="report-problem" hidden></div>'+

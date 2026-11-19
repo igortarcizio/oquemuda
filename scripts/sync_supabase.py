@@ -12,6 +12,8 @@
   propostas já conhecidas (no máximo MAX_LIST_PAGES), então recupera sozinho depois de
   dias fora do ar. É o único robô que cria fichas novas (substitui sincronizar_supabase.py).
 - Cada execução fica registrada em public.sync_runs (migration 20261119_sync_runs.sql).
+- Apensação: quando a ficha oficial traz uriPropPrincipal, sobe a cadeia (até MAX_CADEIA)
+  e guarda um resumo da proposta que conduz a tramitação (migration 20261119_apensadas.sql).
 """
 import datetime as dt
 import json
@@ -41,6 +43,8 @@ JANELA_TEXTO_DIAS = 21
 MAX_TRAMITACOES = 200
 TRAM_COLS = "tramitacoes_seq,tramitacoes_ultima,texto_atual"
 MAX_LIST_PAGES = int(os.getenv("MAX_LIST_PAGES", "5"))
+APENS_COLS = "apensada_a"
+MAX_CADEIA = 5
 RUNS = os.environ["SUPABASE_URL"].rstrip("/") + "/rest/v1/sync_runs"
 STATS = {"tramitacoes": 0, "textos_novos": 0, "fichas_novas": 0}
 
@@ -86,17 +90,57 @@ def ensure_rows(rows):
     if rows:
         write_json(DB + "?on_conflict=id", rows, "POST")
 
-def tramitacoes_available():
-    """As colunas de tramitação vêm da migration 20261119; sem ela, o resto segue igual."""
+def columns_available(cols, migration, what):
+    """Colunas novas vêm de migrations; sem elas, o resto da sincronização segue igual."""
     try:
-        read_json(DB + "?" + urllib.parse.urlencode({"select": "id," + TRAM_COLS, "limit": "1"}), DB_HEADERS)
+        read_json(DB + "?" + urllib.parse.urlencode({"select": "id," + cols, "limit": "1"}), DB_HEADERS)
         return True
     except urllib.error.HTTPError as exc:
         if exc.code in (400, 404):
-            print("::notice::Colunas de tramitação ausentes (aplique a migration 20261119_tramitacoes_versao_texto.sql); "
-                  "linha do tempo e texto atual não serão atualizados.", flush=True)
+            print(f"::notice::Colunas ausentes (aplique a migration {migration}); {what} não serão atualizados.", flush=True)
             return False
         raise
+
+
+def tramitacoes_available():
+    return columns_available(TRAM_COLS, "20261119_tramitacoes_versao_texto.sql", "linha do tempo e texto atual")
+
+
+def apensacao_available():
+    return columns_available(APENS_COLS, "20261119_apensadas.sql", "dados de apensação")
+
+
+def principal_id(detail):
+    match = re.search(r"/proposicoes/(\d+)$", (detail or {}).get("uriPropPrincipal") or "")
+    return int(match.group(1)) if match else None
+
+
+def principal_summary(d):
+    stage = d.get("statusProposicao") or {}
+    return {"id": int(d["id"]), "sigla": d.get("siglaTipo"), "numero": d.get("numero"), "ano": d.get("ano"),
+            "ementa": (d.get("ementa") or "").strip()[:300], "situacao": stage.get("descricaoSituacao"),
+            "codSituacao": stage.get("codSituacao"), "orgao": stage.get("siglaOrgao"), "dataHora": stage.get("dataHora")}
+
+
+def apensacao_changes(id, detail, row, now):
+    """A cadeia direta → raiz, com a situação atual da raiz (quem conduz a tramitação)."""
+    current = principal_id(detail)
+    if not current:
+        # Desapensada: limpa o que estava gravado.
+        return {"apensada_a": None, "apensada_raiz_id": None} if row.get("apensada_a") else {}
+    chain, seen = [], {int(id)}
+    while current and current not in seen and len(chain) < MAX_CADEIA:
+        seen.add(current)
+        d = api("/proposicoes/" + str(current)).get("dados") or {}
+        if not d.get("id"):
+            break
+        chain.append(principal_summary(d))
+        current = principal_id(d)
+    if not chain:
+        return {}
+    return {"apensada_a": {"direta": chain[0], "raiz": chain[-1], "cadeia": [c["id"] for c in chain],
+                           "consultado_em": now.isoformat()},
+            "apensada_raiz_id": chain[-1]["id"]}
 
 
 def camara_time(value):
@@ -241,7 +285,8 @@ def normalize_authors(rows):
 
 def enrich():
     with_tram = tramitacoes_available()
-    extra = ("," + TRAM_COLS) if with_tram else ""
+    with_apens = apensacao_available()
+    extra = ("," + TRAM_COLS if with_tram else "") + ("," + APENS_COLS if with_apens else "")
     rows = pending_rows(extra)
     by_id = {int(p["id"]): p for p in rows}
     # Prioridades são lidas por ID, mesmo fora das primeiras páginas do catálogo.
@@ -295,6 +340,13 @@ def enrich():
                 changes["situacao_codigo"] = stage["codSituacao"]
             if stage.get("descricaoSituacao"):
                 changes["situacao_descricao"] = stage["descricaoSituacao"]
+            if with_apens:
+                try:
+                    changes.update(apensacao_changes(id, detail, row, dt.datetime.now(dt.timezone.utc)))
+                except RuntimeError:
+                    raise
+                except Exception as exc:
+                    print("Apensação não atualizada:", id, str(exc)[:130], flush=True)
             if with_tram:
                 try:
                     extra_changes = tramitacao_changes(id, row, stage, dt.datetime.now(dt.timezone.utc))

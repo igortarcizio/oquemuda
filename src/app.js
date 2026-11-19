@@ -1,13 +1,14 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=codigos-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=apensadas-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
+import {jointListHTML} from './lib/apensacao.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=codigos-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=apensadas-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=codigos-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=apensadas-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -349,7 +350,17 @@ async function showDetail(id){
  mountAiSummary(proposal);
  mountReport(proposal);
  mountRelated(proposal);
+ mountJointList(proposal.id,task);
  document.title=ref(proposal)+' — O que muda?';
+}
+// Propostas apensadas a esta (só as que o site acompanha). Falha aqui não afeta a ficha.
+async function mountJointList(id,task){
+ try{
+  const {rows,total}=await getJointProposals(id);
+  if(task!==detailSequence||state.view!=='detalhe')return;
+  const box=$('jointList'),html=jointListHTML(rows,total);
+  if(box&&html){box.innerHTML=html;box.hidden=false}
+ }catch{}
 }
 
 // #cards e #pagination ficam dentro de #feed, e os três escutam cliques: sem esta trava
