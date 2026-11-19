@@ -1,4 +1,4 @@
-// Botão "Encontrou um erro neste texto?" e formulário de reporte na ficha da proposta.
+// Botão "Encontrou um erro no título ou na explicação?" e formulário de reporte na ficha da proposta.
 // Fica escondido enquanto o banco não tem as funções de reporte (reportes_ativos).
 import {REPORT_REASONS,MAX_DETAIL,validateReport,sendReport,reportsEnabled,reportErrorMessage} from '../data/reports.js';
 
@@ -41,7 +41,7 @@ const radio=(name,o,checked)=>'<label class="report-option"><input type="radio" 
 export function formHTML(d,parts){
   const outro=d.motivo==='outro';
   const len=d.detalhe.length;
-  return '<button type="button" class="report-toggle" aria-expanded="'+d.open+'" aria-controls="reportForm"'+(d.sent?' hidden':'')+'>'+FLAG+'<span>Encontrou um erro neste texto? Reportar</span></button>'+
+  return '<button type="button" class="report-toggle" aria-expanded="'+d.open+'" aria-controls="reportForm"'+(d.sent?' hidden':'')+'>'+FLAG+'<span>Encontrou um erro no título ou na explicação? Reportar</span></button>'+
    '<form id="reportForm" class="report-form" novalidate'+(d.open&&!d.sent?'':' hidden')+(d.sending?' aria-busy="true"':'')+'>'+
     '<h3 id="reportHeading" tabindex="-1">Reportar um problema</h3>'+
     '<fieldset class="report-group" data-field="parte"><legend>Onde está o problema?</legend><div class="report-options">'+

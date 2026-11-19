@@ -1,6 +1,6 @@
 # Reportes de leitores
 
-Na ficha de cada proposta, no fim da coluna principal (depois de "Texto oficial"), aparece o link **"Encontrou um erro neste texto? Reportar"**. O leitor escolhe onde está o problema e qual é o problema. Se escolher "Outro", descreve em até 100 caracteres.
+Na ficha de cada proposta, no fim da coluna principal (depois de "Texto oficial"), aparece o link **"Encontrou um erro no título ou na explicação? Reportar"**. O leitor escolhe onde está o problema e qual é o problema. Se escolher "Outro", descreve em até 100 caracteres.
 
 ## Situação
 
