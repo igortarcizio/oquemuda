@@ -3,6 +3,7 @@ import {classifyTags} from '../lib/tags.js';
 import {normalizeStatus,STATUS,isLaw} from '../lib/status.js';
 import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
+import {normalizeApensacao} from '../lib/apensacao.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
 const current=()=>Date.now();
@@ -212,9 +213,10 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
 }
 
 const DETAIL_COLS='id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em';
-// Colunas da migration 20261119; se ainda não existirem (HTTP 400), a ficha segue sem elas.
-const HISTORY_COLS=',tramitacoes,texto_atual';
-let historyColumns=true;
+// Colunas das migrations de 19/11, das mais novas para as mais antigas. Se uma ainda não
+// existir (HTTP 400), a ficha tenta sem ela e lembra a escolha.
+const EXTRA_COLS=[',tramitacoes,texto_atual,apensada_a',',tramitacoes,texto_atual',''];
+let extraLevel=0;
 /** Ficha persistida: nunca depende de a Câmara responder no momento da leitura. */
 export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={}){
  const query=extra=>new URLSearchParams({select:DETAIL_COLS+extra,id:'eq.'+String(Number(id)),limit:'1'}).toString();
@@ -222,8 +224,8 @@ export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={
  const abort=()=>controller.abort();signal?.addEventListener('abort',abort,{once:true});
  try{
   const headers={apikey:DB_KEY,Accept:'application/json'};
-  let res=await fetchImpl(DB_URL+'?'+query(historyColumns?HISTORY_COLS:''),{headers,signal:controller.signal});
-  if(res.status===400&&historyColumns){historyColumns=false;res=await fetchImpl(DB_URL+'?'+query(''),{headers,signal:controller.signal})}
+  let res=await fetchImpl(DB_URL+'?'+query(EXTRA_COLS[extraLevel]),{headers,signal:controller.signal});
+  while(res.status===400&&extraLevel<EXTRA_COLS.length-1){extraLevel++;res=await fetchImpl(DB_URL+'?'+query(EXTRA_COLS[extraLevel]),{headers,signal:controller.signal})}
   if(!res.ok)throw new SourceError('Consulta ao banco: HTTP '+res.status);
   const rows=await res.json();const d=rows?.[0];
   if(!d)throw new SourceError('Proposição não encontrada no banco');
@@ -234,13 +236,23 @@ export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={
   // Vai junto da proposta para o resumo da IA saber se já descreve o texto em vigor.
   proposal.textoAtual=normalizeTextoAtual(d.texto_atual);
   proposal.virouLei=isLaw(officialStatus);
-  return {proposal,tramitacoes:normalizeTramitacoes(d.tramitacoes),textoAtual:proposal.textoAtual,
+  return {proposal,tramitacoes:normalizeTramitacoes(d.tramitacoes),textoAtual:proposal.textoAtual,apensacao:normalizeApensacao(d.apensada_a),
    status:officialStatus||(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A Câmara não informou a situação na consulta.'}:{...STATUS.unknown,detail:'Dados de situação ainda não obtidos da Câmara.'}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
    authorsChecked:raw.autoresConsultados===true,
    fullTextURL:raw.urlInteiroTeor||null,source:'banco de dados',
    lastChecked:d.situacao_atualizada_em||null,loaded:true};
  }finally{clearTimeout(timer);signal?.removeEventListener('abort',abort)}
+}
+
+/** Propostas acompanhadas pelo site que tramitam junto com esta (apensadas a ela). */
+export async function getJointProposals(id,{signal,fetchImpl=globalThis.fetch}={}){
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa',apensada_raiz_id:'eq.'+String(Number(id)),order:'ano.desc,numero.desc',limit:'10'});
+ const res=await fetchImpl(DB_URL+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal});
+ if(!res.ok)return {rows:[],total:0};
+ const rows=await res.json();
+ const total=Number(String(res.headers?.get?.('content-range')||'').split('/')[1]);
+ return {rows:Array.isArray(rows)?rows:[],total:Number.isFinite(total)?total:(Array.isArray(rows)?rows.length:0)};
 }
 
 /** Destaques persistidos: três posições, atualizadas somente quando há proposta nova qualificada. */

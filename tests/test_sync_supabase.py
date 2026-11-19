@@ -78,6 +78,7 @@ class SyncTests(unittest.TestCase):
             return {"dados": {"id": 98765, "statusProposicao": {}}}
         with patch.object(SYNC, "PRIORITY_IDS", []), \
              patch.object(SYNC, "tramitacoes_available", return_value=False), \
+             patch.object(SYNC, "apensacao_available", return_value=False), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
              patch.object(SYNC, "api", side_effect=fake_api), \
              patch.object(SYNC, "patch") as save, \
@@ -181,6 +182,7 @@ class TramitacaoTests(unittest.TestCase):
             return base(path)
         with patch.object(SYNC, "PRIORITY_IDS", []), \
              patch.object(SYNC, "tramitacoes_available", return_value=True), \
+             patch.object(SYNC, "apensacao_available", return_value=False), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
              patch.object(SYNC, "api", side_effect=api), \
              patch.object(SYNC, "patch") as save, \
@@ -201,6 +203,7 @@ class TramitacaoTests(unittest.TestCase):
             raise error(404)
         with patch.object(SYNC, "PRIORITY_IDS", []), \
              patch.object(SYNC, "tramitacoes_available", return_value=True), \
+             patch.object(SYNC, "apensacao_available", return_value=False), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
              patch.object(SYNC, "api", side_effect=api), \
              patch.object(SYNC, "patch") as save, \
@@ -272,3 +275,71 @@ class ListagemTests(unittest.TestCase):
         self.assertEqual({k: sent[0][k] for k in ("robo", "ok", "fichas", "listagens", "fichas_novas", "tramitacoes", "textos_novos", "erro")},
                          {"robo": "sync_supabase", "ok": False, "fichas": 35, "listagens": 886, "fichas_novas": 7,
                           "tramitacoes": 4, "textos_novos": 1, "erro": "Câmara fora"})
+
+
+# Cadeia real (19/11/2026): PL 5/2025 → PL 254/2024 (também apensado) → raiz 2220112.
+PL254 = {"id": 2417912, "siglaTipo": "PL", "numero": 254, "ano": 2024, "ementa": "Ementa do PL 254/2024",
+         "uriPropPrincipal": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2220112",
+         "statusProposicao": {"descricaoSituacao": "Tramitando em Conjunto", "codSituacao": 925, "siglaOrgao": "CCJC"}}
+RAIZ = {"id": 2220112, "siglaTipo": "PL", "numero": 2338, "ano": 2019, "ementa": "Ementa da raiz",
+        "uriPropPrincipal": None,
+        "statusProposicao": {"descricaoSituacao": "Pronta para Pauta", "codSituacao": 924, "siglaOrgao": "PLEN",
+                             "dataHora": "2026-10-01T10:00"}}
+
+
+class ApensacaoTests(unittest.TestCase):
+    def api(self, calls):
+        def fake(path):
+            calls.append(path)
+            return {"dados": {"/proposicoes/2417912": PL254, "/proposicoes/2220112": RAIZ}[path]}
+        return fake
+
+    def test_sobe_a_cadeia_ate_quem_conduz(self):
+        calls = []
+        detail = {"id": 2481000, "uriPropPrincipal": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2417912"}
+        with patch.object(SYNC, "api", side_effect=self.api(calls)):
+            out = SYNC.apensacao_changes(2481000, detail, {}, NOW)
+        self.assertEqual(out["apensada_raiz_id"], 2220112)
+        self.assertEqual(out["apensada_a"]["direta"]["numero"], 254)
+        self.assertEqual(out["apensada_a"]["raiz"]["situacao"], "Pronta para Pauta")
+        self.assertEqual(out["apensada_a"]["cadeia"], [2417912, 2220112])
+
+    def test_sem_principal_nao_chama_nada_e_limpa_se_tinha(self):
+        with patch.object(SYNC, "api", side_effect=AssertionError("sem chamada")):
+            self.assertEqual(SYNC.apensacao_changes(1, {"uriPropPrincipal": None}, {}, NOW), {})
+            self.assertEqual(SYNC.apensacao_changes(1, {}, {"apensada_a": {"raiz": {}}}, NOW),
+                             {"apensada_a": None, "apensada_raiz_id": None})
+
+    def test_ciclo_ou_cadeia_longa_para(self):
+        loop = {"id": 10, "siglaTipo": "PL", "numero": 1, "ano": 2020,
+                "uriPropPrincipal": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/11"}
+        loop2 = {**loop, "id": 11, "uriPropPrincipal": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/10"}
+        calls = []
+        def fake(path):
+            calls.append(path)
+            return {"dados": {"/proposicoes/10": loop, "/proposicoes/11": loop2}[path]}
+        with patch.object(SYNC, "api", side_effect=fake):
+            out = SYNC.apensacao_changes(9, {"uriPropPrincipal": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/10"}, {}, NOW)
+        self.assertEqual(out["apensada_a"]["cadeia"], [10, 11])
+        self.assertEqual(len(calls), 2)
+
+    def test_enrich_grava_apensacao(self):
+        row = {"id": 2481000, "situacao_atualizada_em": None, "dados_oficiais": {}}
+        calls = []
+        base = self.api(calls)
+        def api(path):
+            if path == "/proposicoes/2481000":
+                return {"dados": {"id": 2481000, "uriPropPrincipal": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2417912",
+                                  "statusProposicao": {"codSituacao": 925, "descricaoSituacao": "Tramitando em Conjunto"}}}
+            if path.endswith("/autores"):
+                return {"dados": []}
+            return base(path)
+        with patch.object(SYNC, "PRIORITY_IDS", []), \
+             patch.object(SYNC, "tramitacoes_available", return_value=False), \
+             patch.object(SYNC, "apensacao_available", return_value=True), \
+             patch.object(SYNC, "pending_rows", return_value=[row]), \
+             patch.object(SYNC, "api", side_effect=api), \
+             patch.object(SYNC, "patch") as save, \
+             patch.object(SYNC.time, "sleep"):
+            self.assertEqual(SYNC.enrich(), (1, True))
+        self.assertEqual(save.call_args.args[1]["apensada_raiz_id"], 2220112)

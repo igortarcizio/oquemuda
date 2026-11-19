@@ -331,3 +331,18 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .detail-aside .type-name{display:block;margin-top:2px;color:var(--ink);font-weight:600}
 .detail-aside .type-desc{display:block;margin-top:6px;color:var(--text);font-size:13px;line-height:1.55}
 abbr.history-org{text-decoration:none;cursor:help}
+/* Proposta apensada (src/lib/apensacao.js) */
+.joint-box{background:#fff;border:1px solid var(--line);border-left:4px solid var(--area,var(--ink));border-radius:12px;padding:16px 18px;margin:0 0 22px}
+.joint-lead{font-size:15px!important;color:var(--ink)!important;margin:0}
+.joint-facts{display:grid;gap:10px;margin:14px 0 6px}
+.joint-facts>div{display:grid;grid-template-columns:160px minmax(0,1fr);gap:12px;align-items:start}
+.joint-facts dt{font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--text)}
+.joint-facts dd{margin:0;font-size:15px;overflow-wrap:anywhere}
+.joint-ementa{display:block;font-size:14px;color:var(--text);margin-top:2px}
+.joint-cta{display:inline-flex;align-items:center;min-height:44px;font-weight:600;font-size:15px;text-decoration-color:var(--signal);text-underline-offset:4px}
+.joint-list-wrap{margin-top:22px}
+.joint-list{list-style:none;margin:8px 0 0;padding:0;display:grid;gap:8px}
+.joint-list li{font-size:15px;line-height:1.45}
+.joint-list li span{color:var(--text);font-size:14px}
+@media(max-width:640px){.joint-facts>div{grid-template-columns:1fr;gap:2px}}
+.joint-lead a,.joint-facts a{white-space:nowrap}
