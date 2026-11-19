@@ -4,6 +4,7 @@ import {normalizeStatus,STATUS,isLaw} from '../lib/status.js';
 import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 import {normalizeApensacao} from '../lib/apensacao.js';
+import {parseSearch,matchesToken} from '../lib/search.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
 const TTL=15*60*1000,cache=new Map(),pending=new Map();
 const current=()=>Date.now();
@@ -78,11 +79,20 @@ const parsePage=(link)=>{try{const u=new URL(link.href);const n=Number(u.searchP
 /** Câmara /proposicoes responde 'links' com rel=next/last; sem último informado, não simulamos total. */
 export async function getProposals({page=1,year='2026',type='PL',party='Todos',keywords='',situationCodes='',signal}={}) {
  const qs=new URLSearchParams({pagina:String(page),itens:'30',ordenarPor:'id',ordem:'DESC'});
- if(year!=='Todos')qs.set('ano',String(year));
- if(type!=='Todos')qs.set('siglaTipo',String(type));
- if(party!=='Todos')qs.set('siglaPartidoAutor',String(party));
- if(situationCodes)qs.set('codSituacao',String(situationCodes));
- if(keywords.trim())qs.set('keywords',keywords.trim());
+ const search=parseSearch(keywords);
+ if(search.ref){
+  // Referência ("PL 999/2026"): busca pelo número, ignorando os outros filtros.
+  qs.set('numero',String(search.ref.numero));
+  if(search.ref.ano)qs.set('ano',String(search.ref.ano));
+  if(search.ref.sigla)qs.set('siglaTipo',search.ref.sigla);
+ }else{
+  if(year!=='Todos')qs.set('ano',String(year));
+  const sigla=search.sigla||(type!=='Todos'?type:'');
+  if(sigla)qs.set('siglaTipo',String(sigla));
+  if(party!=='Todos')qs.set('siglaPartidoAutor',String(party));
+  if(situationCodes)qs.set('codSituacao',String(situationCodes));
+  if(search.tokens.length)qs.set('keywords',search.tokens.join(' '));
+ }
  const payload=await request('/proposicoes?'+qs.toString(),{signal,attempts:2});
  if(!Array.isArray(payload.data))throw new SourceError('Resposta sem lista de proposições');
  let items=payload.data.map(d=>normalizeProposal(d,getEditorial(d.id))).filter(p=>p.id&&p.numero&&p.ementa);
@@ -141,11 +151,8 @@ export async function getAuthors(id,{signal}={}){
 /** Partidos do filtro: os mesmos nomes que o banco grava em `partidos` (ver migração 20261116_partidos_autores.sql). */
 export const PARTIES=Object.freeze(['AVANTE','CIDADANIA','MDB','MISSÃO','NOVO','PCdoB','PDT','PL','PODE','PP','PRD','PSB','PSD','PSDB','PSOL','PT','PV','REDE','REPUBLICANOS','SOLIDARIEDADE','UNIÃO']);
 export async function getParties(){return [...PARTIES]}
-const STOPWORDS=new Set(['de','da','do','das','dos','e','a','o','as','os','em','no','na','nos','nas','para','por','com','um','uma','ao','aos']);
 /** Palavras da busca, sem palavras vazias e sem caracteres que a sintaxe do banco reserva. */
-export function searchTokens(text){
- return String(text||'').toLocaleLowerCase('pt-BR').replace(/[*,()"%.\\]/g,' ').split(/\s+/).filter(t=>t.length>1&&!STOPWORDS.has(t)).slice(0,8);
-}
+export function searchTokens(text){return parseSearch(text).tokens}
 const fold=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();
 // A cópia local é normalizada (tags e tema) uma única vez, não a cada troca de filtro.
 let snapshotSource=null,snapshotItems=[];
@@ -157,10 +164,12 @@ function normalizedSnapshot(){
 export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',area='Todos'}={}){
  if(party!=='Todos')return null; // Cache não traz autoria completa; jamais filtrar partido por suposição.
  const all=normalizedSnapshot();
- const tokens=searchTokens(keywords).map(fold);
- const filtered=all.filter(p=>(year==='Todos'||String(p.ano)===year)&&(type==='Todos'||p.siglaTipo===type)
+ const search=parseSearch(keywords),r=search.ref;
+ const sigla=search.sigla||(type!=='Todos'?type:'');
+ const filtered=r?all.filter(p=>p.numero===r.numero&&(!r.ano||p.ano===r.ano)&&(!r.sigla||p.siglaTipo===r.sigla)):
+  all.filter(p=>(year==='Todos'||String(p.ano)===year)&&(!sigla||p.siglaTipo===sigla)
    &&(area==='Todos'||p.area===area)&&(!tag||p.tags.includes(tag))
-   &&(!tokens.length||tokens.every(t=>fold([p.ementa,p.titulo,p.impacto,ref(p)].join(' ')).includes(t))));
+   &&(!search.tokens.length||search.tokens.every(t=>matchesToken(fold([p.ementa,p.titulo,p.impacto,ref(p)].join(' ')),t))));
  return {items:filtered.slice((page-1)*30,page*30),page,totalPages:Math.max(1,Math.ceil(filtered.length/30)),
   hasNext:page<Math.ceil(filtered.length/30),source:'cópia parcial'};
 }
@@ -172,15 +181,24 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  if(party!=='Todos'&&!/^[\p{L}.]{2,20}$/u.test(party))throw new SourceError('Partido inválido');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
  const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em',order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
+ const search=parseSearch(keywords);
+ if(search.ref){
+  // Referência ("PL 999/2026"): a proposta é única, então os outros filtros não se aplicam.
+  q.set('numero','eq.'+search.ref.numero);
+  if(search.ref.ano)q.set('ano','eq.'+search.ref.ano);
+  if(search.ref.sigla)q.set('sigla_tipo','eq.'+search.ref.sigla);
+  year='Todos';type='Todos';tag='';theme='';party='Todos';situationCodes='';presentedSince='';excludeIds=[];
+ }
  if(year!=='Todos')q.set('ano','eq.'+year);
- if(type!=='Todos')q.set('sigla_tipo','eq.'+type);
+ const sigla=search.sigla||(type!=='Todos'?type:'');
+ if(sigla)q.set('sigla_tipo','eq.'+sigla);
  if(tag)q.set('tags','cs.{'+tag+'}');
  // Partido de qualquer autor (coluna calculada pelo banco a partir de dados_oficiais.autores).
  if(party!=='Todos')q.set('partidos','cs.{"'+party+'"}');
  // Busca: cada palavra precisa aparecer na ementa, em qualquer ordem.
  // Tema: propostas com ao menos um assunto do tema (aproximação até existir a coluna area no banco).
  // ementa_busca é a ementa em minúsculas e sem acento: "saude" encontra "Saúde".
- const conditions=searchTokens(keywords).map(t=>'ementa_busca.ilike.*'+fold(t)+'*');
+ const conditions=search.tokens.map(t=>'ementa_busca.ilike.*'+fold(t)+'*');
  if(theme){
   if(!THEME_TAGS[theme])throw new SourceError('Tema inválido');
   conditions.push('tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'}');
