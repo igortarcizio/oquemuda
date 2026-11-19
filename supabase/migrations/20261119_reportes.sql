@@ -87,6 +87,7 @@ create or replace function public.mascarar_dados_pessoais(t text)
 returns text
 language sql
 immutable
+set search_path = public
 as $$
   select regexp_replace(
            regexp_replace(t, '[[:alnum:]._%+-]+@[[:alnum:].-]+\.[[:alpha:]]{2,}', '[removido]', 'g'),
@@ -100,6 +101,7 @@ create or replace function public.reportes_ativos()
 returns boolean
 language sql
 stable
+set search_path = public
 as $$ select true $$;
 
 create or replace function public.registrar_reporte(

@@ -4,9 +4,18 @@ Na ficha de cada proposta, logo abaixo de "O que a proposta quer mudar?", aparec
 
 ## Situação
 
-⏳ **Ainda não ativo.** O botão fica escondido até a migração ser aplicada no Supabase.
+✅ **Banco pronto desde 19/11/2026.** A migração foi aplicada no projeto `ltihbrlamevhmjjlsphc` pelo SQL Editor. Na conferência pela chave pública:
 
-## Ativar (uma vez, no painel do Supabase)
+- `reportes_ativos` responde `200 true`;
+- ler `reportes` ou `fila_reportes` diretamente dá `401 permission denied`;
+- `resolver_reportes` dá `401`;
+- um motivo inválido dá `400 motivo inválido`.
+
+O Security Advisor não aponta nenhum erro. Ele avisa que `registrar_reporte` pode ser chamada sem login, mas isso é intencional: é o mesmo desenho do termômetro, e a função valida tudo antes de gravar.
+
+O botão aparece no site assim que este código for publicado.
+
+## Ativar em outro projeto (uma vez, no painel do Supabase)
 
 1. Abra o projeto no Supabase e vá em **SQL Editor → New query**.
 2. Cole todo o conteúdo de [`supabase/migrations/20261119_reportes.sql`](../supabase/migrations/20261119_reportes.sql).
