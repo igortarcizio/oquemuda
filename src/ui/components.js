@@ -179,12 +179,12 @@ export function detailPage(p,{status,authors=[],stage={},fullTextURL=null,source
  '<div class="detail-actions">'+saveButton(p,saved,'＋ Salvar para depois')+'<a class="outline-btn" target="_blank" rel="noopener noreferrer" href="'+officialURL(p)+'">Ver na Câmara ↗<span class="sr-only"> (abre em nova aba)</span></a></div></div></div>'+
  '<div class="page detail-layout"><div>'+
  changes+
- '<div id="reportProblem" class="report-problem" hidden></div>'+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
  '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
  (stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(stage.siglaOrgao)+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
+ '<div id="reportProblem" class="report-problem" hidden></div>'+
  '</div><div class="detail-side"><aside class="detail-aside" aria-labelledby="fichaTitle"><h2 id="fichaTitle">Ficha</h2><dl>'+
  '<div><dt>Identificação</dt><dd>'+safeText(ref(p))+(typeInfo?'<span class="type-name">'+safeText(typeInfo.title)+'</span><span class="type-desc">'+safeText(typeInfo.description)+'</span>':'')+'</dd></div>'+
  '<div><dt>Autoria</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Não informada na consulta':'Ainda não verificada')):'Consultando autores…')+'</dd></div>'+

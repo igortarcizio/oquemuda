@@ -1,6 +1,6 @@
 # Reportes de leitores
 
-Na ficha de cada proposta, logo abaixo de "O que a proposta quer mudar?", aparece o link **"Encontrou um erro neste texto? Reportar"**. O leitor escolhe onde está o problema e qual é o problema. Se escolher "Outro", descreve em até 100 caracteres.
+Na ficha de cada proposta, no fim da coluna principal (depois de "Texto oficial"), aparece o link **"Encontrou um erro neste texto? Reportar"**. O leitor escolhe onde está o problema e qual é o problema. Se escolher "Outro", descreve em até 100 caracteres.
 
 ## Situação
 
@@ -20,7 +20,7 @@ O botão aparece no site assim que este código for publicado.
 1. Abra o projeto no Supabase e vá em **SQL Editor → New query**.
 2. Cole todo o conteúdo de [`supabase/migrations/20261119_reportes.sql`](../supabase/migrations/20261119_reportes.sql).
 3. Clique em **Run**. O esperado é "Success. No rows returned".
-4. Abra qualquer proposta no site e recarregue a página. O link deve aparecer embaixo de "O que a proposta quer mudar?".
+4. Abra qualquer proposta no site e recarregue a página. O link deve aparecer embaixo de "Texto oficial".
 
 O script pode ser rodado de novo sem problema. A migração depende de `proposicoes`, `resumos_ia` e `votos_leitores`, que já existem em produção.
 
