@@ -1,13 +1,13 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=filtros-2';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=tramitacoes-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=arquivadas';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=compartilhar-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=tramitacoes-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=editorial-titles-lote-009b';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=tramitacoes-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -329,6 +329,8 @@ async function showDetail(id){
  const detail=detailResult.status==='fulfilled'?detailResult.value:null;
  const authors=authorsResult.status==='fulfilled'&&authorsResult.value.length?authorsResult.value:(stored?.authors||[]);
  const proposal=detail?.proposal||stored?.proposal||candidate;
+ // A consulta ao vivo não traz o texto em vigor: herda o que o banco sabe.
+ if(proposal&&!proposal.textoAtual&&stored?.proposal?.textoAtual)proposal.textoAtual=stored.proposal.textoAtual;
  if(!proposal){
   $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';return;
  }

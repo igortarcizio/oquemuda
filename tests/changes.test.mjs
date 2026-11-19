@@ -166,7 +166,7 @@ test('busca do resumo da IA usa só colunas públicas e trata ausência',async()
   let url='';
   const row=await fetchAiSummary(123,{fetchImpl:async u=>{url=u;return {ok:true,json:async()=>[{resumo:'R',pontos:[],areas:[]}]}}});
   assert.equal(row.resumo,'R');
-  assert.match(url,/resumos_ia\?select=titulo%2Cresumo%2Choje%2Cproposta%2Cpontos%2Careas%2Cmodelo%2Cgerado_em&proposicao_id=eq\.123/);
+  assert.match(url,/resumos_ia\?select=titulo%2Cresumo%2Choje%2Cproposta%2Cpontos%2Careas%2Cmodelo%2Cgerado_em%2Cfonte_url%2Ctexto_versao%2Ctexto_data%2Ctexto_orgao&proposicao_id=eq\.123/);
   assert.equal(await fetchAiSummary(1,{fetchImpl:async()=>({ok:true,json:async()=>[]})}),null);
   assert.equal(await fetchAiSummary(1,{fetchImpl:async()=>({ok:false})}),null);
 });

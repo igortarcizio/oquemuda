@@ -8,6 +8,10 @@ Para cada proposta do Supabase ainda sem resumo:
      pontos práticos e áreas afetadas, só com base no texto;
   4. valida o JSON e grava em public.resumos_ia (status 'publicado').
 
+Quando a Câmara adota um texto novo (substitutivo aprovado na comissão ou redação final,
+coluna proposicoes.texto_atual, preenchida por sync_supabase.py), o resumo é refeito a partir
+da versão nova. Se refazer falhar, o resumo anterior continua no ar (até 3 tentativas por versão).
+
 O site mostra esses textos com o aviso "Resumo gerado por IA" no rodapé da página.
 Textos revisados pela redação (dados/editorial.js com `validado`) têm prioridade no site.
 
@@ -170,9 +174,40 @@ def validar(dados, ementa=""):
     return out
 
 
+def data_br(iso):
+    m = re.match(r"(\d{4})-(\d{2})-(\d{2})", iso or "")
+    return f"{m.group(3)}/{m.group(2)}/{m.group(1)}" if m else ""
+
+
+def versao_valida(texto_atual):
+    """texto_atual vem do banco; só vale com link oficial da Câmara."""
+    if not isinstance(texto_atual, dict):
+        return None
+    url = texto_atual.get("url") or ""
+    return texto_atual if url.startswith("https://www.camara.leg.br/") else None
+
+
+def precisa_refazer(f, versao):
+    """Resumo publicado de outro texto, sem ter esgotado as tentativas para esta versão."""
+    if not versao or not f or f.get("status") != "publicado":
+        return False
+    if f.get("fonte_url") == versao["url"]:
+        return False
+    return not (f.get("refazer_url") == versao["url"] and (f.get("refazer_falhas") or 0) >= MAX_TENTATIVAS)
+
+
 def montar_prompt(p, texto):
+    versao = p.get("_versao")
+    linha_versao = ""
+    if versao:
+        onde = f" ({versao['orgao']})" if versao.get("orgao") else ""
+        quando = f" em {data_br(versao.get('data'))}" if versao.get("data") else ""
+        linha_versao = (f"Versão do texto: {versao.get('descricao') or 'texto modificado'}{onde}{quando}. "
+                        "Esta versão substitui o texto original apresentado pelo autor: explique o que ESTA versão faz. "
+                        "A ementa abaixo é a do texto original e pode não refletir as mudanças.\n")
     return (
         f"Proposta: {p.get('sigla_tipo')} {p.get('numero')}/{p.get('ano')}\n"
+        f"{linha_versao}"
         f"Ementa oficial: {p.get('ementa')}\n\n"
         f"Texto integral (pode estar recortado):\n<texto>\n{texto}\n</texto>"
     )
@@ -199,37 +234,57 @@ def supabase():
     return base, {"apikey": key, "Authorization": "Bearer " + key, "Accept": "application/json"}
 
 
-def carregar_candidatas(ids=None):
+def ler_paginado(tabela, params, extras=""):
+    """Lê a tabela inteira. Sem as colunas da migration 20261119 (HTTP 400), lê sem elas."""
     base, h = supabase()
-    feitos = {}
-    for off in range(0, 200000, 1000):
-        q = urllib.parse.urlencode({"select": "proposicao_id,status,tentativas,erro,titulo", "limit": 1000, "offset": off})
-        rows = json.loads(http(base + "resumos_ia?" + q, headers=h))
-        for r in rows:
-            feitos[r["proposicao_id"]] = r
-        if len(rows) < 1000:
-            break
-    out = []
-    for off in range(0, 200000, 1000):
-        params = {"select": "id,sigla_tipo,numero,ano,ementa,data_apresentacao,url:dados_oficiais->>urlInteiroTeor",
-                  "order": "data_apresentacao.desc.nullslast,id.desc", "limit": 1000, "offset": off}
+    for cols in ((params["select"] + extras), params["select"]) if extras else (params["select"],):
+        try:
+            out = []
+            for off in range(0, 200000, 1000):
+                q = urllib.parse.urlencode({**params, "select": cols, "limit": 1000, "offset": off})
+                rows = json.loads(http(base + tabela + "?" + q, headers=h))
+                out.extend(rows)
+                if len(rows) < 1000:
+                    break
+            return out
+        except urllib.error.HTTPError as e:
+            if e.code != 400 or cols == params["select"]:
+                raise
+            print(f"::notice::{tabela}: colunas novas ausentes (migration 20261119); seguindo sem refazer resumos.", flush=True)
+    return []
+
+
+def carregar_candidatas(ids=None):
+    feitos = {r["proposicao_id"]: r for r in ler_paginado(
+        "resumos_ia", {"select": "proposicao_id,status,tentativas,erro,titulo,fonte_url"}, ",refazer_url,refazer_falhas")}
+    params = {"select": "id,sigla_tipo,numero,ano,ementa,data_apresentacao,url:dados_oficiais->>urlInteiroTeor",
+              "order": "data_apresentacao.desc.nullslast,id.desc"}
+    if ids:
+        params["id"] = "in.(" + ",".join(str(i) for i in ids) + ")"
+    refeitas, out = [], []
+    for p in ler_paginado("proposicoes", params, ",texto_atual"):
+        f = feitos.get(p["id"])
+        versao = versao_valida(p.pop("texto_atual", None))
+        if versao:
+            p["_versao"] = versao  # resumo novo já nasce do texto atual
         if ids:
-            params["id"] = "in.(" + ",".join(str(i) for i in ids) + ")"
-        rows = json.loads(http(base + "proposicoes?" + urllib.parse.urlencode(params), headers=h))
-        for p in rows:
-            f = feitos.get(p["id"])
-            if ids:
-                out.append(p)
-            elif deve_pular(p.get("ementa")):
-                continue
-            elif f is None or (f["status"] in ("erro", "sem_texto") and refazer(f)) or \
-                    (f["status"] == "publicado" and not f.get("titulo")):
-                p["_tentativas"] = (f or {}).get("tentativas") or 0
-                p["_ja_publicado"] = bool(f and f["status"] == "publicado")
-                out.append(p)
-        if len(rows) < 1000:
-            break
-    return out
+            out.append(p)
+        elif precisa_refazer(f, versao):
+            # Texto mudou depois do resumo: vai para o começo da fila. Falha não tira o antigo do ar.
+            p["_tentativas"] = 0
+            p["_ja_publicado"] = True
+            p["_refazer_falhas"] = (f.get("refazer_falhas") or 0) if f.get("refazer_url") == versao["url"] else 0
+            refeitas.append(p)
+        elif deve_pular(p.get("ementa")):
+            continue
+        elif f is None or (f["status"] in ("erro", "sem_texto") and refazer(f)) or \
+                (f["status"] == "publicado" and not f.get("titulo")):
+            p["_tentativas"] = (f or {}).get("tentativas") or 0
+            p["_ja_publicado"] = bool(f and f["status"] == "publicado")
+            out.append(p)
+    if refeitas:
+        print(f"Resumos a refazer por texto novo (substitutivo/redação final): {len(refeitas)}", flush=True)
+    return refeitas + out
 
 
 def refazer(f):
@@ -240,6 +295,8 @@ def refazer(f):
 
 
 def url_inteiro_teor(p):
+    if p.get("_versao"):
+        return p["_versao"]["url"]
     if p.get("url"):
         return p["url"]
     d = json.loads(http(CAMARA + str(p["id"]), headers={"Accept": "application/json", "User-Agent": UA}, timeout=30))
@@ -370,8 +427,19 @@ def processar(p, dry=False):
     if time.time() - INICIO > PRAZO_MINUTOS * 60:
         return "adiado", "prazo da execução; fica para a próxima rodada"
     pid = p["id"]
+    versao = p.get("_versao")
     base = {"proposicao_id": pid, "modelo": MODELO, "tentativas": min((p.get("_tentativas") or 0) + 1, 9),
             "gerado_em": dt.datetime.now(dt.timezone.utc).isoformat()}
+    url = None
+
+    def falhou(reg):
+        if not dry_falha:
+            gravar(reg)
+        elif versao and p.get("_ja_publicado") and not dry:
+            # Mantém o resumo antigo no ar e conta a falha desta versão (máximo 3).
+            gravar({"proposicao_id": pid, "refazer_url": versao["url"],
+                    "refazer_falhas": min((p.get("_refazer_falhas") or 0) + 1, 9)})
+
     try:
         url = url_inteiro_teor(p)
         if not url:
@@ -380,14 +448,11 @@ def processar(p, dry=False):
         if len(texto) < 300:
             raise LookupError("PDF sem texto legível")
     except (FalhaTemporaria, urllib.error.URLError, TimeoutError) as e:
-        reg = {**base, "status": "erro", "erro": ("temporário: " + str(e))[:300]}
-        if not dry_falha:
-            gravar(reg)
+        if not (versao and p.get("_ja_publicado")):  # falha temporária não gasta tentativa de versão
+            falhou({**base, "status": "erro", "erro": ("temporário: " + str(e))[:300]})
         return "erro", str(e)
     except (LookupError, urllib.error.HTTPError) as e:
-        reg = {**base, "status": "sem_texto", "erro": str(e)[:300]}
-        if not dry_falha:
-            gravar(reg)
+        falhou({**base, "status": "sem_texto", "erro": str(e)[:300]})
         return "sem_texto", str(e)
     texto = recortar(texto)
     if dry:
@@ -397,9 +462,13 @@ def processar(p, dry=False):
         try:
             resposta, _ = chamar_modelo(montar_prompt(p, texto))
             dados = validar(extrair_json(resposta), p.get("ementa") or "")
-            gravar({**base, **dados, "status": "publicado", "erro": None, "fonte_url": url,
-                    "caracteres_lidos": len(texto)})
-            return "publicado", ""
+            registro = {**base, **dados, "status": "publicado", "erro": None, "fonte_url": url,
+                        "caracteres_lidos": len(texto)}
+            if versao:  # colunas da migration 20261119: só aparecem quando ela já existe
+                registro.update({"texto_versao": versao.get("sigla"), "texto_data": versao.get("data"),
+                                 "texto_orgao": versao.get("orgao"), "refazer_url": None, "refazer_falhas": 0})
+            gravar(registro)
+            return "publicado", ("texto novo: " + str(versao.get("sigla"))) if versao else ""
         except (ValueError, json.JSONDecodeError) as e:
             ultimo = str(e)
         except ChaveInvalida:
@@ -407,8 +476,7 @@ def processar(p, dry=False):
         except RuntimeError as e:
             ultimo = str(e)
             break
-    if not dry_falha:
-        gravar({**base, "status": "erro", "erro": ultimo[:300], "fonte_url": url})
+    falhou({**base, "status": "erro", "erro": ultimo[:300], "fonte_url": url})
     return "erro", ultimo
 
 

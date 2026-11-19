@@ -191,6 +191,94 @@ class RefazerPublicado(unittest.TestCase):
         self.assertEqual([g["proposicao_id"] for g in gravados], [8], "só grava erro de quem ainda não estava publicado")
 
 
+VERSAO = {"id": 2655527, "sigla": "SBT-A", "descricao": "Substitutivo aprovado na comissão",
+          "data": "2026-11-17", "orgao": "CSPCCO",
+          "url": "https://www.camara.leg.br/proposicoesWeb/prop_mostrarintegra?codteor=3199112"}
+ORIGINAL = "https://www.camara.leg.br/proposicoesWeb/prop_mostrarintegra?codteor=3078149"
+
+
+class TextoNovo(unittest.TestCase):
+    def test_refaz_quando_o_resumo_e_de_outro_texto(self):
+        publicado = {"status": "publicado", "fonte_url": ORIGINAL}
+        self.assertTrue(rp.precisa_refazer(publicado, VERSAO))
+        self.assertFalse(rp.precisa_refazer({**publicado, "fonte_url": VERSAO["url"]}, VERSAO))
+        self.assertFalse(rp.precisa_refazer(publicado, None))
+        self.assertFalse(rp.precisa_refazer({"status": "erro"}, VERSAO))
+
+    def test_desiste_da_versao_depois_de_tres_falhas(self):
+        f = {"status": "publicado", "fonte_url": ORIGINAL, "refazer_url": VERSAO["url"], "refazer_falhas": 3}
+        self.assertFalse(rp.precisa_refazer(f, VERSAO))
+        self.assertTrue(rp.precisa_refazer({**f, "refazer_url": "https://www.camara.leg.br/outra"}, VERSAO))
+
+    def test_so_aceita_link_oficial(self):
+        self.assertIsNone(rp.versao_valida({**VERSAO, "url": "https://malicioso.example/x.pdf"}))
+        self.assertIsNone(rp.versao_valida(None))
+        self.assertEqual(rp.versao_valida(VERSAO), VERSAO)
+
+    def test_prompt_avisa_que_e_a_versao_nova(self):
+        p = {"sigla_tipo": "PL", "numero": 220, "ano": 2026, "ementa": "Altera a Lei 12.850", "_versao": VERSAO}
+        prompt = rp.montar_prompt(p, "Art. 1º ...")
+        self.assertIn("Substitutivo aprovado na comissão (CSPCCO) em 17/11/2026", prompt)
+        self.assertIn("explique o que ESTA versão faz", prompt)
+        self.assertNotIn("Versão do texto", rp.montar_prompt({**p, "_versao": None}, "Art. 1º ..."))
+
+    def test_fila_poe_refeitos_na_frente_e_usa_o_link_novo(self):
+        resumos = [{"proposicao_id": 1, "status": "publicado", "titulo": "T", "fonte_url": ORIGINAL},
+                   {"proposicao_id": 2, "status": "publicado", "titulo": "T", "fonte_url": "u2"}]
+        props = [{"id": 2, "ementa": "Altera a Lei X.", "url": "u2", "texto_atual": None},
+                 {"id": 3, "ementa": "Altera a Lei Y.", "url": "u3", "texto_atual": None},
+                 {"id": 1, "ementa": "Altera a Lei Z.", "url": ORIGINAL, "texto_atual": VERSAO}]
+        orig = rp.ler_paginado
+        rp.ler_paginado = lambda tabela, params, extras="": resumos if tabela == "resumos_ia" else [dict(p) for p in props]
+        try:
+            fila = rp.carregar_candidatas()
+        finally:
+            rp.ler_paginado = orig
+        self.assertEqual([p["id"] for p in fila], [1, 3])
+        self.assertTrue(fila[0]["_ja_publicado"])
+        self.assertEqual(rp.url_inteiro_teor(fila[0]), VERSAO["url"])
+
+    def test_sucesso_grava_a_versao_e_falha_so_conta_tentativa(self):
+        gravados = []
+        orig = (rp.gravar, rp.texto_integral, rp.chamar_modelo)
+        rp.gravar = lambda r: gravados.append(r)
+        rp.texto_integral = lambda u: "Art. 1º " + "texto " * 100
+        bom = json.dumps({"titulo": "Cria medida cautelar para investigados por crime organizado",
+                          "resumo": "Juízes poderiam afastar investigados de cargos públicos durante a investigação de organização criminosa.",
+                          "hoje": "", "proposta": "O juiz poderia determinar o afastamento do cargo durante a investigação.",
+                          "pontos": ["Afastamento do cargo durante a investigação", "Vale para organizações criminosas"],
+                          "areas": ["Segurança pública", "Servidores"]})
+        p = {"id": 1, "ementa": "Altera a Lei 12.850", "_versao": VERSAO, "_ja_publicado": True, "_refazer_falhas": 1}
+        try:
+            rp.chamar_modelo = lambda prompt: (bom, {})
+            st, info = rp.processar(dict(p))
+            rp.chamar_modelo = lambda prompt: ("sem json", {})
+            st2, _ = rp.processar(dict(p))
+        finally:
+            rp.gravar, rp.texto_integral, rp.chamar_modelo = orig
+        self.assertEqual((st, st2), ("publicado", "erro"))
+        self.assertEqual(gravados[0]["fonte_url"], VERSAO["url"])
+        self.assertEqual((gravados[0]["texto_versao"], gravados[0]["texto_orgao"], gravados[0]["refazer_falhas"]), ("SBT-A", "CSPCCO", 0))
+        self.assertEqual(gravados[1], {"proposicao_id": 1, "refazer_url": VERSAO["url"], "refazer_falhas": 2},
+                         "falha ao refazer não mexe no resumo publicado")
+
+    def test_resumo_do_texto_original_nao_envia_colunas_novas(self):
+        gravados = []
+        orig = (rp.gravar, rp.url_inteiro_teor, rp.texto_integral, rp.chamar_modelo)
+        rp.gravar = lambda r: gravados.append(r)
+        rp.url_inteiro_teor = lambda p: ORIGINAL
+        rp.texto_integral = lambda u: "Art. 1º " + "texto " * 100
+        rp.chamar_modelo = lambda prompt: (json.dumps({"titulo": "Cria uma regra nova para todo mundo seguir",
+            "resumo": "As pessoas passariam a seguir uma regra nova em todo o país, com prazo de adaptação.",
+            "hoje": "", "proposta": "Todos teriam de seguir a regra nova.", "pontos": ["Regra nova", "Prazo de adaptação"],
+            "areas": ["Cidadãos"]}), {})
+        try:
+            rp.processar({"id": 9, "ementa": "Institui X"})
+        finally:
+            rp.gravar, rp.url_inteiro_teor, rp.texto_integral, rp.chamar_modelo = orig
+        self.assertNotIn("texto_versao", gravados[0], "funciona antes da migration")
+
+
 class Encadeamento(unittest.TestCase):
     def test_prazo_adia_sem_gravar(self):
         gravados = []
