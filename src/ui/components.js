@@ -19,6 +19,7 @@ const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em
 
 import {STATUS} from '../lib/status.js';
 import {historyHTML,versionNote} from '../lib/tramitacoes.js';
+import {orgaoRotulo} from '../lib/orgaos.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 // Toda proposta tem um tema real; não existe "Outros".
 // Registros antigos (cópia local, salvos) podem trazer "Outros" ou temas extintos: recalcula.
@@ -111,7 +112,7 @@ const STEPS=['Apresentada','Comissões','Plenário da Câmara','Senado','Sançã
 export function stageIndex(status){
  if(!status)return null;
  if(status.label==='Apresentada')return 0;
- return {discussion:1,voting:2,approved:3}[status.tone]??null;
+ return {discussion:1,voting:2,approved:3,law:4}[status.tone]??null;
 }
 function timeline(status,presentedAt){
  if(status?.tone==='closed')return '<p class="closed-note">A tramitação foi encerrada: '+safeText(status.detail||status.label)+'.</p>';
@@ -119,12 +120,13 @@ function timeline(status,presentedAt){
  if(idx==null)return '<p>'+badge(status)+'</p><p class="small-note">Etapa ainda não confirmada na fonte oficial.</p>';
  return '<ol class="timeline" aria-label="Etapas da tramitação">'+STEPS.map((step,i)=>
   '<li class="'+(i<=idx?'done':'')+(i===idx?' now':'')+'"'+(i===idx?' aria-current="step"':'')+'>'+step+
-  (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>etapa atual</small>':'')+'</li>').join('')+'</ol>';
+  (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>'+(status.tone==='law'?'virou lei':'etapa atual')+'</small>':'')+'</li>').join('')+'</ol>';
 }
 
 // Rito: o que ainda precisa acontecer para virar regra (varia pelo tipo).
 function riteNote(p){
  const tipo=String(p.siglaTipo||'').toUpperCase();
+ if(p.virouLei)return 'Esta proposta já foi transformada em lei. A explicação descreve o texto da proposta: confira a lei publicada para saber exatamente o que vale.';
  if(tipo==='MPV')return procedureNote(p);
  if(tipo==='PEC')return 'Proposta não é lei: o texto ainda pode mudar e precisa ser aprovado em dois turnos na Câmara e no Senado.';
  if(tipo==='PDL'||tipo==='PRC')return 'Proposta não é lei: o texto ainda pode mudar e precisa ser aprovado pelo Congresso.';
@@ -187,7 +189,7 @@ export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtu
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
  '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
  (loaded&&tramitacoes.length?historyHTML(tramitacoes,textoAtual||p.textoAtual||null):'')+
- (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(stage.siglaOrgao)+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
+ (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(orgaoRotulo(stage.siglaOrgao))+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
  '<div id="reportProblem" class="report-problem" hidden></div>'+
@@ -196,7 +198,7 @@ export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtu
  '<div><dt>Autoria</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Não informada na consulta':'Ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
  '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
- '<div><dt>Onde está</dt><dd>'+safeText(stage.siglaOrgao||pendingText)+'</dd></div>'+
+ '<div><dt>'+(status?.tone==='law'||status?.tone==='closed'?'Último órgão':'Onde está')+'</dt><dd>'+safeText(stage.siglaOrgao?orgaoRotulo(stage.siglaOrgao):pendingText)+'</dd></div>'+
  '<div><dt>Assuntos</dt><dd>'+subjectLinks(p)+'</dd></div>'+
  '</dl>'+(full?'<div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+safeText(full)+'">Ler texto integral ↗<span class="sr-only"> (abre em nova aba)</span></a></div>':'')+
  (verifiedAt?'<p class="small-note">Situação consultada na fonte oficial em '+safeText(verifiedAt)+'. Os registros podem mudar.</p>':'<p class="small-note">Detalhes oficiais ainda não sincronizados. A ficha será complementada quando a fonte estiver disponível.</p>')+

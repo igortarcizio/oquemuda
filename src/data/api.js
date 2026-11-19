@@ -1,6 +1,6 @@
 import {cleanText, ref, classifyTheme} from '../lib/text.js';
 import {classifyTags} from '../lib/tags.js';
-import {normalizeStatus,STATUS} from '../lib/status.js';
+import {normalizeStatus,STATUS,isLaw} from '../lib/status.js';
 import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
@@ -114,8 +114,9 @@ export async function getProposals({page=1,year='2026',type='PL',party='Todos',k
 export async function getDetail(id,{signal}={}) {
  const payload=await request('/proposicoes/'+encodeURIComponent(id),{signal});
  if(!payload.data?.id)throw new SourceError('Proposição não encontrada');
- const raw=payload.data,p=normalizeProposal(raw,getEditorial(raw.id));
- return {proposal:p,status:normalizeStatus(raw.statusProposicao),stage:raw.statusProposicao||{},
+ const raw=payload.data,p=normalizeProposal(raw,getEditorial(raw.id)),status=normalizeStatus(raw.statusProposicao);
+ p.virouLei=isLaw(status);
+ return {proposal:p,status,stage:raw.statusProposicao||{},
    fullTextURL:typeof raw.urlInteiroTeor==='string'&&raw.urlInteiroTeor.startsWith('https://www.camara.leg.br/')?raw.urlInteiroTeor:null,
    keywords:cleanText(raw.keywords),longSummary:cleanText(raw.ementaDetalhada)};
 }
@@ -232,6 +233,7 @@ export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={
   const proposal=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao},getEditorial(d.id));
   // Vai junto da proposta para o resumo da IA saber se já descreve o texto em vigor.
   proposal.textoAtual=normalizeTextoAtual(d.texto_atual);
+  proposal.virouLei=isLaw(officialStatus);
   return {proposal,tramitacoes:normalizeTramitacoes(d.tramitacoes),textoAtual:proposal.textoAtual,
    status:officialStatus||(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A Câmara não informou a situação na consulta.'}:{...STATUS.unknown,detail:'Dados de situação ainda não obtidos da Câmara.'}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],

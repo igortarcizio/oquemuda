@@ -1,6 +1,7 @@
 // Histórico oficial de movimentações (coluna proposicoes.tramitacoes, gravada por
 // scripts/sync_supabase.py) e versão do texto em vigor (coluna texto_atual).
 import {safeText,dateBR} from './text.js';
+import {orgaoNome} from './orgaos.js';
 
 const OFFICIAL=/^https:\/\/www\.camara\.leg\.br\//;
 // Registros administrativos que não dizem nada ao leitor (recebimento, notificação, publicação, prazos).
@@ -46,7 +47,11 @@ export function normalizeTextoAtual(raw){
     orgao:typeof raw.orgao==='string'?raw.orgao:''};
 }
 
-const versionLabel=v=>safeText(v.descricao)+(v.orgao?' ('+safeText(v.orgao)+')':'')+(v.data?' em '+safeText(dateBR(v.data)):'');
+const versionLabel=v=>{
+  const nome=v.sigla==='SBT-A'||!v.sigla?orgaoNome(v.orgao):'';
+  const what=nome?'Substitutivo aprovado na '+safeText(nome)+' ('+safeText(v.orgao)+')':safeText(v.descricao)+(v.orgao?' ('+safeText(v.orgao)+')':'');
+  return what+(v.data?' em '+safeText(dateBR(v.data)):'');
+};
 const lowerFirst=s=>s.charAt(0).toLowerCase()+s.slice(1);
 const linkNew=v=>' <a href="'+safeText(v.url)+'" target="_blank" rel="noopener noreferrer">Ler o texto novo ↗<span class="sr-only"> (abre em nova aba)</span></a>';
 
@@ -57,7 +62,7 @@ const linkNew=v=>' <a href="'+safeText(v.url)+'" target="_blank" rel="noopener n
 export function versionNote(textoAtual,{fonte,ai=null}={}){
   const v=textoAtual;
   const aiVersion=fonte==='ia'&&ai&&TEXT_VERSIONS[ai.texto_versao]?
-    {descricao:TEXT_VERSIONS[ai.texto_versao],orgao:ai.texto_orgao||'',data:typeof ai.texto_data==='string'?ai.texto_data.slice(0,10):''}:null;
+    {sigla:ai.texto_versao,descricao:TEXT_VERSIONS[ai.texto_versao],orgao:ai.texto_orgao||'',data:typeof ai.texto_data==='string'?ai.texto_data.slice(0,10):''}:null;
   // Resumo já feito a partir do texto em vigor.
   if(fonte==='ia'&&(aiVersion||(v&&ai?.fonte_url===v.url))){
     return '<p class="version-note version-note--ok">Este resumo explica o <strong>'+lowerFirst(versionLabel(aiVersion||v))+'</strong>, que substituiu o texto original.</p>';
@@ -74,7 +79,7 @@ const itemHTML=t=>{
   const detail=t.despacho&&t.despacho.toLowerCase()!==t.descricao.toLowerCase()?
     (t.despacho.length>220?t.despacho.slice(0,217).replace(/\s+\S*$/,'')+'…':t.despacho):'';
   return '<li><span class="history-when"><time datetime="'+safeText(t.dataHora.slice(0,10))+'">'+safeText(dateBR(t.dataHora))+'</time>'+
-    (t.orgao?'<span class="history-org">'+safeText(t.orgao)+'</span>':'')+'</span>'+
+    (t.orgao?(orgaoNome(t.orgao)?'<abbr class="history-org" title="'+safeText(orgaoNome(t.orgao))+'">'+safeText(t.orgao)+'</abbr>':'<span class="history-org">'+safeText(t.orgao)+'</span>'):'')+'</span>'+
     '<span class="history-what"><strong>'+safeText(t.descricao||'Movimentação')+'</strong>'+
     (detail?'<span class="history-detail">'+safeText(detail)+'</span>':'')+
     (t.url?'<a class="history-doc" href="'+safeText(t.url)+'" target="_blank" rel="noopener noreferrer">Documento ↗<span class="sr-only"> (abre em nova aba)</span></a>':'')+

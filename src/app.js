@@ -1,13 +1,13 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=tramitacoes-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot} from './data/api.js?v=codigos-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
-import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=arquivadas';
+import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=tramitacoes-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=codigos-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=tramitacoes-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=codigos-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -18,7 +18,7 @@ const CURRENT_YEAR=new Date().getFullYear();
 const YEARS=(()=>{const y=[...new Set((window.OBM_DATA?.years||[]).map(Number).filter(Number.isInteger))].sort((a,b)=>b-a);return y.length?y:[CURRENT_YEAR,CURRENT_YEAR-1]})();
 const DEFAULT_YEAR=String(YEARS[0]);
 const defaultYearFor=q=>q.get('modo')||q.get('tag')?'Todos':DEFAULT_YEAR;
-const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas encaminhadas ao Senado ou à sanção. Aprovação na Câmara não significa lei em vigor.',codes:APPROVED_CODES.join(',')},closed:{label:'Arquivadas ou recusadas',hint:'A maioria foi arquivada sem votação, por exemplo no fim da legislatura. Arquivar não significa que a Câmara votou contra.',codes:CLOSED_CODES.join(',')}};
+const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas que a Câmara aprovou e enviou ao Senado ou à sanção, e as que já viraram lei (selo “Virou lei”). Sem esse selo, aprovação na Câmara não significa lei em vigor.',codes:APPROVED_CODES.join(',')},closed:{label:'Arquivadas ou recusadas',hint:'A maioria foi arquivada sem votação, por exemplo no fim da legislatura. Arquivar não significa que a Câmara votou contra.',codes:CLOSED_CODES.join(',')}};
 const state={view:'explorar',page:1,year:DEFAULT_YEAR,type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null,lastListHash='#/explorar',firstRender=true;
@@ -331,6 +331,7 @@ async function showDetail(id){
  const proposal=detail?.proposal||stored?.proposal||candidate;
  // A consulta ao vivo não traz o texto em vigor: herda o que o banco sabe.
  if(proposal&&!proposal.textoAtual&&stored?.proposal?.textoAtual)proposal.textoAtual=stored.proposal.textoAtual;
+ if(proposal&&stored?.proposal?.virouLei)proposal.virouLei=true;
  if(!proposal){
   $('detailView').innerHTML='<div class="page inforoute"><h1>Não foi possível abrir a proposta.</h1><p>Consulte o registro oficial ou retorne à busca.</p><a href="#/explorar">Voltar para Explorar</a></div>';return;
  }
