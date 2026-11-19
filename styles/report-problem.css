@@ -1,7 +1,7 @@
 /* Reportar um problema no texto da ficha (src/ui/report-problem.js). */
 .report-problem[hidden],.report-problem [hidden]{display:none}
 .report-problem{margin:-18px 0 34px}
-.report-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;padding:8px 2px;background:none;color:var(--text);font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:4px}
+.report-toggle{display:inline-flex;align-items:center;gap:8px;text-align:left;min-height:44px;padding:8px 2px;background:none;color:var(--text);font-size:15px;font-weight:500;text-decoration:underline;text-decoration-color:var(--line-strong);text-underline-offset:4px}
 .report-toggle:hover{color:var(--ink);text-decoration-color:var(--signal)}
 .report-toggle[aria-expanded="true"]{color:var(--ink)}
 .report-icon{width:18px;height:18px;flex:none}
