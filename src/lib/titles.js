@@ -1097,7 +1097,7 @@ const editorialTitles = {
   2486287: "Regulamenta a profissão de marketing",
   2486293: "Protege trabalhadores dos efeitos de eventos climáticos extremos",
   2486315: "Reduz a Área de Proteção Ambiental da Baleia Franca em Santa Catarina",
-  2486316: "Dispensa carência de benefícios por incapacidade para mulheres com adenomiose incapacitante",
+  2486316: "Dispensa carência para auxílio-doença e aposentadoria por adenomiose incapacitante",
   2486317: "Cria selo para empresas que incentivam o uso da bicicleta",
   2486326: "Cria política nacional de acolhimento a brasileiros deportados e repatriados",
   2486330: "Responsabiliza plataformas de hospedagem por falhas e fixa prazo para resolver problemas",
