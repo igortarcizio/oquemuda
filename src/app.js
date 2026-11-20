@@ -5,11 +5,11 @@ import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=temas-2';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-lote-010';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=temas-2';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=editorial-titles-lote-010';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
