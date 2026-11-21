@@ -1258,7 +1258,7 @@ const editorialTitles = {
   2487072: "Dá licença remunerada por internação, cirurgia ou morte de animal de estimação",
   2487105: "Suspende redução do imposto de importação da sardinha enlatada",
   2487145: "Classifica disparos massivos de chamadas como uso indevido de telecomunicações",
-  2487147: "Garante acompanhamento no SUS a pessoas após hormonioterapia ou cirurgia de redesignação sexual",
+  2487147: "SUS acompanha pessoas após hormonioterapia ou cirurgia de redesignação sexual",
   2487159: "Proíbe pessoas com antecedentes criminais de integrar o Conanda",
   2487162: "Torna voluntária a participação de alunos em atividades religiosas na escola",
   2487165: "Cria Medalha do Mérito Católico São José de Anchieta na Câmara",
