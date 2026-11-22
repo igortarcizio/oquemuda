@@ -1,6 +1,6 @@
 import {safeText,ref,dateBR,officialURL,cleanText,classifyTheme} from '../lib/text.js';
 import {THEMES as THEME_LIST} from '../lib/themes.js';
-import {displayTitle,amendedLaws,isReviewed,hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-011b';
+import {displayTitle,amendedLaws,isReviewed,hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-012';
 import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
 import {proposalTypeInfo} from '../lib/proposal-types.js';
 import {shareButton} from './share-menu.js?v=1';
