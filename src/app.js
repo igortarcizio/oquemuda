@@ -1,16 +1,17 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=senado-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=votacoes-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=senado-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=votacoes-1';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
+import {filterVotes} from './lib/votacoes.js?v=votacoes-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=senado-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=votacoes-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -419,6 +420,8 @@ function onClick(e){
  if(e.target.closest('#retryBtn'))showList();
 }
 function onChange(e){
+ const voteBox=e.target.closest?.('[data-vote-box]');
+ if(voteBox&&e.target.matches('[data-vote-filter]')){filterVotes(voteBox);return}
  if(['yearSelect','typeSelect','partySelect'].includes(e.target.id)){
   filterFromUI();state.page=1;syncURL();showList();
  }

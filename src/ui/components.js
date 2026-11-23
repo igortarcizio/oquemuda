@@ -21,6 +21,7 @@ import {STATUS} from '../lib/status.js';
 import {historyHTML,versionNote} from '../lib/tramitacoes.js?v=senado-1';
 import {senadoHTML,senadoEtapa,statusComSenado} from '../lib/senado.js?v=senado-1';
 import {orgaoRotulo} from '../lib/orgaos.js';
+import {votacoesHTML} from '../lib/votacoes.js?v=votacoes-1';
 import {apensacaoHTML,showsApensacao} from '../lib/apensacao.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 // Toda proposta tem um tema real; não existe "Outros".
@@ -176,7 +177,7 @@ export function changeSectionFor(p,ai=null){
  return changeSection(p,e,{reviewed:isReviewed(e),title:displayTitle(p,e),area:themeOf(p,e),ai});
 }
 export function hasValidatedEditorial(p){return !!editorialChange(editorial(p))}
-export function detailPage(p,{status:camaraStatus,authors=[],stage={},tramitacoes=[],textoAtual=null,apensacao=null,senado=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
+export function detailPage(p,{status:camaraStatus,authors=[],stage={},tramitacoes=[],textoAtual=null,apensacao=null,senado=null,votacoes=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
  // O Senado registra antes da Câmara quando a proposta vira lei: nesse caso, vale o Senado.
  const status=statusComSenado(camaraStatus,senado),etapaSenado=senadoEtapa(senado);
  // A etapa atual da linha do tempo abre as movimentações da Casa onde a proposta está.
@@ -203,6 +204,7 @@ export function detailPage(p,{status:camaraStatus,authors=[],stage={},tramitacoe
  (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(orgaoRotulo(stage.siglaOrgao))+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<div id="jointList" class="joint-list-wrap" hidden></div>'+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
+ (loaded?votacoesHTML(votacoes):'')+
  '<section class="detail-section"><h2>Texto oficial</h2><div class="quote-official"><span class="eyebrow">Ementa</span><p>'+safeText(p.ementa)+'</p></div></section>'+
  '<div id="reportProblem" class="report-problem" hidden></div>'+
  '</div><div class="detail-side"><aside class="detail-aside" aria-labelledby="fichaTitle"><h2 id="fichaTitle">Ficha</h2><dl>'+

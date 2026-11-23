@@ -1,0 +1,45 @@
+name: Votações na Câmara
+# Votações das propostas e, nas nominais sobre o texto, como votou cada deputado
+# (coluna proposicoes.votacoes, migration 20261123_votacoes.sql). Só consulta as propostas
+# com movimentação nova desde a última vez; a primeira carga se dispara de novo até terminar.
+on:
+  schedule:
+    - cron: '29 12,23 * * *'
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: 'Máximo de propostas nesta rodada (0 = até o prazo)'
+        default: '0'
+concurrency:
+  group: sync-votacoes
+  cancel-in-progress: false
+permissions:
+  contents: read
+  actions: write   # para disparar a próxima rodada
+jobs:
+  votacoes:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Testes do robô de votações
+        run: python -m unittest tests.test_sync_votacoes -v
+      - name: Consultar votações
+        id: carga
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          LIMITE: ${{ github.event.inputs.limite || '0' }}
+          PRAZO_MINUTOS: '300'
+        run: python -u scripts/sync_votacoes.py
+      - name: Disparar a próxima rodada
+        if: always() && steps.carga.outputs.continuar == 'sim'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PAUSA: ${{ steps.carga.outputs.pausa || '0' }}
+        run: |
+          sleep "$PAUSA"
+          gh workflow run sync-votacoes.yml --repo "$GITHUB_REPOSITORY" --ref main
