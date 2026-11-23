@@ -19,7 +19,7 @@
   <meta property="og:image:alt" content="O que muda? Entenda as propostas da Câmara dos Deputados">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="./styles/base.css?v=etapa2-20261111">
-  <link rel="stylesheet" href="./styles/components.css?v=temas-2">
+  <link rel="stylesheet" href="./styles/components.css?v=busca-texto-1">
   <link rel="stylesheet" href="./styles/news-ticker.css?v=6">
   <link rel="stylesheet" href="./styles/related-proposals.css?v=1">
   <link rel="stylesheet" href="./styles/reader-votes.css?v=coluna-1">
@@ -53,7 +53,7 @@
           <form class="search-form" role="search" id="searchForm">
             <label for="searchField">Qual assunto você quer acompanhar?</label>
             <div class="search-control"><input type="search" id="searchField" autocomplete="off" placeholder="Ex.: aposentadoria, escola, golpe no banco" aria-describedby="searchHint"><button type="submit" class="primary-btn">Buscar</button></div>
-            <p class="search-hint" id="searchHint">Busca nas ementas oficiais. Use palavras soltas, em qualquer ordem.</p>
+            <p class="search-hint" id="searchHint">Busca nas ementas oficiais e nos resumos. Use aspas para uma frase exata e “-” para excluir uma palavra.</p>
           </form>
           <button type="button" class="outline-btn filters-toggle" id="filtersToggle" aria-expanded="false" aria-controls="filters"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 6h16M7 12h10M10 18h4"/></svg>Filtros <span class="savecount" id="filterCount" hidden></span></button>
           <div class="filter-row" id="filters" aria-label="Filtros legislativos">
@@ -108,6 +108,8 @@
         <div class="section-head feed-heading"><div class="feed-heading-title">
           <h2 id="listTitle" tabindex="-1">Explore as propostas</h2>
           <p class="results-live" id="listSubtitle">Consultando propostas…</p>
+          <label class="filter-label sort-label" for="sortSelect" id="sortControl" hidden>Ordenar por
+            <select id="sortSelect"><option value="recentes">Mais recentes</option><option value="relevancia">Mais relevantes</option></select></label>
           <div class="active-filters" id="activeFilters" hidden></div>
         </div><aside id="proposalTypeInfo" class="proposal-type-info" aria-labelledby="proposalTypeTitle" aria-live="polite" aria-atomic="true" hidden><h3 id="proposalTypeTitle"></h3><p id="proposalTypeDescription"></p></aside></div>
         <p class="sr-only" aria-live="polite" aria-atomic="true" id="announcer"></p>
@@ -135,7 +137,7 @@
   <script src="./dados/editorial.js"></script>
   <script src="./dados/deputados-partidos.js"></script>
   <script type="module">import { initNewsTicker } from "./src/ui/news-ticker.js?v=6"; initNewsTicker();</script>
-  <script type="module" src="./src/app.js?v=editorial-titles-lote-013"></script>
+  <script type="module" src="./src/app.js?v=busca-texto-1"></script>
   <script type="module">import { initBrandQuestion } from "./src/ui/brand-question.js?v=1"; initBrandQuestion();</script>
 </body>
 </html>

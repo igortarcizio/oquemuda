@@ -98,7 +98,9 @@ test('filtros combinados vão todos para o banco: partido, tipo, ano, tema e pal
  await getDatabaseProposals({page:2,year:'2026',type:'PL',party:'UNIÃO',keywords:'Saúde Criança',theme:'Saúde'});
  assert.match(url,/partidos=cs\.\{"UNIÃO"\}/);
  assert.match(url,/sigla_tipo=eq\.PL/);assert.match(url,/ano=eq\.2026/);assert.match(url,/offset=30/);
- assert.match(url,/ementa_busca\.ilike\.\*saude\*/);assert.match(url,/ementa_busca\.ilike\.\*crianca\*/);
+ // Palavras vão para a busca de texto completo do banco (sem acento), com os mesmos filtros.
+ assert.match(url,/\/rpc\/buscar_proposicoes\?/);assert.match(url,/[?&]q=saude\+crianca(&|$)/);
+ assert.ok(!/ementa_busca/.test(url),'não usa mais o ilike quando a função existe');
  assert.match(url,/tags\.ov\./);
  await assert.rejects(getDatabaseProposals({party:'PT,PL'}),/Partido inválido/);
  assert.deepEqual(await getParties(),[...PARTIES]);
