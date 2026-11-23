@@ -362,3 +362,15 @@ abbr.history-org{text-decoration:none;cursor:help}
 .timeline-step{background:none;border:0;padding:10px 6px;margin:-10px -6px;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted;text-decoration-color:var(--area,var(--ink));text-underline-offset:4px}
 .timeline-step:hover{text-decoration-style:solid}
 @media(prefers-reduced-motion:reduce){.history-toggle-icon{transition:none}}
+
+/* Bloco "No Senado" na ficha (src/lib/senado.js). */
+.senado-box{margin-top:26px;padding:18px 20px;background:#fff;border:1px solid var(--line);border-left:3px solid var(--area,var(--ink));border-radius:12px}
+.senado-box .change-sub{margin-top:0}
+.senado-facts{display:grid;gap:10px;margin:12px 0 0}
+.senado-facts>div{display:grid;grid-template-columns:118px minmax(0,1fr);gap:4px 16px}
+.senado-facts dt{font-size:13px;font-weight:600;color:var(--text)}
+.senado-facts dd{margin:0;font-size:15px;line-height:1.45;color:var(--ink)}
+.senado-when{display:block;font-size:13px;color:var(--text)}
+.senado-box .history-toggle{margin-top:8px}
+.senado-box .small-note{margin-top:10px}
+@media(max-width:640px){.senado-box{padding:16px}.senado-facts>div{grid-template-columns:1fr;gap:2px}}

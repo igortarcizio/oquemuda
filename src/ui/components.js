@@ -18,7 +18,8 @@ import {proposalTags,tagURL} from '../lib/tags.js';
 const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em revisão</p>':'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
 
 import {STATUS} from '../lib/status.js';
-import {historyHTML,versionNote} from '../lib/tramitacoes.js?v=movimentacoes-1';
+import {historyHTML,versionNote} from '../lib/tramitacoes.js?v=senado-1';
+import {senadoHTML,senadoEtapa,statusComSenado} from '../lib/senado.js?v=senado-1';
 import {orgaoRotulo} from '../lib/orgaos.js';
 import {apensacaoHTML,showsApensacao} from '../lib/apensacao.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
@@ -115,15 +116,17 @@ export function stageIndex(status){
  if(status.label==='Apresentada')return 0;
  return {discussion:1,voting:2,approved:3,law:4}[status.tone]??null;
 }
-function timeline(status,presentedAt,{history=false}={}){
+function timeline(status,presentedAt,{history=null,etapaSenado=null}={}){
  if(status?.tone==='closed')return '<p class="closed-note">A tramitação foi encerrada: '+safeText(status.detail||status.label)+'.</p>';
- const idx=stageIndex(status);
+ // Aprovada no Senado e enviada à sanção: a etapa atual já é "Sanção ou veto".
+ const sancao=etapaSenado==='sancao'&&status?.tone==='approved';
+ const idx=sancao?4:stageIndex(status);
  if(idx==null)return '<p>'+badge(status)+'</p><p class="small-note">Etapa ainda não confirmada na fonte oficial.</p>';
  return '<ol class="timeline" aria-label="Etapas da tramitação">'+STEPS.map((step,i)=>
   '<li class="'+(i<=idx?'done':'')+(i===idx?' now':'')+'"'+(i===idx?' aria-current="step"':'')+'>'+
   // Etapa atual abre as movimentações (atalho do botão "Ver movimentações").
-  (i===idx&&history?'<button type="button" class="timeline-step" data-history-toggle data-from-stage aria-expanded="false" aria-controls="historyPanel" title="Ver movimentações">'+step+'</button>':step)+
-  (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>'+(status.tone==='law'?'virou lei':'etapa atual')+'</small>':'')+'</li>').join('')+'</ol>';
+  (i===idx&&history?'<button type="button" class="timeline-step" data-history-toggle data-from-stage aria-expanded="false" aria-controls="'+history+'" title="Ver movimentações">'+step+'</button>':step)+
+  (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>'+(status.tone==='law'?'virou lei':sancao?'aguardando sanção':'etapa atual')+'</small>':'')+'</li>').join('')+'</ol>';
 }
 
 // Rito: o que ainda precisa acontecer para virar regra (varia pelo tipo).
@@ -173,7 +176,11 @@ export function changeSectionFor(p,ai=null){
  return changeSection(p,e,{reviewed:isReviewed(e),title:displayTitle(p,e),area:themeOf(p,e),ai});
 }
 export function hasValidatedEditorial(p){return !!editorialChange(editorial(p))}
-export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtual=null,apensacao=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
+export function detailPage(p,{status:camaraStatus,authors=[],stage={},tramitacoes=[],textoAtual=null,apensacao=null,senado=null,fullTextURL=null,source='ao vivo',loaded=false,authorsChecked=false,lastChecked=null,backHref='#/explorar'}={},saved=false){
+ // O Senado registra antes da Câmara quando a proposta vira lei: nesse caso, vale o Senado.
+ const status=statusComSenado(camaraStatus,senado),etapaSenado=senadoEtapa(senado);
+ // A etapa atual da linha do tempo abre as movimentações da Casa onde a proposta está.
+ const stagePanel=etapaSenado==='senado'&&senado?.movimentacoes?.length?'senadoPanel':tramitacoes.length?'historyPanel':null;
  const e=editorial(p),reviewed=isReviewed(e),title=displayTitle(p,e),area=themeOf(p,e);
  const safeURL=(url)=>typeof url==='string'&&url.startsWith('https://www.camara.leg.br/')?url:null;
  const full=safeURL(fullTextURL);
@@ -190,8 +197,9 @@ export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtu
  '<div class="page detail-layout"><div>'+
  changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
- '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded&&showsApensacao(apensacao,status)?apensacaoHTML(apensacao):'')+(loaded?timeline(status,p.dataApresentacao,{history:tramitacoes.length>0}):'<p>Verificando andamento na Câmara…</p>')+
- (loaded&&tramitacoes.length?historyHTML(tramitacoes,textoAtual||p.textoAtual||null):'')+
+ '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded&&showsApensacao(apensacao,status)?apensacaoHTML(apensacao):'')+(loaded?timeline(status,p.dataApresentacao,{history:stagePanel,etapaSenado}):'<p>Verificando andamento na Câmara…</p>')+
+ (loaded&&senado?senadoHTML(senado):'')+
+ (loaded&&tramitacoes.length?historyHTML(tramitacoes,textoAtual||p.textoAtual||null,{casa:senado?.encontrado?' na Câmara':''}):'')+
  (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(orgaoRotulo(stage.siglaOrgao))+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<div id="jointList" class="joint-list-wrap" hidden></div>'+
  '<p class="small-note">Aprovação em comissão não é aprovação final pela Câmara.</p></section>'+
@@ -202,7 +210,9 @@ export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtu
  '<div><dt>Autoria</dt><dd>'+(loaded?(authors.length?initials(authors):(authorsChecked?'Não informada na consulta':'Ainda não verificada')):'Consultando autores…')+'</dd></div>'+
  '<div><dt>Apresentação</dt><dd>'+safeText(dateBR(p.dataApresentacao))+'</dd></div>'+
  '<div><dt>Situação</dt><dd>'+(loaded?badge(status):'Verificando…')+'</dd></div>'+
- '<div><dt>'+(status?.tone==='law'||status?.tone==='closed'?'Último órgão':'Onde está')+'</dt><dd>'+safeText(stage.siglaOrgao?orgaoRotulo(stage.siglaOrgao):pendingText)+'</dd></div>'+
+ '<div><dt>'+(status?.tone==='law'||status?.tone==='closed'?'Último órgão':'Onde está')+'</dt><dd>'+
+  (etapaSenado==='senado'?'Senado Federal'+(senado.local?'<span class="type-desc">'+safeText(senado.local.nome||senado.local.sigla)+'</span>':''):
+   safeText(stage.siglaOrgao?orgaoRotulo(stage.siglaOrgao):pendingText))+'</dd></div>'+
  '<div><dt>Assuntos</dt><dd>'+subjectLinks(p)+'</dd></div>'+
  (p.temasOficiais?.length?'<div><dt>Tema oficial na Câmara</dt><dd>'+p.temasOficiais.map(safeText).join('; ')+'</dd></div>':'')+
  '</dl>'+(full?'<div class="detail-links"><a class="primary-btn" target="_blank" rel="noopener noreferrer" href="'+safeText(full)+'">Ler texto integral ↗<span class="sr-only"> (abre em nova aba)</span></a></div>':'')+
