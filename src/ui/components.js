@@ -18,7 +18,7 @@ import {proposalTags,tagURL} from '../lib/tags.js';
 const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em revisão</p>':'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
 
 import {STATUS} from '../lib/status.js';
-import {historyHTML,versionNote} from '../lib/tramitacoes.js';
+import {historyHTML,versionNote} from '../lib/tramitacoes.js?v=movimentacoes-1';
 import {orgaoRotulo} from '../lib/orgaos.js';
 import {apensacaoHTML,showsApensacao} from '../lib/apensacao.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
@@ -115,12 +115,14 @@ export function stageIndex(status){
  if(status.label==='Apresentada')return 0;
  return {discussion:1,voting:2,approved:3,law:4}[status.tone]??null;
 }
-function timeline(status,presentedAt){
+function timeline(status,presentedAt,{history=false}={}){
  if(status?.tone==='closed')return '<p class="closed-note">A tramitação foi encerrada: '+safeText(status.detail||status.label)+'.</p>';
  const idx=stageIndex(status);
  if(idx==null)return '<p>'+badge(status)+'</p><p class="small-note">Etapa ainda não confirmada na fonte oficial.</p>';
  return '<ol class="timeline" aria-label="Etapas da tramitação">'+STEPS.map((step,i)=>
-  '<li class="'+(i<=idx?'done':'')+(i===idx?' now':'')+'"'+(i===idx?' aria-current="step"':'')+'>'+step+
+  '<li class="'+(i<=idx?'done':'')+(i===idx?' now':'')+'"'+(i===idx?' aria-current="step"':'')+'>'+
+  // Etapa atual abre as movimentações (atalho do botão "Ver movimentações").
+  (i===idx&&history?'<button type="button" class="timeline-step" data-history-toggle data-from-stage aria-expanded="false" aria-controls="historyPanel" title="Ver movimentações">'+step+'</button>':step)+
   (i===0?'<small>'+safeText(dateBR(presentedAt))+'</small>':i===idx?'<small>'+(status.tone==='law'?'virou lei':'etapa atual')+'</small>':'')+'</li>').join('')+'</ol>';
 }
 
@@ -188,7 +190,7 @@ export function detailPage(p,{status,authors=[],stage={},tramitacoes=[],textoAtu
  '<div class="page detail-layout"><div>'+
  changes+
  (publicos.length?'<section class="detail-section"><h2>Quem pode ser afetado</h2><ul class="who-row">'+publicos.map(x=>'<li>'+safeText(x)+'</li>').join('')+'</ul></section>':'')+
- '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded&&showsApensacao(apensacao,status)?apensacaoHTML(apensacao):'')+(loaded?timeline(status,p.dataApresentacao):'<p>Verificando andamento na Câmara…</p>')+
+ '<section class="detail-section"><h2>Em que etapa está?</h2>'+(loaded&&showsApensacao(apensacao,status)?apensacaoHTML(apensacao):'')+(loaded?timeline(status,p.dataApresentacao,{history:tramitacoes.length>0}):'<p>Verificando andamento na Câmara…</p>')+
  (loaded&&tramitacoes.length?historyHTML(tramitacoes,textoAtual||p.textoAtual||null):'')+
  (!tramitacoes.length&&stage.descricaoTramitacao?'<p class="small-note">Último registro oficial: '+safeText(stage.descricaoTramitacao)+(stage.siglaOrgao?' ('+safeText(orgaoRotulo(stage.siglaOrgao))+')':'')+(stage.dataHora?', '+safeText(dateBR(stage.dataHora)):'')+'.</p>':'')+
  '<div id="jointList" class="joint-list-wrap" hidden></div>'+

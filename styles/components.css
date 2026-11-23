@@ -350,3 +350,15 @@ abbr.history-org{text-decoration:none;cursor:help}
 /* Ordem dos resultados da busca (só aparece quando há palavras buscadas). */
 .feed-heading .sort-label{display:inline-flex;align-items:center;gap:8px;margin-top:12px}
 .feed-heading .sort-label select{display:inline-block;width:auto;min-width:0;margin-top:0}
+
+/* Movimentações recolhidas: a linha do tempo mostra a fase; a lista é o detalhe. */
+.history-toggle{display:inline-flex;align-items:center;gap:8px;min-height:44px;margin-top:14px;padding:0;background:none;border:0;font:inherit;font-weight:500;font-size:15px;color:var(--ink);cursor:pointer}
+.history-toggle-label{text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:4px}
+.history-toggle-icon{display:inline-block;transition:transform .15s ease}
+.history-toggle[aria-expanded="true"] .history-toggle-icon{transform:rotate(180deg)}
+.history-toggle:focus-visible,.timeline-step:focus-visible{outline:2px solid var(--ink);outline-offset:3px;border-radius:4px}
+.history-panel{margin-top:6px}
+.history-panel .change-sub:focus{outline:none}
+.timeline-step{background:none;border:0;padding:10px 6px;margin:-10px -6px;font:inherit;color:inherit;cursor:pointer;text-decoration:underline dotted;text-decoration-color:var(--area,var(--ink));text-underline-offset:4px}
+.timeline-step:hover{text-decoration-style:solid}
+@media(prefers-reduced-motion:reduce){.history-toggle-icon{transition:none}}

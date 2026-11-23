@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {normalizeTramitacoes,relevantMovements,normalizeTextoAtual,versionNote,historyHTML,SHORT_HISTORY} from '../src/lib/tramitacoes.js';
+import {normalizeTramitacoes,relevantMovements,normalizeTextoAtual,versionNote,historyHTML,SHORT_HISTORY,toggleHistory} from '../src/lib/tramitacoes.js';
 import {getDatabaseDetail} from '../src/data/api.js';
 import {fetchAiSummary} from '../src/ui/ai-summary.js';
 import {changeSection} from '../src/ui/components.js';
@@ -96,4 +96,32 @@ test('resumo da IA pede a versão do texto e funciona sem as colunas novas',asyn
  assert.equal(row.resumo,'Resumo.');
  assert.match(urls[0],/fonte_url,texto_versao/);
  assert.ok(!/fonte_url/.test(urls[1]));
+});
+
+test('movimentações começam recolhidas, com o aviso de texto novo sempre visível',()=>{
+ const html=historyHTML(normalizeTramitacoes(RAW),normalizeTextoAtual(TEXTO));
+ assert.match(html,/<button type="button" class="history-toggle" id="historyToggle" data-history-toggle data-total="5" aria-expanded="false" aria-controls="historyPanel"><span class="history-toggle-label">Ver movimentações \(5\)<\/span>/);
+ assert.match(html,/<div class="history-panel" id="historyPanel" hidden>/);
+ assert.ok(html.indexOf('Texto modificado')<html.indexOf('historyPanel'),'aviso fica fora da parte recolhida');
+});
+
+test('etapa atual e botão abrem e fecham a mesma lista',()=>{
+ // DOM mínimo: só o que toggleHistory usa.
+ const attrs=()=>({a:{},setAttribute(k,v){this.a[k]=v},getAttribute(k){return this.a[k]}});
+ const panel={hidden:true,scrollIntoView(){this.scrolled=true}};
+ const label={textContent:'Ver movimentações (5)'};
+ const button={...attrs(),dataset:{total:'5'},querySelector:()=>label};
+ const stage=attrs();
+ const title={focus(){this.focused=true}};
+ const root={getElementById:id=>id==='historyPanel'?panel:null,
+  querySelectorAll:()=>[button,stage],
+  querySelector:sel=>sel==='#historyToggle'?button:sel==='#historyTitle'?title:null};
+ assert.equal(toggleHistory(root,{fromStage:true}),true);
+ assert.equal(panel.hidden,false);
+ assert.equal(button.a['aria-expanded'],'true');assert.equal(stage.a['aria-expanded'],'true');
+ assert.equal(label.textContent,'Esconder movimentações');
+ assert.ok(panel.scrolled&&title.focused,'vindo da etapa, leva até a lista');
+ assert.equal(toggleHistory(root),false);
+ assert.equal(panel.hidden,true);
+ assert.equal(label.textContent,'Ver movimentações (5)');
 });
