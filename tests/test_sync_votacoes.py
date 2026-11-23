@@ -109,6 +109,12 @@ class ConsultaTests(unittest.TestCase):
         with patch.object(VOT.SYNC, "read_json", return_value=rows):
             self.assertEqual([r["id"] for r in VOT.alvos()], [1, 3])
 
+    def test_alvos_por_id_ignora_sequencia(self):
+        rows = [{"id": 2, "tramitacoes_seq": 5, "votacoes_seq": 5}]
+        with patch.object(VOT, "IDS", [2, 7]), patch.object(VOT.SYNC, "read_json", return_value=rows) as rj:
+            self.assertEqual(VOT.alvos(), rows)
+        self.assertIn("id=in.%282%2C7%29", rj.call_args[0][0])
+
 
 class MainTests(unittest.TestCase):
     def setUp(self):
