@@ -8,6 +8,10 @@
 - Tramitações: só busca o histórico quando a Câmara registra movimentação nova
   (statusProposicao.sequencia maior que a gravada) e, enquanto a movimentação é recente,
   confere se a comissão publicou um substitutivo (texto novo que substitui o original).
+  Propostas ainda sem histórico (tramitacoes_seq nulo) ocupam até 2/3 das fichas de cada
+  rodada, das mais recentes para as mais antigas: o sync diário por CSV marca todas como
+  atualizadas, então a ordem por atualização não chegava nelas. A carga do acervo antigo
+  é feita por scripts/historico_tramitacoes.py.
 - Listagens: lê as páginas mais recentes de cada tipo até achar uma página só com
   propostas já conhecidas (no máximo MAX_LIST_PAGES), então recupera sozinho depois de
   dias fora do ar. É o único robô que cria fichas novas (substitui sincronizar_supabase.py).
@@ -180,6 +184,15 @@ def max_sequence(rows):
     return max(seqs) if seqs else None
 
 
+def history_columns(tram):
+    """Colunas do histórico. Sem nenhuma movimentação, grava a lista vazia e sequência 0:
+    a proposta fica conferida e só volta a ser buscada quando a Câmara registrar algo."""
+    if not tram:
+        return {"tramitacoes": [], "tramitacoes_seq": 0}
+    return {"tramitacoes": tram, "tramitacoes_seq": max_sequence(tram) or 0,
+            "tramitacoes_ultima": camara_time(tram[-1].get("dataHora"))}
+
+
 def needs_tramitacoes(row, stage):
     """Busca na primeira vez e sempre que a Câmara registrar movimentação nova."""
     stored = row.get("tramitacoes_seq")
@@ -233,11 +246,8 @@ def tramitacao_changes(id, row, stage, now):
     last = row.get("tramitacoes_ultima")
     if changed:
         tram = compact_tramitacoes(api("/proposicoes/" + str(id) + "/tramitacoes").get("dados"))
-        if tram:
-            out["tramitacoes"] = tram
-            out["tramitacoes_seq"] = max_sequence(tram)
-            last = camara_time(tram[-1].get("dataHora"))
-            out["tramitacoes_ultima"] = last
+        out.update(history_columns(tram))
+        last = out.get("tramitacoes_ultima") or last
     if not (changed or is_recent(last, now)):
         return out
     found = adopted_text(api("/proposicoes/" + str(id) + "/relacionadas").get("dados"))
@@ -270,6 +280,40 @@ def pending_rows(extra_cols=""):
         "limit": str(max(MAX_DETAILS * 2, 100))
     })
     return read_json(DB + "?" + q, DB_HEADERS)
+
+def missing_history_rows(extra_cols="", limit=None):
+    """Propostas que ainda não têm o histórico gravado, das mais recentes para as mais antigas."""
+    q = urllib.parse.urlencode({
+        "select": "id,situacao_atualizada_em,dados_oficiais" + extra_cols,
+        "tramitacoes_seq": "is.null",
+        "order": "data_apresentacao.desc.nullslast,id.desc",
+        "limit": str(limit or MAX_DETAILS)
+    })
+    try:
+        return read_json(DB + "?" + q, DB_HEADERS)
+    except Exception as exc:  # a fila de histórico nunca impede o resto da rodada
+        print("::notice::Fila de propostas sem histórico indisponível:", str(exc)[:120], flush=True)
+        return []
+
+
+def pick(prioritized, never, missing, others, limit=None):
+    """Prioridades, fichas nunca consultadas, até 2/3 sem histórico e o resto pela mais antiga."""
+    limit = limit or MAX_DETAILS
+    out, seen = [], set()
+    def add(rows, room):
+        for row in rows:
+            if len(out) >= room:
+                return
+            if row["id"] not in seen:
+                seen.add(row["id"])
+                out.append(row)
+    add(prioritized, limit)
+    add(never, limit)
+    add(missing, min(limit, len(out) + (limit * 2) // 3))
+    add(others, limit)
+    add(missing, limit)  # sobrou espaço: completa com mais propostas sem histórico
+    return out
+
 
 def normalize_authors(rows):
     result = []
@@ -304,7 +348,9 @@ def enrich():
         except (ValueError, TypeError): return True
     prioritized = [by_id[x] for x in PRIORITY_IDS if x in by_id and is_stale(by_id[x])]
     others = [x for x in rows if x["id"] not in PRIORITY_IDS]
-    selected = (prioritized + others)[:MAX_DETAILS]
+    never = [x for x in others if not x.get("situacao_atualizada_em")]
+    missing = missing_history_rows(extra) if with_tram else []
+    selected = pick(prioritized, never, missing, others)
     done = tram_done = texts_done = 0
     for row in selected:
         id = row["id"]

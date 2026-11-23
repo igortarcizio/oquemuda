@@ -1,0 +1,41 @@
+name: Histórico de movimentações (carga)
+# Carga do histórico (tramitações) das propostas que ainda não o têm. Roda por lotes até o
+# prazo e, se ainda houver fila, dispara a próxima rodada. O sync de 30 em 30 minutos
+# continua cuidando das propostas novas e das movimentações novas.
+on:
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: 'Máximo de propostas nesta rodada (0 = até o prazo)'
+        default: '0'
+concurrency:
+  group: historico-tramitacoes
+  cancel-in-progress: false
+permissions:
+  contents: read
+  actions: write   # para disparar a próxima rodada
+jobs:
+  carregar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 330
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Testes do sincronizador
+        run: python -m unittest tests.test_sync_supabase -v
+      - name: Gravar histórico
+        id: carga
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          LIMITE: ${{ github.event.inputs.limite || '0' }}
+          TRABALHADORES: '4'
+          PRAZO_MINUTOS: '300'
+        run: python -u scripts/historico_tramitacoes.py
+      - name: Disparar a próxima rodada
+        if: success() && steps.carga.outputs.continuar == 'sim'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh workflow run historico-tramitacoes.yml --repo "$GITHUB_REPOSITORY" --ref main

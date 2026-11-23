@@ -80,6 +80,7 @@ class SyncTests(unittest.TestCase):
              patch.object(SYNC, "tramitacoes_available", return_value=False), \
              patch.object(SYNC, "apensacao_available", return_value=False), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
+             patch.object(SYNC, "missing_history_rows", return_value=[]), \
              patch.object(SYNC, "api", side_effect=fake_api), \
              patch.object(SYNC, "patch") as save, \
              patch.object(SYNC.time, "sleep"):
@@ -184,6 +185,7 @@ class TramitacaoTests(unittest.TestCase):
              patch.object(SYNC, "tramitacoes_available", return_value=True), \
              patch.object(SYNC, "apensacao_available", return_value=False), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
+             patch.object(SYNC, "missing_history_rows", return_value=[]), \
              patch.object(SYNC, "api", side_effect=api), \
              patch.object(SYNC, "patch") as save, \
              patch.object(SYNC.time, "sleep"):
@@ -205,6 +207,7 @@ class TramitacaoTests(unittest.TestCase):
              patch.object(SYNC, "tramitacoes_available", return_value=True), \
              patch.object(SYNC, "apensacao_available", return_value=False), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
+             patch.object(SYNC, "missing_history_rows", return_value=[]), \
              patch.object(SYNC, "api", side_effect=api), \
              patch.object(SYNC, "patch") as save, \
              patch.object(SYNC.time, "sleep"):
@@ -215,6 +218,60 @@ class TramitacaoTests(unittest.TestCase):
     def test_sem_migration_o_sincronizador_segue_sem_as_colunas(self):
         with patch.object(SYNC, "read_json", side_effect=error(400)):
             self.assertFalse(SYNC.tramitacoes_available())
+
+
+class HistoricoTests(unittest.TestCase):
+    """Propostas sem histórico de movimentações (tramitacoes_seq nulo)."""
+
+    def rows(self, *ids, stamp="2026-11-23T00:00:00+00:00"):
+        return [{"id": i, "situacao_atualizada_em": stamp, "dados_oficiais": {}} for i in ids]
+
+    def test_sem_movimentacao_fica_conferida_com_lista_vazia(self):
+        self.assertEqual(SYNC.history_columns([]), {"tramitacoes": [], "tramitacoes_seq": 0})
+        with patch.object(SYNC, "api", return_value={"dados": []}):
+            out = SYNC.tramitacao_changes(9, {"id": 9}, {"sequencia": None},
+                                          SYNC.dt.datetime(2026, 11, 23, tzinfo=SYNC.dt.timezone.utc))
+        self.assertEqual(out["tramitacoes"], [])
+        self.assertEqual(out["tramitacoes_seq"], 0)
+
+    def test_sem_historico_ocupa_ate_dois_tercos_da_rodada(self):
+        missing = self.rows(*range(100, 140))
+        others = self.rows(*range(1, 50))
+        out = [r["id"] for r in SYNC.pick([], [], missing, others, limit=30)]
+        self.assertEqual(len(out), 30)
+        self.assertEqual(out[:20], list(range(100, 120)), "20 de 30 para quem não tem histórico")
+        self.assertEqual(out[20:], list(range(1, 11)), "o resto segue reconferindo as mais antigas")
+
+    def test_prioridades_e_nunca_consultadas_vem_antes(self):
+        out = [r["id"] for r in SYNC.pick(self.rows(7), self.rows(8, stamp=None), self.rows(100, 7, 101),
+                                           self.rows(1, 8), limit=5)]
+        self.assertEqual(out, [7, 8, 100, 101, 1])
+
+    def test_sobrando_espaco_completa_com_mais_sem_historico(self):
+        out = [r["id"] for r in SYNC.pick([], [], self.rows(*range(100, 110)), self.rows(1), limit=6)]
+        self.assertEqual(out, [100, 101, 102, 103, 1, 104])
+
+    def test_enrich_pega_primeiro_quem_esta_sem_historico(self):
+        visitados = []
+        def api(path):
+            if path.endswith("/autores") or path.endswith("/relacionadas"):
+                return {"dados": []}
+            if path.endswith("/tramitacoes"):
+                return {"dados": [{"dataHora": "2026-11-19T15:05", "sequencia": 1, "siglaOrgao": "MESA",
+                                   "descricaoTramitacao": "Apresentação de Proposição"}]}
+            id = int(path.rsplit("/", 1)[1])
+            visitados.append(id)
+            return {"dados": {"id": id, "statusProposicao": {"sequencia": 1}}}
+        with patch.object(SYNC, "PRIORITY_IDS", []), patch.object(SYNC, "MAX_DETAILS", 3), \
+             patch.object(SYNC, "tramitacoes_available", return_value=True), \
+             patch.object(SYNC, "apensacao_available", return_value=False), \
+             patch.object(SYNC, "pending_rows", return_value=self.rows(1, 2, 3)), \
+             patch.object(SYNC, "missing_history_rows", return_value=self.rows(50, 51, 52)), \
+             patch.object(SYNC, "api", side_effect=api), \
+             patch.object(SYNC, "patch") as save, patch.object(SYNC.time, "sleep"):
+            self.assertEqual(SYNC.enrich(), (3, True))
+        self.assertEqual(visitados, [50, 51, 1])
+        self.assertEqual(save.call_args_list[0].args[1]["tramitacoes_seq"], 1)
 
 
 if __name__ == "__main__":
@@ -338,6 +395,7 @@ class ApensacaoTests(unittest.TestCase):
              patch.object(SYNC, "tramitacoes_available", return_value=False), \
              patch.object(SYNC, "apensacao_available", return_value=True), \
              patch.object(SYNC, "pending_rows", return_value=[row]), \
+             patch.object(SYNC, "missing_history_rows", return_value=[]), \
              patch.object(SYNC, "api", side_effect=api), \
              patch.object(SYNC, "patch") as save, \
              patch.object(SYNC.time, "sleep"):
