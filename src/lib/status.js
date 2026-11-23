@@ -15,6 +15,24 @@ export const STATUS={
  // Rótulo único para qualquer situação ainda não confirmada na fonte oficial.
  unknown:{label:'Em atualização',tone:'pending'}
 };
+/** Até quantos dias depois da apresentação a falta de situação ainda vale "Apresentada". */
+export const RECENT_DAYS=15;
+/**
+ * Etiqueta para quando o banco ainda não tem situação nenhuma da proposta.
+ * Proposta apresentada há poucos dias está, de fato, apresentada: mostrar isso é mais útil
+ * (e tão verdadeiro) quanto "Em atualização", que fica para as demais.
+ * checked: o robô já consultou a Câmara (situacao_atualizada_em preenchido).
+ */
+export function missingStatus(dataApresentacao,{checked=false,now=Date.now()}={}){
+ const day=String(dataApresentacao||'').slice(0,10);
+ const presented=/^\d{4}-\d{2}-\d{2}$/.test(day)?Date.parse(day+'T00:00:00Z'):NaN;
+ const age=(now-presented)/86_400_000;
+ if(Number.isFinite(age)&&age>=-1&&age<=RECENT_DAYS){
+  const [y,m,d]=day.split('-');
+  return {...STATUS.introduced,detail:'Apresentada em '+d+'/'+m+'/'+y+'. '+(checked?'A Câmara ainda não registrou outra etapa.':'A situação oficial ainda está sendo consultada.')};
+ }
+ return {...STATUS.unknown,detail:checked?'A Câmara não informou a situação na consulta.':'A situação ainda não foi obtida da Câmara.'};
+}
 const JOINT_DETAIL='Tramita junto com outra proposta (apensada) e segue o andamento dela.';
 // Só o que muda a etiqueta; o resto ("Aguardando parecer", "Aguardando relator"…) é "Em discussão".
 const BY_CODE={

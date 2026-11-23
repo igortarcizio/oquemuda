@@ -1,11 +1,11 @@
 import {cleanText, ref, classifyTheme} from '../lib/text.js';
 import {classifyTags} from '../lib/tags.js';
-import {normalizeStatus,STATUS,isLaw} from '../lib/status.js';
+import {normalizeStatus,isLaw,missingStatus} from '../lib/status.js?v=status-apresentada';
 import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 import {normalizeApensacao} from '../lib/apensacao.js';
 import {normalizeSenado} from '../lib/senado.js?v=senado-1';
-import {normalizeVotacoes} from '../lib/votacoes.js?v=votacoes-3';
+import {normalizeVotacoes} from '../lib/votacoes.js?v=status-apresentada';
 import {parseSearch,matchesToken} from '../lib/search.js';
 import {isTheme} from '../lib/temas-oficiais.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
@@ -255,7 +255,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   const items=data.map(d=>{
     const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||'',areaOficial:d.area},getEditorial(d.id));
     const stage=d.dados_oficiais?.statusProposicao||{};
-    p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A situação não consta no registro oficial consultado.'}:{...STATUS.unknown,detail:'A situação ainda não foi obtida na última sincronização.'});
+    p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):missingStatus(d.data_apresentacao,{checked:!!d.situacao_atualizada_em});
     return p;
   }).filter(p=>p.id&&p.numero&&p.ementa);
   return {items,page,totalPages,hasNext:totalPages?page<totalPages:items.length===30,source:'banco de dados'};
@@ -290,7 +290,7 @@ export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={
   proposal.virouLei=isLaw(officialStatus);
   return {proposal,tramitacoes:normalizeTramitacoes(d.tramitacoes),textoAtual:proposal.textoAtual,apensacao:normalizeApensacao(d.apensada_a),
    senado:normalizeSenado(d.senado),votacoes:normalizeVotacoes(d.votacoes),
-   status:officialStatus||(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A Câmara não informou a situação na consulta.'}:{...STATUS.unknown,detail:'Dados de situação ainda não obtidos da Câmara.'}),stage,
+   status:officialStatus||missingStatus(d.data_apresentacao,{checked:!!d.situacao_atualizada_em}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
    authorsChecked:raw.autoresConsultados===true,
    fullTextURL:raw.urlInteiroTeor||null,source:'banco de dados',
@@ -331,7 +331,7 @@ export async function getDailyFeatured({signal}={}){
   const stage=d.dados_oficiais?.statusProposicao||{};
   p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?
     normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):
-    {...STATUS.unknown};
+    missingStatus(d.data_apresentacao,{checked:!!d.situacao_atualizada_em});
   return p;
  });
  if(items.some(p=>!p))throw new SourceError('Há destaque sem ficha indexada');

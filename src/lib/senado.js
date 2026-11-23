@@ -1,7 +1,7 @@
 // Andamento no Senado das propostas que a Câmara já aprovou
 // (coluna proposicoes.senado, gravada por scripts/sync_senado.py a partir da API /processo do Senado).
 import {safeText,dateBR} from './text.js';
-import {STATUS} from './status.js';
+import {STATUS} from './status.js?v=status-apresentada';
 
 const PAGE=/^https:\/\/www25\.senado\.leg\.br\/web\/atividade\/materias\/-\/materia\/\d+$/;
 const str=(v,max=400)=>typeof v==='string'&&v.trim()?v.replace(/\s+/g,' ').trim().slice(0,max):'';

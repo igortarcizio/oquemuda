@@ -88,6 +88,65 @@ class SyncTests(unittest.TestCase):
             self.assertEqual(save.call_args.args[1]["situacao_codigo"], 924)
             self.assertEqual(save.call_args.args[1]["situacao_descricao"], "Pronta para Pauta")
 
+    def _enrich_with(self, rows, fake_api):
+        with patch.object(SYNC, "PRIORITY_IDS", []), \
+             patch.object(SYNC, "tramitacoes_available", return_value=False), \
+             patch.object(SYNC, "apensacao_available", return_value=False), \
+             patch.object(SYNC, "pending_rows", return_value=rows), \
+             patch.object(SYNC, "missing_history_rows", return_value=[]), \
+             patch.object(SYNC, "api", side_effect=fake_api), \
+             patch.object(SYNC, "patch") as save, \
+             patch.object(SYNC.time, "sleep"):
+            result = SYNC.enrich()
+        return result, save
+
+    def test_ficha_sem_situacao_recebe_carimbo_e_sai_do_topo_da_fila(self):
+        row = {"id": 111, "situacao_atualizada_em": None, "dados_oficiais": {}}
+        def fake_api(path):
+            if path.endswith("/autores"):
+                return {"dados": []}
+            return {"dados": {"id": 111, "statusProposicao": {}}}
+        result, save = self._enrich_with([row], fake_api)
+        self.assertEqual(result, (1, True))
+        payload = save.call_args.args[1]
+        self.assertIn("situacao_atualizada_em", payload)
+        self.assertNotIn("situacao_codigo", payload)
+
+    def test_sem_ficha_oficial_so_marca_a_consulta(self):
+        row = {"id": 222, "situacao_atualizada_em": None, "dados_oficiais": {}}
+        result, save = self._enrich_with([row], lambda path: {"dados": {}})
+        self.assertEqual(result, (0, True))
+        self.assertEqual(save.call_count, 1)
+        self.assertEqual(save.call_args.args[0], 222)
+        self.assertEqual(set(save.call_args.args[1]), {"situacao_atualizada_em"})
+
+    def test_erro_permanente_da_camara_nao_prende_a_ficha_na_fila(self):
+        rows = [{"id": 333, "situacao_atualizada_em": None, "dados_oficiais": {}},
+                {"id": 444, "situacao_atualizada_em": None, "dados_oficiais": {}}]
+        def fake_api(path):
+            if "/333" in path:
+                raise error(404)
+            if path.endswith("/autores"):
+                return {"dados": []}
+            return {"dados": {"id": 444, "statusProposicao": {"descricaoTramitacao": "Apresentação de Proposição"}}}
+        result, save = self._enrich_with(rows, fake_api)
+        self.assertEqual(result, (1, True))
+        self.assertEqual(save.call_args_list[0].args, (333, save.call_args_list[0].args[1]))
+        self.assertEqual(set(save.call_args_list[0].args[1]), {"situacao_atualizada_em"})
+        self.assertEqual(save.call_args_list[1].args[0], 444)
+
+    def test_falha_ao_gravar_o_carimbo_interrompe_a_rodada(self):
+        row = {"id": 555, "situacao_atualizada_em": None, "dados_oficiais": {}}
+        with patch.object(SYNC, "PRIORITY_IDS", []), \
+             patch.object(SYNC, "tramitacoes_available", return_value=False), \
+             patch.object(SYNC, "apensacao_available", return_value=False), \
+             patch.object(SYNC, "pending_rows", return_value=[row]), \
+             patch.object(SYNC, "missing_history_rows", return_value=[]), \
+             patch.object(SYNC, "api", side_effect=error(404)), \
+             patch.object(SYNC, "patch", side_effect=RuntimeError("Supabase: falha na gravação (HTTP 500)")), \
+             patch.object(SYNC.time, "sleep"):
+            self.assertEqual(SYNC.enrich(), (0, False))
+
 
 # Recorte real do PL 220/2026 (id 2600635), consultado na API em 19/11/2026:
 # parecer com substitutivo aprovado na CSPCCO em 17/11; SBT-A registrado em 19/11.

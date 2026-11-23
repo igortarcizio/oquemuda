@@ -17,11 +17,11 @@ function conciseImpact(value, limit=135){
 import {proposalTags,tagURL} from '../lib/tags.js';
 const subjectLinks=p=>!proposalTags(p).length?'<p class="subheading">Assuntos em revisão</p>':'<div class="affected subject-tags" aria-label="Assuntos da proposta">'+proposalTags(p).map(tag=>'<a class="microtag subject-tag" href="'+safeText(tagURL(tag))+'" aria-label="Ver propostas sobre '+safeText(tag)+'">'+safeText(tag)+'</a>').join('')+'</div>';
 
-import {STATUS} from '../lib/status.js';
+import {STATUS} from '../lib/status.js?v=status-apresentada';
 import {historyHTML,versionNote} from '../lib/tramitacoes.js?v=senado-1';
 import {senadoHTML,senadoEtapa,statusComSenado} from '../lib/senado.js?v=senado-1';
 import {orgaoRotulo} from '../lib/orgaos.js';
-import {votacoesHTML} from '../lib/votacoes.js?v=votacoes-3';
+import {votacoesHTML} from '../lib/votacoes.js?v=status-apresentada';
 import {apensacaoHTML,showsApensacao} from '../lib/apensacao.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 // Toda proposta tem um tema real; não existe "Outros".

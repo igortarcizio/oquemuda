@@ -90,6 +90,13 @@ def api(path):
 def patch(id, payload):
     write_json(DB + "?id=eq." + str(int(id)), payload, "PATCH")
 
+def mark_checked(id):
+    """Registra que a ficha foi consultada sem resultado, para ela ir ao fim da fila.
+
+    Não apaga situação nem dados anteriores: só o carimbo da consulta muda.
+    """
+    patch(id, {"situacao_atualizada_em": dt.datetime.now(dt.timezone.utc).isoformat()})
+
 def ensure_rows(rows):
     if rows:
         write_json(DB + "?on_conflict=id", rows, "POST")
@@ -358,6 +365,7 @@ def enrich():
             detail = api("/proposicoes/" + str(id)).get("dados") or {}
             if not detail.get("id"):
                 print("Sem ficha oficial:", id, flush=True)
+                mark_checked(id)
                 continue
             previous = row.get("dados_oficiais") or {}
             # Uma resposta incompleta não deve apagar a última situação válida.
@@ -379,9 +387,9 @@ def enrich():
                 "autoresConsultados": authors_checked,
             })
             stamp = dt.datetime.now(dt.timezone.utc).isoformat()
-            changes = {"dados_oficiais": saved, "atualizado_em": stamp}
-            if stage:
-                changes["situacao_atualizada_em"] = stamp
+            # Sempre marca a consulta, mesmo sem situação: uma ficha sem carimbo volta ao topo
+            # da fila em toda rodada e, se forem muitas, nenhuma proposta nova é consultada.
+            changes = {"dados_oficiais": saved, "atualizado_em": stamp, "situacao_atualizada_em": stamp}
             if stage.get("codSituacao") is not None:
                 changes["situacao_codigo"] = stage["codSituacao"]
             if stage.get("descricaoSituacao"):
@@ -411,6 +419,12 @@ def enrich():
             return done, False
         except Exception as exc:
             print("Falha isolada na ficha", id, str(exc)[:160], flush=True)
+            # Erro permanente (ex.: 404 da Câmara) não pode prender a ficha no topo da fila.
+            try:
+                mark_checked(id)
+            except RuntimeError as write_exc:
+                print("Enriquecimento interrompido após", done, "fichas:", write_exc, flush=True)
+                return done, False
         time.sleep(0.35)
     print("Fichas enriquecidas:", done, "de", len(selected), "| tramitações atualizadas:", tram_done,
           "| textos novos (substitutivo/redação final):", texts_done, flush=True)

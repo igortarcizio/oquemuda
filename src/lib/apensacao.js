@@ -1,7 +1,7 @@
 // Proposta apensada: com quem tramita e quem conduz a tramitação
 // (coluna proposicoes.apensada_a, gravada por scripts/sync_supabase.py).
 import {safeText,dateBR} from './text.js';
-import {normalizeStatus} from './status.js';
+import {normalizeStatus} from './status.js?v=status-apresentada';
 import {orgaoRotulo} from './orgaos.js';
 
 const TYPES=new Set(['PL','PLP','PEC','MPV','PDL','PRC']);
