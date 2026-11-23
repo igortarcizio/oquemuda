@@ -117,6 +117,20 @@ test('banco: ordenar por relevância só com palavras buscadas',async()=>{
  assert.ok(/\/rest\/v1\/proposicoes\?/.test(urls[2])&&!/relevancia/.test(urls[2]),'sem busca, lista normal por data');
 });
 
+test('banco: falha pontual da busca nova usa a antiga só nesta consulta',async()=>{
+ const prev=globalThis.fetch;const urls=[];let falhar=true;
+ globalThis.fetch=async u=>{const s=decodeURIComponent(String(u));urls.push(s);
+  if(/\/rpc\//.test(s)&&falhar){falhar=false;return {ok:false,status:500,headers:{get:()=>null},json:async()=>({})}}
+  return {ok:true,status:200,headers:{get:()=> '0-0/0'},json:async()=>[]}};
+ try{
+  await getDatabaseProposals({keywords:'saúde',year:'Todos',type:'Todos'});
+  await getDatabaseProposals({keywords:'saúde',year:'Todos',type:'Todos'});
+ }finally{globalThis.fetch=prev}
+ assert.equal(urls.length,3);
+ assert.match(urls[1],/ementa_busca\.ilike\.\*saude\*/);
+ assert.match(urls[2],/\/rpc\/buscar_proposicoes/,'a próxima busca volta a usar a função');
+});
+
 // Por último: a falta da função no banco desliga a busca nova pelo resto da sessão.
 test('banco sem a função de texto completo: volta ao ilike, com exclusão',async()=>{
  const prev=globalThis.fetch;const urls=[];

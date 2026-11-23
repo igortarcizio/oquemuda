@@ -1,5 +1,5 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=busca-texto-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=busca-texto-2';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {jointListHTML} from './lib/apensacao.js';
