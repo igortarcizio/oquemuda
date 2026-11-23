@@ -78,6 +78,19 @@ class CargaTests(unittest.TestCase):
         self.assertEqual(code, 2)
         self.assertIn("continuar=nao", out)
 
+    def test_instabilidade_depois_de_avancar_retoma_apos_pausa(self):
+        chamadas = {"n": 0}
+        def api(path):
+            chamadas["n"] += 1
+            if path.startswith("/proposicoes/3/"):
+                raise RuntimeError("API da Câmara indisponível após 3 tentativas (TimeoutError)")
+            return {"dados": [tram(1)]}
+        gravados, out, code = self.run_main([[1, 2], [3], [4]], api, PRAZO_MINUTOS=10, LIMITE=0)
+        self.assertEqual(sorted(gravados), [1, 2])
+        self.assertEqual(code, 2)
+        self.assertIn("continuar=sim", out)
+        self.assertIn("pausa=300", out)
+
     def test_prazo_esgotado_com_fila_pede_proxima_rodada(self):
         filas = [[1, 2], [3, 4], [5]]
         relogio = iter([0, 0, 10**6, 10**6, 10**6])

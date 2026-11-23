@@ -8,7 +8,9 @@ autoria nem no texto atual. Só grava tramitacoes, tramitacoes_seq e tramitacoes
 - Fila: propostas com tramitacoes_seq nulo, da mais nova para a mais antiga (por id).
 - Proposta sem nenhuma movimentação na Câmara: lista vazia e sequência 0 (fica conferida).
 - Falha isolada numa proposta: pula e segue; ela volta na próxima execução.
-- Câmara fora do ar (3 tentativas) ou banco falhando: para e avisa, sem apagar nada.
+- Câmara fora do ar (3 tentativas) ou banco falhando: para e avisa, sem apagar nada. Se a
+  rodada já tinha avançado, o workflow espera alguns minutos e dispara a próxima; uma rodada
+  que não grava nada encerra a corrente.
 - Prazo (PRAZO_MINUTOS): ao terminar o tempo com fila restante, escreve continuar=sim em
   GITHUB_OUTPUT para o workflow disparar a próxima rodada.
 """
@@ -92,6 +94,8 @@ def main():
     resumo = f"**Histórico:** {feitas} propostas gravadas ({vazias} sem movimentação), {falhas} falhas."
     if interrompido:
         resumo += f" Interrompido: {interrompido}"
+        if feitas:
+            resumo += " A próxima rodada tenta de novo depois de uma pausa."
     elif acabou_tempo and restam:
         resumo += " Ainda há fila; a próxima rodada continua."
     elif por_limite and restam:
@@ -102,8 +106,11 @@ def main():
     saida = os.getenv("GITHUB_OUTPUT")
     if saida:
         with open(saida, "a", encoding="utf-8") as f:
-            # Só continua sozinho se esta rodada avançou e parou por tempo (não por falha).
-            f.write("continuar=" + ("sim" if acabou_tempo and restam and feitas and not interrompido else "nao") + "\n")
+            # Continua sozinho se esta rodada avançou e parou por tempo ou por instabilidade da
+            # Câmara. Rodada sem nenhum avanço encerra a corrente (evita insistir com a Câmara fora do ar).
+            segue = feitas and ((acabou_tempo and restam) or interrompido)
+            f.write("continuar=" + ("sim" if segue else "nao") + "\n")
+            f.write("pausa=" + ("300" if interrompido else "0") + "\n")
     resumo_md = os.getenv("GITHUB_STEP_SUMMARY")
     if resumo_md:
         with open(resumo_md, "a", encoding="utf-8") as f:

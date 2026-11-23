@@ -35,7 +35,11 @@ jobs:
           PRAZO_MINUTOS: '300'
         run: python -u scripts/historico_tramitacoes.py
       - name: Disparar a próxima rodada
-        if: success() && steps.carga.outputs.continuar == 'sim'
+        # Também depois de instabilidade da Câmara, se a rodada avançou (espera antes).
+        if: always() && steps.carga.outputs.continuar == 'sim'
         env:
           GH_TOKEN: ${{ github.token }}
-        run: gh workflow run historico-tramitacoes.yml --repo "$GITHUB_REPOSITORY" --ref main
+          PAUSA: ${{ steps.carga.outputs.pausa || '0' }}
+        run: |
+          sleep "$PAUSA"
+          gh workflow run historico-tramitacoes.yml --repo "$GITHUB_REPOSITORY" --ref main
