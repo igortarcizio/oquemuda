@@ -35,7 +35,11 @@ export function semPlacar(texto){
  return String(texto||'').replace(/\s*(Resultado\.?\s*)?(Sim|Não|Abstenç(ão|ões)|Obstrução|Total|Art(igo|\.)\s*17)\s*:\s*\d+[;.]?/gi,'').trim()||String(texto||'');
 }
 
-const TIPO_ROTULO={urgencia:'Pedido de urgência',requerimento:'Requerimento',emenda:'Emenda ou destaque',outra:'Votação de procedimento'};
+// Por que não listamos os votos nessas: não decidiram a proposta como um todo.
+const TIPO_NOTA={urgencia:'Pedido de urgência: decide só se a proposta anda mais rápido, não o conteúdo.',
+ requerimento:'Requerimento: pedido sobre o andamento (adiar, retirar de pauta etc.), não sobre o conteúdo.',
+ emenda:'Emenda ou destaque: decide um trecho do texto, não a proposta inteira.',
+ outra:'Votação de um trecho ou de procedimento, não da proposta inteira.'};
 const ORIENTACAO={'Sim':'a favor','Não':'contra','Liberado':'liberou a bancada','Obstrução':'obstrução','Abstenção':'abstenção'};
 
 /** As que contam para "quem foi a favor ou contra": nominais sobre o texto. */
@@ -81,7 +85,7 @@ function principalHTML(v){
 
 function outraHTML(v){
  const nota=v.tipo==='texto'?(v.nominal?'':'Votação simbólica: a Câmara registra só o resultado, sem o voto de cada deputado.')
-  :TIPO_ROTULO[v.tipo]+(v.nominal?': não decidiu o conteúdo da proposta, por isso não listamos os votos.':'. Não decidiu o conteúdo da proposta.');
+  :TIPO_NOTA[v.tipo]+(v.nominal?' Por isso a ficha mostra só o placar.':'');
  return '<li class="vote-item"><p class="vote-when">'+safeText(quando(v))+'</p><p class="vote-what">'+safeText(v.nominal?semPlacar(v.descricao):v.descricao)+'</p>'+
   (v.nominal&&v.placar?placarHTML(v.placar,{compact:true}):'')+(nota?'<p class="small-note">'+safeText(nota)+'</p>':'')+'</li>';
 }
