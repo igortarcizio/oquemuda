@@ -399,9 +399,6 @@ abbr.history-org{text-decoration:none;cursor:help}
 .vote-names li{break-inside:avoid;padding:2px 0}
 .vote-names a{color:var(--ink)}
 .vote-party,.vote-kind{color:var(--text);font-size:13px}
-.vote-orient{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0;padding:0;list-style:none;font-size:13px}
-.vote-orient li{padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--text)}
-.vote-orient li span{font-weight:600;color:var(--ink)}
 .vote-others{margin-top:16px}
 .vote-others .vote-item{margin-top:10px}
 @media(max-width:640px){.vote-item{padding:14px}.vote-names{columns:1}}
