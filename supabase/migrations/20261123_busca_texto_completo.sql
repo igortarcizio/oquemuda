@@ -4,7 +4,7 @@
 --
 -- Quem escreve: os gatilhos abaixo mantêm a coluna busca sozinhos (sync e resumos por IA
 --   não precisam mudar). Quem lê: o site, com a chave pública, pela função buscar_proposicoes.
--- Idempotente: pode rodar de novo.
+-- Idempotente: pode rodar de novo. Depois dela, preencher em lotes (ver busca_preencher).
 --
 -- O que entra na busca, por peso: título curto da IA (A), ementa (B) e resumo da IA (C).
 -- Só textos de IA publicados (status = 'publicado').
@@ -98,13 +98,28 @@ create trigger resumos_ia_busca
   after insert or delete or update of titulo, resumo, status on public.resumos_ia
   for each row execute function public.resumos_ia_busca_atualiza();
 
--- Preenche as propostas que já estão no banco.
-update public.proposicoes p
-   set busca = public.busca_documento(p.ementa, x.titulo, x.resumo)
-  from (select p2.id, r.titulo, r.resumo
-          from public.proposicoes p2
-          left join public.resumos_ia r on r.proposicao_id = p2.id and r.status = 'publicado') x
- where p.id = x.id;
+-- Preenche as propostas que já estão no banco, em lotes: de uma vez só, as ~15 mil
+-- propostas passam do limite de 2 minutos do SQL Editor (e o Postgres desfaz tudo).
+-- Depois desta migration, rodar até voltar 0:  select public.busca_preencher();
+create or replace function public.busca_preencher(lote integer default 1000)
+returns integer
+language sql
+set search_path = ''
+as $$
+  with alvo as (
+    select id from public.proposicoes where busca is null order by id limit lote
+  ), feitas as (
+    update public.proposicoes p
+       set busca = public.busca_documento(p.ementa,
+             (select r.titulo from public.resumos_ia r where r.proposicao_id = p.id and r.status = 'publicado'),
+             (select r.resumo from public.resumos_ia r where r.proposicao_id = p.id and r.status = 'publicado'))
+      from alvo
+     where p.id = alvo.id
+    returning 1
+  )
+  select count(*)::integer from feitas
+$$;
+revoke execute on function public.busca_preencher(integer) from public, anon, authenticated;
 
 grant select (busca) on public.proposicoes to anon, authenticated;
 
