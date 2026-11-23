@@ -40,7 +40,7 @@ test('ficha mostra quem votou a favor e contra na nominal do texto',()=>{
  assert.match(html,/Votaram contra \(<span data-vote-count>1<\/span>\)/);
  assert.match(html,/href="https:\/\/www.camara.leg.br\/deputados\/2"[^>]*>Ana<span class="sr-only">/);
  assert.match(html,/Hugo Motta.*não votou \(presidia a sessão\)/);
- assert.match(html,/<li><span>Minoria<\/span> liberou a bancada<\/li>/);
+ assert.ok(!html.includes('orientaram')&&!html.includes('Minoria'),'orientação das lideranças não aparece');
  assert.ok(!html.includes('<b>x</b>'));
  assert.match(html,/Outras votações \(2\)/);
  assert.match(html,/Pedido de urgência: decide só se a proposta anda mais rápido, não o conteúdo. Por isso a ficha mostra só o placar./);

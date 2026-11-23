@@ -40,7 +40,6 @@ const TIPO_NOTA={urgencia:'Pedido de urgência: decide só se a proposta anda ma
  requerimento:'Requerimento: pedido sobre o andamento (adiar, retirar de pauta etc.), não sobre o conteúdo.',
  emenda:'Emenda ou destaque: decide um trecho do texto, não a proposta inteira.',
  outra:'Votação de um trecho ou de procedimento, não da proposta inteira.'};
-const ORIENTACAO={'Sim':'a favor','Não':'contra','Liberado':'liberou a bancada','Obstrução':'obstrução','Abstenção':'abstenção'};
 
 /** As que contam para "quem foi a favor ou contra": nominais sobre o texto. */
 export const principais=list=>(list||[]).filter(v=>v.nominal&&v.tipo==='texto'&&v.votos.length);
@@ -68,9 +67,6 @@ function principalHTML(v){
  const k='vot'+(++seq);
  const sim=v.votos.filter(d=>GRUPO[d.voto]==='sim'),nao=v.votos.filter(d=>GRUPO[d.voto]==='nao'),outros=v.votos.filter(d=>GRUPO[d.voto]==='outros');
  const opts=(vals,todos)=>'<option value="">'+todos+'</option>'+[...new Set(vals.filter(Boolean))].sort((a,b)=>a.localeCompare(b,'pt-BR')).map(x=>'<option>'+safeText(x)+'</option>').join('');
- const orient=v.orientacoes.length?'<details class="vote-group"><summary><span>Como as lideranças orientaram ('+v.orientacoes.length+')</span></summary>'+
-  '<p class="small-note">Orientação é a recomendação do líder de cada partido, bloco, governo ou oposição. O deputado pode votar diferente.</p>'+
-  '<ul class="vote-orient">'+v.orientacoes.map(([s,o])=>'<li><span>'+safeText(s)+'</span> '+safeText(ORIENTACAO[o]||o.toLowerCase())+'</li>').join('')+'</ul></details>':'';
  const grupo=(titulo,deps,voto)=>deps.length?'<details class="vote-group" data-vote-group><summary><span>'+titulo+' (<span data-vote-count>'+deps.length+'</span>)</span></summary>'+listaDeps(deps,voto)+
   '<p class="small-note" data-vote-empty hidden>Ninguém com esse filtro.</p></details>':'';
  return '<article class="vote-item main" id="'+k+'" data-vote-box>'+
@@ -79,7 +75,7 @@ function principalHTML(v){
   '<div class="vote-filters"><div><label for="'+k+'-uf">Estado</label><select id="'+k+'-uf" data-vote-filter="uf">'+opts(v.votos.map(d=>d.uf),'Todos')+'</select></div>'+
   '<div><label for="'+k+'-partido">Partido</label><select id="'+k+'-partido" data-vote-filter="partido">'+opts(v.votos.map(d=>d.partido),'Todos')+'</select></div></div>'+
   '<p class="sr-only" aria-live="polite" data-vote-status></p>'+
-  grupo('Votaram a favor',sim)+grupo('Votaram contra',nao)+grupo('Outros: abstenção, obstrução ou presidência',outros,true)+orient+
+  grupo('Votaram a favor',sim)+grupo('Votaram contra',nao)+grupo('Outros: abstenção, obstrução ou presidência',outros,true)+
   '</article>';
 }
 

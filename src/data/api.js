@@ -5,7 +5,7 @@ import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 import {normalizeApensacao} from '../lib/apensacao.js';
 import {normalizeSenado} from '../lib/senado.js?v=senado-1';
-import {normalizeVotacoes} from '../lib/votacoes.js?v=votacoes-2';
+import {normalizeVotacoes} from '../lib/votacoes.js?v=votacoes-3';
 import {parseSearch,matchesToken} from '../lib/search.js';
 import {isTheme} from '../lib/temas-oficiais.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
