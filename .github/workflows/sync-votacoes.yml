@@ -10,6 +10,9 @@ on:
       limite:
         description: 'Máximo de propostas nesta rodada (0 = até o prazo)'
         default: '0'
+      ids:
+        description: 'Só estas propostas (ids separados por vírgula), mesmo sem movimentação nova'
+        default: ''
 concurrency:
   group: sync-votacoes
   cancel-in-progress: false
@@ -33,6 +36,7 @@ jobs:
           SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
           SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
           LIMITE: ${{ github.event.inputs.limite || '0' }}
+          IDS: ${{ github.event.inputs.ids || '' }}
           PRAZO_MINUTOS: '300'
         run: python -u scripts/sync_votacoes.py
       - name: Disparar a próxima rodada

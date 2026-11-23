@@ -32,6 +32,8 @@ TRABALHADORES = max(1, min(8, int(os.getenv("TRABALHADORES", "4"))))
 PAUSA = float(os.getenv("PAUSA", "0.25"))
 PRAZO_MINUTOS = float(os.getenv("PRAZO_MINUTOS", "300"))
 LIMITE = int(os.getenv("LIMITE", "0"))  # 0 = sem limite
+# Propostas específicas (ids separados por vírgula): consulta de novo mesmo sem movimentação nova.
+IDS = [int(x) for x in re.findall(r"\d+", os.getenv("IDS", ""))]
 PARAR = threading.Event()
 TIPOS_VOTO = {"Sim": "sim", "Não": "nao", "Abstenção": "abstencao", "Obstrução": "obstrucao", "Artigo 17": "art17"}
 PLACAR = re.compile(r"\bSim:\s*\d+", re.I)
@@ -118,6 +120,9 @@ def votacoes_da_proposta(id):
 
 def alvos():
     """Propostas com histórico e movimentação nova desde a última consulta, mais novas primeiro."""
+    if IDS:
+        q = urllib.parse.urlencode({"select": "id,tramitacoes_seq,votacoes_seq", "id": "in.(" + ",".join(map(str, IDS)) + ")"})
+        return SYNC.read_json(SYNC.DB + "?" + q, SYNC.DB_HEADERS, timeout=30)
     out, offset = [], 0
     while True:
         q = urllib.parse.urlencode({"select": "id,tramitacoes_seq,votacoes_seq", "tramitacoes_seq": "not.is.null",
