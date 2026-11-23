@@ -191,7 +191,7 @@ let fullTextSearch=true;
 export const SORTS=Object.freeze({recentes:'data_apresentacao.desc,id.desc',relevancia:'relevancia.desc,data_apresentacao.desc,id.desc'});
 // Colunas de tema (migration 20261119_temas_oficiais); sem elas (HTTP 400), filtro pelas tags.
 let themeColumns=true;
-export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],sort='recentes',signal}={}){
+export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],sort='recentes',signal,_ilike=false}={}){
  if(party!=='Todos'&&!/^[\p{L}.]{2,20}$/u.test(party))throw new SourceError('Partido inválido');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
  const withThemes=themeColumns;
@@ -204,7 +204,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   if(search.ref.sigla)q.set('sigla_tipo','eq.'+search.ref.sigla);
   year='Todos';type='Todos';tag='';theme='';party='Todos';situationCodes='';presentedSince='';excludeIds=[];
  }
- const fullText=fullTextSearch&&!search.ref&&!!search.query;
+ const fullText=fullTextSearch&&!_ilike&&!search.ref&&!!search.query;
  if(fullText){
   q.set('q',search.query);
   // O PostgREST só filtra e ordena o resultado de uma função pelas colunas pedidas no
@@ -240,6 +240,9 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  try{
   const response=await fetch((fullText?SEARCH_URL:DB_URL)+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal:controller.signal});
   if(fullText&&(response.status===404||response.status===400)){fullTextSearch=false;return getDatabaseProposals(arguments[0])}
+  // Falha pontual da busca nova (ex.: tempo limite da chave pública, 3 s): esta consulta
+  // usa a busca antiga, e a próxima tenta a nova de novo.
+  if(fullText&&response.status>=500)return getDatabaseProposals({...arguments[0],_ilike:true});
   if(response.status===400&&withThemes){themeColumns=false;return getDatabaseProposals(arguments[0])}
   if(!response.ok)throw new SourceError('Banco de dados: HTTP '+response.status);
   const data=await response.json();
