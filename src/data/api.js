@@ -162,6 +162,11 @@ function normalizedSnapshot(){
  if(source!==snapshotSource){snapshotSource=source;snapshotItems=source.map(p=>normalizeProposal(p,getEditorial(p.id)))}
  return snapshotItems;
 }
+// Cópia local: palavra inteira, sem acento e com plural simples, como a busca do banco.
+function searchable(p,search){
+ const text=fold([p.ementa,p.titulo,p.impacto,ref(p)].join(' '));
+ return search.tokens.every(t=>matchesToken(text,t))&&!search.exclude.some(t=>matchesToken(text,t));
+}
 export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',area='Todos'}={}){
  if(party!=='Todos')return null; // Cache não traz autoria completa; jamais filtrar partido por suposição.
  const all=normalizedSnapshot();
@@ -170,7 +175,7 @@ export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keyword
  const filtered=r?all.filter(p=>p.numero===r.numero&&(!r.ano||p.ano===r.ano)&&(!r.sigla||p.siglaTipo===r.sigla)):
   all.filter(p=>(year==='Todos'||String(p.ano)===year)&&(!sigla||p.siglaTipo===sigla)
    &&(area==='Todos'||p.area===area)&&(!tag||p.tags.includes(tag))
-   &&(!search.tokens.length||search.tokens.every(t=>matchesToken(fold([p.ementa,p.titulo,p.impacto,ref(p)].join(' ')),t))));
+   &&(!search.tokens.length||searchable(p,search)));
  return {items:filtered.slice((page-1)*30,page*30),page,totalPages:Math.max(1,Math.ceil(filtered.length/30)),
   hasNext:page<Math.ceil(filtered.length/30),source:'cópia parcial'};
 }
@@ -178,9 +183,15 @@ export function fromSnapshot({page=1,year='2026',type='PL',party='Todos',keyword
 /** Leitura principal do catálogo persistido. Chave pública com RLS somente leitura. */
 const DB_URL='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/proposicoes';
 const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
+// Busca de texto completo (migration 20261123_busca_texto_completo): palavra inteira, sem
+// acento, plural, número de lei com ou sem ponto, frase entre aspas e "-palavra" para excluir,
+// também no título e no resumo da IA. Sem a função no banco (HTTP 404/400), volta ao ilike.
+const SEARCH_URL=DB_URL.replace(/\/proposicoes$/,'/rpc/buscar_proposicoes');
+let fullTextSearch=true;
+export const SORTS=Object.freeze({recentes:'data_apresentacao.desc,id.desc',relevancia:'relevancia.desc,data_apresentacao.desc,id.desc'});
 // Colunas de tema (migration 20261119_temas_oficiais); sem elas (HTTP 400), filtro pelas tags.
 let themeColumns=true;
-export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],signal}={}){
+export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],sort='recentes',signal}={}){
  if(party!=='Todos'&&!/^[\p{L}.]{2,20}$/u.test(party))throw new SourceError('Partido inválido');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
  const withThemes=themeColumns;
@@ -193,16 +204,24 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   if(search.ref.sigla)q.set('sigla_tipo','eq.'+search.ref.sigla);
   year='Todos';type='Todos';tag='';theme='';party='Todos';situationCodes='';presentedSince='';excludeIds=[];
  }
+ const fullText=fullTextSearch&&!search.ref&&!!search.query;
+ if(fullText){
+  q.set('q',search.query);
+  // O PostgREST só filtra e ordena o resultado de uma função pelas colunas pedidas no
+  // select: tema (areas), partido (partidos) e relevância precisam vir junto.
+  q.set('select',q.get('select').replace(/,area$/,'')+',area,areas,partidos,relevancia');
+  // Relevância só faz sentido com palavras buscadas; o padrão continua sendo a data.
+  if(sort==='relevancia')q.set('order',SORTS.relevancia);
+ }
  if(year!=='Todos')q.set('ano','eq.'+year);
  const sigla=search.sigla||(type!=='Todos'?type:'');
  if(sigla)q.set('sigla_tipo','eq.'+sigla);
  if(tag)q.set('tags','cs.{'+tag+'}');
  // Partido de qualquer autor (coluna calculada pelo banco a partir de dados_oficiais.autores).
  if(party!=='Todos')q.set('partidos','cs.{"'+party+'"}');
- // Busca: cada palavra precisa aparecer na ementa, em qualquer ordem.
- // Tema: propostas com ao menos um assunto do tema (aproximação até existir a coluna area no banco).
- // ementa_busca é a ementa em minúsculas e sem acento: "saude" encontra "Saúde".
- const conditions=search.tokens.map(t=>'ementa_busca.ilike.*'+fold(t)+'*');
+ // Busca antiga (plano B, sem a função de texto completo): cada palavra precisa aparecer na
+ // ementa_busca (ementa em minúsculas e sem acento), em qualquer ordem, como pedaço de texto.
+ const conditions=fullText?[]:[...search.tokens.map(t=>'ementa_busca.ilike.*'+fold(t)+'*'),...search.exclude.map(t=>'ementa_busca.not.ilike.*'+fold(t)+'*')];
  if(theme){
   if(!THEME_TAGS[theme])throw new SourceError('Tema inválido');
   const byTags='tags.ov.{'+THEME_TAGS[theme].map(t=>'"'+t+'"').join(',')+'}';
@@ -219,7 +238,8 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  const onAbort=()=>controller.abort();
  signal?.addEventListener('abort',onAbort,{once:true});
  try{
-  const response=await fetch(DB_URL+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal:controller.signal});
+  const response=await fetch((fullText?SEARCH_URL:DB_URL)+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal:controller.signal});
+  if(fullText&&(response.status===404||response.status===400)){fullTextSearch=false;return getDatabaseProposals(arguments[0])}
   if(response.status===400&&withThemes){themeColumns=false;return getDatabaseProposals(arguments[0])}
   if(!response.ok)throw new SourceError('Banco de dados: HTTP '+response.status);
   const data=await response.json();

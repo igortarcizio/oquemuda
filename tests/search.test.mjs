@@ -25,7 +25,7 @@ test('lê referências em vários formatos',()=>{
 });
 
 test('sigla solta vira filtro de tipo, não pedaço de palavra',()=>{
- assert.deepEqual(parseSearch('PEC saúde'),{ref:null,sigla:'PEC',tokens:['saude']});
+ assert.deepEqual(parseSearch('PEC saúde'),{ref:null,sigla:'PEC',tokens:['saude'],exclude:[],query:'saude'});
  assert.deepEqual(parseSearch('pl aplicativos').tokens,['aplicativos']);
 });
 
@@ -53,8 +53,8 @@ test('banco: "PEC saúde" filtra tipo e procura só a palavra',async()=>{
  try{await getDatabaseProposals({keywords:'PEC saúde',year:'Todos',type:'Todos'})}
  finally{globalThis.fetch=prev}
  assert.match(url,/sigla_tipo=eq\.PEC/);
- assert.match(url,/and=\(ementa_busca\.ilike\.\*saude\*\)/);
- assert.ok(!/ilike\.\*pec\*/.test(url));
+ assert.match(url,/[?&]q=saude(&|$)/);
+ assert.ok(!/q=pec|ilike\.\*pec\*/.test(url));
 });
 
 test('Câmara ao vivo: referência vira numero/ano/siglaTipo',async()=>{
@@ -73,4 +73,61 @@ test('cópia local: "PL 999/2026" não devolve PL 4999 nem PL 3999 (caso do prin
  assert.deepEqual(r.items.map(p=>p.id),[]);
  assert.deepEqual(fromSnapshot({keywords:'PL 4999/2026',year:'Todos',type:'Todos'}).items.map(p=>p.id),[1]);
  assert.deepEqual(fromSnapshot({keywords:'PEC saúde',year:'Todos',type:'Todos'}).items.map(p=>p.id),[3]);
+});
+
+test('texto da busca: aspas, exclusão e número de lei',()=>{
+ assert.deepEqual(parseSearch('violência -doméstica'),{ref:null,sigla:null,tokens:['violencia'],exclude:['domestica'],query:'violencia -domestica'});
+ assert.equal(parseSearch('"violência doméstica" mulher').query,'"violencia domestica" mulher');
+ assert.deepEqual(parseSearch('lei 8.080').tokens,['lei','8080']);
+ assert.equal(parseSearch('Lei nº 14.172').query,'lei n 14172');
+ assert.equal(parseSearch('de da').query,'','só palavras vazias não viram busca');
+ assert.equal(parseSearch('PL 999/2026').query,'');
+});
+
+test('palavra inteira com plural simples (cópia local)',()=>{
+ const h='altera a lei no 8.080 para tratar de aplicativos, leite e farmaceuticos do pre-sal';
+ assert.ok(matchesToken(h,'lei'));
+ assert.ok(!matchesToken('proibe a venda de leite cru','lei'),'"lei" não encontra "leite"');
+ assert.ok(!matchesToken(h,'arma'),'"arma" não encontra "farmacêuticos"');
+ assert.ok(matchesToken(h,'8080'));
+ assert.ok(matchesToken(h,'aplicativo')&&matchesToken('dispoe sobre aplicativo','aplicativos'));
+ assert.ok(matchesToken(h,'pre-sal'));
+ assert.ok(matchesToken('acoes judiciais','acao')&&matchesToken('acao judicial','acoes'));
+});
+
+test('cópia local: "lei" não traz leite e "-palavra" exclui',()=>{
+ window.OBM_DATA.items=[...window.OBM_DATA.items,{id:5,siglaTipo:'PL',numero:51,ano:2026,ementa:'Proíbe a venda de leite cru.',dataApresentacao:'2026-03-03'}];
+ assert.deepEqual(fromSnapshot({keywords:'lei',year:'Todos',type:'Todos'}).items.map(p=>p.id),[]);
+ assert.deepEqual(fromSnapshot({keywords:'leite',year:'Todos',type:'Todos'}).items.map(p=>p.id),[5]);
+ assert.deepEqual(fromSnapshot({keywords:'saúde -aplicativos',year:'Todos',type:'Todos'}).items.map(p=>p.id),[3]);
+ assert.deepEqual(fromSnapshot({keywords:'aplicativo',year:'Todos',type:'Todos'}).items.map(p=>p.id),[4]);
+});
+
+test('banco: ordenar por relevância só com palavras buscadas',async()=>{
+ const prev=globalThis.fetch;const urls=[];
+ globalThis.fetch=async u=>{urls.push(decodeURIComponent(String(u)));return {ok:true,status:200,headers:{get:()=> '0-0/0'},json:async()=>[]}};
+ try{
+  await getDatabaseProposals({keywords:'aposentadoria',year:'Todos',type:'Todos',sort:'relevancia'});
+  await getDatabaseProposals({keywords:'aposentadoria',year:'Todos',type:'Todos'});
+  await getDatabaseProposals({keywords:'',year:'Todos',type:'Todos',sort:'relevancia'});
+ }finally{globalThis.fetch=prev}
+ assert.match(urls[0],/order=relevancia\.desc,data_apresentacao\.desc,id\.desc/);
+ assert.match(urls[0],/select=[^&]*,area,areas,partidos,relevancia(&|$)/,'filtros e ordem precisam das colunas no select');
+ assert.match(urls[1],/order=data_apresentacao\.desc,id\.desc/);
+ assert.ok(/\/rest\/v1\/proposicoes\?/.test(urls[2])&&!/relevancia/.test(urls[2]),'sem busca, lista normal por data');
+});
+
+// Por último: a falta da função no banco desliga a busca nova pelo resto da sessão.
+test('banco sem a função de texto completo: volta ao ilike, com exclusão',async()=>{
+ const prev=globalThis.fetch;const urls=[];
+ globalThis.fetch=async u=>{const s=decodeURIComponent(String(u));urls.push(s);
+  return /\/rpc\//.test(s)?{ok:false,status:404,headers:{get:()=>null},json:async()=>({})}:{ok:true,status:200,headers:{get:()=> '0-0/0'},json:async()=>[]}};
+ try{await getDatabaseProposals({keywords:'saúde -aplicativos',year:'Todos',type:'Todos',sort:'relevancia'})}
+ finally{globalThis.fetch=prev}
+ assert.equal(urls.length,2);
+ assert.match(urls[0],/\/rpc\/buscar_proposicoes/);
+ assert.match(urls[1],/\/rest\/v1\/proposicoes\?/);
+ assert.match(urls[1],/ementa_busca\.ilike\.\*saude\*/);
+ assert.match(urls[1],/ementa_busca\.not\.ilike\.\*aplicativos\*/);
+ assert.ok(!/relevancia/.test(urls[1]));
 });
