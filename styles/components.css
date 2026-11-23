@@ -374,3 +374,34 @@ abbr.history-org{text-decoration:none;cursor:help}
 .senado-box .history-toggle{margin-top:8px}
 .senado-box .small-note{margin-top:10px}
 @media(max-width:640px){.senado-box{padding:16px}.senado-facts>div{grid-template-columns:1fr;gap:2px}}
+
+/* "Como votaram na Câmara" (src/lib/votacoes.js). Favor e contra em tons neutros: a ficha não julga o voto. */
+.vote-item{list-style:none;margin:14px 0 0;padding:16px 18px;background:#fff;border:1px solid var(--line);border-radius:12px}
+.vote-item.main{border-left:3px solid var(--area,var(--ink))}
+.vote-list{margin:0;padding:0}
+.vote-when{margin:0;font-size:13px;font-weight:600;color:var(--text)}
+.vote-what{margin:4px 0 0;font-size:15px;line-height:1.45;color:var(--ink)}
+.vote-score{margin-top:12px}
+.vote-totals{display:flex;flex-wrap:wrap;gap:6px 20px;margin:0;font-size:15px;color:var(--text)}
+.vote-totals strong{font-size:22px;font-weight:700;color:var(--ink);margin-right:4px}
+.vote-score.compact .vote-totals strong{font-size:15px}
+.vote-bar{display:flex;height:10px;margin-top:8px;border-radius:5px;overflow:hidden;background:var(--secondary)}
+.vote-bar-sim{background:var(--ink)}
+.vote-bar-nao{background:repeating-linear-gradient(135deg,var(--text) 0 4px,var(--line-strong) 4px 8px)}
+.vote-filters{display:flex;flex-wrap:wrap;align-items:center;gap:8px 10px;margin-top:14px;font-size:14px}
+.vote-filters>div{display:flex;align-items:center;gap:8px}
+.vote-filters label{font-weight:600;color:var(--text)}
+.vote-filters select{min-height:44px;padding:0 10px;border:1px solid var(--field-border);border-radius:8px;background:#fff;font:inherit;color:var(--ink)}
+.vote-group{margin-top:10px;border-top:1px solid var(--line);padding-top:6px}
+.vote-group>summary{min-height:44px;display:flex;align-items:center;cursor:pointer;font-weight:500;font-size:15px;color:var(--ink);text-decoration:underline;text-decoration-color:var(--signal);text-underline-offset:4px}
+.vote-group>summary:focus-visible{outline:3px solid var(--focus);outline-offset:3px;border-radius:4px}
+.vote-names{columns:2 240px;column-gap:24px;margin:6px 0 4px;padding:0;list-style:none;font-size:14px;line-height:1.5}
+.vote-names li{break-inside:avoid;padding:2px 0}
+.vote-names a{color:var(--ink)}
+.vote-party,.vote-kind{color:var(--text);font-size:13px}
+.vote-orient{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 0;padding:0;list-style:none;font-size:13px}
+.vote-orient li{padding:4px 8px;border:1px solid var(--line);border-radius:999px;color:var(--text)}
+.vote-orient li span{font-weight:600;color:var(--ink)}
+.vote-others{margin-top:16px}
+.vote-others .vote-item{margin-top:10px}
+@media(max-width:640px){.vote-item{padding:14px}.vote-names{columns:1}}

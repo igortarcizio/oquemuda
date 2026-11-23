@@ -5,6 +5,7 @@ import {THEME_TAGS} from '../lib/themes.js';
 import {normalizeTramitacoes,normalizeTextoAtual} from '../lib/tramitacoes.js';
 import {normalizeApensacao} from '../lib/apensacao.js';
 import {normalizeSenado} from '../lib/senado.js?v=senado-1';
+import {normalizeVotacoes} from '../lib/votacoes.js?v=votacoes-1';
 import {parseSearch,matchesToken} from '../lib/search.js';
 import {isTheme} from '../lib/temas-oficiais.js';
 const API='https://dadosabertos.camara.leg.br/api/v2';
@@ -265,7 +266,7 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
 const DETAIL_COLS='id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,dados_oficiais,situacao_atualizada_em';
 // Colunas das migrations de 19/11, das mais novas para as mais antigas. Se uma ainda não
 // existir (HTTP 400), a ficha tenta sem ela e lembra a escolha.
-const EXTRA_COLS=[',tramitacoes,texto_atual,apensada_a,area,temas_oficiais,senado',',tramitacoes,texto_atual,apensada_a,area,temas_oficiais',',tramitacoes,texto_atual,apensada_a',',tramitacoes,texto_atual',''];
+const EXTRA_COLS=[',tramitacoes,texto_atual,apensada_a,area,temas_oficiais,senado,votacoes',',tramitacoes,texto_atual,apensada_a,area,temas_oficiais,senado',',tramitacoes,texto_atual,apensada_a,area,temas_oficiais',',tramitacoes,texto_atual,apensada_a',',tramitacoes,texto_atual',''];
 let extraLevel=0;
 /** Ficha persistida: nunca depende de a Câmara responder no momento da leitura. */
 export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={}){
@@ -288,7 +289,7 @@ export async function getDatabaseDetail(id,{signal,fetchImpl=globalThis.fetch}={
   proposal.textoAtual=normalizeTextoAtual(d.texto_atual);
   proposal.virouLei=isLaw(officialStatus);
   return {proposal,tramitacoes:normalizeTramitacoes(d.tramitacoes),textoAtual:proposal.textoAtual,apensacao:normalizeApensacao(d.apensada_a),
-   senado:normalizeSenado(d.senado),
+   senado:normalizeSenado(d.senado),votacoes:normalizeVotacoes(d.votacoes),
    status:officialStatus||(d.situacao_atualizada_em?{...STATUS.unknown,detail:'A Câmara não informou a situação na consulta.'}:{...STATUS.unknown,detail:'Dados de situação ainda não obtidos da Câmara.'}),stage,
    authors:Array.isArray(raw.autores)?raw.autores.map(a=>({...a,partido:a.partido||(a.deputadoId?window.OBM_PARTIDOS_DEPUTADOS?.[String(a.deputadoId)]:null)||null})):[],
    authorsChecked:raw.autoresConsultados===true,

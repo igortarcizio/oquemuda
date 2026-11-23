@@ -103,7 +103,7 @@ test('ficha lê a coluna senado e, sem a migration, segue sem ela',async()=>{
  const row={id:1,sigla_tipo:'PL',numero:2391,ano:2026,ementa:'Ementa.',data_apresentacao:'2026-03-10',dados_oficiais:{},senado:NA_CCJ};
  const f=async url=>{const u=decodeURIComponent(String(url));urls.push(u);return {ok:true,status:200,json:async()=>[row]}};
  const d=await getDatabaseDetail(1,{fetchImpl:f});
- assert.match(urls[0],/,senado&/);
+ assert.match(urls[0],/,senado[,&]/);
  assert.equal(d.senado.local.sigla,'CCJ');
  urls.length=0;
  const sem=async url=>{const u=decodeURIComponent(String(url));urls.push(u);return /senado/.test(u)?{ok:false,status:400}:{ok:true,status:200,json:async()=>[{...row,senado:undefined}]}};
