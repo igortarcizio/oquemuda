@@ -58,13 +58,14 @@ def carregar(id):
 def main():
     fim = time.monotonic() + PRAZO_MINUTOS * 60
     feitas = vazias = falhas = 0
-    cursor, interrompido, acabou_tempo = None, None, False
+    cursor, interrompido, acabou_tempo, por_limite = None, None, False, False
     with cf.ThreadPoolExecutor(max_workers=TRABALHADORES) as pool:
         while True:
             if time.monotonic() > fim:
                 acabou_tempo = True
                 break
             if LIMITE and feitas >= LIMITE:
+                por_limite = True
                 break
             ids = fila(cursor)
             if LIMITE:
@@ -93,6 +94,8 @@ def main():
         resumo += f" Interrompido: {interrompido}"
     elif acabou_tempo and restam:
         resumo += " Ainda há fila; a próxima rodada continua."
+    elif por_limite and restam:
+        resumo += " Parou no limite pedido; ainda há fila."
     else:
         resumo += " Fila zerada."
     print(resumo, flush=True)

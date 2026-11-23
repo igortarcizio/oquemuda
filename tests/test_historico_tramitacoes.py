@@ -34,7 +34,7 @@ class CargaTests(unittest.TestCase):
              patch.object(HIST.SYNC, "patch", side_effect=lambda id, p: gravados.__setitem__(id, p)), \
              patch.object(HIST, "PAUSA", 0), \
              patch.dict(os.environ, {"GITHUB_OUTPUT": saida.name}), \
-             patch("sys.stdout", new_callable=io.StringIO):
+             patch("sys.stdout", new_callable=io.StringIO) as stdout:
             for k, v in env.items():
                 setattr(HIST, k, v)
             try:
@@ -42,6 +42,7 @@ class CargaTests(unittest.TestCase):
                 code = 0
             except SystemExit as exc:
                 code = exc.code
+        self.stdout = stdout.getvalue()
         with open(saida.name, encoding="utf-8") as f:
             out = f.read()
         os.unlink(saida.name)
@@ -89,6 +90,7 @@ class CargaTests(unittest.TestCase):
         gravados, out, code = self.run_main([[1, 2, 3], [4, 5]], lambda p: {"dados": [tram(1)]},
                                             PRAZO_MINUTOS=10, LIMITE=2)
         self.assertEqual(sorted(gravados), [1, 2])
+        self.assertNotIn("Fila zerada", self.stdout)
         self.assertIn("continuar=nao", out)
 
 
