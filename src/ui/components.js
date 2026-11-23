@@ -21,7 +21,7 @@ import {STATUS} from '../lib/status.js';
 import {historyHTML,versionNote} from '../lib/tramitacoes.js?v=senado-1';
 import {senadoHTML,senadoEtapa,statusComSenado} from '../lib/senado.js?v=senado-1';
 import {orgaoRotulo} from '../lib/orgaos.js';
-import {votacoesHTML} from '../lib/votacoes.js?v=votacoes-1';
+import {votacoesHTML} from '../lib/votacoes.js?v=votacoes-2';
 import {apensacaoHTML,showsApensacao} from '../lib/apensacao.js';
 const editorial=p=>window.OBM_EDITORIAL?.[String(p.id)]||{};
 // Toda proposta tem um tema real; não existe "Outros".

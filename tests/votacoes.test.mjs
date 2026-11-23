@@ -43,7 +43,7 @@ test('ficha mostra quem votou a favor e contra na nominal do texto',()=>{
  assert.match(html,/<li><span>Minoria<\/span> liberou a bancada<\/li>/);
  assert.ok(!html.includes('<b>x</b>'));
  assert.match(html,/Outras votações \(2\)/);
- assert.match(html,/Pedido de urgência: não decidiu o conteúdo da proposta/);
+ assert.match(html,/Pedido de urgência: decide só se a proposta anda mais rápido, não o conteúdo. Por isso a ficha mostra só o placar./);
  assert.match(html,/<strong>320<\/strong> a favor/);
  assert.ok(html.indexOf('Ádila')<html.indexOf('Zeca'),'ordem alfabética');
 });
