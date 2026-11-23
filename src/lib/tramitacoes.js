@@ -86,16 +86,44 @@ const itemHTML=t=>{
     '</span></li>';
 };
 
-/** Histórico real: últimas movimentações relevantes + lista completa recolhida. */
+export const historyToggleLabel=(total,open)=>open?'Esconder movimentações':'Ver movimentações ('+total+')';
+
+/**
+ * Histórico real, recolhido: a linha do tempo mostra a fase e a lista é o detalhe para quem
+ * quer se aprofundar (as duas abertas juntas pareciam informações diferentes). Abre pelo
+ * botão "Ver movimentações (N)" ou pela etapa atual da linha do tempo ([data-history-toggle]).
+ * O aviso de texto modificado fica sempre visível.
+ */
 export function historyHTML(list,textoAtual=null){
   if(!list.length)return '';
   const relevant=relevantMovements(list);
   const recent=(relevant.length?relevant:list.slice().reverse()).slice(0,SHORT_HISTORY);
   const all=list.slice().reverse();
   const changed=textoAtual?'<p class="history-text-changed"><strong>Texto modificado:</strong> '+versionLabel(textoAtual)+'.'+linkNew(textoAtual)+'</p>':'';
-  return '<div class="history"><h3 class="change-sub" id="historyTitle">Últimas movimentações</h3>'+changed+
+  return '<div class="history">'+changed+
+    '<button type="button" class="history-toggle" id="historyToggle" data-history-toggle data-total="'+all.length+'" aria-expanded="false" aria-controls="historyPanel">'+
+      '<span class="history-toggle-label">'+historyToggleLabel(all.length,false)+'</span><span class="history-toggle-icon" aria-hidden="true">▾</span></button>'+
+    '<div class="history-panel" id="historyPanel" hidden><h3 class="change-sub" id="historyTitle" tabindex="-1">Últimas movimentações</h3>'+
     '<ol class="history-list" aria-labelledby="historyTitle">'+recent.map(itemHTML).join('')+'</ol>'+
     (all.length>recent.length?'<details class="history-all"><summary>Ver todas as '+all.length+' movimentações</summary>'+
       '<ol class="history-list">'+all.map(itemHTML).join('')+'</ol></details>':'')+
-    '<p class="small-note">Fonte: histórico oficial de tramitação da Câmara. Datas no horário de Brasília.</p></div>';
+    '<p class="small-note">Fonte: histórico oficial de tramitação da Câmara. Datas no horário de Brasília.</p></div></div>';
+}
+
+/** Abre ou fecha a lista. Vindo da etapa da linha do tempo, rola até a lista aberta. */
+export function toggleHistory(root=document,{fromStage=false}={}){
+  const panel=root.getElementById?root.getElementById('historyPanel'):root.querySelector('#historyPanel');
+  if(!panel)return false;
+  const open=panel.hidden;
+  panel.hidden=!open;
+  for(const el of root.querySelectorAll('[data-history-toggle]'))el.setAttribute('aria-expanded',String(open));
+  const button=root.querySelector('#historyToggle');
+  const label=button?.querySelector('.history-toggle-label');
+  if(label)label.textContent=historyToggleLabel(button.dataset.total,open);
+  if(open&&fromStage){
+    const reduce=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
+    panel.scrollIntoView?.({block:'nearest',behavior:reduce?'auto':'smooth'});
+    root.querySelector('#historyTitle')?.focus?.({preventScroll:true});
+  }
+  return open;
 }
