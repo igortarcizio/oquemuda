@@ -1,0 +1,33 @@
+name: Andamento no Senado
+# Situação, comissão, relator, resultado e lei gerada no Senado das propostas que a Câmara
+# já aprovou (coluna proposicoes.senado, migration 20261123_senado.sql).
+on:
+  schedule:
+    - cron: '41 11,22 * * *'
+  workflow_dispatch:
+    inputs:
+      limite:
+        description: 'Máximo de propostas nesta rodada (0 = todas)'
+        default: '0'
+concurrency:
+  group: sync-senado
+  cancel-in-progress: false
+permissions:
+  contents: read
+jobs:
+  senado:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Testes do robô do Senado
+        run: python -m unittest tests.test_sync_senado -v
+      - name: Consultar o Senado
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+          LIMITE: ${{ github.event.inputs.limite || '0' }}
+        run: python -u scripts/sync_senado.py

@@ -86,7 +86,7 @@ const itemHTML=t=>{
     '</span></li>';
 };
 
-export const historyToggleLabel=(total,open)=>open?'Esconder movimentações':'Ver movimentações ('+total+')';
+export const historyToggleLabel=(total,open,casa='')=>open?'Esconder movimentações'+casa:'Ver movimentações'+casa+' ('+total+')';
 
 /**
  * Histórico real, recolhido: a linha do tempo mostra a fase e a lista é o detalhe para quem
@@ -94,15 +94,16 @@ export const historyToggleLabel=(total,open)=>open?'Esconder movimentações':'V
  * botão "Ver movimentações (N)" ou pela etapa atual da linha do tempo ([data-history-toggle]).
  * O aviso de texto modificado fica sempre visível.
  */
-export function historyHTML(list,textoAtual=null){
+export function historyHTML(list,textoAtual=null,{casa=''}={}){
   if(!list.length)return '';
   const relevant=relevantMovements(list);
   const recent=(relevant.length?relevant:list.slice().reverse()).slice(0,SHORT_HISTORY);
   const all=list.slice().reverse();
   const changed=textoAtual?'<p class="history-text-changed"><strong>Texto modificado:</strong> '+versionLabel(textoAtual)+'.'+linkNew(textoAtual)+'</p>':'';
   return '<div class="history">'+changed+
-    '<button type="button" class="history-toggle" id="historyToggle" data-history-toggle data-total="'+all.length+'" aria-expanded="false" aria-controls="historyPanel">'+
-      '<span class="history-toggle-label">'+historyToggleLabel(all.length,false)+'</span><span class="history-toggle-icon" aria-hidden="true">▾</span></button>'+
+    '<button type="button" class="history-toggle" id="historyToggle" data-history-toggle aria-expanded="false" aria-controls="historyPanel" '+
+      'data-label-closed="'+historyToggleLabel(all.length,false,casa)+'" data-label-open="'+historyToggleLabel(all.length,true,casa)+'">'+
+      '<span class="history-toggle-label">'+historyToggleLabel(all.length,false,casa)+'</span><span class="history-toggle-icon" aria-hidden="true">▾</span></button>'+
     '<div class="history-panel" id="historyPanel" hidden><h3 class="change-sub" id="historyTitle" tabindex="-1">Últimas movimentações</h3>'+
     '<ol class="history-list" aria-labelledby="historyTitle">'+recent.map(itemHTML).join('')+'</ol>'+
     (all.length>recent.length?'<details class="history-all"><summary>Ver todas as '+all.length+' movimentações</summary>'+
@@ -110,20 +111,27 @@ export function historyHTML(list,textoAtual=null){
     '<p class="small-note">Fonte: histórico oficial de tramitação da Câmara. Datas no horário de Brasília.</p></div></div>';
 }
 
-/** Abre ou fecha a lista. Vindo da etapa da linha do tempo, rola até a lista aberta. */
-export function toggleHistory(root=document,{fromStage=false}={}){
-  const panel=root.getElementById?root.getElementById('historyPanel'):root.querySelector('#historyPanel');
+/**
+ * Abre ou fecha uma lista de movimentações (Câmara: historyPanel; Senado: senadoPanel).
+ * Todos os controles com aria-controls apontando para ela mudam junto. Vindo da etapa da
+ * linha do tempo, rola até a lista aberta e leva o foco ao título dela.
+ */
+export function toggleHistory(root=document,{fromStage=false,panelId='historyPanel'}={}){
+  const panel=root.getElementById(panelId);
   if(!panel)return false;
   const open=panel.hidden;
   panel.hidden=!open;
-  for(const el of root.querySelectorAll('[data-history-toggle]'))el.setAttribute('aria-expanded',String(open));
-  const button=root.querySelector('#historyToggle');
-  const label=button?.querySelector('.history-toggle-label');
-  if(label)label.textContent=historyToggleLabel(button.dataset.total,open);
+  for(const el of root.querySelectorAll('[data-history-toggle]')){
+    if(el.getAttribute('aria-controls')!==panelId)continue;
+    el.setAttribute('aria-expanded',String(open));
+    const label=el.querySelector?.('.history-toggle-label');
+    const text=open?el.dataset?.labelOpen:el.dataset?.labelClosed;
+    if(label&&text)label.textContent=text;
+  }
   if(open&&fromStage){
     const reduce=typeof matchMedia==='function'&&matchMedia('(prefers-reduced-motion: reduce)').matches;
     panel.scrollIntoView?.({block:'nearest',behavior:reduce?'auto':'smooth'});
-    root.querySelector('#historyTitle')?.focus?.({preventScroll:true});
+    panel.querySelector?.('.change-sub')?.focus?.({preventScroll:true});
   }
   return open;
 }

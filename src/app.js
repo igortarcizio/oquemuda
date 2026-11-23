@@ -1,16 +1,16 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=busca-texto-2';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=senado-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=movimentacoes-1';
-import {toggleHistory} from './lib/tramitacoes.js?v=movimentacoes-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=senado-1';
+import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=movimentacoes-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=senado-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -388,7 +388,7 @@ function onClick(e){
  if(handledClicks.has(e))return;
  handledClicks.add(e);
  const historyToggle=e.target.closest('[data-history-toggle]');
- if(historyToggle){toggleHistory(document,{fromStage:historyToggle.hasAttribute('data-from-stage')});return}
+ if(historyToggle){toggleHistory(document,{fromStage:historyToggle.hasAttribute('data-from-stage'),panelId:historyToggle.getAttribute('aria-controls')||'historyPanel'});return}
  const page=e.target.closest('[data-page]');
  if(page&&!page.disabled){setPage(Number(page.dataset.page));return}
  const theme=e.target.closest('[data-theme]');
