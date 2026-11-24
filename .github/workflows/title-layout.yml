@@ -18,7 +18,7 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install --no-save playwright@1.56.1
+      - run: npm install --no-save playwright@1.56.1 @fontsource/newsreader
       - run: npx playwright install --with-deps chromium
       - run: node scripts/verify_title_layout.mjs dados/revisao-titulos-lote-013.json dados/revisao-titulos-regras-011.json
       - uses: actions/upload-artifact@v4

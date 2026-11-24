@@ -27,7 +27,7 @@ const root = process.cwd();
 const server = createServer((req, res) => {
   if (req.url?.startsWith('/__title_qa__')) {
     res.setHeader('Content-Type', 'text/html; charset=utf-8');
-    res.end('<!doctype html><html lang="pt-BR"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/styles/base.css"><link rel="stylesheet" href="/styles/components.css"><body><div class="page" id="title-qa"><div class="grid"></div><div class="editorial-feature-host"></div></div></body></html>');
+    res.end('<!doctype html><html lang="pt-BR"><meta name="viewport" content="width=device-width,initial-scale=1"><link rel="stylesheet" href="/styles/base.css"><link rel="stylesheet" href="/styles/components.css"><link rel="stylesheet" href="/node_modules/@fontsource/newsreader/500.css"><body><div class="page" id="title-qa"><div class="grid"></div><div class="editorial-feature-host"></div></div></body></html>');
     return;
   }
   const file = resolve(root, '.' + decodeURIComponent((req.url || '/').split('?')[0]));
