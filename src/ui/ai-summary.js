@@ -2,7 +2,7 @@
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
 import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=status-apresentada';
-import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-013';
+import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-014';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';
 const KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
