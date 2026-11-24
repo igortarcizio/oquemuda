@@ -7,8 +7,8 @@
   "source_table": "public.proposicoes",
   "source_project": "ltihbrlamevhmjjlsphc",
   "publication_status": "confirmed",
-  "visual_checked_at": null,
-  "visual_retry_required": true,
+  "visual_checked_at": "2026-11-24T11:42:23.276Z",
+  "visual_retry_required": false,
   "records": [
     {
       "id": 2487775,
@@ -19,10 +19,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487791,
@@ -33,10 +33,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487796,
@@ -47,10 +47,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487818,
@@ -61,10 +61,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487826,
@@ -75,10 +75,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487828,
@@ -89,10 +89,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487836,
@@ -103,10 +103,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487842,
@@ -117,10 +117,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487847,
@@ -131,10 +131,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487848,
@@ -145,10 +145,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487853,
@@ -159,10 +159,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487865,
@@ -173,10 +173,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487896,
@@ -187,10 +187,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487902,
@@ -201,10 +201,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487904,
@@ -215,10 +215,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487917,
@@ -229,10 +229,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487944,
@@ -243,10 +243,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487947,
@@ -257,10 +257,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487959,
@@ -271,10 +271,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487960,
@@ -285,10 +285,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487962,
@@ -299,10 +299,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487963,
@@ -313,10 +313,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487965,
@@ -327,10 +327,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2487966,
@@ -341,10 +341,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488008,
@@ -355,10 +355,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488009,
@@ -369,10 +369,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488010,
@@ -383,10 +383,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488017,
@@ -397,10 +397,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488018,
@@ -411,10 +411,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488032,
@@ -425,10 +425,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488036,
@@ -439,10 +439,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488037,
@@ -453,10 +453,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488087,
@@ -467,10 +467,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488095,
@@ -481,10 +481,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488109,
@@ -495,10 +495,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488131,
@@ -509,10 +509,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488139,
@@ -523,10 +523,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488158,
@@ -537,10 +537,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488163,
@@ -551,10 +551,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488216,
@@ -565,10 +565,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488219,
@@ -579,10 +579,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488221,
@@ -593,10 +593,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488224,
@@ -607,10 +607,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488229,
@@ -621,10 +621,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488232,
@@ -635,10 +635,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488256,
@@ -649,10 +649,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488259,
@@ -663,10 +663,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488270,
@@ -677,10 +677,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488318,
@@ -691,10 +691,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488434,
@@ -705,10 +705,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488444,
@@ -719,10 +719,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488445,
@@ -733,10 +733,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488449,
@@ -747,10 +747,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488454,
@@ -761,10 +761,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488456,
@@ -775,10 +775,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488477,
@@ -789,10 +789,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488479,
@@ -803,10 +803,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488485,
@@ -817,10 +817,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488497,
@@ -831,10 +831,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488522,
@@ -845,10 +845,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488523,
@@ -859,10 +859,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488524,
@@ -873,10 +873,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488525,
@@ -887,10 +887,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488528,
@@ -901,10 +901,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488532,
@@ -915,10 +915,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488548,
@@ -929,10 +929,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488563,
@@ -943,10 +943,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488566,
@@ -957,10 +957,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488571,
@@ -971,10 +971,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488593,
@@ -985,10 +985,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488594,
@@ -999,10 +999,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488596,
@@ -1013,10 +1013,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488609,
@@ -1027,10 +1027,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488667,
@@ -1041,10 +1041,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488682,
@@ -1055,10 +1055,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488698,
@@ -1069,10 +1069,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488713,
@@ -1083,10 +1083,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488717,
@@ -1097,10 +1097,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488720,
@@ -1111,10 +1111,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488757,
@@ -1125,10 +1125,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488798,
@@ -1139,10 +1139,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488808,
@@ -1153,10 +1153,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488809,
@@ -1167,10 +1167,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488813,
@@ -1181,10 +1181,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488830,
@@ -1195,10 +1195,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488872,
@@ -1209,10 +1209,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488887,
@@ -1223,10 +1223,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488957,
@@ -1237,10 +1237,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488973,
@@ -1251,10 +1251,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2488974,
@@ -1265,10 +1265,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489209,
@@ -1279,10 +1279,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489222,
@@ -1293,10 +1293,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489225,
@@ -1307,10 +1307,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489226,
@@ -1321,10 +1321,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489261,
@@ -1335,10 +1335,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489281,
@@ -1349,10 +1349,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489283,
@@ -1363,10 +1363,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489285,
@@ -1377,10 +1377,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489294,
@@ -1391,10 +1391,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     },
     {
       "id": 2489305,
@@ -1405,10 +1405,10 @@
       "review_reason": "stable_id_batch",
       "publication_status": "confirmed",
       "published_commit": "1a42b8cb2d60a7fc1930834fd7f2a5ef237df07b",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Publicação e testes do GitHub confirmados. Validação visual individual pendente: revisão automática bloqueou o envio das ementas ao navegador remoto; Chromium local não iniciou (socket: Operation not permitted). Retomar checagem de cards e destaques com Newsreader a 1440, 375 e 320 px.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:42:23.276Z",
+      "visual_note": "Chromium no GitHub Actions (Ubuntu 24.04), Newsreader 500 carregada localmente; componentes reais de card e destaque a 1440, 375 e 320 px; títulos integrais em até cinco linhas, sem corte; ficha com o mesmo título. Execução 45386554661, zero falhas.",
+      "visual_commit": "9511f6ae80d97b7863f19eae1250d3b95de7da5f"
     }
   ]
 }
