@@ -6,9 +6,9 @@
   "batch_end_id": 2491094,
   "source_table": "public.proposicoes",
   "source_project": "ltihbrlamevhmjjlsphc",
-  "publication_status": "pending_deployment",
-  "visual_checked_at": null,
-  "visual_retry_required": true,
+  "publication_status": "confirmed",
+  "visual_checked_at": "2026-11-24T11:45:10.865Z",
+  "visual_retry_required": false,
   "records": [
     {
       "id": 2489309,
@@ -17,12 +17,12 @@
       "title": "Inclui a podologia na lista de terapias sujeitas ao ISS",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489341,
@@ -31,12 +31,12 @@
       "title": "Cria o Março Verde para conscientização sobre saúde dos olhos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489352,
@@ -45,12 +45,12 @@
       "title": "Adapta banheiros públicos para pessoas ostomizadas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489353,
@@ -59,12 +59,12 @@
       "title": "Prioriza bolsas do Prouni para órfãos acolhidos que não foram adotados",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489359,
@@ -73,12 +73,12 @@
       "title": "Concede benefícios fiscais a catadores de vidro e plástico",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489360,
@@ -87,12 +87,12 @@
       "title": "Permite CNH para motocicletas de até 250 cilindradas a jovens rurais de 16 anos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489361,
@@ -101,12 +101,12 @@
       "title": "Dispensa relatório médico para autorizar exames simples em planos de saúde",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489362,
@@ -115,12 +115,12 @@
       "title": "Evita cobrança indevida de pedágio por eixos erguidos de caminhões",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489367,
@@ -129,12 +129,12 @@
       "title": "Faz o Incra custear georreferenciamento de imóveis da reforma agrária",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489384,
@@ -143,12 +143,12 @@
       "title": "Declara o Dia Internacional da Mulher feriado nacional em 8 de março",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489409,
@@ -157,12 +157,12 @@
       "title": "Restringe corantes artificiais em alimentos destinados a crianças",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489410,
@@ -171,12 +171,12 @@
       "title": "Reconhece objeção de consciência ao serviço militar obrigatório",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489411,
@@ -185,12 +185,12 @@
       "title": "Dá desconto no Imposto de Renda a quem adotar animais resgatados",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2489680,
@@ -199,12 +199,12 @@
       "title": "Prevê registro físico do voto para auditoria das urnas eletrônicas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490042,
@@ -213,12 +213,12 @@
       "title": "Suspende regra sobre trabalho no comércio em feriados",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490055,
@@ -227,12 +227,12 @@
       "title": "Facilita a vítimas de violência doméstica o acesso ao histórico penal do agressor",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490058,
@@ -241,12 +241,12 @@
       "title": "Exige atendimento veterinário e cuidados com animais durante eventos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490092,
@@ -255,12 +255,12 @@
       "title": "Aplica regras contra abuso sexual infantil a imagens geradas por inteligência artificial",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490194,
@@ -269,12 +269,12 @@
       "title": "Adapta exame de direção a candidatos com autismo ou síndrome de Down",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490196,
@@ -283,12 +283,12 @@
       "title": "Permite pagar pedágio Free Flow com IPVA ou licenciamento sem multa no prazo",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490197,
@@ -297,12 +297,12 @@
       "title": "Exige classificação da reciclabilidade de embalagens plásticas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490198,
@@ -311,12 +311,12 @@
       "title": "Cria comenda da Câmara em homenagem a Wlamir Marques e ao basquete",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490199,
@@ -325,12 +325,12 @@
       "title": "Regula apelidos de menores e direitos sobre conteúdo produzido por IA",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490200,
@@ -339,12 +339,12 @@
       "title": "Multa credor fiduciário que não fornecer termo de quitação",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490232,
@@ -353,12 +353,12 @@
       "title": "Agrava penas de agentes públicos e professores por abuso sexual de crianças",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490244,
@@ -367,12 +367,12 @@
       "title": "Reduz jornada semanal para 32 horas e garante três dias de descanso",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490305,
@@ -381,12 +381,12 @@
       "title": "Dá o nome Jorge Gualberto dos Anjos a viaduto em Alto Paraná",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490306,
@@ -395,12 +395,12 @@
       "title": "Conta reincidência após condenação definitiva ou por tribunal colegiado",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490307,
@@ -409,12 +409,12 @@
       "title": "Acelera cumprimento de decisões judiciais urgentes na área da saúde",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490310,
@@ -423,12 +423,12 @@
       "title": "Exige câmeras em centros de reabilitação do SUS e clínicas que atendem autistas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490312,
@@ -437,12 +437,12 @@
       "title": "Protege a identidade de informantes que auxiliam investigações policiais",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490315,
@@ -451,12 +451,12 @@
       "title": "Inclui bomba de insulina na lista de tratamentos especializados do SUS",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490321,
@@ -465,12 +465,12 @@
       "title": "Define quais órgãos agrícolas podem registrar agrotóxicos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490334,
@@ -479,12 +479,12 @@
       "title": "Cria o Dia Nacional do Arborista",
       "editorial_status": "already_adequate",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490346,
@@ -493,12 +493,12 @@
       "title": "Altera regras de tratamento e destinação de resíduos sólidos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490359,
@@ -507,12 +507,12 @@
       "title": "Exige autenticação em mais de uma etapa para transações Pix",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490360,
@@ -521,12 +521,12 @@
       "title": "Facilita a advogados acesso digital a dados para pedir penhora de bens",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490374,
@@ -535,12 +535,12 @@
       "title": "Agrava penas por furto, roubo e receptação em situações previstas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490389,
@@ -549,12 +549,12 @@
       "title": "Leva alunos do Pé-de-Meia a cursos de qualificação e empreendedorismo do Sebrae",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490393,
@@ -563,12 +563,12 @@
       "title": "Cria programa de formação e atualização para motociclistas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490397,
@@ -577,12 +577,12 @@
       "title": "Inclui colégios militares na reserva de vagas da Lei de Cotas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490399,
@@ -591,12 +591,12 @@
       "title": "Exige identificação de apostadores em bilhetes de loteria",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490400,
@@ -605,12 +605,12 @@
       "title": "Permite deduzir do Imposto de Renda doações para proteção de pessoas idosas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490401,
@@ -619,12 +619,12 @@
       "title": "Aumenta pena por homicídio e feminicídio cometidos por quem devia proteger a vítima",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490405,
@@ -633,12 +633,12 @@
       "title": "Reconhece o canto e o ofício das destaladeiras de fumo de Arapiraca como cultura nacional",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490406,
@@ -647,12 +647,12 @@
       "title": "Exige identificação da origem brasileira em produtos exportados",
       "editorial_status": "already_adequate",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490431,
@@ -661,12 +661,12 @@
       "title": "Cria auxílio emergencial para beneficiários do Bolsa Família e BPC atingidos por desastres",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490436,
@@ -675,12 +675,12 @@
       "title": "Criminaliza assédio bancário a aposentados, pensionistas e beneficiários do BPC",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490437,
@@ -689,12 +689,12 @@
       "title": "Leva ações contra violência doméstica às unidades básicas do SUS",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490446,
@@ -703,12 +703,12 @@
       "title": "Garante documentos em braille a usuários com deficiência visual de serviços públicos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490447,
@@ -717,12 +717,12 @@
       "title": "Proíbe cobrar água e esgoto de imóveis sem ligação à rede pública",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490467,
@@ -731,12 +731,12 @@
       "title": "Torna atos de pedofilia sem fiança e sem prazo de prescrição",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490470,
@@ -745,12 +745,12 @@
       "title": "Permite vender alimentos artesanais produzidos por pessoas em vulnerabilidade",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490478,
@@ -759,12 +759,12 @@
       "title": "Cria centro de referência para atendimento de pessoas com lipedema",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490482,
@@ -773,12 +773,12 @@
       "title": "Flexibiliza a jornada de empregados pagos por hora",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490514,
@@ -787,12 +787,12 @@
       "title": "Amplia definição de terrorismo e aumenta pena por ataques cibernéticos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490586,
@@ -801,12 +801,12 @@
       "title": "Regula contribuição previdenciária de inscritos no CadÚnico e inclusão no Bolsa Família",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490590,
@@ -815,12 +815,12 @@
       "title": "Cria crédito do BNDES para energia renovável na agricultura familiar",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490595,
@@ -829,12 +829,12 @@
       "title": "Combate discriminação religiosa nas relações de trabalho",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490628,
@@ -843,12 +843,12 @@
       "title": "Exige ensino de defesa pessoal para mulheres em escolas e centros comunitários",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490658,
@@ -857,12 +857,12 @@
       "title": "Cria clínicas federais multidisciplinares para atendimento de crianças",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490659,
@@ -871,12 +871,12 @@
       "title": "Regula uso de inteligência artificial em processos da administração federal",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490661,
@@ -885,12 +885,12 @@
       "title": "Cria fila única nacional do SUS com metas de espera e transparência",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490662,
@@ -899,12 +899,12 @@
       "title": "Exige programas de integridade de empresas contratadas pelo poder público",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490676,
@@ -913,12 +913,12 @@
       "title": "Cria selo para alimentos sem glúten produzidos pela agricultura familiar",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490693,
@@ -927,12 +927,12 @@
       "title": "Prorroga prazo de georreferenciamento de imóveis rurais",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490694,
@@ -941,12 +941,12 @@
       "title": "Permite exigir apagamento de registros íntimos em medida protetiva",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490699,
@@ -955,12 +955,12 @@
       "title": "Altera os soldos dos militares das Forças Armadas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490701,
@@ -969,12 +969,12 @@
       "title": "Restringe anúncios de apostas para proteger consumidores e a saúde mental",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490702,
@@ -983,12 +983,12 @@
       "title": "Exige controle parental em aplicativos e serviços de streaming",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490707,
@@ -997,12 +997,12 @@
       "title": "Suspende regras do Conanda para atender crianças vítimas de violência sexual",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490849,
@@ -1011,12 +1011,12 @@
       "title": "Agrava penas por violência contra mulheres na zona rural e exige notificação no atendimento",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490865,
@@ -1025,12 +1025,12 @@
       "title": "Dá prioridade à Justiça de violência doméstica em conflitos de competência",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490884,
@@ -1039,12 +1039,12 @@
       "title": "Suspende o Programa Nacional das Salas Lilás de atendimento a mulheres e meninas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490911,
@@ -1053,12 +1053,12 @@
       "title": "Exige divulgação de programação cultural no horário nobre de rádio e TV",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490924,
@@ -1067,12 +1067,12 @@
       "title": "Define regras de assistência à saúde dos povos indígenas",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490928,
@@ -1081,12 +1081,12 @@
       "title": "Dá incentivos fiscais a empresas certificadas por promover saúde mental",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490934,
@@ -1095,12 +1095,12 @@
       "title": "Cria políticas de prevenção da obesidade, com atenção a crianças e adolescentes",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490937,
@@ -1109,12 +1109,12 @@
       "title": "Concede meia-entrada a todos em filmes brasileiros de segunda a quinta-feira",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490940,
@@ -1123,12 +1123,12 @@
       "title": "Adota mapas oficiais do IBGE para definir biomas em todo o país",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490942,
@@ -1137,12 +1137,12 @@
       "title": "Amplia horário de creches públicas e o acesso à educação infantil",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490966,
@@ -1151,12 +1151,12 @@
       "title": "Condiciona verba de segurança pública ao uso de IA em ouvidorias e corregedorias",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490981,
@@ -1165,12 +1165,12 @@
       "title": "Permite ação policial imediata contra invasão de imóvel, sem ordem judicial",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2490985,
@@ -1179,12 +1179,12 @@
       "title": "Autoriza a criação da Fundação CAIXA",
       "editorial_status": "already_adequate",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491031,
@@ -1193,12 +1193,12 @@
       "title": "Cria medalhas para reconhecer quem defende os direitos dos animais",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491047,
@@ -1207,12 +1207,12 @@
       "title": "Proíbe corridas de charrete e prevê pena criminal aos organizadores",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491048,
@@ -1221,12 +1221,12 @@
       "title": "Cria o Prêmio Pró-Vida Chiara Corbella Petrillo",
       "editorial_status": "already_adequate",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491049,
@@ -1235,12 +1235,12 @@
       "title": "Exige rastreamento de bagagens e animais de estimação em voos",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491050,
@@ -1249,12 +1249,12 @@
       "title": "Substitui eleição por seleção técnica para conselheiros tutelares",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491061,
@@ -1263,12 +1263,12 @@
       "title": "Veda acordo de não persecução penal para crimes de corrupção",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491062,
@@ -1277,12 +1277,12 @@
       "title": "Inclui ensino sobre inclusão nos cursos de Pedagogia",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491063,
@@ -1291,12 +1291,12 @@
       "title": "Cria o Estatuto da Pessoa Intersexo",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491070,
@@ -1305,12 +1305,12 @@
       "title": "Permite sacar FGTS para quitar dívida que levou trabalhador ou dependente a cadastro negativo",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491079,
@@ -1319,12 +1319,12 @@
       "title": "Cria programa de apoio ao surfe e ao parassurfe",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491080,
@@ -1333,12 +1333,12 @@
       "title": "Cria prontuário com preferências e história pessoal de pacientes do SUS",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491081,
@@ -1347,12 +1347,12 @@
       "title": "Veda licitações a pessoas condenadas por maus-tratos a animais",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491082,
@@ -1361,12 +1361,12 @@
       "title": "Amplia perda de bens usados por organizações criminosas e milícias",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491083,
@@ -1375,12 +1375,12 @@
       "title": "Autoriza instituto médico-legal veterinário para perícias em crimes contra animais",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491093,
@@ -1389,12 +1389,12 @@
       "title": "Inclui estudo de inteligência artificial no ensino fundamental",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     },
     {
       "id": 2491094,
@@ -1403,12 +1403,14 @@
       "title": "Estende exceção ao congelamento de benefícios da pandemia à defesa civil e funerários",
       "editorial_status": "revised",
       "review_reason": "stable_id_batch",
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "c72f45cff00a4e6d80e4aa3ce444f04c29f2d3c7",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-24T11:45:10.865Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45386906585. GitHub Pages publicado no workflow 45387242986 (tentativa 2).",
+      "visual_commit": "3693b5179ccdf9afa3ce85ff6684917ec29ee3f5"
     }
-  ]
+  ],
+  "publication_run": "https://github.com/igortarcizio/oquemuda/actions/runs/45387242986",
+  "visual_run": "https://github.com/igortarcizio/oquemuda/actions/runs/45386906585"
 }
