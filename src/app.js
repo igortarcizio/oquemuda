@@ -5,13 +5,13 @@ import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=status-apres
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-lote-014';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-lote-015';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {filterVotes} from './lib/votacoes.js?v=status-apresentada';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=editorial-titles-lote-014';
+import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=editorial-titles-lote-015';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
