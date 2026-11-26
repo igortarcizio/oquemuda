@@ -6,9 +6,9 @@
   "batch_end_id": 2495336,
   "source_table": "public.proposicoes",
   "source_project": "ltihbrlamevhmjjlsphc",
-  "publication_status": "pending_deployment",
-  "visual_checked_at": null,
-  "visual_retry_required": true,
+  "publication_status": "confirmed",
+  "visual_checked_at": "2026-11-26T11:45:15.014Z",
+  "visual_retry_required": false,
   "records": [
     {
       "id": 2494353,
@@ -19,12 +19,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494353",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494361,
@@ -35,12 +35,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494361",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494367,
@@ -51,12 +51,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494367",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494368,
@@ -67,12 +67,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494368",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494369,
@@ -83,12 +83,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494369",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494370,
@@ -99,12 +99,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494370",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494375,
@@ -115,12 +115,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494375",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494377,
@@ -131,12 +131,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494377",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494382,
@@ -147,12 +147,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494382",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494383,
@@ -163,12 +163,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494383",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494386,
@@ -179,12 +179,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494386",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494387,
@@ -195,12 +195,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494387",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494388,
@@ -211,12 +211,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494388",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494389,
@@ -227,12 +227,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494389",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494390,
@@ -243,12 +243,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494390",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494391,
@@ -259,12 +259,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494391",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494396,
@@ -275,12 +275,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494396",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494398,
@@ -291,12 +291,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494398",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494400,
@@ -307,12 +307,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494400",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494401,
@@ -323,12 +323,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494401",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494402,
@@ -339,12 +339,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494402",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494408,
@@ -355,12 +355,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494408",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494411,
@@ -371,12 +371,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494411",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494428,
@@ -387,12 +387,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494428",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494435,
@@ -403,12 +403,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494435",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494436,
@@ -419,12 +419,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494436",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494439,
@@ -435,12 +435,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494439",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494456,
@@ -451,12 +451,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494456",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494487,
@@ -467,12 +467,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494487",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494518,
@@ -483,12 +483,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494518",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494520,
@@ -499,12 +499,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494520",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494522,
@@ -515,12 +515,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494522",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494523,
@@ -531,12 +531,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494523",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494524,
@@ -547,12 +547,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494524",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494525,
@@ -563,12 +563,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494525",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494527,
@@ -579,12 +579,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494527",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494537,
@@ -595,12 +595,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494537",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494547,
@@ -611,12 +611,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494547",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494549,
@@ -627,12 +627,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494549",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494552,
@@ -643,12 +643,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494552",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494554,
@@ -659,12 +659,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494554",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494557,
@@ -675,12 +675,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494557",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494558,
@@ -691,12 +691,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494558",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494559,
@@ -707,12 +707,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494559",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494560,
@@ -723,12 +723,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494560",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494561,
@@ -739,12 +739,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494561",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494562,
@@ -755,12 +755,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494562",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494563,
@@ -771,12 +771,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494563",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494572,
@@ -787,12 +787,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494572",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494593,
@@ -803,12 +803,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494593",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494596,
@@ -819,12 +819,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494596",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494601,
@@ -835,12 +835,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494601",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494625,
@@ -851,12 +851,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494625",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494635,
@@ -867,12 +867,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494635",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494638,
@@ -883,12 +883,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494638",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494709,
@@ -899,12 +899,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494709",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494710,
@@ -915,12 +915,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494710",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494711,
@@ -931,12 +931,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494711",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494724,
@@ -947,12 +947,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494724",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494725,
@@ -963,12 +963,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494725",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494741,
@@ -979,12 +979,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494741",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494743,
@@ -995,12 +995,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494743",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494790,
@@ -1011,12 +1011,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494790",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494793,
@@ -1027,12 +1027,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494793",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494796,
@@ -1043,12 +1043,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494796",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494797,
@@ -1059,12 +1059,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494797",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494906,
@@ -1075,12 +1075,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494906",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494911,
@@ -1091,12 +1091,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494911",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494912,
@@ -1107,12 +1107,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494912",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494917,
@@ -1123,12 +1123,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494917",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494929,
@@ -1139,12 +1139,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494929",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494934,
@@ -1155,12 +1155,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494934",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494936,
@@ -1171,12 +1171,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494936",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494937,
@@ -1187,12 +1187,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494937",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494940,
@@ -1203,12 +1203,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494940",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494944,
@@ -1219,12 +1219,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494944",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494968,
@@ -1235,12 +1235,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494968",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2494982,
@@ -1251,12 +1251,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2494982",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495002,
@@ -1267,12 +1267,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495002",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495024,
@@ -1283,12 +1283,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495024",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495045,
@@ -1299,12 +1299,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495045",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495046,
@@ -1315,12 +1315,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495046",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495047,
@@ -1331,12 +1331,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495047",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495048,
@@ -1347,12 +1347,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495048",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495071,
@@ -1363,12 +1363,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495071",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495087,
@@ -1379,12 +1379,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495087",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495165,
@@ -1395,12 +1395,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495165",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495166,
@@ -1411,12 +1411,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495166",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495168,
@@ -1427,12 +1427,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495168",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495170,
@@ -1443,12 +1443,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495170",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495182,
@@ -1459,12 +1459,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495182",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495189,
@@ -1475,12 +1475,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495189",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495190,
@@ -1491,12 +1491,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495190",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495192,
@@ -1507,12 +1507,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495192",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495233,
@@ -1523,12 +1523,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495233",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495314,
@@ -1539,12 +1539,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495314",
       "official_sheet_consulted": true,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495316,
@@ -1555,12 +1555,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495316",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495324,
@@ -1571,12 +1571,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495324",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495331,
@@ -1587,12 +1587,12 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495331",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     },
     {
       "id": 2495336,
@@ -1603,12 +1603,14 @@
       "review_reason": "stable_id_batch",
       "official_source": "https://dadosabertos.camara.leg.br/api/v2/proposicoes/2495336",
       "official_sheet_consulted": false,
-      "publication_status": "pending_deployment",
+      "publication_status": "confirmed",
       "published_commit": "44a64024545184dcff7589a1e2c4e97cebcd560d",
-      "visual_status": "pending",
-      "visual_checked_at": null,
-      "visual_note": "Aguardando checagem Chromium Newsreader em 1440, 375 e 320 px no workflow Validar layout dos títulos.",
-      "visual_commit": null
+      "visual_status": "confirmed",
+      "visual_checked_at": "2026-11-26T11:45:15.014Z",
+      "visual_note": "Chromium com Newsreader local: título completo e igual em card, destaque e ficha; 1440, 375 e 320 px; até cinco linhas; workflow 45813321219. GitHub Pages publicado no workflow 45813321129.",
+      "visual_commit": "4f350e7ad6d8758de6ea9481c957fcc5a28b724d"
     }
-  ]
+  ],
+  "publication_run": "https://github.com/igortarcizio/oquemuda/actions/runs/45813321129",
+  "visual_run": "https://github.com/igortarcizio/oquemuda/actions/runs/45813321219"
 }
