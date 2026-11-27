@@ -30,26 +30,31 @@ const themeOf=(p,e=editorial(p))=>THEME_LIST.includes(p.area)?p.area:classifyThe
 export function skeleton(count=6){
  return Array.from({length:count},(_,i)=>'<article class="card skeleton" aria-hidden="true"><div class="skeleton-bar shimmer"></div><div class="card-body"><div class="skeleton-ref shimmer"></div><div class="skeleton-heading shimmer"></div><div class="skeleton-heading narrow shimmer"></div><div class="skeleton-block shimmer"></div><div class="skeleton-block small shimmer"></div></div></article>').join('');
 }
-export function badge(status){
+/**
+ * Etiqueta da situação. Nos destaques (highlight), a etapa é o rótulo principal do card:
+ * "Apresentada" vira "Nova proposta", par de "Pronta para pauta" e "Aprovado na Câmara".
+ */
+export function badge(status,highlight=false){
  const data=status||STATUS.unknown;
- return '<span class="status-badge '+safeText(data.tone)+'" title="'+safeText(data.detail||data.label)+'">'+safeText(data.label)+'</span>';
+ const label=highlight&&data.label===STATUS.introduced.label?'Nova proposta':data.label;
+ return '<span class="status-badge '+safeText(data.tone)+(highlight?' stage':'')+'" title="'+safeText(data.detail||data.label)+'">'+safeText(label)+'</span>';
 }
 const SEAL='<span class="seal"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="m5 12 5 5 9-10"/></svg>Explicado pela redação</span>';
 const saveButton=(p,saved,label='+ Salvar')=>'<button class="savebtn '+(saved?'saved':'')+'" type="button" data-save="'+Number(p.id)+'" aria-pressed="'+String(saved)+'" aria-label="'+(saved?'Remover dos salvos':'Salvar')+' '+safeText(ref(p))+'">'+(saved?'✓ Salvo':label)+'</button>';
 // Ações do rodapé do card: compartilhar (só ícone) + salvar.
 const cardActions=(p,e,saved)=>'<span class="card-actions">'+shareButton(p.id,{ref:ref(p),title:displayTitle(p,e)})+saveButton(p,saved)+'</span>';
 const topicLabel=area=>'<span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(area)+'</span>';
-const statusSlot=(p,status)=>'<span data-status-id="'+Number(p.id)+'">'+badge(status)+'</span>';
+const statusSlot=(p,status,highlight=false)=>'<span data-status-id="'+Number(p.id)+'"'+(highlight?' data-stage':'')+'>'+badge(status,highlight)+'</span>';
 
 /**
  * Card da lista. O card inteiro leva à ficha por um único link (o título).
  * Revisada: pergunta + síntese da redação + selo. Demais: título descritivo da ementa + "Altera:".
  */
-export function card(p,status,saved){
+export function card(p,status,saved,{highlight=false}={}){
  const e=editorial(p),reviewed=isReviewed(e),area=themeOf(p,e);
  const laws=reviewed?'':amendedLaws(p.ementa);
  return '<article class="card civic-card '+(reviewed?'reviewed':'auto')+'" data-area="'+safeText(area)+'">'+
-   '<div class="card-top">'+topicLabel(area)+statusSlot(p,status)+'</div>'+
+   '<div class="card-top">'+topicLabel(area)+statusSlot(p,status,highlight)+'</div>'+
    '<p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
    '<h3><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(displayTitle(p,e))+'</a></h3>'+
    (reviewed?'<p class="card-lead">'+safeText(conciseImpact(e.impacto))+'</p>':laws?'<p class="changes"><b>Altera:</b> '+safeText(laws)+'</p>':'')+
@@ -67,7 +72,7 @@ export function editorialFeature(p,status,saved){
  const publicos=Array.isArray(e.publicos)?e.publicos.filter(Boolean):[];
  return '<article class="editorial-feature" data-area="'+safeText(area)+'">'+
    '<div class="feature-main">'+
-    '<div class="meta-row">'+topicLabel(area)+statusSlot(p,status)+(reviewed?SEAL:'')+'</div>'+
+    '<div class="meta-row">'+statusSlot(p,status,true)+topicLabel(area)+(reviewed?SEAL:'')+'</div>'+
     '<p class="docref">'+safeText(ref(p))+' · apresentado em '+safeText(dateBR(p.dataApresentacao))+'</p>'+
     '<h3 class="'+(reviewed?'':'auto')+'"><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(displayTitle(p,e))+'</a></h3>'+
     (lead?'<p class="feature-lead">'+safeText(lead)+'</p>':'')+
@@ -229,7 +234,7 @@ export function infoPage(){
  '<article class="step"><div class="number">02</div><h2>Entenda a proposta</h2><p>“O que muda” explica de forma resumida aquilo que o projeto pretende alterar, sem confundir propostas e leis em vigor.</p></article>'+
  '<article class="step"><div class="number">03</div><h2>Confira a fonte</h2><p>Consulte o texto integral, os autores e o andamento na base oficial.</p></article></div>'+
  '<div class="notice" style="margin-top:26px"><strong>Transparência editorial.</strong> Propostas com o selo “Explicado pela redação” foram lidas por uma pessoa, que escreveu o título em forma de pergunta e o resumo. Nas demais, o título é gerado automaticamente a partir da ementa oficial e descreve o que o texto faz, sem interpretar. A classificação temática também é automática. A aprovação em uma comissão não equivale à aprovação final.</div>'+
- '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde ou Direitos e cidadania. O site usa 13 temas, convertidos a partir da classificação oficial que a própria Câmara faz de cada proposta. Quando a Câmara dá mais de um tema, a proposta aparece em todos esses filtros, e a cor do card mostra o tema principal. Propostas muito recentes, que a Câmara ainda não classificou, recebem um tema calculado pelo site a partir da ementa até a classificação oficial sair.</p><p>As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. As tags são automáticas e podem ser aperfeiçoadas.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e consultada diariamente. Os critérios consideram o interesse público, o tema e os possíveis efeitos das propostas no cotidiano, com base nas informações disponíveis nos registros oficiais.</p><p>Os três destaques são substituídos quando surgem novas propostas que atendem aos critérios. Sem novidades qualificadas, os anteriores permanecem. A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores.</p></section>'+
+ '<section style="margin-top:26px"><h2>Temas e tags</h2><p>Os temas agrupam áreas gerais, como Saúde ou Direitos e cidadania. O site usa 13 temas, convertidos a partir da classificação oficial que a própria Câmara faz de cada proposta. Quando a Câmara dá mais de um tema, a proposta aparece em todos esses filtros, e a cor do card mostra o tema principal. Propostas muito recentes, que a Câmara ainda não classificou, recebem um tema calculado pelo site a partir da ementa até a classificação oficial sair.</p><p>As tags identificam assuntos específicos, como SUS, Diabetes e Vacinação, com base na ementa oficial. Clique em uma tag para consultar todas as propostas com o mesmo assunto no acervo disponível. As tags são automáticas e podem ser aperfeiçoadas.</p></section><section id="selecao-destaques" style="margin-top:26px"><h2>Como os destaques são escolhidos</h2><p>A seleção é automática e feita todos os dias, depois da atualização dos dados oficiais. São três destaques, cada um de uma etapa: uma proposta <strong>pronta para pauta</strong>, uma <strong>aprovada pela Câmara</strong> (enviada ao Senado, à sanção ou que já virou lei) e uma <strong>proposta nova</strong>. Assim dá para ver o que acabou de chegar e o que está mais perto de mudar o cotidiano.</p><p>Dentro de cada etapa, contam o tema, as pessoas afetadas e os possíveis efeitos no dia a dia, com base na ementa oficial, e a movimentação mais recente. Homenagens, datas comemorativas, concessões de rádio e atos de rotina ficam de fora. A proposta nova só é trocada quando surge outra que atende aos critérios.</p><p>Pronta para pauta quer dizer que a proposta pode ser incluída na pauta de votação, não que a votação já esteja marcada. Quando uma etapa não tem proposta que atenda aos critérios, como no recesso parlamentar, o espaço recebe outra proposta nova, e a etiqueta do card mostra sempre a situação real.</p><p>A seleção automática não significa revisão humana de cada texto nem representa apoio às propostas ou aos seus autores. Partido e autoria não entram nos critérios.</p></section>'+
  '<section style="margin-top:26px"><h2>Resumos gerados por IA</h2><p>Para que toda proposta tenha uma explicação além da ementa, um programa lê o texto integral publicado pela Câmara e usa inteligência artificial para escrever o resumo, como é hoje, como ficaria e o que muda na prática. Esses textos aparecem com o aviso “Resumo gerado por IA · sem revisão humana” e podem conter erros. Quando a redação revisa uma proposta, o texto revisado substitui o da IA e ganha o selo “Explicado pela redação”.</p></section>'+
  '<section style="margin-top:26px"><h2>Reportar um problema</h2><p>Se o título, o resumo ou a explicação de uma proposta estiver errado, desatualizado ou confuso, use “Encontrou um erro no título ou na explicação? Reportar” na ficha. O reporte é anônimo e vai para a equipe, que revisa cada caso. Nenhum texto sai do ar automaticamente, por mais reportes que receba: quanto mais pessoas apontam o mesmo problema, antes ele é revisado.</p></section>'+
  '<section style="margin-top:26px"><h2>Termômetro dos leitores</h2><p>Na ficha de cada proposta, você pode dizer se é a favor, neutro ou contra. O voto é anônimo: guardamos só um código aleatório deste navegador, sem nome, e-mail ou endereço IP. O resultado mostra a opinião de quem lê o site, aparece a partir de 5 votos e não é pesquisa de opinião: não representa a população nem o que o Congresso vai decidir.</p></section>'+

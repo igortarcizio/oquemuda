@@ -1,9 +1,13 @@
 #!/usr/bin/env python3
-"""Seleção diária, determinística e não partidária de temas com impacto cotidiano.
+"""Seleção diária, determinística e não partidária de destaques por etapa.
 
-Só incorpora propostas novas depois da última seleção e só altera os três slots
-quando encontra candidatas qualificadas. Preserva os destaques anteriores
-na falta de candidatas, de dados ou de disponibilidade do Supabase.
+Três posições, cada uma de uma etapa da tramitação na Câmara:
+  1. pronta para pauta (situação 924);
+  2. aprovada na Câmara ou já transformada em lei;
+  3. nova proposta (só troca quando surge uma nova qualificada).
+Sem candidata numa etapa, a posição recebe outra proposta nova qualificada
+e, em último caso, um destaque anterior: nunca fica vazia. Preserva os
+destaques anteriores na falta de dados ou de disponibilidade do Supabase.
 """
 import datetime as dt
 import json
@@ -36,6 +40,21 @@ AREAS = {
 EFFECT = re.compile(r"\b(assegura|garante|protege|proibe|estabelece|institui|obriga|determina|altera|amplia|reduz|prev[eê])\b")
 PUBLIC = re.compile(r"\b(pessoas|familias|criancas|adolescentes|idosos|mulheres|pacientes|trabalhadores|estudantes|consumidores|usuarios|populacao|deficiencia)\b")
 
+# Etapas: códigos oficiais iguais aos de src/lib/status.js (voting, approved e law).
+VOTING_CODES = (924,)
+APPROVED_CODES = (926, 1070, 1150, 1160, 1293, 1294, 1303, 939, 1140)
+STAGE_WINDOWS = (21, 60)  # dias desde a última movimentação; o segundo é a reserva
+STAGE_TYPES = {"PL", "PLP", "PEC", "MPV", "PDL"}
+# Atos de rotina que chegam ao Plenário em bloco e não mudam o cotidiano.
+STAGE_EXCLUDE = (
+    "radiodifusao", "credito extraordinario", "aprova o texto do", "acordo entre",
+    "premio", "selo ", "livro dos herois", "manifestacao da cultura", "calendario turistico",
+    "mobilizacao nacional", "simbolo nacional", "patrimonio cultural",
+)
+STAGE_EFFECT = re.compile(r"\b(assegura\w*|garant\w*|proib\w*|ved\w*|obrig\w*|amplia\w*|reduz\w*|cria\w*|torna\w*|estabelece\w*|altera\w*|institui\w*|dispoe)\b")
+STAGE_PUBLIC = re.compile(r"\b(pessoas?|familias?|criancas?|adolescentes?|idos[oa]s?|mulheres|maes|pacientes?|trabalhador\w*|estudantes?|consumidor\w*|usuarios?|populacao|deficiencias?|empresas?|produtores?|taxistas?|motoristas?|animais)\b")
+CRITERIA = {"pauta": "etapa_pauta_v2", "aprovada": "etapa_aprovada_v2", "nova": "etapa_nova_v2"}
+
 def simplify(text):
     return "".join(c for c in unicodedata.normalize("NFD", (text or "").lower()) if not unicodedata.combining(c))
 
@@ -60,6 +79,48 @@ def relevance(row):
     # Empate resolvido deterministicamente por ordem do dicionário.
     return score, topics[0]
 
+def stage_relevance(row):
+    """Pontuação para propostas que avançaram (pauta ou aprovação).
+
+    Chegar a essas etapas já é notícia; o filtro só tira atos de rotina e homenagens
+    e ordena pelo efeito no cotidiano. Retorna (score, tema) ou None.
+    """
+    if row.get("sigla_tipo") not in STAGE_TYPES:
+        return None
+    description = simplify(row.get("ementa", ""))
+    if len(description) < 50 or any(t in description for t in EXCLUDE + STAGE_EXCLUDE) or re.search(r"\bmocao\b", description):
+        return None
+    topics = [area for area, regex in AREAS.items() if re.search(regex, description)]
+    score = min(len(topics), 3) * 2
+    score += 2 if STAGE_PUBLIC.search(description) else 0
+    score += 1 if STAGE_EFFECT.search(description) else 0
+    score += 1 if re.search(r"\b(direito|acesso|gratuit|beneficio|prote[cç]ao|assistencia|financiamento)\w*", description) else 0
+    if score < 2:
+        return None
+    return score, (topics[0] if topics else "Outros")
+
+def stage_date(row):
+    return str(row.get("etapa_em") or "")[:19]
+
+def best_stage(candidates, used_ids, used_topics, today):
+    """Melhor candidata da etapa: janela curta primeiro, depois a reserva.
+
+    Ordem: pontuação, tema ainda não usado nos outros destaques, movimentação mais recente.
+    """
+    for days in STAGE_WINDOWS:
+        since = (today - dt.timedelta(days=days)).isoformat()
+        scored = []
+        for p in candidates:
+            if int(p["id"]) in used_ids or stage_date(p)[:10] < since:
+                continue
+            value = stage_relevance(p)
+            if value is not None:
+                scored.append((value[0], value[1] not in used_topics, stage_date(p), int(p["id"]), value[1]))
+        if scored:
+            scored.sort(reverse=True)
+            return scored[0][3], scored[0][4]
+    return None, None
+
 def request(path, params=None):
     url = BASE + path
     if params:
@@ -77,17 +138,17 @@ def update_selection(rows):
     with urllib.request.urlopen(req, timeout=25) as response:
         response.read()
 
-def choose(previous, candidates, day):
-    """Escolhe somente IDs inéditos desde a última avaliação do catálogo."""
-    previous = sorted(previous, key=lambda row: row["posicao"])
-    if len(previous) != 3:
-        return []
-    cutoff = max(str(row["selecionado_em"])[:10] for row in previous)
-    seen = set(previous[0].get("candidatos_avaliados") or []) if "candidatos_avaliados" in previous[0] else None
-    old = [row["proposicao_id"] for row in previous]
+def fresh_new(previous, candidates):
+    """Propostas novas qualificadas, inéditas desde a última avaliação, de temas diferentes.
+
+    Retorna [(id, tema)] em ordem de relevância.
+    """
+    cutoff = max(str(row["selecionado_em"])[:10] for row in previous) if previous else ""
+    seen = set(previous[0].get("candidatos_avaliados") or []) if previous and "candidatos_avaliados" in previous[0] else None
+    old = {int(row["proposicao_id"]) for row in previous}
     qualified = []
     for p in candidates:
-        if p["id"] in old or (p["id"] in seen if seen is not None else str(p.get("data_apresentacao") or "")[:10] <= cutoff):
+        if int(p["id"]) in old or (int(p["id"]) in seen if seen is not None else str(p.get("data_apresentacao") or "")[:10] <= cutoff):
             continue
         value = relevance(p)
         if value is not None:
@@ -97,16 +158,83 @@ def choose(previous, candidates, day):
     for _, topic, candidate in qualified:
         if topic in categories:
             continue
-        fresh.append(candidate["id"])
+        fresh.append((int(candidate["id"]), topic))
         categories.add(topic)
-        if len(fresh) == 3:
-            break
-    if not fresh:
+    return fresh
+
+def previous_new(previous):
+    """Destaques anteriores de proposta nova, do mais recente ao mais antigo.
+
+    Na primeira execução (critério antigo), as três posições eram todas de propostas novas.
+    """
+    rows = sorted(previous, key=lambda row: row["posicao"])
+    marked = [r for r in rows if r.get("criterio") == CRITERIA["nova"]]
+    legacy = [r for r in rows if r.get("criterio") not in CRITERIA.values()]
+    return [int(r["proposicao_id"]) for r in marked + legacy]
+
+def compose(previous, new_candidates, voting, approved, now):
+    """Monta as três posições: pauta, aprovada e nova, sempre com três propostas distintas.
+
+    Uma etapa sem candidata cede a posição a outra proposta nova qualificada; sem
+    nenhuma, a um destaque anterior. Retorna [] quando não há como completar as três.
+    """
+    previous = sorted(previous, key=lambda row: row["posicao"])
+    if len(previous) != 3:
         return []
-    chosen = fresh + [id for id in old if id not in fresh][:3-len(fresh)]
-    observed = sorted({int(p["id"]) for p in candidates})
-    return [{"posicao":idx+1, "proposicao_id":id, "selecionado_em":day.isoformat(),
-             "criterio":"interesse_publico_v1", "candidatos_avaliados":observed} for idx,id in enumerate(chosen)]
+    today = now.date()
+    used_ids, used_topics, slots = set(), set(), {}
+    fresh = fresh_new(previous, new_candidates)
+    # A posição "nova" troca só com novidade; sem ela, mantém a anterior.
+    if fresh:
+        slots["nova"] = fresh.pop(0)
+    else:
+        kept = next((i for i in previous_new(previous)), None)
+        slots["nova"] = (kept, None) if kept else (None, None)
+    if slots["nova"][0]:
+        used_ids.add(slots["nova"][0])
+        if slots["nova"][1]:
+            used_topics.add(slots["nova"][1])
+    for stage, candidates in (("pauta", voting), ("aprovada", approved)):
+        chosen, topic = best_stage(candidates, used_ids, used_topics, today)
+        if chosen is None:
+            # Reserva: outra proposta nova qualificada (marcada como nova) ou um destaque anterior.
+            while fresh and fresh[0][0] in used_ids:
+                fresh.pop(0)
+            if fresh:
+                chosen, topic = fresh.pop(0)
+            else:
+                chosen = next((i for i in previous_new(previous) + [int(r["proposicao_id"]) for r in previous] if i not in used_ids), None)
+            if chosen is None:
+                return []
+            slots[stage + ":reserva"] = (chosen, topic)
+        else:
+            slots[stage] = (chosen, topic)
+        used_ids.add(chosen)
+        if topic:
+            used_topics.add(topic)
+    order = []
+    for stage in ("pauta", "aprovada"):
+        if stage in slots:
+            order.append((slots[stage][0], CRITERIA[stage]))
+        else:
+            order.append((slots[stage + ":reserva"][0], CRITERIA["nova"]))
+    if slots["nova"][0] is None:
+        return []
+    order.append((slots["nova"][0], CRITERIA["nova"]))
+    if len({i for i, _ in order}) != 3:
+        return []
+    observed = sorted({int(p["id"]) for p in new_candidates})
+    return [{"posicao":idx+1, "proposicao_id":id, "selecionado_em":now.isoformat(),
+             "criterio":criterio, "candidatos_avaliados":observed} for idx,(id,criterio) in enumerate(order)]
+
+def stage_candidates(codes, today):
+    """Propostas na etapa com movimentação nos últimos 60 dias (a data vem da situação oficial)."""
+    since = (today - dt.timedelta(days=max(STAGE_WINDOWS))).isoformat()
+    return request("proposicoes", {
+        "select":"id,sigla_tipo,ementa,situacao_codigo,etapa_em:dados_oficiais->statusProposicao->>dataHora",
+        "situacao_codigo":"in.(" + ",".join(str(c) for c in codes) + ")",
+        "dados_oficiais->statusProposicao->>dataHora":"gte." + since,
+        "order":"dados_oficiais->statusProposicao->>dataHora.desc", "limit":1000})
 
 def update_seen(ids):
     """Grava o progresso mesmo quando não há rodízio; não altera propostas destacadas."""
@@ -117,7 +245,7 @@ def update_seen(ids):
     with urllib.request.urlopen(req,timeout=25) as response:response.read()
 
 def main():
-    previous = request("destaques_diarios", {"select":"posicao,proposicao_id,selecionado_em,candidatos_avaliados",
+    previous = request("destaques_diarios", {"select":"posicao,proposicao_id,selecionado_em,criterio,candidatos_avaliados",
                                            "order":"posicao.asc"})
     if len(previous) != 3:
         raise RuntimeError("Seleção anterior incompleta; atualização cancelada")
@@ -132,13 +260,15 @@ def main():
         if len(batch) < 1000:
             break
     now = dt.datetime.now(dt.timezone.utc)
-    rows = choose(previous, candidates, now)
+    voting = stage_candidates(VOTING_CODES, now.date())
+    approved = stage_candidates(APPROVED_CODES, now.date())
+    rows = compose(previous, candidates, voting, approved, now)
     if not rows:
         update_seen(sorted({int(p["id"]) for p in candidates}))
-        print("Sem novas propostas qualificadas: mantidos os 3 destaques anteriores.",flush=True)
+        print("Sem candidatas suficientes: mantidos os 3 destaques anteriores.",flush=True)
         return
     update_selection(rows)
-    print("Seleção atualizada:",[r["proposicao_id"] for r in rows],flush=True)
+    print("Seleção atualizada:",[(r["proposicao_id"], r["criterio"]) for r in rows],flush=True)
 
 if __name__ == "__main__":
     main()
