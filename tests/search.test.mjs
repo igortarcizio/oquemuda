@@ -183,5 +183,6 @@ test('card: na lista única diz o que aconteceu e quando, no horário de Brasíl
  assert.equal(cardDate({...p,etapaDesde:desde},{label:'Arquivado / Rejeitado',tone:'closed'}),'saiu de tramitação em 26/11/2026');
  assert.equal(cardDate({...p,etapaDesde:desde},{label:'Apresentada',tone:'neutral'}),'apresentada em 08/12/2025');
  assert.equal(cardDate({...p,etapaDesde:desde},{label:'Em atualização',tone:'pending'}),'apresentada em 08/12/2025');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Tramita em conjunto',tone:'discussion'}),'tramita em conjunto desde 26/11/2026');
  assert.equal(cardDate(p,{label:'Pronta para pauta',tone:'voting'}),'08/12/2025','fora da lista principal, só a data');
 });

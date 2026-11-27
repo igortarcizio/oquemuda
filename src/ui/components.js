@@ -62,7 +62,8 @@ const dayBR=value=>{
  */
 export function cardDate(p,status){
  if(!p.etapaDesde)return dateBR(p.dataApresentacao);
- const phrase=STAGE_SINCE[status?.tone];
+ // "Tramita em conjunto" usa a cor de "em discussão"; o texto precisa ser o dela.
+ const phrase=status?.label===STATUS.joint.label?STAGE_SINCE.joint:STAGE_SINCE[status?.tone];
  const since=dayBR(p.etapaDesde);
  if(!phrase||!/^\d{4}-\d{2}-\d{2}$/.test(since))return 'apresentada em '+dateBR(p.dataApresentacao);
  return phrase+' '+dateBR(since);

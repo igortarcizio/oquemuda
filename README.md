@@ -68,7 +68,7 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 "Explore as propostas" é uma lista só, sem filtro de ordem: a proposta recém-apresentada aparece ao lado da que acabou de mudar de etapa, pela data mais recente. Cada card diz o que aconteceu: "apresentada em…", "em discussão desde…", "pronta para pauta desde…", "aprovada na Câmara em…", "virou lei em…" ou "saiu de tramitação em…".
 
 - A data fica na coluna `situacao_desde`, preenchida por um gatilho do banco. Desde a migration `20261127_situacao_desde_etapa.sql`, só conta mudança de **etapa** (mesmos grupos de `src/lib/status.js`): troca de sub-situação dentro da comissão ("aguardando relator" → "aguardando parecer") não sobe a proposta. O primeiro código "apresentada" de uma proposta nova também não.
-- Carga inicial: apresentadas pela data da apresentação; em discussão pela primeira distribuição às comissões (tramitação 110); as demais etapas pela data da última situação. Correção em lotes: `select public.situacao_desde_corrigir(0);` e repetir com o id devolvido até voltar vazio.
+- Carga inicial: apresentadas e sem situação registrada pela data da apresentação; em discussão pela primeira distribuição às comissões (tramitação 110); as demais etapas pela data da última situação. Correção em lotes: `select public.situacao_desde_corrigir(0);` e repetir com o id devolvido até voltar vazio.
 - Com palavras buscadas, aparece "Ordenar por: Mais recentes / Mais relevantes". O atalho "Novas propostas" continua pela apresentação.
 - Sem a coluna no banco, a lista volta à ordem por apresentação. Não ordenar pela data dentro de `dados_oficiais`: a consulta estoura o tempo limite da chave pública.
 

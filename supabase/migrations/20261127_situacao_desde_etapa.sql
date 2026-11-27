@@ -6,8 +6,8 @@
 --    código. Trocas dentro da comissão ("aguardando relator" -> "aguardando parecer")
 --    eram centenas por dia e enterravam as propostas recém-apresentadas.
 -- 2. Corrige a carga inicial, que tinha usado a última movimentação:
---    apresentada -> data da apresentação; em discussão -> primeira distribuição às
---    comissões (tramitação de código 110). Demais etapas mantêm a data que já têm.
+--    apresentada ou sem situação -> data da apresentação; em discussão -> primeira
+--    distribuição às comissões (tramitação de código 110). Demais etapas mantêm a data.
 --
 -- Idempotente. Depois dela, rodar até voltar null:
 --   select public.situacao_desde_corrigir(0);   -- devolve o último id; passe-o de novo
@@ -77,10 +77,14 @@ as $$
     select id from public.proposicoes where id > depois_de order by id limit lote
   ), novo as (
     select p.id,
-           case public.etapa_situacao(p.situacao_codigo)
-             when 'discussao' then public.primeira_tramitacao(p.tramitacoes, '110')
-             when 'apresentada' then coalesce(public.primeira_tramitacao(p.tramitacoes, '100'),
-                                              p.data_apresentacao::timestamp at time zone 'America/Sao_Paulo')
+           case
+             when public.etapa_situacao(p.situacao_codigo) = 'discussao'
+               then public.primeira_tramitacao(p.tramitacoes, '110')
+             -- Apresentada ou sem situação registrada: a data da apresentação.
+             when public.etapa_situacao(p.situacao_codigo) = 'apresentada'
+               or public.etapa_situacao(p.situacao_codigo) is null
+               then coalesce(public.primeira_tramitacao(p.tramitacoes, '100'),
+                             p.data_apresentacao::timestamp at time zone 'America/Sao_Paulo')
            end as quando
       from public.proposicoes p join alvo using (id)
   ), feitas as (
