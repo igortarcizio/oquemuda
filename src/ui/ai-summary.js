@@ -1,8 +1,9 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=lista-unica-2';
+import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=titulos-1';
 import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-017';
+import {rememberAiTitles} from '../lib/ai-titles.js';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';
 const KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
@@ -77,8 +78,16 @@ export async function fetchAiTitles(ids,{fetchImpl=globalThis.fetch}={}){
     const rows=res.ok?await res.json():[];
     for(const id of want)titleCache.set(id,'');
     for(const r of Array.isArray(rows)?rows:[])if(r?.titulo)titleCache.set(Number(r.proposicao_id),String(r.titulo).trim());
+    rememberAiTitles([...titleCache.entries()].filter(([id])=>want.includes(id)));
   }catch{}
   return titleCache;
+}
+/**
+ * Busca os títulos curtos antes de desenhar a lista, sem atrasá-la: espera no máximo
+ * `limite` ms. O que não chegar a tempo continua sendo trocado depois, como antes.
+ */
+export function prefetchAiTitles(ids,{limite=700,fetchImpl=globalThis.fetch}={}){
+  return Promise.race([fetchAiTitles(ids,{fetchImpl}).catch(()=>null),new Promise(r=>setTimeout(r,limite))]);
 }
 // Cards da lista, card grande dos destaques (sem revisão da redação: h3.auto) e relacionadas.
 export const CARD_TITLE_SELECTOR=['.card:not(.reviewed) h3','.editorial-feature h3.auto','.related-card h3']
@@ -92,7 +101,7 @@ async function applyCardTitles(root=document){
   for(const a of links){
     const t=cache.get(id(a));
     a.dataset.aiTitle=t?'1':'0';
-    if(t&&!hasCuratedTitle(id(a))){a.title=a.textContent;a.textContent=t}
+    if(t&&!hasCuratedTitle(id(a))&&a.textContent!==t){a.title=a.textContent;a.textContent=t}
   }
 }
 let timer=null;
