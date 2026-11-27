@@ -405,3 +405,8 @@ abbr.history-org{text-decoration:none;cursor:help}
 .vote-others{margin-top:16px}
 .vote-others .vote-item{margin-top:10px}
 @media(max-width:640px){.vote-item{padding:14px}.vote-names{columns:1}}
+
+/* Título curto da IA ainda a caminho: oculto em vez de mostrar a ementa e trocar.
+   Se a busca não responder, aparece sozinho depois de 2,5 s. */
+.card-link[data-ai-wait]{opacity:0;animation:ai-title-reveal 0s linear 2.5s forwards}
+@keyframes ai-title-reveal{to{opacity:1}}
