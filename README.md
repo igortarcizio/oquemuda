@@ -63,14 +63,14 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 - [Plataforma pública](https://igortarcizio.github.io/oquemuda/#/explorar)
 - [API oficial](https://dadosabertos.camara.leg.br/api/v2/)
 
-## Ordem da lista — mudança de situação
+## Ordem da lista — apresentadas e mudanças de etapa juntas
 
-"Explore as propostas" lista primeiro o que **mudou de situação** mais recentemente, não só o que foi apresentado: proposta antiga que ficou pronta para pauta, foi aprovada, arquivada ou mudou de fase na comissão sobe para o topo, e o card mostra "situação mudou em dd/mm/aaaa". Proposta nova entra pela data de apresentação.
+"Explore as propostas" é uma lista só, sem filtro de ordem: a proposta recém-apresentada aparece ao lado da que acabou de mudar de etapa, pela data mais recente. Cada card diz o que aconteceu: "apresentada em…", "em discussão desde…", "pronta para pauta desde…", "aprovada na Câmara em…", "virou lei em…" ou "saiu de tramitação em…".
 
-- A data fica na coluna `situacao_desde`, preenchida por um gatilho do banco sempre que `situacao_codigo` muda (migration `supabase/migrations/20261127_situacao_desde.sql`, aplicada em 27/11/2026). Os robôs de sincronização não mudaram. A carga inicial é feita em lotes com `select public.situacao_desde_preencher();` até voltar 0.
-- Na carga inicial, a data é a da última situação registrada pela Câmara (pode ser uma movimentação na mesma fase); daí em diante, só mudança de código conta.
-- O seletor "Ordenar por" oferece também "Apresentação mais recente" e, com palavras buscadas, "Mais relevantes". O atalho "Novas propostas" continua pela apresentação.
-- Sem a coluna no banco (migration não aplicada), a lista volta à ordem por apresentação. Não ordenar pela data dentro de `dados_oficiais`: a consulta estoura o tempo limite da chave pública.
+- A data fica na coluna `situacao_desde`, preenchida por um gatilho do banco. Desde a migration `20261127_situacao_desde_etapa.sql`, só conta mudança de **etapa** (mesmos grupos de `src/lib/status.js`): troca de sub-situação dentro da comissão ("aguardando relator" → "aguardando parecer") não sobe a proposta. O primeiro código "apresentada" de uma proposta nova também não.
+- Carga inicial: apresentadas pela data da apresentação; em discussão pela primeira distribuição às comissões (tramitação 110); as demais etapas pela data da última situação. Correção em lotes: `select public.situacao_desde_corrigir(0);` e repetir com o id devolvido até voltar vazio.
+- Com palavras buscadas, aparece "Ordenar por: Mais recentes / Mais relevantes". O atalho "Novas propostas" continua pela apresentação.
+- Sem a coluna no banco, a lista volta à ordem por apresentação. Não ordenar pela data dentro de `dados_oficiais`: a consulta estoura o tempo limite da chave pública.
 
 ## Seleção diária — Propostas em foco
 

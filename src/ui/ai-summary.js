@@ -1,7 +1,7 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=lista-etapa-1';
+import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=lista-unica-1';
 import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-017';
 
 const URL_RESUMOS='https://ltihbrlamevhmjjlsphc.supabase.co/rest/v1/resumos_ia';

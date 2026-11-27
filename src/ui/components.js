@@ -46,22 +46,26 @@ const cardActions=(p,e,saved)=>'<span class="card-actions">'+shareButton(p.id,{r
 const topicLabel=area=>'<span class="topic-label"><span class="topic-dot" aria-hidden="true"></span>'+safeText(area)+'</span>';
 const statusSlot=(p,status,highlight=false)=>'<span data-status-id="'+Number(p.id)+'"'+(highlight?' data-stage':'')+'>'+badge(status,highlight)+'</span>';
 
-/**
- * Data do card. Na ordem por mudança de etapa, mostra quando a proposta entrou na etapa
- * atual; proposta que só foi apresentada, ou cuja etapa começou no dia da apresentação,
- * mostra a data de apresentação, como antes.
- */
+// O que aconteceu, para a data do card na lista única (apresentadas e mudanças de etapa juntas).
+const STAGE_SINCE={discussion:'em discussão desde',voting:'pronta para pauta desde',approved:'aprovada na Câmara em',
+ law:'virou lei em',closed:'saiu de tramitação em',joint:'tramita em conjunto desde'};
 // Dia no horário de Brasília: o banco devolve timestamptz em UTC ("…T01:30:00+00:00").
 const dayBR=value=>{
  const text=String(value||'');
  if(/(?:[zZ]|[+-]\d{2}:?\d{2})$/.test(text)){const d=new Date(text);if(!Number.isNaN(d.getTime()))return d.toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'})}
  return text.slice(0,10);
 };
+/**
+ * Data do card. Na lista principal (p.etapaDesde preenchido) diz o que aconteceu e quando:
+ * "apresentada em…" ou "em discussão desde…", "pronta para pauta desde…" etc.
+ * Fora dela (salvos, cópia local, outros atalhos), só a data de apresentação, como antes.
+ */
 export function cardDate(p,status){
- const since=dayBR(p.etapaDesde),presented=String(p.dataApresentacao||'').slice(0,10);
- const moved=/^\d{4}-\d{2}-\d{2}$/.test(since)&&since!==presented&&!['neutral','pending'].includes(status?.tone);
- if(!moved)return dateBR(p.dataApresentacao);
- return 'situação mudou em '+dateBR(since);
+ if(!p.etapaDesde)return dateBR(p.dataApresentacao);
+ const phrase=STAGE_SINCE[status?.tone];
+ const since=dayBR(p.etapaDesde);
+ if(!phrase||!/^\d{4}-\d{2}-\d{2}$/.test(since))return 'apresentada em '+dateBR(p.dataApresentacao);
+ return phrase+' '+dateBR(since);
 }
 /**
  * Card da lista. O card inteiro leva à ficha por um único link (o título).
