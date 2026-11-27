@@ -67,7 +67,7 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 
 "Explore as propostas" lista primeiro o que **mudou de situação** mais recentemente, não só o que foi apresentado: proposta antiga que ficou pronta para pauta, foi aprovada, arquivada ou mudou de fase na comissão sobe para o topo, e o card mostra "situação mudou em dd/mm/aaaa". Proposta nova entra pela data de apresentação.
 
-- A data fica na coluna `situacao_desde`, preenchida por um gatilho do banco sempre que `situacao_codigo` muda (migration `supabase/migrations/20261127_situacao_desde.sql`). Os robôs de sincronização não mudaram.
+- A data fica na coluna `situacao_desde`, preenchida por um gatilho do banco sempre que `situacao_codigo` muda (migration `supabase/migrations/20261127_situacao_desde.sql`, aplicada em 27/11/2026). Os robôs de sincronização não mudaram. A carga inicial é feita em lotes com `select public.situacao_desde_preencher();` até voltar 0.
 - Na carga inicial, a data é a da última situação registrada pela Câmara (pode ser uma movimentação na mesma fase); daí em diante, só mudança de código conta.
 - O seletor "Ordenar por" oferece também "Apresentação mais recente" e, com palavras buscadas, "Mais relevantes". O atalho "Novas propostas" continua pela apresentação.
 - Sem a coluna no banco (migration não aplicada), a lista volta à ordem por apresentação. Não ordenar pela data dentro de `dados_oficiais`: a consulta estoura o tempo limite da chave pública.

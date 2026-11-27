@@ -2,7 +2,7 @@
 -- Quem escreve: um gatilho do próprio banco, sempre que situacao_codigo muda. Os robôs
 -- de sincronização não precisam saber desta coluna.
 -- Quem lê: o site, para ordenar "Explore as propostas" por mudança de etapa e mostrar
--- a data no card. Sem esta migration, o site ordena pela última movimentação.
+-- a data no card. Sem esta migration, o site ordena pela apresentação.
 -- Idempotente: pode rodar de novo.
 --
 -- Por que um gatilho: o histórico de tramitações da Câmara repete a situação ATUAL em
@@ -56,10 +56,27 @@ create trigger proposicoes_situacao_desde
 
 -- Carga inicial: a melhor data disponível é a da última situação registrada pela Câmara
 -- (pode ser uma movimentação dentro da mesma etapa). Daqui em diante, só mudança de etapa.
-update public.proposicoes
-   set situacao_desde = coalesce(public.data_camara(dados_oficiais->'statusProposicao'->>'dataHora'),
-                                 data_apresentacao::timestamp at time zone 'America/Sao_Paulo')
- where situacao_desde is null;
+-- Em lotes, como busca_preencher: de uma vez só, as ~15 mil propostas passam do limite
+-- de 2 minutos do SQL Editor (e o Postgres desfaz tudo, inclusive a coluna).
+-- Depois desta migration, rodar até voltar 0:  select public.situacao_desde_preencher();
+create or replace function public.situacao_desde_preencher(lote integer default 1000)
+returns integer
+language sql
+set search_path = ''
+as $$
+  with alvo as (
+    select id from public.proposicoes where situacao_desde is null order by id limit lote
+  ), feitas as (
+    update public.proposicoes p
+       set situacao_desde = coalesce(public.data_camara(p.dados_oficiais->'statusProposicao'->>'dataHora'),
+                                     p.data_apresentacao::timestamp at time zone 'America/Sao_Paulo')
+      from alvo
+     where p.id = alvo.id
+    returning 1
+  )
+  select count(*)::integer from feitas
+$$;
+revoke execute on function public.situacao_desde_preencher(integer) from public, anon, authenticated;
 
 create index if not exists proposicoes_situacao_desde_idx
   on public.proposicoes (situacao_desde desc nulls last, data_apresentacao desc, id desc);
