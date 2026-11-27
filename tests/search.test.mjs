@@ -173,11 +173,15 @@ test('banco: ordem por mudança de etapa e plano B pela apresentação',async()=
  }finally{globalThis.fetch=prev}
 });
 
-test('card: mostra desde quando está na etapa, no horário de Brasília',()=>{
+test('card: na lista única diz o que aconteceu e quando, no horário de Brasília',()=>{
  const p={id:1,siglaTipo:'PL',numero:6234,ano:2025,ementa:'x',dataApresentacao:'2025-12-08'};
- const pronta={label:'Pronta para pauta',tone:'voting'};
- assert.equal(cardDate({...p,etapaDesde:'2026-11-27T01:30:00+00:00'},pronta),'situação mudou em 26/11/2026');
- assert.equal(cardDate({...p,etapaDesde:'2026-11-26T03:00:00+00:00'},{label:'Apresentada',tone:'neutral'}),'08/12/2025');
- assert.equal(cardDate({...p,etapaDesde:'2025-12-08T23:00:00+00:00'},pronta),'08/12/2025','mesma data da apresentação');
- assert.equal(cardDate(p,pronta),'08/12/2025');
+ const desde='2026-11-27T01:30:00+00:00'; // 26/11 em Brasília
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Pronta para pauta',tone:'voting'}),'pronta para pauta desde 26/11/2026');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Em discussão',tone:'discussion'}),'em discussão desde 26/11/2026');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Aprovado na Câmara',tone:'approved'}),'aprovada na Câmara em 26/11/2026');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Virou lei',tone:'law'}),'virou lei em 26/11/2026');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Arquivado / Rejeitado',tone:'closed'}),'saiu de tramitação em 26/11/2026');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Apresentada',tone:'neutral'}),'apresentada em 08/12/2025');
+ assert.equal(cardDate({...p,etapaDesde:desde},{label:'Em atualização',tone:'pending'}),'apresentada em 08/12/2025');
+ assert.equal(cardDate(p,{label:'Pronta para pauta',tone:'voting'}),'08/12/2025','fora da lista principal, só a data');
 });
