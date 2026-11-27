@@ -1,7 +1,7 @@
 // Resumo gerado por IA a partir do texto integral (tabela resumos_ia, preenchida por
 // scripts/resumir_propostas.py). Só substitui o resumo automático; o texto validado
 // pela redação continua com prioridade.
-import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=titulos-1';
+import {changeSectionFor,hasValidatedEditorial,AI_NOTICE_HTML} from './components.js?v=titulos-2';
 import {hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-017';
 import {rememberAiTitles} from '../lib/ai-titles.js';
 
@@ -102,6 +102,7 @@ async function applyCardTitles(root=document){
     const t=cache.get(id(a));
     a.dataset.aiTitle=t?'1':'0';
     if(t&&!hasCuratedTitle(id(a))&&a.textContent!==t){a.title=a.textContent;a.textContent=t}
+    a.removeAttribute('data-ai-wait');
   }
 }
 let timer=null;

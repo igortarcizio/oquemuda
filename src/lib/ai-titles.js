@@ -13,20 +13,21 @@ function load(now=Date.now()){
  try{
   const saved=JSON.parse(storage()?.getItem(KEY)||'{}');
   for(const [id,v] of Object.entries(saved)){
-   if(Array.isArray(v)&&typeof v[0]==='string'&&v[0]&&now-Number(v[1])<TTL)mem.set(Number(id),[v[0],Number(v[1])]);
+   if(Array.isArray(v)&&typeof v[0]==='string'&&now-Number(v[1])<TTL)mem.set(Number(id),[v[0],Number(v[1])]);
   }
  }catch{}
  return mem;
 }
 /** Título curto já conhecido desta proposta, ou ''. */
 export function cachedAiTitle(id){return load().get(Number(id))?.[0]||''}
-/** Guarda títulos curtos ([id, titulo]); títulos vazios são ignorados. */
+/** Já se sabe se a proposta tem título curto (tem, ou a IA ainda não fez)? */
+export function knownAiTitle(id){return load().has(Number(id))}
+/** Guarda títulos curtos ([id, titulo]); título vazio registra que a proposta ainda não tem. */
 export function rememberAiTitles(entries,now=Date.now()){
  const m=load(now);
  let changed=false;
  for(const [id,t] of entries){
   const title=String(t||'').trim();
-  if(!title)continue;
   m.set(Number(id),[title,now]);changed=true;
  }
  if(!changed)return;

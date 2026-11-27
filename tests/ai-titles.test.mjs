@@ -14,7 +14,8 @@ test('título curto guardado vale depois de recarregar a página',()=>{
  titles.rememberAiTitles([[4242,curto],[1,''],[2,'  ']]);
  titles.resetAiTitles(); // simula recarregar: a memória some, o navegador guarda
  assert.equal(titles.cachedAiTitle(4242),curto);
- assert.equal(titles.cachedAiTitle(1),'','título vazio não é guardado');
+ assert.equal(titles.cachedAiTitle(1),'','sem título curto, continua vazio');
+ assert.ok(titles.knownAiTitle(1),'mas fica registrado que já foi consultado');
 });
 
 test('card e destaque grande já nascem com o título curto',()=>{
@@ -33,4 +34,13 @@ test('título guardado vence em 3 dias',()=>{
  titles.rememberAiTitles([[7,'Velho']],Date.now()-4*86_400_000);
  titles.resetAiTitles();
  assert.equal(titles.cachedAiTitle(7),'');
+});
+
+test('título ainda desconhecido nasce oculto, em vez de mostrar a ementa e trocar',()=>{
+ const novo={...p,id:777001};
+ assert.match(card(novo,null,false),/data-ai-wait/);
+ titles.rememberAiTitles([[4242,curto]]);
+ assert.doesNotMatch(card(p,null,false),/data-ai-wait/,'título já conhecido aparece direto');
+ titles.rememberAiTitles([[777002,'']]);
+ assert.doesNotMatch(card({...p,id:777002},null,false),/data-ai-wait/,'sem título da IA: mostra a ementa sem esperar');
 });

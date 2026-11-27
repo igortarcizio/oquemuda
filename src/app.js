@@ -1,17 +1,17 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=titulos-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=titulos-2';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=status-apresentada';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=titulos-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=titulos-2';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {filterVotes} from './lib/votacoes.js?v=status-apresentada';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles,prefetchAiTitles} from './ui/ai-summary.js?v=titulos-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles,prefetchAiTitles} from './ui/ai-summary.js?v=titulos-2';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -94,6 +94,13 @@ function syncForm(){
  $('sortSelect').value=effectiveSort();
 }
 /** Ordem da consulta: etapa (padrão); relevância só com palavras; "Novas propostas" pela apresentação. */
+// Última lista e destaques mostrados, guardados na aba por 10 minutos:
+// ao voltar de uma proposta ou recarregar, a página reaparece igual, sem trocar cards nem títulos.
+const LIST_TTL=10*60_000;
+const listKey=()=>'oquemuda:lista:v1:'+JSON.stringify([state.page,state.year,state.type,state.party,state.query,state.tag,state.topic,state.mode,effectiveSort()]);
+function readSession(key){try{const s=JSON.parse(sessionStorage.getItem(key));return s&&s.until>Date.now()?s.value:null}catch{return null}}
+function keepSession(key,value){try{sessionStorage.setItem(key,JSON.stringify({until:Date.now()+LIST_TTL,value}))}catch{}}
+const FEATURED_KEY='oquemuda:destaques:v1';
 function effectiveSort(){
  if(state.mode==='recent')return 'recentes';
  if(state.sort==='relevancia'&&!parseSearch(state.query).query)return 'etapa';
@@ -198,7 +205,8 @@ function emptyState(){
 }
 function setFooter(text){$('sourceNote').textContent=text}
 function loader(){
- renderEditorial();
+ if(state.featuredResult?.items?.length)renderEditorial();
+ else{$('editorialSection').hidden=true}
  $('cards').innerHTML=skeleton(6);$('cards').setAttribute('aria-busy','true');
  $('pagination').innerHTML='';$('listSubtitle').textContent='Consultando propostas…';
  announce('Consultando propostas. Aguarde.');
@@ -209,6 +217,8 @@ function renderEditorial(){
  $('editorialFeature').innerHTML='';
  $('editorialSupporting').innerHTML='';
  if(!editorialAllowed(state,DEFAULT_YEAR))return;
+ // Enquanto os destaques do dia carregam, não mostrar uma escolha provisória que depois seria trocada.
+ if(state.featuredLoading&&state.featuredResult?.items?.length!==3)return;
  const selected=state.featuredResult?.items?.length===3?
   state.featuredResult.items:
   selectEditorial(window.OBM_DATA?.items||[],window.OBM_EDITORIAL||{},state.items,{max:3,year:Number(DEFAULT_YEAR)});
@@ -268,19 +278,31 @@ async function showList(){
  const situationCodes=state.mode?WATCH_MODES[state.mode].codes:'';
  // A cópia local é exibida imediatamente; a API oficial atualiza quando responder.
  // Não deixar o visitante preso nos skeletons durante instabilidade externa.
- const snapshot=!state.mode&&!state.tag?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:theme||'Todos'}):null;
- const hasSnapshot=!!snapshot?.items?.length;
- if(hasSnapshot){
+ const shouldFeatureNow=editorialAllowed(state,DEFAULT_YEAR);
+ if(shouldFeatureNow&&!state.featuredResult)state.featuredResult=readSession(FEATURED_KEY);
+ const kept=readSession(listKey());
+ if(kept?.items?.length){
+  // Mesma consulta vista há pouco: reaparece idêntica; o banco só confirma depois.
+  present(kept);
+ }
+ const snapshot=!kept&&!state.mode&&!state.tag?fromSnapshot({page:state.page,year:state.year,type:state.type,party:state.party,keywords,area:theme||'Todos'}):null;
+ const hasSnapshot=!!kept?.items?.length||!!snapshot?.items?.length;
+ if(snapshot?.items?.length){
+  // Títulos curtos antes da cópia local também, senão ela aparece com a ementa longa.
+  await prefetchAiTitles(snapshot.items.map(p=>p.id));
+  if(id!==sequence)return;
   present(snapshot);
   $('listSubtitle').textContent='Exibimos a última versão disponível. Consultando atualizações…';
   announce('Propostas da cópia parcial exibidas. Consultando atualização oficial.');
  }
  try{
   // Os destaques são obtidos antes da busca e retirados da listagem padrão.
-  const shouldFeature=editorialAllowed(state,DEFAULT_YEAR);
+  const shouldFeature=shouldFeatureNow;
   if(shouldFeature){
-   try{state.featuredResult=await getDailyFeatured({signal:activeRequest.signal})}
-   catch{state.featuredResult=null}
+   state.featuredLoading=true;
+   try{state.featuredResult=await getDailyFeatured({signal:activeRequest.signal});if(state.featuredResult?.items?.length)keepSession(FEATURED_KEY,state.featuredResult)}
+   catch{state.featuredResult=state.featuredResult||null}
+   finally{state.featuredLoading=false}
   }
   // Títulos curtos antes de desenhar: o card já nasce com eles (sem piscar o título longo).
   if(state.featuredResult?.items?.length)await prefetchAiTitles(state.featuredResult.items.map(p=>p.id));
@@ -307,6 +329,7 @@ async function showList(){
   // O banco é a fonte completa: se ele respondeu, vale a resposta dele, mesmo vazia.
   // A cópia parcial só fica quando a consulta ao vivo da Câmara (plano B) volta vazia.
   if(result.items.length||!hasSnapshot||result.source==='banco de dados'){
+   if(result.source==='banco de dados')keepSession(listKey(),result);
    present(result);
   }else{
    $('listSubtitle').textContent='Cópia parcial disponível. A consulta oficial não retornou registros nesta página.';
