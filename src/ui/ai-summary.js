@@ -80,8 +80,11 @@ export async function fetchAiTitles(ids,{fetchImpl=globalThis.fetch}={}){
   }catch{}
   return titleCache;
 }
+// Cards da lista, card grande dos destaques (sem revisão da redação: h3.auto) e relacionadas.
+export const CARD_TITLE_SELECTOR=['.card:not(.reviewed) h3','.editorial-feature h3.auto','.related-card h3']
+ .map(h=>h+' a[href^="#/tema/"]:not([data-ai-title])').join(', ');
 async function applyCardTitles(root=document){
-  const links=[...root.querySelectorAll('.card:not(.reviewed) h3 a[href^="#/tema/"]:not([data-ai-title]), .related-card h3 a[href^="#/tema/"]:not([data-ai-title])')];
+  const links=[...root.querySelectorAll(CARD_TITLE_SELECTOR)];
   if(!links.length)return;
   for(const a of links)a.dataset.aiTitle='pending';
   const id=a=>Number(a.getAttribute('href').split('/').pop());

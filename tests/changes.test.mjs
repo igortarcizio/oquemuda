@@ -201,3 +201,10 @@ test('imports locais novos têm versão no endereço (evita mistura de cache no 
   const html=readFileSync(new URL('../index.html',import.meta.url),'utf8');
   assert.match(html,/src\/app\.js\?v=[^"]+"/);
 });
+
+test('título curto da IA vale também no card grande dos destaques, nunca no revisado',async()=>{
+ const {CARD_TITLE_SELECTOR}=await import('../src/ui/ai-summary.js');
+ assert.match(CARD_TITLE_SELECTOR,/\.editorial-feature h3\.auto a/);
+ assert.match(CARD_TITLE_SELECTOR,/\.card:not\(\.reviewed\) h3 a/);
+ assert.doesNotMatch(CARD_TITLE_SELECTOR,/\.editorial-feature h3 a/,'card grande revisado (h3 sem .auto) mantém o título da redação');
+});
