@@ -19,7 +19,7 @@
   <meta property="og:image:alt" content="O que muda? Entenda as propostas da Câmara dos Deputados">
   <meta name="twitter:card" content="summary_large_image">
   <link rel="stylesheet" href="./styles/base.css?v=etapa2-20261111">
-  <link rel="stylesheet" href="./styles/components.css?v=titulos-2">
+  <link rel="stylesheet" href="./styles/components.css?v=calendario-1">
   <link rel="stylesheet" href="./styles/news-ticker.css?v=6">
   <link rel="stylesheet" href="./styles/related-proposals.css?v=1">
   <link rel="stylesheet" href="./styles/reader-votes.css?v=coluna-1">
@@ -40,6 +40,7 @@
     <nav aria-label="Navegação principal"><ul>
       <li><a href="#/explorar" id="nav-explorar">Explorar</a></li>
       <li><a href="#/salvos" id="nav-salvos">Salvos <span id="savedCounter" class="savecount" hidden></span></a></li>
+      <li><a href="#/calendario" id="nav-calendario">Calendário</a></li>
       <li><a href="#/como-funciona" id="nav-como-funciona">Como funciona</a></li>
     </ul></nav>
   </div></header>
@@ -72,6 +73,7 @@
             <div class="watch-heading">
               <div><p class="watch-kicker">TRAMITAÇÃO</p><h2 id="watchHeading">De olho na Câmara</h2></div>
             </div>
+            <a class="session-status" id="sessionStatus" href="#/calendario" hidden></a>
             <p class="watch-intro">Veja o que chegou à Câmara, o que está pronto para entrar em pauta, o que foi aprovado e o que saiu de tramitação.</p>
             <nav aria-label="Acompanhamento legislativo" class="watch-nav">
               <a class="watch-item" data-watch="recent" href="#/explorar?modo=recent&amp;page=1&amp;ano=Todos&amp;tipo=Todos">
@@ -127,7 +129,7 @@
         <p>Consulte os textos integrais e acompanhe a tramitação no <a class="footer-source" href="https://dadosabertos.camara.leg.br/" target="_blank" rel="noopener noreferrer">portal da Câmara dos Deputados ↗</a>.</p>
       </div>
       <nav aria-label="Navegação no rodapé"><ul>
-        <li><a href="#/explorar">Explorar</a></li><li><a href="#/salvos">Salvos</a></li><li><a href="#/como-funciona">Como funciona</a></li>
+        <li><a href="#/explorar">Explorar</a></li><li><a href="#/salvos">Salvos</a></li><li><a href="#/calendario">Calendário</a></li><li><a href="#/como-funciona">Como funciona</a></li>
       </ul></nav>
     </div>
     <div class="footer-inner--source"><p class="source-footer" id="sourceNote" role="note">Fonte: Câmara dos Deputados. Propostas não são leis em vigor.</p></div>
@@ -137,7 +139,7 @@
   <script src="./dados/editorial.js"></script>
   <script src="./dados/deputados-partidos.js"></script>
   <script type="module">import { initNewsTicker } from "./src/ui/news-ticker.js?v=6"; initNewsTicker();</script>
-  <script type="module" src="./src/app.js?v=titulos-2"></script>
+  <script type="module" src="./src/app.js?v=calendario-1"></script>
   <script type="module">import { initBrandQuestion } from "./src/ui/brand-question.js?v=1"; initBrandQuestion();</script>
 </body>
 </html>
