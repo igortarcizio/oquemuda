@@ -8,6 +8,7 @@ globalThis.window={OBM_EDITORIAL:{},OBM_PARTIDOS_DEPUTADOS:{},OBM_DATA:{items:[
  {id:4,siglaTipo:'PL',numero:50,ano:2026,ementa:'Dispõe sobre aplicativos de saúde.',dataApresentacao:'2026-03-02'}
 ]}};
 const {getDatabaseProposals,getProposals,fromSnapshot}=await import('../src/data/api.js');
+const {cardDate}=await import('../src/ui/components.js');
 
 test('lê referências em vários formatos',()=>{
  const ref=q=>parseSearch(q).ref;
@@ -144,4 +145,39 @@ test('banco sem a função de texto completo: volta ao ilike, com exclusão',asy
  assert.match(urls[1],/ementa_busca\.ilike\.\*saude\*/);
  assert.match(urls[1],/ementa_busca\.not\.ilike\.\*aplicativos\*/);
  assert.ok(!/relevancia/.test(urls[1]));
+});
+
+test('banco: ordem por mudança de etapa e plano B pela apresentação',async()=>{
+ const prev=globalThis.fetch;const urls=[];let semColuna=false;
+ globalThis.fetch=async u=>{const s=decodeURIComponent(String(u));urls.push(s);
+  if(semColuna&&/situacao_desde/.test(s))return {ok:false,status:400,headers:{get:()=>null},json:async()=>({})};
+  const row={id:7,sigla_tipo:'PL',numero:1,ano:2025,ementa:'Altera a lei de proteção aos consumidores.',data_apresentacao:'2025-12-08',situacao_codigo:924,dados_oficiais:{statusProposicao:{dataHora:'2026-11-26T16:41:15'}}};
+  if(/situacao_desde/.test(s.split('&order=')[0]))row.situacao_desde='2026-11-26T19:41:15+00:00';
+  return {ok:true,status:200,headers:{get:()=> '0-0/1'},json:async()=>[row]}};
+ try{
+  const r=await getDatabaseProposals({year:'Todos',type:'Todos',sort:'etapa'});
+  assert.match(urls[0],/select=[^&]*situacao_desde/);
+  assert.match(urls[0],/order=situacao_desde\.desc\.nullslast,data_apresentacao\.desc,id\.desc/);
+  assert.equal(r.items[0].etapaDesde,'2026-11-26T19:41:15+00:00');
+  await getDatabaseProposals({keywords:'consumidor',year:'Todos',type:'Todos',sort:'etapa'});
+  // Com ou sem a busca de texto completo (um teste anterior a desliga), a ordem é a mesma.
+  assert.match(urls[1],/order=situacao_desde\.desc\.nullslast/);
+  semColuna=true;urls.length=0;
+  const b=await getDatabaseProposals({year:'Todos',type:'Todos',sort:'etapa'});
+  assert.equal(urls.length,2,'tenta de novo uma vez, sem a coluna');
+  assert.match(urls[1],/order=data_apresentacao\.desc,id\.desc/);
+  assert.doesNotMatch(urls[1],/dados_oficiais->/,'ordenar pelo JSON estoura o tempo limite');
+  assert.equal(b.items[0].etapaDesde,undefined);
+  const r2=await getDatabaseProposals({year:'Todos',type:'Todos',sort:'recentes'});
+  assert.equal(r2.items[0].etapaDesde,undefined,'na ordem por apresentação o card mostra a apresentação');
+ }finally{globalThis.fetch=prev}
+});
+
+test('card: mostra desde quando está na etapa, no horário de Brasília',()=>{
+ const p={id:1,siglaTipo:'PL',numero:6234,ano:2025,ementa:'x',dataApresentacao:'2025-12-08'};
+ const pronta={label:'Pronta para pauta',tone:'voting'};
+ assert.equal(cardDate({...p,etapaDesde:'2026-11-27T01:30:00+00:00'},pronta),'situação mudou em 26/11/2026');
+ assert.equal(cardDate({...p,etapaDesde:'2026-11-26T03:00:00+00:00'},{label:'Apresentada',tone:'neutral'}),'08/12/2025');
+ assert.equal(cardDate({...p,etapaDesde:'2025-12-08T23:00:00+00:00'},pronta),'08/12/2025','mesma data da apresentação');
+ assert.equal(cardDate(p,pronta),'08/12/2025');
 });

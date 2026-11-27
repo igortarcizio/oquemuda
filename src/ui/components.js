@@ -47,6 +47,23 @@ const topicLabel=area=>'<span class="topic-label"><span class="topic-dot" aria-h
 const statusSlot=(p,status,highlight=false)=>'<span data-status-id="'+Number(p.id)+'"'+(highlight?' data-stage':'')+'>'+badge(status,highlight)+'</span>';
 
 /**
+ * Data do card. Na ordem por mudança de etapa, mostra quando a proposta entrou na etapa
+ * atual; proposta que só foi apresentada, ou cuja etapa começou no dia da apresentação,
+ * mostra a data de apresentação, como antes.
+ */
+// Dia no horário de Brasília: o banco devolve timestamptz em UTC ("…T01:30:00+00:00").
+const dayBR=value=>{
+ const text=String(value||'');
+ if(/(?:[zZ]|[+-]\d{2}:?\d{2})$/.test(text)){const d=new Date(text);if(!Number.isNaN(d.getTime()))return d.toLocaleDateString('en-CA',{timeZone:'America/Sao_Paulo'})}
+ return text.slice(0,10);
+};
+export function cardDate(p,status){
+ const since=dayBR(p.etapaDesde),presented=String(p.dataApresentacao||'').slice(0,10);
+ const moved=/^\d{4}-\d{2}-\d{2}$/.test(since)&&since!==presented&&!['neutral','pending'].includes(status?.tone);
+ if(!moved)return dateBR(p.dataApresentacao);
+ return 'situação mudou em '+dateBR(since);
+}
+/**
  * Card da lista. O card inteiro leva à ficha por um único link (o título).
  * Revisada: pergunta + síntese da redação + selo. Demais: título descritivo da ementa + "Altera:".
  */
@@ -55,7 +72,7 @@ export function card(p,status,saved,{highlight=false}={}){
  const laws=reviewed?'':amendedLaws(p.ementa);
  return '<article class="card civic-card '+(reviewed?'reviewed':'auto')+'" data-area="'+safeText(area)+'">'+
    '<div class="card-top">'+topicLabel(area)+statusSlot(p,status,highlight)+'</div>'+
-   '<p class="docref">'+safeText(ref(p))+' · '+safeText(dateBR(p.dataApresentacao))+'</p>'+
+   '<p class="docref">'+safeText(ref(p))+' · '+safeText(cardDate(p,status))+'</p>'+
    '<h3><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(displayTitle(p,e))+'</a></h3>'+
    (reviewed?'<p class="card-lead">'+safeText(conciseImpact(e.impacto))+'</p>':laws?'<p class="changes"><b>Altera:</b> '+safeText(laws)+'</p>':'')+
    subjectLinks(p)+

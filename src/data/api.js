@@ -190,14 +190,25 @@ const DB_KEY='sb_publishable_SoAeylRxXXv38jw34drQFA_nbgItFPE';
 // também no título e no resumo da IA. Sem a função no banco (HTTP 404/400), volta ao ilike.
 const SEARCH_URL=DB_URL.replace(/\/proposicoes$/,'/rpc/buscar_proposicoes');
 let fullTextSearch=true;
-export const SORTS=Object.freeze({recentes:'data_apresentacao.desc,id.desc',relevancia:'relevancia.desc,data_apresentacao.desc,id.desc'});
+export const SORTS=Object.freeze({recentes:'data_apresentacao.desc,id.desc',relevancia:'relevancia.desc,data_apresentacao.desc,id.desc',
+ // Mudança de etapa (migration 20261127_situacao_desde). Proposta nova entra pela apresentação.
+ etapa:'situacao_desde.desc.nullslast,data_apresentacao.desc,id.desc'});
+// Coluna situacao_desde; sem ela (HTTP 400), ordena pela apresentação, como antes.
+// Não ordenar pela data dentro de dados_oficiais: estoura o tempo limite da chave pública.
+let stageColumn=true;
+/** Ordem efetiva da lista. Relevância só com palavras buscadas. */
+export function orderFor(sort,{fullText=false,withStage=stageColumn}={}){
+ if(sort==='relevancia'&&fullText)return SORTS.relevancia;
+ if(sort==='etapa'&&withStage)return SORTS.etapa;
+ return SORTS.recentes;
+}
 // Colunas de tema (migration 20261119_temas_oficiais); sem elas (HTTP 400), filtro pelas tags.
 let themeColumns=true;
 export async function getDatabaseProposals({page=1,year='2026',type='PL',party='Todos',keywords='',tag='',theme='',situationCodes='',presentedSince='',excludeIds=[],sort='recentes',signal,_ilike=false}={}){
  if(party!=='Todos'&&!/^[\p{L}.]{2,20}$/u.test(party))throw new SourceError('Partido inválido');
  if(tag && (!/^[\p{L}0-9+-]{1,80}$/u.test(tag)))throw new SourceError('Tag inválida');
- const withThemes=themeColumns;
- const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em'+(withThemes?',area':''),order:'data_apresentacao.desc,id.desc',limit:'30',offset:String((page-1)*30)});
+ const withThemes=themeColumns,withStage=stageColumn&&sort==='etapa';
+ const q=new URLSearchParams({select:'id,sigla_tipo,numero,ano,ementa,tags,data_apresentacao,situacao_codigo,situacao_descricao,situacao_atualizada_em,dados_oficiais,coletado_em'+(withStage?',situacao_desde':'')+(withThemes?',area':''),order:SORTS.recentes,limit:'30',offset:String((page-1)*30)});
  const search=parseSearch(keywords);
  if(search.ref){
   // Referência ("PL 999/2026"): a proposta é única, então os outros filtros não se aplicam.
@@ -212,9 +223,8 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
   // O PostgREST só filtra e ordena o resultado de uma função pelas colunas pedidas no
   // select: tema (areas), partido (partidos) e relevância precisam vir junto.
   q.set('select',q.get('select').replace(/,area$/,'')+',area,areas,partidos,relevancia');
-  // Relevância só faz sentido com palavras buscadas; o padrão continua sendo a data.
-  if(sort==='relevancia')q.set('order',SORTS.relevancia);
  }
+ q.set('order',orderFor(sort,{fullText,withStage}));
  if(year!=='Todos')q.set('ano','eq.'+year);
  const sigla=search.sigla||(type!=='Todos'?type:'');
  if(sigla)q.set('sigla_tipo','eq.'+sigla);
@@ -241,6 +251,8 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
  signal?.addEventListener('abort',onAbort,{once:true});
  try{
   const response=await fetch((fullText?SEARCH_URL:DB_URL)+'?'+q.toString(),{headers:{apikey:DB_KEY,Accept:'application/json',Prefer:'count=exact'},signal:controller.signal});
+  // Coluna de etapa ainda não criada no banco: tenta de novo pela apresentação.
+  if(response.status===400&&withStage){stageColumn=false;return getDatabaseProposals(arguments[0])}
   if(fullText&&(response.status===404||response.status===400)){fullTextSearch=false;return getDatabaseProposals(arguments[0])}
   // Falha pontual da busca nova (ex.: tempo limite da chave pública, 3 s): esta consulta
   // usa a busca antiga, e a próxima tenta a nova de novo.
@@ -256,6 +268,8 @@ export async function getDatabaseProposals({page=1,year='2026',type='PL',party='
     const p=normalizeProposal({id:d.id,siglaTipo:d.sigla_tipo,numero:d.numero,ano:d.ano,ementa:d.ementa,tags:d.tags,dataApresentacao:d.data_apresentacao,statusCurto:d.situacao_descricao||'',areaOficial:d.area},getEditorial(d.id));
     const stage=d.dados_oficiais?.statusProposicao||{};
     p.statusVerificado=d.situacao_codigo!=null||d.situacao_descricao||stage.descricaoTramitacao?normalizeStatus({...stage,codSituacao:d.situacao_codigo,descricaoSituacao:d.situacao_descricao||stage.descricaoSituacao}):missingStatus(d.data_apresentacao,{checked:!!d.situacao_atualizada_em});
+    // Na ordem por etapa, o card mostra a data que ordenou a lista ("situação mudou em").
+    if(sort==='etapa'&&d.situacao_desde)p.etapaDesde=d.situacao_desde;
     return p;
   }).filter(p=>p.id&&p.numero&&p.ementa);
   return {items,page,totalPages,hasNext:totalPages?page<totalPages:items.length===30,source:'banco de dados'};
