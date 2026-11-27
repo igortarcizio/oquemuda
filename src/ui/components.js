@@ -3,6 +3,7 @@ import {THEMES as THEME_LIST} from '../lib/themes.js';
 import {displayTitle,amendedLaws,isReviewed,hasCuratedTitle} from '../lib/titles.js?v=editorial-titles-lote-017';
 import {lawsInEmenta,actionOf,procedureNote,editorialChange,plainSummary} from '../lib/changes.js';
 import {proposalTypeInfo} from '../lib/proposal-types.js';
+import {cachedAiTitle} from '../lib/ai-titles.js';
 import {shareButton} from './share-menu.js?v=1';
 
 function conciseImpact(value, limit=135){
@@ -68,6 +69,8 @@ export function cardDate(p,status){
  if(!phrase||!/^\d{4}-\d{2}-\d{2}$/.test(since))return 'apresentada em '+dateBR(p.dataApresentacao);
  return phrase+' '+dateBR(since);
 }
+// Título do card: o curto da IA já conhecido, se a redação não escreveu um; senão o de sempre.
+const cardTitle=(p,e,reviewed)=>(!reviewed&&!hasCuratedTitle(Number(p.id))&&!editorialChange(e)&&cachedAiTitle(p.id))||displayTitle(p,e);
 /**
  * Card da lista. O card inteiro leva à ficha por um único link (o título).
  * Revisada: pergunta + síntese da redação + selo. Demais: título descritivo da ementa + "Altera:".
@@ -78,7 +81,7 @@ export function card(p,status,saved,{highlight=false}={}){
  return '<article class="card civic-card '+(reviewed?'reviewed':'auto')+'" data-area="'+safeText(area)+'">'+
    '<div class="card-top">'+topicLabel(area)+statusSlot(p,status,highlight)+'</div>'+
    '<p class="docref">'+safeText(ref(p))+' · '+safeText(cardDate(p,status))+'</p>'+
-   '<h3><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(displayTitle(p,e))+'</a></h3>'+
+   '<h3><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(cardTitle(p,e,reviewed))+'</a></h3>'+
    (reviewed?'<p class="card-lead">'+safeText(conciseImpact(e.impacto))+'</p>':laws?'<p class="changes"><b>Altera:</b> '+safeText(laws)+'</p>':'')+
    subjectLinks(p)+
    '<div class="card-bottom">'+(reviewed?SEAL:'<span class="read-hint" aria-hidden="true">Ler ficha →</span>')+cardActions(p,e,saved)+'</div></article>';
@@ -96,7 +99,7 @@ export function editorialFeature(p,status,saved){
    '<div class="feature-main">'+
     '<div class="meta-row">'+statusSlot(p,status,true)+topicLabel(area)+(reviewed?SEAL:'')+'</div>'+
     '<p class="docref">'+safeText(ref(p))+' · apresentado em '+safeText(dateBR(p.dataApresentacao))+'</p>'+
-    '<h3 class="'+(reviewed?'':'auto')+'"><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(displayTitle(p,e))+'</a></h3>'+
+    '<h3 class="'+(reviewed?'':'auto')+'"><a class="card-link" href="#/tema/'+Number(p.id)+'">'+safeText(cardTitle(p,e,reviewed))+'</a></h3>'+
     (lead?'<p class="feature-lead">'+safeText(lead)+'</p>':'')+
    '</div>'+
    '<div class="feature-side">'+

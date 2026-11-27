@@ -1,17 +1,17 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=lista-unica-1';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=titulos-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=status-apresentada';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=lista-unica-2';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=titulos-1';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {filterVotes} from './lib/votacoes.js?v=status-apresentada';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles} from './ui/ai-summary.js?v=lista-unica-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles,prefetchAiTitles} from './ui/ai-summary.js?v=titulos-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -282,6 +282,8 @@ async function showList(){
    try{state.featuredResult=await getDailyFeatured({signal:activeRequest.signal})}
    catch{state.featuredResult=null}
   }
+  // Títulos curtos antes de desenhar: o card já nasce com eles (sem piscar o título longo).
+  if(state.featuredResult?.items?.length)await prefetchAiTitles(state.featuredResult.items.map(p=>p.id));
   if(id!==sequence)return;
   renderEditorial();
   const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>(state.type==='Todos'||p.siglaTipo===state.type)&&(state.year==='Todos'||String(p.ano)===String(state.year))).map(p=>p.id)||[]:[];
@@ -300,6 +302,7 @@ async function showList(){
   if(!result.items.length&&result.source==='banco de dados'&&parseSearch(keywords).ref){
    try{const live=await getProposals(args);if(live.items.length)result=live}catch{}
   }
+  await prefetchAiTitles(result.items.map(p=>p.id));
   if(id!==sequence)return;
   // O banco é a fonte completa: se ele respondeu, vale a resposta dele, mesmo vazia.
   // A cópia parcial só fica quando a consulta ao vivo da Câmara (plano B) volta vazia.
