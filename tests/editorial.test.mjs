@@ -2,7 +2,7 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {cleanText,preserveSiglas,questionTitle} from '../src/lib/text.js';
 import {normalizeStatus} from '../src/lib/status.js';
-import {card,editorialFeature,skeleton,pagination} from '../src/ui/components.js';
+import {card,editorialFeature,skeleton,pagination,badge} from '../src/ui/components.js';
 import {editorialAllowed,selectEditorial,EDITORIAL_PRIORITY} from '../src/lib/editorial.js';
 globalThis.window={OBM_EDITORIAL:{}};
 const sample={id:2651275,numero:5788,ano:2026,siglaTipo:'PL',ementa:'Dispõe sobre o rastreamento precoce do diabetes mellitus tipo 1 no SUS.',area:'Saúde',dataApresentacao:'2026-11-06'};
@@ -68,4 +68,14 @@ test('card editorial tem informação completa e botão salvar acessível',()=>{
  assert.match(html,/data-save="2651275"/);
  assert.match(html,/aria-pressed="false"/);
  assert.ok(!html.includes('Como é hoje'));
+});
+
+test('destaques usam a etapa como rótulo principal e "Nova proposta" no lugar de "Apresentada"',()=>{
+ const intro={label:'Apresentada',tone:'neutral',detail:'Apresentada em 10/11/2026.'};
+ assert.match(badge(intro,true),/class="status-badge neutral stage"[^>]*>Nova proposta</);
+ assert.match(badge(intro),/>Apresentada</);
+ assert.match(badge({label:'Pronta para pauta',tone:'voting'},true),/>Pronta para pauta</);
+ assert.match(card(sample,intro,false,{highlight:true}),/data-stage/);
+ assert.doesNotMatch(card(sample,intro,false),/data-stage|Nova proposta/);
+ assert.match(editorialFeature(sample,intro,false),/data-stage[^]*Nova proposta/);
 });

@@ -5,7 +5,7 @@ import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=status-apres
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=editorial-titles-lote-017';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=destaques-etapa-1';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {filterVotes} from './lib/votacoes.js?v=status-apresentada';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
@@ -44,7 +44,7 @@ function renderStatus(id,status){
   statusCache.delete(id);
   try{sessionStorage.removeItem(cacheKey(id))}catch{}
  }
- for(const el of document.querySelectorAll('[data-status-id="'+id+'"]'))el.innerHTML=badge(status);
+ for(const el of document.querySelectorAll('[data-status-id="'+id+'"]'))el.innerHTML=badge(status,el.hasAttribute('data-stage'));
 }
 function queueStatus(id){
  if(!id||cachedStatus(id)||statusQueued.has(id))return;
@@ -67,7 +67,7 @@ function observeStatuses(){
  },{rootMargin:'240px 0px'});
  document.querySelectorAll('#cards [data-status-id],#editorialSection [data-status-id]').forEach(el=>{
   const c=cachedStatus(Number(el.dataset.statusId));
-  if(c)el.innerHTML=badge(c);else observer.observe(el);
+  if(c)el.innerHTML=badge(c,el.hasAttribute('data-stage'));else observer.observe(el);
  });
 }
 function renderChips(){
@@ -207,7 +207,7 @@ function renderEditorial(){
  if(selected.length!==3)return;
  for(const p of selected)if(p.statusVerificado)statusCache.set(p.id,p.statusVerificado);
  $('editorialFeature').innerHTML=editorialFeature(selected[0],cachedStatus(selected[0].id),isSaved(selected[0].id));
- $('editorialSupporting').innerHTML=selected.slice(1).map(p=>card(p,cachedStatus(p.id),isSaved(p.id))).join('');
+ $('editorialSupporting').innerHTML=selected.slice(1).map(p=>card(p,cachedStatus(p.id),isSaved(p.id),{highlight:true})).join('');
  section.hidden=false;
 }
 

@@ -26,6 +26,9 @@ button:focus-visible,a:focus-visible,select:focus-visible,input:focus-visible{ou
 .status-badge.law{background:#1f3b2c;color:#fff}
 .status-badge.neutral{background:#eef0f2;color:#5c6571}
 /* Situação ainda não confirmada: um rótulo só ("Em atualização"), com borda tracejada para não parecer etapa real. */
+/* Destaques: a etapa é o rótulo principal do card. */
+.status-badge.stage{font-size:13px;font-weight:700;min-height:30px;padding:5px 12px;max-width:none}
+.status-badge.stage.neutral{background:#fff3ec;color:#8a3d14}
 .status-badge.pending{background:transparent;color:#5c6571;border:1px dashed #a7adb4}
 .savebtn{min-width:76px;min-height:44px}
 .savebtn[aria-pressed=true]{background:#fff1e9}

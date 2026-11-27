@@ -63,14 +63,24 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 - [Plataforma pública](https://igortarcizio.github.io/oquemuda/#/explorar)
 - [API oficial](https://dadosabertos.camara.leg.br/api/v2/)
 
-## Seleção diária — Assuntos para começar
+## Seleção diária — Propostas em foco
 
 O estado dos três destaques fica em `public.destaques_diarios` no Supabase e é lido pelo frontend independentemente da primeira página de resultados. A rotina `scripts/selecionar_destaques.py` roda **após a importação diária bem-sucedida** de arquivos oficiais no workflow `.github/workflows/sync-bulk.yml`.
 
-- Seleciona proposições **novas após a última seleção** segundo critérios determinísticos de impacto direto no cotidiano (saúde, trabalho, educação, consumo, mobilidade, tecnologia, moradia, segurança e meio ambiente).
-- Considera linguagem de efeitos concretos e públicos afetados; evita atos meramente simbólicos, honrarias e textos sem elementos suficientes.
+Desde 27/11/2026 cada posição é de uma etapa (campo `criterio`):
+
+| Posição | Etapa | Critério | Origem |
+| --- | --- | --- | --- |
+| 1 (card grande) | Pronta para pauta | `etapa_pauta_v2` | situação 924, com movimentação nos últimos 21 dias (reserva: 60) |
+| 2 | Aprovada na Câmara ou virou lei | `etapa_aprovada_v2` | mesmos códigos do atalho "Aprovadas na Câmara", mesma janela |
+| 3 | Proposta nova | `etapa_nova_v2` | apresentadas nos últimos 12 dias, inéditas desde a última seleção |
+
+- A data da etapa é a `dataHora` da situação oficial (`dados_oficiais.statusProposicao`). Pronta para pauta **não** é votação agendada.
+- Nas etapas, ficam de fora homenagens, datas comemorativas, concessões de rádio, tratados, créditos extraordinários e atos sem efeito descrito na ementa (`stage_relevance`). A ordem considera tema, públicos afetados e efeito; depois, tema diferente dos outros destaques; depois, a movimentação mais recente.
+- A proposta nova segue a regra anterior: só troca quando há novidade qualificada (`relevance`), com diversidade de temas.
+- **Sem candidata numa etapa** (por exemplo, no recesso), a posição recebe outra proposta nova qualificada, gravada como `etapa_nova_v2`; sem nenhuma, um destaque anterior. As três posições nunca ficam vazias nem repetidas.
+- No site, a etiqueta de situação dos destaques é o rótulo principal do card e sempre mostra a situação real ("Apresentada" aparece como "Nova proposta").
 - **Não avalia partido, parlamentar, posição política ou apoio ao mérito da proposta.** A classificação é uma priorização temática aproximada, não um juízo de valor.
-- Prioriza diversidade de assuntos, pode trocar um, dois ou três itens e preserva o restante. **Sem novidades elegíveis, os três destaques permanecem inalterados.**
 - O texto dos registros não revisados é obtido da ementa oficial e de regras automáticas; não recebe selo de revisão humana por engano.
 - O processo usa somente `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` nos secrets do GitHub. A chave administrativa jamais fica no frontend.
 
