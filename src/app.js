@@ -1,17 +1,18 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=titulos-2';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=calendario-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=status-apresentada';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=titulos-2';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=calendario-1';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {filterVotes} from './lib/votacoes.js?v=status-apresentada';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
 import {mountRelated,stopRelated} from './ui/related-proposals.js';
 import {mountVotes,stopVotes} from './ui/reader-votes.js?v=modulos-2';
-import {mountAiSummary,stopAiSummary,watchCardTitles,prefetchAiTitles} from './ui/ai-summary.js?v=titulos-2';
+import {calendarPage,sessionStatus} from './ui/calendario.js?v=calendario-1';
+import {mountAiSummary,stopAiSummary,watchCardTitles,prefetchAiTitles} from './ui/ai-summary.js?v=calendario-1';
 import {mountReport,stopReport} from './ui/report-problem.js?v=1';
 import {openShare,closeShare} from './ui/share-menu.js?v=1';
 
@@ -124,7 +125,7 @@ function syncURL(){
 function readHash(){
  const route=location.hash.slice(2)||'explorar',name=(route.split('?')[0]||'explorar').split('/')[0];
  const q=new URLSearchParams(route.split('?')[1]||'');
- state.view=name==='salvos'||name==='como-funciona'||name==='explorar'?name:name==='tema'?'detalhe':'explorar';
+ state.view=name==='salvos'||name==='como-funciona'||name==='calendario'||name==='explorar'?name:name==='tema'?'detalhe':'explorar';
  state.page=Math.max(1,Number(q.get('page')||1)||1);
  if(state.view==='explorar'){
   state.year=q.get('ano')||defaultYearFor(q);state.type=q.get('tipo')||'Todos';
@@ -141,7 +142,7 @@ function setPage(newPage){
  $('listTitle').focus({preventScroll:true});
 }
 function setNav(){
- for(const item of ['explorar','salvos','como-funciona']){
+ for(const item of ['explorar','salvos','calendario','como-funciona']){
   const el=$('nav-'+item),on=state.view===item;
   el?.classList.toggle('active',on);
   if(on)el?.setAttribute('aria-current','page');else el?.removeAttribute('aria-current');
@@ -152,7 +153,7 @@ function setViews(){
  const isFeed=state.view==='explorar'||state.view==='salvos';
  $('hero').hidden=!isFeed;$('feed').hidden=!isFeed;
  $('editorialSection').hidden=!isFeed;
- $('detailView').hidden=state.view!=='detalhe';$('infoView').hidden=state.view!=='como-funciona';
+ $('detailView').hidden=state.view!=='detalhe';$('infoView').hidden=state.view!=='como-funciona'&&state.view!=='calendario';
  if(isFeed){
   $('heroEyebrow').textContent=state.view==='salvos'?'Salvos':'POLÍTICA E COTIDIANO';
   $('heroTitle').innerHTML=state.view==='salvos'?'Para ler com calma.':'O que está sendo decidido pode mudar <span class="hero-emphasis">sua rotina</span>.';
@@ -352,6 +353,7 @@ function listPageFromHash(){
  const direct=readHash();setViews();setNav();
  if(state.view==='explorar')lastListHash=location.hash||'#/explorar';
  if(state.view==='detalhe')showDetail(direct);
+ else if(state.view==='calendario'){$('infoView').innerHTML=calendarPage();document.title='Calendário do Congresso — o que muda?';window.scrollTo({top:0,behavior:'instant'});focusHeading($('infoTitle'))}
  else if(state.view==='como-funciona'){$('infoView').innerHTML=infoPage();document.title='Como funciona — o que muda?';window.scrollTo({top:0,behavior:'instant'});focusHeading($('infoTitle'))}
  else{showList();if(previousView!==state.view)focusHeading($('heroTitle'))}
  firstRender=false;
@@ -479,6 +481,9 @@ async function start(){
  $('searchForm').addEventListener('submit',e=>{e.preventDefault();filterFromUI();state.mode='';state.page=1;syncURL();showList()});
  window.addEventListener('hashchange',listPageFromHash);
  watchCardTitles();
+ // Etiqueta do momento do ano legislativo (sessão ou recesso), atualizada a cada hora.
+ const paintSession=()=>{const el=$('sessionStatus');if(!el)return;el.innerHTML=sessionStatus();el.hidden=false};
+ paintSession();setInterval(paintSession,3_600_000);
  listPageFromHash();
  try{const parties=await getParties();$('partySelect').innerHTML='<option value="Todos">Todos os partidos</option>'+
   parties.map(p=>'<option value="'+safeText(p)+'">'+safeText(p)+'</option>').join('');$('partySelect').value=state.party;}catch{}

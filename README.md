@@ -93,6 +93,17 @@ Desde 27/11/2026 cada posição é de uma etapa (campo `criterio`):
 - O texto dos registros não revisados é obtido da ementa oficial e de regras automáticas; não recebe selo de revisão humana por engano.
 - O processo usa somente `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE_KEY` nos secrets do GitHub. A chave administrativa jamais fica no frontend.
 
+## Calendário do ano político
+
+A aba **Calendário** (`#/calendario`) e a etiqueta no painel "De olho na Câmara" mostram se o Congresso está em sessão ou em recesso e as próximas datas fixas do ano. As regras ficam em `src/lib/calendario.js`, sem depender de API:
+
+- sessão legislativa de 2/2 a 17/7 e de 1º/8 a 22/12, com recessos no intervalo (Constituição, art. 57); o recesso de julho depende da aprovação da LDO;
+- prazos do Orçamento: LDO enviada até 15/4, LOA (e PPA no primeiro ano de mandato) até 31/8, devolução da LOA até 22/12;
+- posses a partir de 2027 em 5/1 (presidente) e 6/1 (governadores), pela EC 111/2021; posse de deputados e senadores e eleição das Mesas em 1º/2;
+- virada de legislatura: desde a Resolução da Câmara 33/2022, propostas só são arquivadas depois de três legislaturas completas.
+
+A data usada é a de Brasília. A agenda semanal de sessões ainda não entra aqui.
+
 ## Sincronização e limites atuais
 
 - `scripts/sync_bulk.py` lê arquivos anuais oficiais e importa todos os registros dos tipos cobertos nos dois anos mais recentes, em lotes com `upsert`. O processo registra divergências entre ID e identificação legislativa, sem sobrescrever silenciosamente registros conflitantes.
