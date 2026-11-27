@@ -1,11 +1,11 @@
 import {proposalTypeInfo} from './lib/proposal-types.js';
-import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=status-apresentada';
+import {getProposals,getDatabaseProposals,getDatabaseDetail,getDailyFeatured,getDetail,getAuthors,getParties,fromSnapshot,getJointProposals} from './data/api.js?v=lista-etapa-1';
 import {THEMES,safeText,ref,cleanText} from './lib/text.js';
 import {STATUS,APPROVED_CODES,CLOSED_CODES} from './lib/status.js?v=status-apresentada';
 import {jointListHTML} from './lib/apensacao.js';
 import {parseSearch,refLabel} from './lib/search.js?v=busca-texto-1';
 import {getSaved,isSaved,toggleSaved,savedCount} from './lib/storage.js';
-import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=destaques-etapa-1';
+import {card,editorialFeature,skeleton,pagination,detailPage,infoPage,badge} from './ui/components.js?v=lista-etapa-1';
 import {toggleHistory} from './lib/tramitacoes.js?v=senado-1';
 import {filterVotes} from './lib/votacoes.js?v=status-apresentada';
 import {editorialAllowed,selectEditorial} from './lib/editorial.js';
@@ -23,7 +23,7 @@ const YEARS=(()=>{const y=[...new Set((window.OBM_DATA?.years||[]).map(Number).f
 const DEFAULT_YEAR=String(YEARS[0]);
 const defaultYearFor=q=>q.get('modo')||q.get('tag')?'Todos':DEFAULT_YEAR;
 const WATCH_MODES={recent:{label:'Novas propostas',hint:'Propostas apresentadas nos últimos 30 dias, ordenadas pela data de apresentação.',codes:''},voting:{label:'Prontas para pauta',hint:'Situação oficial: Pronta para Pauta. A votação ainda não está confirmada.',codes:'924'},approved:{label:'Aprovadas na Câmara',hint:'Propostas que a Câmara aprovou e enviou ao Senado ou à sanção, e as que já viraram lei (selo “Virou lei”). Sem esse selo, aprovação na Câmara não significa lei em vigor.',codes:APPROVED_CODES.join(',')},closed:{label:'Arquivadas ou recusadas',hint:'A maioria foi arquivada sem votação, por exemplo no fim da legislatura. Arquivar não significa que a Câmara votou contra.',codes:CLOSED_CODES.join(',')}};
-const state={view:'explorar',page:1,year:DEFAULT_YEAR,type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',sort:'recentes',
+const state={view:'explorar',page:1,year:DEFAULT_YEAR,type:'Todos',party:'Todos',topic:'Todos',query:'',tag:'',mode:'',sort:'etapa',
   items:[],totalPages:null,hasNext:false,featuredResult:null,source:'ao vivo',error:'',loading:false};
 let sequence=0,activeRequest=null,detailSequence=0,observer=null,lastListHash='#/explorar',firstRender=true;
 const statusCache=new Map(),statusQueued=new Set(),statusQueue=[];
@@ -87,16 +87,26 @@ function filterFromUI(){
 function syncForm(){
  $('yearSelect').value=state.year;$('typeSelect').value=state.type;$('partySelect').value=state.party;
  $('searchField').value=state.query;renderChips();
- // Ordenar por relevância só aparece quando há palavras buscadas (não para número de proposta).
+ // Ordem: mudança de etapa (padrão) ou apresentação; relevância só com palavras buscadas
+ // (não para número de proposta). "Novas propostas" é sempre pela apresentação.
  const words=!!parseSearch(state.query).query;
- $('sortControl').hidden=!words||state.view!=='explorar';$('sortSelect').value=words?state.sort:'recentes';
+ $('sortControl').hidden=state.view!=='explorar'||state.mode==='recent';
+ const relevance=$('sortSelect').querySelector('option[value="relevancia"]');
+ relevance.hidden=relevance.disabled=!words;
+ $('sortSelect').value=effectiveSort();
+}
+/** Ordem usada na consulta: relevância só com palavras; "Novas propostas" pela apresentação. */
+function effectiveSort(){
+ if(state.mode==='recent')return 'recentes';
+ if(state.sort==='relevancia'&&!parseSearch(state.query).query)return 'etapa';
+ return state.sort;
 }
 function paramsForHash(){
  const args=new URLSearchParams({page:String(state.page),ano:state.year,tipo:state.type});
  if(state.party!=='Todos')args.set('partido',state.party);
  if(state.topic!=='Todos')args.set('tema',state.topic);
  if(state.query)args.set('busca',state.query);
- if(state.query&&state.sort==='relevancia')args.set('ordem','relevancia');
+ if(effectiveSort()!=='etapa'&&state.mode!=='recent')args.set('ordem',effectiveSort());
  if(state.mode)args.set('modo',state.mode);
  if(state.tag)args.set('tag',state.tag);
  return args.toString();
@@ -114,7 +124,7 @@ function readHash(){
  if(state.view==='explorar'){
   state.year=q.get('ano')||defaultYearFor(q);state.type=q.get('tipo')||'Todos';
   state.party=q.get('partido')||'Todos';state.topic=THEMES.includes(q.get('tema'))?q.get('tema'):'Todos';state.query=q.get('busca')||'';
-  state.sort=q.get('ordem')==='relevancia'?'relevancia':'recentes';
+  state.sort=['relevancia','recentes'].includes(q.get('ordem'))?q.get('ordem'):'etapa';
   state.tag=q.get('tag')||'';
   state.mode=Object.hasOwn(WATCH_MODES,q.get('modo'))?q.get('modo'):'';
  }
@@ -279,7 +289,7 @@ async function showList(){
   const excludeIds=shouldFeature?state.featuredResult?.items.filter(p=>(state.type==='Todos'||p.siglaTipo===state.type)&&(state.year==='Todos'||String(p.ano)===String(state.year))).map(p=>p.id)||[]:[];
   const day=new Date();day.setUTCDate(day.getUTCDate()-30);
   const presentedSince=state.mode==='recent'?day.toISOString().slice(0,10):'';
-  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,tag:state.tag,theme,situationCodes,presentedSince,excludeIds,sort:state.sort,signal:activeRequest.signal};
+  const args={page:state.page,year:state.year,type:state.type,party:state.party,keywords,tag:state.tag,theme,situationCodes,presentedSince,excludeIds,sort:effectiveSort(),signal:activeRequest.signal};
   let result;
   try{result=await getDatabaseProposals(args)}
   catch(dbError){
@@ -426,8 +436,8 @@ function onChange(e){
   filterFromUI();state.page=1;syncURL();showList();
  }
  if(e.target.id==='sortSelect'){
-  state.sort=e.target.value==='relevancia'?'relevancia':'recentes';state.page=1;syncURL();showList();
-  announce(state.sort==='relevancia'?'Resultados ordenados pelos mais relevantes.':'Resultados ordenados pelos mais recentes.');
+  state.sort=['relevancia','recentes'].includes(e.target.value)?e.target.value:'etapa';state.page=1;syncURL();showList();
+  announce(state.sort==='relevancia'?'Resultados ordenados pelos mais relevantes.':state.sort==='recentes'?'Resultados ordenados pela data de apresentação.':'Resultados ordenados pela mudança de situação mais recente.');
  }
 }
 async function start(){

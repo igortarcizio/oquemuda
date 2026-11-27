@@ -63,6 +63,15 @@ Os módulos usam `import/export` nativos, portanto abrir `index.html` por `file:
 - [Plataforma pública](https://igortarcizio.github.io/oquemuda/#/explorar)
 - [API oficial](https://dadosabertos.camara.leg.br/api/v2/)
 
+## Ordem da lista — mudança de situação
+
+"Explore as propostas" lista primeiro o que **mudou de situação** mais recentemente, não só o que foi apresentado: proposta antiga que ficou pronta para pauta, foi aprovada, arquivada ou mudou de fase na comissão sobe para o topo, e o card mostra "situação mudou em dd/mm/aaaa". Proposta nova entra pela data de apresentação.
+
+- A data fica na coluna `situacao_desde`, preenchida por um gatilho do banco sempre que `situacao_codigo` muda (migration `supabase/migrations/20261127_situacao_desde.sql`). Os robôs de sincronização não mudaram.
+- Na carga inicial, a data é a da última situação registrada pela Câmara (pode ser uma movimentação na mesma fase); daí em diante, só mudança de código conta.
+- O seletor "Ordenar por" oferece também "Apresentação mais recente" e, com palavras buscadas, "Mais relevantes". O atalho "Novas propostas" continua pela apresentação.
+- Sem a coluna no banco (migration não aplicada), a lista volta à ordem por apresentação. Não ordenar pela data dentro de `dados_oficiais`: a consulta estoura o tempo limite da chave pública.
+
 ## Seleção diária — Propostas em foco
 
 O estado dos três destaques fica em `public.destaques_diarios` no Supabase e é lido pelo frontend independentemente da primeira página de resultados. A rotina `scripts/selecionar_destaques.py` roda **após a importação diária bem-sucedida** de arquivos oficiais no workflow `.github/workflows/sync-bulk.yml`.
