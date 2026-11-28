@@ -136,7 +136,7 @@ const editorialTitles = {
   2497993: "Autoriza o Banco do Nordeste a criar empresas subsidiárias",
   2497998: "Aumenta a pena por furto e roubo de celulares",
   2497999: "Aumenta a pena por furto e roubo de celulares e muda critérios de prisão",
-  2498000: "Garante o acesso de animais domésticos às áreas comuns de condomínios, sob responsabilidade de cuidador",
+  2498000: "Permite animais domésticos nas áreas comuns do condomínio com cuidador",
   2498005: "Regulamenta a profissão de eletricista e prevê segurança no trabalho e adicional de periculosidade",
   2498012: "Destina recursos do fundo de ciência e tecnologia a projetos inovadores e novos negócios",
   2498015: "Cria o Dia Nacional da Bandeira da Paz e Cultura, em 15 de abril",
